@@ -59,7 +59,23 @@ Housing -
   - room
   - test length (if applicable)
 
-Behavioural task - Marble buried - how many used - how many buried - Odor detection test - odour type - time - failure - Buried food pellet test - type of food - time - failure - Ultrasonic vocalization - room - developmental milestones - yes/no - room
+Behavioural task 
+- Marble buried 
+  - how many used 
+  - how many buried 
+- Odor detection test 
+  - odour type 
+  - time 
+  - failure 
+- Buried food pellet test 
+  - type of food 
+  - time 
+  - failure
+- Ultrasonic vocalization 
+  - room 
+  - developmental milestones 
+  - yes/no 
+  - room
 
 - Weight
 
@@ -111,7 +127,18 @@ Behavioural task - Marble buried - how many used - how many buried - Odor detect
       - dose
       - batch
 
-Caging Interventions - day/light cycle - housing room - cage change - water delivery - cage ID - bedding material - single housing - enrichment - wheel - tube - box
+Caging Interventions 
+- day/light cycle 
+- housing room 
+- cage change 
+- water delivery 
+- cage ID 
+- bedding material 
+- single housing 
+- enrichment 
+- wheel
+- tube 
+- box
 
 - Diet change
 
@@ -123,9 +150,29 @@ Caging Interventions - day/light cycle - housing room - cage change - water deli
   - how long
   - room
 
-Minor surgery - Blood extraction - Vaginal cytology - liquid used - genotyping - tissue source - company - genotype - who does collection - ear tagging - anesthesia - type - code - tattooing - anesthesia - location - blood glucose - teeth extraction
+Minor surgery 
+- Blood extraction 
+- Vaginal cytology 
+- liquid used 
+- genotyping 
+- tissue source 
+- company 
+- genotype 
+- who does collection 
+- ear tagging 
+- anesthesia 
+  - type 
+  - code 
+- tattooing 
+  - anesthesia 
+  - location 
+- blood glucose 
+- teeth extraction
 
-Handling - type of handling - how long - room
+Handling 
+- type of handling 
+- how long 
+- room
 
 - MRI Habituation
   - length
