@@ -80,6 +80,7 @@ Behavioural task
 - Weight
 
   - room
+  - Scale used
 
 - Interventions
 
