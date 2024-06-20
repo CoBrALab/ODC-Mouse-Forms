@@ -6,19 +6,56 @@ const { z } = await import('/runtime/v1/zod@3.23.6/index.js');
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
-  tags: ['<PLACEHOLDER>'],
+  tags: ['Mouse', 'Weight', 'Scale'],
   internal: {
     edition: 1,
-    name: '<PLACEHOLDER>'
+    name: 'Mouse weight form'
   },
-  content: {},
+  content: {
+    mouseWeight: {
+      kind: 'string',
+      variant: 'input',
+      label: 'Weight of mouse (in grams)'
+    }
+  },
   details: {
-    description: '<PLACEHOLDER>',
+    description: 'Form to track weight of mouse',
     estimatedDuration: 1,
-    instructions: ['<PLACEHOLDER>'],
+    instructions: ['Please fill in the form to track the weight of the mouse'],
     license: 'UNLICENSED',
-    title: '<PLACEHOLDER>'
+    title: 'Mouse Weight Form'
   },
-  measures: {},
-  validationSchema: z.object({})
+  measures: {
+    mouseWeight: {
+      kind: 'const',
+      label: 'Mouse weight',
+      ref: 'mouseWeight'
+    }
+  },
+  validationSchema: z.object({
+    mouseWeight: z.string().transform((val, ctx) => {
+      const parsed = parseFloat(val);
+      if (isNaN(parsed)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Not a number'
+        });
+        
+
+        // This is a special symbol you can use to
+        // return early from the transform function.
+        // It has type `never` so it does not affect the
+        // inferred return type.
+        return z.NEVER;
+      }
+      if(parsed < 0 || parsed > 45.0){
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Weight has to be in range for 0 to 45 grams'
+        })
+        return z.NEVER;
+      }
+      return parsed;
+    })
+  })
 });
