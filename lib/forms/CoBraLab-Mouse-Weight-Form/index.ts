@@ -33,7 +33,7 @@ export default defineInstrument({
     }
   },
   validationSchema: z.object({
-    mouseWeight: z.string().transform((val, ctx) => {
+    mouseWeight: z.string().transform<string | number>((val, ctx) => {
       const parsed = parseFloat(val);
       if (isNaN(parsed)) {
         ctx.addIssue({
@@ -55,6 +55,7 @@ export default defineInstrument({
         })
         return z.NEVER;
       }
+
       return parsed;
     })
   })
