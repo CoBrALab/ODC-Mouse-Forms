@@ -11,7 +11,17 @@ export default defineInstrument({
     edition: 1,
     name: 'MOUSE_BIRTH_FORM'
   },
-  content: {},
+  content: {
+    dateOfBirth: {
+      kind: 'date',
+      label: "date of birth"
+    },
+    motherMouse: {
+      kind: "string",
+      variant: "input",
+      label: "Id of mouse's mother"
+    },
+  },
   details: {
     description: 'Form used to track a mouses birth information',
     estimatedDuration: 1,
@@ -20,5 +30,7 @@ export default defineInstrument({
     title: 'Mouse Birth Form'
   },
   measures: {},
-  validationSchema: z.object({})
+  validationSchema: z.object({
+    dateOfBirth: z.date(),
+    motherMouse: z.string()})
 });
