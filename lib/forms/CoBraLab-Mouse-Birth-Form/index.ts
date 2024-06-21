@@ -6,18 +6,18 @@ const { z } = await import('/runtime/v1/zod@3.23.6/index.js');
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
-  tags: ['<PLACEHOLDER>'],
+  tags: ['Birth', 'Mouse'],
   internal: {
     edition: 1,
-    name: '<PLACEHOLDER>'
+    name: 'MOUSE_BIRTH_FORM'
   },
   content: {},
   details: {
-    description: '<PLACEHOLDER>',
+    description: 'Form used to track a mouses birth information',
     estimatedDuration: 1,
-    instructions: ['<PLACEHOLDER>'],
+    instructions: ['Please fill out this form for each new mouse within the lab'],
     license: 'UNLICENSED',
-    title: '<PLACEHOLDER>'
+    title: 'Mouse Birth Form'
   },
   measures: {},
   validationSchema: z.object({})
