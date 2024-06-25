@@ -21,6 +21,26 @@ export default defineInstrument({
       variant: "input",
       label: "Id of mouse's mother"
     },
+    fatherKnown: {
+      kind: 'boolean',
+      variant: 'radio',
+      label: "Is the father known?"
+    },
+    fatherMouse: {
+     kind: 'dynamic',
+     deps: ['fatherKnown'],
+     render(data) {
+      if(data.fatherKnown){
+        return {
+          kind: 'string',
+          variant: 'input',
+          label: "Id of mouse's father"
+        }
+      }
+      return null
+     }
+    }
+
   },
   details: {
     description: 'Form used to track a mouses birth information',
@@ -32,5 +52,7 @@ export default defineInstrument({
   measures: {},
   validationSchema: z.object({
     dateOfBirth: z.date(),
-    motherMouse: z.string()})
+    motherMouse: z.string(),
+    fatherKnown: z.boolean(),
+    fatherMouse: z.string().optional()})
 });
