@@ -39,8 +39,27 @@ export default defineInstrument({
       }
       return null
      }
+    },
+    breederOrigin: {
+      kind: 'string',
+      variant: 'input',
+      label: "Origin of breeder"
+    },
+    boxMouse: {
+      kind: 'boolean',
+      variant: 'radio',
+      label: 'Box mouse'
+    },
+    origin: {
+      kind: 'string',
+      variant: 'input',
+      label: 'Mouse origin'
+    },
+    generationNumber: {
+      kind: 'number',
+      variant: 'input',
+      label: 'N-generation of mouse'
     }
-
   },
   details: {
     description: 'Form used to track a mouses birth information',
@@ -54,5 +73,9 @@ export default defineInstrument({
     dateOfBirth: z.date(),
     motherMouse: z.string(),
     fatherKnown: z.boolean(),
-    fatherMouse: z.string().optional()})
+    fatherMouse: z.string().optional(),
+    breederOrigin: z.string(),
+    boxMouse: z.boolean(),
+    origin: z.string(),
+    generationNumber: z.number()})
 });
