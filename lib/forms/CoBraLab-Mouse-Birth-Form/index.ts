@@ -9,7 +9,7 @@ export default defineInstrument({
   tags: ['Birth', 'Mouse'],
   internal: {
     edition: 1,
-    name: 'MOUSE_BIRTH_FORM'
+    name: 'MOUSE_ORIGIN_FORM'
   },
   content: {
     dateOfBirth: {
@@ -85,7 +85,7 @@ export default defineInstrument({
     estimatedDuration: 1,
     instructions: ['Please fill out this form for each new mouse within the lab'],
     license: 'UNLICENSED',
-    title: 'Mouse Birth Form'
+    title: 'Mouse Origin Form'
   },
   measures: {},
   validationSchema: z.object({
