@@ -16,15 +16,39 @@ export default defineInstrument({
       kind: 'date',
       label: "date of birth"
     },
-    motherMouse: {
-      kind: "string",
-      variant: "input",
-      label: "Id of mouse's mother"
-    },
-    fatherKnown: {
+    boxMouse: {
       kind: 'boolean',
       variant: 'radio',
-      label: "Is the father known?"
+      label: 'Box mouse'
+    },
+    motherMouse: {
+      kind: 'dynamic',
+      deps: ['boxMouse'],
+      render(data) {
+       if(!data.boxMouse){
+         return {
+          kind: "string",
+          variant: "input",
+          label: "Id of mouse's mother"
+         }
+       }
+       return null
+      }
+    },
+    fatherKnown: {
+      kind: 'dynamic',
+      deps: ['boxMouse'],
+      render(data) {
+       if(!data.boxMouse){
+         return {
+         kind: 'boolean',
+         variant: 'radio',
+         label: "Is the father known?"
+         }
+       }
+       return null
+      }
+      
     },
     fatherMouse: {
      kind: 'dynamic',
@@ -44,11 +68,6 @@ export default defineInstrument({
       kind: 'string',
       variant: 'input',
       label: "Origin of breeder"
-    },
-    boxMouse: {
-      kind: 'boolean',
-      variant: 'radio',
-      label: 'Box mouse'
     },
     origin: {
       kind: 'string',
@@ -71,8 +90,8 @@ export default defineInstrument({
   measures: {},
   validationSchema: z.object({
     dateOfBirth: z.date(),
-    motherMouse: z.string(),
-    fatherKnown: z.boolean(),
+    motherMouse: z.string().optional(),
+    fatherKnown: z.boolean().optional(),
     fatherMouse: z.string().optional(),
     breederOrigin: z.string(),
     boxMouse: z.boolean(),
