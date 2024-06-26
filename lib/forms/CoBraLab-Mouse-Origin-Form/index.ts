@@ -19,13 +19,26 @@ export default defineInstrument({
     boxMouse: {
       kind: 'boolean',
       variant: 'radio',
-      label: 'Box mouse'
+      label: 'Was the mouse from an external breeder (Box mouse)?'
+    },
+    orderId: {
+      kind: 'dynamic',
+      deps: ['boxMouse'],
+      render(data) {
+        if (data.boxMouse){
+          return {
+            kind: 'string',
+            variant: 'input',
+            label: 'Order ID'
+          }
+        }
+      }
     },
     motherMouse: {
       kind: 'dynamic',
       deps: ['boxMouse'],
       render(data) {
-       if(!data.boxMouse){
+       if(!data.boxMouse && data.boxMouse !== undefined){
          return {
           kind: "string",
           variant: "input",
@@ -39,7 +52,7 @@ export default defineInstrument({
       kind: 'dynamic',
       deps: ['boxMouse'],
       render(data) {
-       if(!data.boxMouse){
+       if(!data.boxMouse && data.boxMouse !== undefined){
          return {
          kind: 'boolean',
          variant: 'radio',
@@ -54,7 +67,7 @@ export default defineInstrument({
      kind: 'dynamic',
      deps: ['fatherKnown'],
      render(data) {
-      if(data.fatherKnown){
+      if(data.fatherKnown && data.boxMouse !== undefined){
         return {
           kind: 'string',
           variant: 'input',
@@ -90,11 +103,12 @@ export default defineInstrument({
   measures: {},
   validationSchema: z.object({
     dateOfBirth: z.date(),
+    boxMouse: z.boolean(),
+    orderId: z.string().optional(),
     motherMouse: z.string().optional(),
     fatherKnown: z.boolean().optional(),
     fatherMouse: z.string().optional(),
     breederOrigin: z.string(),
-    boxMouse: z.boolean(),
     origin: z.string(),
     generationNumber: z.number()})
 });
