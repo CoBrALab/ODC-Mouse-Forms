@@ -19,7 +19,7 @@ export default defineInstrument({
     boxMouse: {
       kind: 'boolean',
       variant: 'radio',
-      label: 'Was the mouse from an external breeder (Box mouse)?'
+      label: 'External breeder (Box mouse)?'
     },
     orderId: {
       kind: 'dynamic',
