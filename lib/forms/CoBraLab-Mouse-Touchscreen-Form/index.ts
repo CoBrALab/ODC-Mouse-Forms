@@ -89,14 +89,27 @@ export default defineInstrument({
       variant: 'radio',
       label: "Milkshake brand",
       options: {
-        "Neilson":"Neilson",
+        "Neilson Strawberry Milkshake":"Neilson Strawberry Milkshake",
         "other": "other"
       }
     },
-    milkshakeBatch: {
-      kind: 'string',
-      variant: 'input',
-      label: "Milkshake batch"
+    milkshakeBrandOther: {
+      kind: 'dynamic',
+      deps: ['milkshakeBrand'],
+      render(data){
+        if(data.milkshakeBrand === 'other'){
+          return {
+            kind: 'string',
+            variant: "input",
+            label: 'Brand Name'
+          }
+        }
+        return null
+      }
+    },
+    milkshakeExpiration: {
+      kind: 'date',
+      label: "Milkshake batch expiration date"
     },
     foodGiven: {
       kind: 'string',
@@ -130,7 +143,9 @@ export default defineInstrument({
     license: 'UNLICENSED',
     title: 'Mouse Touchscreen form'
   },
-  measures: {},
+  measures: {
+
+  },
   validationSchema: z.object({
     experimentType: z.string(),
     experimentStage: z.string(),
@@ -138,12 +153,22 @@ export default defineInstrument({
     fiveChoiceStage: z.string().optional(),
     chamberNumber: z.number().min(1).max(12),
     chamberSerialCode: z.string(),
-    milkshakeBatch: z.string(),
+    milkshakeExpiration: z.date(),
     milkshakeBrand: z.string(),
-    foodGiven: z.string(),
+    milkshakeBrandOther: z.string().optional(),
+    foodGiven: z.string().transform<string | number>((val, ctx) => {
+      const parsed = parseFloat(val);
+      if (isNaN(parsed)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Not a number'
+        });
+
+        return z.NEVER;
+      }
+      return parsed
+    }),
     trialFailed: z.boolean(),
-    failureReason: z.string()
-
-
+    failureReason: z.string().optional()
   })
 });
