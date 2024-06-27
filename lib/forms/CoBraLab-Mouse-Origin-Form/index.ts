@@ -16,6 +16,20 @@ export default defineInstrument({
       kind: 'date',
       label: "date of birth"
     },
+    mouseSex: {
+      kind: 'string',
+      variant: 'radio',
+      label: 'Sex',
+      options: {
+        "Male": "Male",
+        "Female": "Female"
+      }
+    },
+    cohortId: {
+      kind: 'string',
+      variant: 'input',
+      label: 'Cohort Identification (Optional)'
+    },
     boxMouse: {
       kind: 'boolean',
       variant: 'radio',
@@ -30,6 +44,20 @@ export default defineInstrument({
             kind: 'string',
             variant: 'input',
             label: 'Order ID'
+          }
+        }
+        return null
+      }
+    },
+    breederOrigin: {
+      kind: 'dynamic',
+      deps: ['boxMouse'],
+      render(data) {
+        if (data.boxMouse){
+          return {
+            kind: 'string',
+            variant: 'input',
+            label: "Origin of breeder"
           }
         }
         return null
@@ -78,11 +106,6 @@ export default defineInstrument({
       return null
      }
     },
-    breederOrigin: {
-      kind: 'string',
-      variant: 'input',
-      label: "Origin of breeder"
-    },
     origin: {
       kind: 'string',
       variant: 'input',
@@ -104,6 +127,8 @@ export default defineInstrument({
   measures: {},
   validationSchema: z.object({
     dateOfBirth: z.date(),
+    mouseSex: z.string(),
+    cohortId: z.string().optional(),
     boxMouse: z.boolean(),
     orderId: z.string().optional(),
     motherMouse: z.string().optional(),
