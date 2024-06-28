@@ -144,6 +144,66 @@ export default defineInstrument({
     title: 'Mouse Touchscreen form'
   },
   measures: {
+    experimentType: {
+      kind: 'const',
+      label: 'Touchscreen session type',
+      ref: 'experimentType'
+    },
+    experimentStage: {
+      kind: 'const',
+      label: 'Touchscreen session stage',
+      ref: 'experimentStage'
+    },
+    pvdStage: {
+      kind: 'const',
+      label: 'PVD session stage',
+      ref: 'pvdStage'
+    },
+    fiveChoiceStage: {
+      kind: 'const',
+      label: '5-choice session stage',
+      ref:'fiveChoiceStage'
+    },
+    chamberNumber: {
+      kind: 'const',
+      label: 'Chamber number',
+      ref: 'chamberNumber'
+    },
+    chamberSerialCode: {
+      kind: 'const',
+      label: 'Chamber serial code',
+      ref: 'chamberSerialCode'
+    },
+    milkshakeExpiration: {
+      kind: 'const',
+      label: 'Milkshake expiration date',
+      ref: 'milkshakeExpiration'
+    },
+    milkshakeBrand: {
+      kind: 'const',
+      label: 'Milkshake brand',
+      ref: 'milkshakeBrand'
+    },
+    milkshakeBrandOther: {
+      kind: 'const',
+      label: 'Other brand',
+      ref: 'milkshakeBrandOther'
+    },
+    foodGiven: {
+      kind: 'const',
+      label: 'Food given',
+      ref: 'foodGiven'
+    },
+    trialFailed: {
+      kind: 'const',
+      label: 'Trail failed',
+      ref: "trailFailed"
+    },
+    failureReason: {
+      kind: 'const',
+      label: 'Reason for failure',
+      ref: 'failureReason'
+    }
 
   },
   validationSchema: z.object({
