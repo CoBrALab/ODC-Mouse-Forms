@@ -11,14 +11,40 @@ export default defineInstrument({
     edition: 1,
     name: 'MOUSE_MRI_FORM'
   },
-  content: {},
+  content: {
+    handlerName: {
+        kind: "string",
+        variant: "input",
+        label: "Name of handler"
+    },
+    mriOperator: {
+        kind: "string",
+        variant: "input",
+        label: "MRI operator"
+    },
+    typeOfMRI: {
+        kind: "string",
+        variant: 'select',
+        label:"Type of MRI done",
+        options: {
+            "Ex-vivo structural":"Ex-vivo structural",
+            "In-vivo structural": "In-vivo structural",
+            "Structural and FMRI": "Structural and FMRI",
+            "Quantitative":"Quantitative"
+        }
+    }
+  },
   details: {
-    description: '<PLACEHOLDER>',
+    description: "This form is used to record the data tracked in a mouse's MRI session",
     estimatedDuration: 1,
-    instructions: ['<PLACEHOLDER>'],
+    instructions: ['Please fill out this for individual mouse MRI sessions'],
     license: 'UNLICENSED',
-    title: '<PLACEHOLDER>'
+    title: 'Mouse MRI Form'
   },
   measures: {},
-  validationSchema: z.object({})
+  validationSchema: z.object({
+    handlerName: z.string(),
+    mriOperator: z.string(),
+    typeOfMRI: z.string()
+  })
 });
