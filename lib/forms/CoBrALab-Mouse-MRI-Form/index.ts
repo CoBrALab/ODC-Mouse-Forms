@@ -82,12 +82,6 @@ export default defineInstrument({
             return null
         }
     },
-    testQuestion: createDependentField({
-        kind: "boolean",
-        variant:"radio",
-        label: "test"
-    })
-    
   },
   details: {
     description: "This form is used to record the data tracked in a mouse's MRI session",
@@ -103,7 +97,6 @@ export default defineInstrument({
     typeOfMRI: z.string(),
     coilType: z.string(),
     paravisionVersion: z.string(),
-    exVivoCranialStatus: z.string().optional(),
-    testQuestion: z.string().optional()
+    exVivoCranialStatus: z.string().optional()
   })
 });
