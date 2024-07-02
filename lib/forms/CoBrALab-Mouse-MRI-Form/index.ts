@@ -31,6 +31,15 @@ export default defineInstrument({
             "23m volumetric": "23m volumetric"
         }
     },
+    paravisionVersion: {
+        kind: "string",
+        variant: "radio",
+        label: "Paravision version",
+        options: {
+            "PV6":"PV6",
+            "PV5": "PV5"
+        }
+    },
     typeOfMRI: {
         kind: "string",
         variant: 'select',
@@ -55,6 +64,7 @@ export default defineInstrument({
     handlerName: z.string(),
     mriOperator: z.string(),
     typeOfMRI: z.string(),
-    coilType: z.string()
+    coilType: z.string(),
+    paravisionVersion: z.string()
   })
 });
