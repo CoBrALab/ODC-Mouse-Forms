@@ -22,6 +22,15 @@ export default defineInstrument({
         variant: "input",
         label: "MRI operator"
     },
+    coilType: {
+        kind: "string",
+        variant: "radio",
+        label: "Type of coil",
+        options: {
+            "Cryocoil":"Cryocoil",
+            "23m volumetric": "23m volumetric"
+        }
+    },
     typeOfMRI: {
         kind: "string",
         variant: 'select',
@@ -32,7 +41,7 @@ export default defineInstrument({
             "Structural and FMRI": "Structural and FMRI",
             "Quantitative":"Quantitative"
         }
-    }
+    },
   },
   details: {
     description: "This form is used to record the data tracked in a mouse's MRI session",
@@ -45,6 +54,7 @@ export default defineInstrument({
   validationSchema: z.object({
     handlerName: z.string(),
     mriOperator: z.string(),
-    typeOfMRI: z.string()
+    typeOfMRI: z.string(),
+    coilType: z.string()
   })
 });
