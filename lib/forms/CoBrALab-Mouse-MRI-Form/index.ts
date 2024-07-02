@@ -3,6 +3,19 @@
 const { defineInstrument } = await import('/runtime/v1/opendatacapture@1.0.0/core.js');
 const { z } = await import('/runtime/v1/zod@3.23.6/index.js');
 
+function createDependentField<T>(field: T) {
+    return {
+      kind: 'dynamic' as const,
+      deps: ["In-vivo structural"] as const,
+      render: (data) => {
+        if (data["In-vivo structural"] === "In-vivo structural") {
+          return field;
+        }
+        return null;
+      }
+    };
+  }
+
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
@@ -51,6 +64,30 @@ export default defineInstrument({
             "Quantitative":"Quantitative"
         }
     },
+    exVivoCranialStatus: {
+        kind: "dynamic",
+        deps: ["typeOfMRI"],
+        render(data) {
+            if (data.typeOfMRI === "Ex-vivo structural"){
+                return {
+                    kind: "string",
+                    variant: "radio",
+                    label: "Type of ex-vivo scan",
+                    options: {
+                        "In-cranial":"In-cranial",
+                        "Ex-cranial": "Ex-cranial"
+                    }
+                }
+            }
+            return null
+        }
+    },
+    testQuestion: createDependentField({
+        kind: "boolean",
+        variant:"radio",
+        label: "test"
+    })
+    
   },
   details: {
     description: "This form is used to record the data tracked in a mouse's MRI session",
@@ -65,6 +102,8 @@ export default defineInstrument({
     mriOperator: z.string(),
     typeOfMRI: z.string(),
     coilType: z.string(),
-    paravisionVersion: z.string()
+    paravisionVersion: z.string(),
+    exVivoCranialStatus: z.string().optional(),
+    testQuestion: z.string().optional()
   })
 });
