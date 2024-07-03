@@ -122,6 +122,11 @@ export default defineInstrument({
         return null
       }
     },
+    breathingStable: createMRIDependentField({
+      kind: "boolean",
+      variant: "radio",
+      label: "Was breathing stable?"
+    }, (type) => type !== "Ex-vivo structural" && type !== undefined)
   },
   details: {
     description: "This form is used to record the data tracked in a mouse's MRI session",
@@ -142,6 +147,7 @@ export default defineInstrument({
     dexBatchNumber: z.string().optional(),
     isofluoraneBatchNumber: z.string().optional(),
     isofluoraneAdjusted: z.boolean().optional(),
-    isofluoraneAdjustedPercentage: z.string().optional()
+    isofluoraneAdjustedPercentage: z.string().optional(),
+    breathingStable: z.boolean()
   })
 });
