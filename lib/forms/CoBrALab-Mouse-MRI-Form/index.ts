@@ -83,15 +83,45 @@ export default defineInstrument({
             return null
         }
     },
-    dexSolutionDate: createMRIDependentField({kind: "string",
-                    variant: "input",
-                    label: "Dexmedetomidine solution creation date",},
-                    (type) => type === 'Structural and FMRI'),
+    dexSolutionDate: createMRIDependentField(
+      {kind: "string",
+       variant: "input",
+       label: "Dexmedetomidine solution creation date",},
+       (type) => type === 'Structural and FMRI'),
 
-    dexBatchNumber: createMRIDependentField({kind: "string",
-                    variant: "input",
-                    label: "Dexmedetomidine batch number",},
-                    (type) => type === 'Structural and FMRI'),
+    dexBatchNumber: createMRIDependentField(
+      {
+        kind: "string",
+       variant: "input",
+       label: "Dexmedetomidine batch number",
+       },
+      (type) => type === 'Structural and FMRI'),
+      
+    isofluoraneBatchNumber: createMRIDependentField({
+      kind: 'string',
+      variant: "input",
+      label: "Isofluorane batch number"
+    }, (type) => type === "In-vivo structural"),
+    isofluoraneAdjusted: createMRIDependentField({
+      kind: 'boolean',
+      variant: "radio",
+      label: "Isofluorane adjusted from SOP?"
+    }, (type) => type === "In-vivo structural"),
+
+    isofluoraneAdjustedPercentage: {
+      kind: "dynamic",
+      deps: ["isofluoraneAdjusted"],
+      render(data) {
+        if(data.isofluoraneAdjusted && data.typeOfMRI === "In-vivo structural"){
+          return {
+            kind: "string",
+            variant: "input",
+            label: "Isofluorane percentage",
+          }
+        }
+        return null
+      }
+    },
   },
   details: {
     description: "This form is used to record the data tracked in a mouse's MRI session",
@@ -109,6 +139,9 @@ export default defineInstrument({
     paravisionVersion: z.string(),
     exVivoCranialStatus: z.string().optional(),
     dexSolutionDate: z.string().optional(),
-    dexBatchNumber: z.string().optional()
+    dexBatchNumber: z.string().optional(),
+    isofluoraneBatchNumber: z.string().optional(),
+    isofluoraneAdjusted: z.boolean().optional(),
+    isofluoraneAdjustedPercentage: z.string().optional()
   })
 });
