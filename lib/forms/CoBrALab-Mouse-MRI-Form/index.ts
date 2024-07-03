@@ -8,7 +8,7 @@ function createDependentField<T>(field: T) {
       kind: 'dynamic' as const,
       deps: ["typeOfMRI"] as const,
       render: (data) => {
-        if (data.typeOfMRI === "In-vivo structural") {
+        if (data.typeOfMRI === "Structural and FMRI") {
           return field;
         }
         return null;
@@ -82,6 +82,29 @@ export default defineInstrument({
             return null
         }
     },
+    dexSolutionDate: createDependentField(
+        {  
+          kind: "string",
+          variant: "select",
+          options: {
+            "test":"test"
+          },
+        label: "Preparation date of Dexmedetomidine solution"}
+    ),
+    dexBatchNumber: {
+        kind: "dynamic",
+        deps: ["typeOfMRI"],
+        render(data) {
+            if(data.typeOfMRI === "Structural and FMRI"){
+                return {
+                    kind: "string",
+                    variant: "input",
+                    label: "Dexmedetomidine batch number",
+                }
+            }
+            return null
+        }
+    },
   },
   details: {
     description: "This form is used to record the data tracked in a mouse's MRI session",
@@ -97,6 +120,8 @@ export default defineInstrument({
     typeOfMRI: z.string(),
     coilType: z.string(),
     paravisionVersion: z.string(),
-    exVivoCranialStatus: z.string().optional()
+    exVivoCranialStatus: z.string().optional(),
+    dexSolutionDate: z.string().optional(),
+    dexBatchNumber: z.string().optional()
   })
 });
