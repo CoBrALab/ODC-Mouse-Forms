@@ -6,9 +6,9 @@ const { z } = await import('/runtime/v1/zod@3.23.6/index.js');
 function createDependentField<T>(field: T) {
     return {
       kind: 'dynamic' as const,
-      deps: ["In-vivo structural"] as const,
+      deps: ["typeOfMRI"] as const,
       render: (data) => {
-        if (data["In-vivo structural"] === "In-vivo structural") {
+        if (data.typeOfMRI === "In-vivo structural") {
           return field;
         }
         return null;
