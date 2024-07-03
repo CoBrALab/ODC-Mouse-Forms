@@ -3,18 +3,19 @@
 const { defineInstrument } = await import('/runtime/v1/opendatacapture@1.0.0/core.js');
 const { z } = await import('/runtime/v1/zod@3.23.6/index.js');
 
-function createDependentField<T>(field: T) {
+function createMRIDependentField<T>(field: T, fn: (typeOfMRI: string) => boolean) {
     return {
       kind: 'dynamic' as const,
       deps: ["typeOfMRI"] as const,
-      render: (data) => {
-        if (data.typeOfMRI === "Structural and FMRI") {
+      render: (data: { typeOfMRI: string }) => {
+        if (fn(data.typeOfMRI)) {
           return field;
         }
         return null;
       }
     };
-  }
+}
+
 
 export default defineInstrument({
   kind: 'FORM',
@@ -82,29 +83,15 @@ export default defineInstrument({
             return null
         }
     },
-    dexSolutionDate: createDependentField(
-        {  
-          kind: "string",
-          variant: "select",
-          options: {
-            "test":"test"
-          },
-        label: "Preparation date of Dexmedetomidine solution"}
-    ),
-    dexBatchNumber: {
-        kind: "dynamic",
-        deps: ["typeOfMRI"],
-        render(data) {
-            if(data.typeOfMRI === "Structural and FMRI"){
-                return {
-                    kind: "string",
+    dexSolutionDate: createMRIDependentField({kind: "string",
                     variant: "input",
-                    label: "Dexmedetomidine batch number",
-                }
-            }
-            return null
-        }
-    },
+                    label: "Dexmedetomidine solution creation date",},
+                    (type) => type === 'Structural and FMRI'),
+
+    dexBatchNumber: createMRIDependentField({kind: "string",
+                    variant: "input",
+                    label: "Dexmedetomidine batch number",},
+                    (type) => type === 'Structural and FMRI'),
   },
   details: {
     description: "This form is used to record the data tracked in a mouse's MRI session",
