@@ -126,7 +126,13 @@ export default defineInstrument({
       kind: "boolean",
       variant: "radio",
       label: "Was breathing stable?"
-    }, (type) => type !== "Ex-vivo structural" && type !== undefined)
+    }, (type) => type !== "Ex-vivo structural" && type !== undefined),
+    oxygenConcentration: createMRIDependentField({
+      kind: "number",
+      variant: "input",
+      label: "Oxygen Concentration (0-100%)"
+    },
+    (type) => type === "Structural and FMRI" || type === "Quantitative"),
   },
   details: {
     description: "This form is used to record the data tracked in a mouse's MRI session",
@@ -148,6 +154,7 @@ export default defineInstrument({
     isofluoraneBatchNumber: z.string().optional(),
     isofluoraneAdjusted: z.boolean().optional(),
     isofluoraneAdjustedPercentage: z.string().optional(),
-    breathingStable: z.boolean()
+    breathingStable: z.boolean(),
+    oxygenConcentration: z.number()
   })
 });
