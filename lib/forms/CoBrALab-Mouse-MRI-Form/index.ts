@@ -133,6 +133,29 @@ export default defineInstrument({
       label: "Oxygen Concentration (0-100%)"
     },
     (type) => type === "Structural and FMRI" || type === "Quantitative"),
+     oxygenSaturation: createMRIDependentField({
+      kind: "number",
+      variant: "input",
+      label: "SPO2 value (0-100%)"
+    },
+    (type) => type === "Structural and FMRI" || type === "Quantitative"),
+    respirationRate: createMRIDependentField({
+      kind: "number",
+      variant: "input",
+      label: "Respiration rate (breaths/min)"
+    },
+    (type) => type === "Structural and FMRI" || type === "Quantitative"),
+    formOfMeasurement: createMRIDependentField({
+      kind: "string",
+      variant: "select",
+      label: "How were these recorded?",
+      options: {
+        "Waveform": "Waveform",
+        "Numerical": "Numberical",
+        "Manual":"Manual"
+      }
+    },
+    (type) => type === "Structural and FMRI" || type === "Quantitative"),
   },
   details: {
     description: "This form is used to record the data tracked in a mouse's MRI session",
@@ -155,6 +178,9 @@ export default defineInstrument({
     isofluoraneAdjusted: z.boolean().optional(),
     isofluoraneAdjustedPercentage: z.string().optional(),
     breathingStable: z.boolean(),
-    oxygenConcentration: z.number()
+    oxygenConcentration: z.number().optional(),
+    oxygenSaturation: z.number().optional(),
+    respirationRate: z.number().optional(),
+    formOfMeasurement: z.string().optional()
   })
 });
