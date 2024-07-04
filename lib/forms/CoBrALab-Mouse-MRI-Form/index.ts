@@ -156,6 +156,36 @@ export default defineInstrument({
       }
     },
     (type) => type === "Structural and FMRI" || type === "Quantitative"),
+    fmriIsofluorane: createMRIDependentField({
+      kind: "number",
+      variant: "slider",
+      label: "FMRI Isofluorane percentage",
+      max: 15,
+      min: 0
+    }, (type) => type ===  "Structural and FMRI"),
+    fmriIsofluoraneColour: {
+      kind: "dynamic",
+      deps: ["fmriIsofluorane"],
+      render(data){
+        if(data.fmriIsofluorane === 2){
+          return {
+            kind: "string",
+            variant: "radio",
+            label: "Isofluorane colour code",
+            options: {
+              "yellow": "Yellow",
+              "green": "Green"
+            }
+          }
+        }
+        return null
+      }
+    },
+    otherComments: {
+      kind: "string",
+      variant: "textarea",
+      label: "Please write any additonal comments/notes here"
+    }
   },
   details: {
     description: "This form is used to record the data tracked in a mouse's MRI session",
@@ -181,6 +211,10 @@ export default defineInstrument({
     oxygenConcentration: z.number().optional(),
     oxygenSaturation: z.number().optional(),
     respirationRate: z.number().optional(),
-    formOfMeasurement: z.string().optional()
+    formOfMeasurement: z.string().optional(),
+    fmriIsofluorane: z.number().optional(),
+    fmriIsofluoraneColour: z.string().optional(),
+    otherComments: z.string().optional()
+
   })
 });
