@@ -194,7 +194,103 @@ export default defineInstrument({
     license: 'UNLICENSED',
     title: 'Mouse MRI Form'
   },
-  measures: {},
+  measures: {
+    handlerName: {
+      kind: "const",
+      label: "Handler name",
+      ref: "handlerName"
+    },
+    mriOperator: {
+      kind: "const",
+      label: "MRI operator",
+      ref: "mriOperator"
+    },
+    typeOfMRI: {
+      kind: 'const',
+      label: 'Type of MRI',
+      ref: 'typeOfMRI'
+    },
+    coilType: {
+      kind: 'const',
+      label: 'Coil type',
+      ref: 'coilType'
+    },
+    paraVisionVersion: {
+      kind: 'const',
+      label: 'Paravision Version',
+      ref: 'paravisionVersion'
+    },
+    exVivoCranialStatus: {
+      kind: 'const',
+      label: 'Cranial status',
+      ref: 'exVivoCranialStatus'
+    },
+    dexSolutionDate: {
+      kind: 'const',
+      label: 'Dexmedetomidine solution date',
+      ref: 'dexSolutionDate'
+    },
+    dexSolutionBatchNumber: {
+      kind: 'const',
+      label: 'Dexmedetomidine batch number',
+      ref: 'dexBatchNumber'
+    },
+    isofluoraneBatchNumber: {
+      kind: 'const',
+      label: 'Isofluorane batch number',
+      ref: 'isofluoraneBatchNumber'
+    },
+    isofluoraneAdjusted: {
+      kind: 'const',
+      label: 'Isofluorane adjusted',
+      ref: 'isofluoraneAdjusted'
+    },
+    isofluoraneAdjustedPercentage: {
+      kind: 'const',
+      label: 'Isofluorane adjusted percentage',
+      ref: 'isofluoraneAdjustedPercentage'
+    },
+    breathingStable: {
+      kind: 'const',
+      label: 'Breathing stable',
+      ref: 'breathingStable'
+    },
+    oxygenConcentration: {
+      kind: 'const',
+      label: 'Oxygen Concentration Percentage',
+      ref: 'oxygenConcentration'
+    },
+    oxygenSaturation: {
+      kind: 'const',
+      label: 'Oxygen saturation',
+      ref: 'oxygenSaturation'
+    },
+    respirationRate: {
+      kind: 'const',
+      label: 'Respiration rate',
+      ref: 'respirationRate'
+    },
+    formOfMeasurement: {
+      kind: 'const',
+      label: 'Form of measurement',
+      ref: 'formOfMeasurement'
+    },
+    fmriIsofluorane: {
+      kind: 'const',
+      label: "FMRI Isofluorane amount",
+      ref: 'fmriIsofluorane'
+    },
+    fmriIsofluoraneColour: {
+      kind: 'const',
+      label: 'FMRI Isofluorane level colour',
+      ref: 'fmriIsofluoraneColour'
+    },
+    otherComments: {
+      kind: 'const',
+      label: "additonal comments",
+      ref:'otherComments'
+    }
+  },
   validationSchema: z.object({
     handlerName: z.string(),
     mriOperator: z.string(),
