@@ -6,10 +6,10 @@ const { z } = await import('/runtime/v1/zod@3.23.6/index.js');
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
-  tags: ['End of Life', 'Mouse', 'Euthanasia'],
+  tags: ['End of Life', 'Mouse', 'Euthanasia','Termination'],
   internal: {
     edition: 1,
-    name: '<PLACEHOLDER>'
+    name: 'MOUSE_END_OF_LIFE_FORM'
   },
   content: {},
   details: {
@@ -17,7 +17,7 @@ export default defineInstrument({
     estimatedDuration: 1,
     instructions: ['<PLACEHOLDER>'],
     license: 'UNLICENSED',
-    title: '<PLACEHOLDER>'
+    title: 'Mouse End Of Life Form'
   },
   measures: {},
   validationSchema: z.object({})
