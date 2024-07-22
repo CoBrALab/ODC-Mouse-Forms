@@ -11,7 +11,21 @@ export default defineInstrument({
     edition: 1,
     name: 'MOUSE_END_OF_LIFE_FORM'
   },
-  content: {},
+  content: {
+    terminationKind: {
+      kind: 'string',
+      variant: 'radio',
+      label: "Reason for termination",
+      options: {
+        "End of Experiment":"End of Experiment",
+        "Humane endpoint": "Humane Endpoint",
+        "Vetinary Endpoint": "Vetinary Endpoint",
+        "Surplus":"Surplus",
+        "Surgical complications":"Surgical complications",
+      }
+      
+    }
+  },
   details: {
     description: 'Form to fill in info of mouse end of life',
     estimatedDuration: 1,
@@ -20,5 +34,7 @@ export default defineInstrument({
     title: 'Mouse End Of Life Form'
   },
   measures: {},
-  validationSchema: z.object({})
+  validationSchema: z.object({
+    terminationKind: z.string()
+  })
 });
