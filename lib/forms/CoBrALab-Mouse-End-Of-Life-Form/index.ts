@@ -13,9 +13,9 @@ export default defineInstrument({
   },
   content: {},
   details: {
-    description: '<PLACEHOLDER>',
+    description: 'Form to fill in info of mouse end of life',
     estimatedDuration: 1,
-    instructions: ['<PLACEHOLDER>'],
+    instructions: ['End of life', 'termination'],
     license: 'UNLICENSED',
     title: 'Mouse End Of Life Form'
   },
