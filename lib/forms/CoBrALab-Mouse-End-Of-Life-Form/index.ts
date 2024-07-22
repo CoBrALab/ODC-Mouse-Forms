@@ -87,7 +87,7 @@ export default defineInstrument({
     bodyPartStorageSolution: createDependentField({
       kind: "string",
       variant: "select",
-      label: "storage solution",
+      label: "Storage solution",
       options: {
         "Ethanol": "Ethanol 70%",
         "Sodium Alzide": "Sodium Alzide",
