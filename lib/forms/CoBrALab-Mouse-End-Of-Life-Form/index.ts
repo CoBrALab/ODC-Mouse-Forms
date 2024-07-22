@@ -83,6 +83,26 @@ export default defineInstrument({
       kind: 'string',
       variant: "textarea",
       label: "Reason for Extraction"
+    }, (type) => type === true),
+    bodyPartStorageSolution: createDependentField({
+      kind: "string",
+      variant: "select",
+      label: "storage solution",
+      options: {
+        "Ethanol": "Ethanol 70%",
+        "Sodium Alzide": "Sodium Alzide",
+        "Gadolum Bath": "Gadolum Bath"
+      }
+    },(type) => type === true),
+    bodyPartStorageLocation: createDependentField({
+      kind: "string",
+      variant: "select",
+      label: "Storage Location",
+      options: {
+        "Fridge": "Fridge",
+        "Freezer": "Freezer",
+        "Room temperature": "Room temperature"
+      }
     }, (type) => type === true)
   },
   details: {
@@ -99,6 +119,8 @@ export default defineInstrument({
     terminationType: z.string(),
     bodyExtractionDone: z.boolean(),
     bodyPartExtracted: z.set(z.enum(["Brain","Gut", "Heart", "Fat tissue"])),
-    bodyExtractionReason: z.string()
+    bodyExtractionReason: z.string(),
+    bodyPartStorageSolution: z.string(),
+    bodyPartStorageLocation: z.string()
   })
 });
