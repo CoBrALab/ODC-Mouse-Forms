@@ -4,22 +4,22 @@ const { defineInstrument } = await import('/runtime/v1/opendatacapture@1.0.0/cor
 const { z } = await import('/runtime/v1/zod@3.23.6/index.js');
 
 function createDependentField<T>(field: T, fn: (bodyExtractionDone: boolean) => boolean) {
-    return {
-      kind: 'dynamic' as const,
-      deps: ["bodyExtractionDone"] as const,
-      render: (data: { bodyExtractionDone: boolean }) => {
-        if (fn(data.bodyExtractionDone)) {
-          return field;
-        }
-        return null;
+  return {
+    kind: 'dynamic' as const,
+    deps: ['bodyExtractionDone'] as const,
+    render: (data: { bodyExtractionDone: boolean }) => {
+      if (fn(data.bodyExtractionDone)) {
+        return field;
       }
-    };
+      return null;
+    }
+  };
 }
 
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
-  tags: ['End of Life', 'Mouse', 'Euthanasia','Termination'],
+  tags: ['End of Life', 'Mouse', 'Euthanasia', 'Termination'],
   internal: {
     edition: 1,
     name: 'MOUSE_END_OF_LIFE_FORM'
@@ -28,99 +28,125 @@ export default defineInstrument({
     terminationReason: {
       kind: 'string',
       variant: 'select',
-      label: "Reason for termination",
+      label: 'Reason for termination',
       options: {
-        "End of Experiment":"End of Experiment",
-        "Humane endpoint": "Humane Endpoint",
-        "Veterinary Endpoint": "Veterinary Endpoint",
-        "Surplus":"Surplus",
-        "Surgical complications":"Surgical complications",
+        'End of Experiment': 'End of Experiment',
+        'Humane endpoint': 'Humane Endpoint',
+        'Veterinary Endpoint': 'Veterinary Endpoint',
+        Surplus: 'Surplus',
+        'Surgical complications': 'Surgical complications'
       }
     },
     terminationComments: {
-     kind: 'dynamic',
-     deps: ["terminationReason"],
-     render(data) {
-        if(data.terminationReason === "Humane endpoint" || data.terminationReason === "Surplus" ){
+      kind: 'dynamic',
+      deps: ['terminationReason'],
+      render(data) {
+        if (data.terminationReason === 'Humane endpoint' || data.terminationReason === 'Surplus') {
           return {
             kind: 'string',
-            variant: "textarea",
-            label: "Comments"
-          }
+            variant: 'textarea',
+            label: 'Comments'
+          };
         }
-        return null
-     }
+        return null;
+      }
     },
     terminationType: {
-      kind: "string",
+      kind: 'string',
       variant: 'select',
       label: 'Form of termination',
       options: {
-        "Gas induction":"Gas induction",
-        "Perfusion": "Perfusion",
-        "Guillotine": "Guillotine",
-        "Cardiac puncture":"Cardiac puncture",
-        "Cervical dislocation": "Cervical dislocation"
+        'Gas induction': 'Gas induction',
+        Perfusion: 'Perfusion',
+        Guillotine: 'Guillotine',
+        'Cardiac puncture': 'Cardiac puncture',
+        'Cervical dislocation': 'Cervical dislocation'
       }
     },
     bodyExtractionDone: {
       kind: 'boolean',
-      variant: "radio",
-      label: "Body part extracted"
+      variant: 'radio',
+      label: 'Body part extracted'
     },
-    bodyPartExtracted: createDependentField({
-      kind: 'set',
-      variant: "listbox",
-      label: "Body part extracted",
-      options: {
-        "Brain":"Brain",
-        "Gut": "Gut",
-        "Fat tissue": "Fat tissue",
-        "Heart":"Heart"
-    },
-    }, (type) => type === true),
-    bodyExtractionReason: createDependentField({
-      kind: 'string',
-      variant: "textarea",
-      label: "Reason for Extraction"
-    }, (type) => type === true),
-    bodyPartStorageSolution: createDependentField({
-      kind: "string",
-      variant: "select",
-      label: "Storage solution",
-      options: {
-        "Ethanol": "Ethanol 70%",
-        "Sodium Alzide": "Sodium Alzide",
-        "Gadolum Bath": "Gadolum Bath"
+    bodyExtractionInfo: {
+      kind: 'record-array',
+      label: 'Body part extraction info',
+      fieldset: {
+        bodyPartExtracted: {
+          kind: 'string',
+          variant: 'select',
+          label: 'Body part extracted',
+          options: {
+            Brain: 'Brain',
+            Gut: 'Gut',
+            'Fat tissue': 'Fat tissue',
+            Heart: 'Heart'
+          }
+        },
+        bodyExtractionReason: {
+          kind: 'string',
+          variant: 'textarea',
+          label: 'Reason for Extraction'
+        },
+        bodyPartStorageSolution: {
+          kind: 'string',
+          variant: 'select',
+          label: 'Storage solution',
+          options: {
+            Ethanol: 'Ethanol 70%',
+            'Sodium Alzide': 'Sodium Alzide',
+            'Gadolum Bath': 'Gadolum Bath'
+          }
+        },
+        bodyPartStorageLocation: {
+          kind: 'string',
+          variant: 'select',
+          label: 'Storage Location',
+          options: {
+            'Fridge': 'Fridge',
+            'Freezer': 'Freezer',
+            'Room temperature': 'Room temperature'
+          }
+        },
+        storageFridgeId: {
+          kind: 'dynamic',
+          render(data) {
+            if (data.bodyPartStorageLocation === 'Fridge') {
+              return {
+                kind: 'string',
+                variant: 'input',
+                label: 'Fridge ID'
+              };
+            }
+            return null;
+          }
+        }
       }
-    },(type) => type === true),
-    bodyPartStorageLocation: createDependentField({
-      kind: "string",
-      variant: "select",
-      label: "Storage Location",
-      options: {
-        "Fridge": "Fridge",
-        "Freezer": "Freezer",
-        "Room temperature": "Room temperature"
-      }
-    }, (type) => type === true)
+    }
   },
   details: {
     description: 'Form to fill in info of mouse end of life',
     estimatedDuration: 1,
-    instructions: ['End of life', 'termination'],
+    instructions: ['Please fill in this for when a mouse reaches the end of its life'],
     license: 'UNLICENSED',
     title: 'Mouse End Of Life Form'
   },
   measures: {},
   validationSchema: z.object({
     terminationReason: z.string(),
-    terminationComments: z.string(),
+    terminationComments: z.string().optional(),
     terminationType: z.string(),
     bodyExtractionDone: z.boolean(),
-    bodyPartExtracted: z.set(z.enum(["Brain","Gut", "Heart", "Fat tissue"])),
-    bodyExtractionReason: z.string(),
-    bodyPartStorageSolution: z.string(),
-    bodyPartStorageLocation: z.string()
+    bodyExtractionInfo: z
+      .array(
+        z.object({
+          bodyPartExtracted: z.string(),
+          bodyExtractionReason: z.string(),
+          bodyPartStorageSolution: z.string(),
+          bodyPartStorageLocation: z.string(),
+          storageFridgeId: z.string().optional()
+        })
+      )
+      .optional()
   })
 });
