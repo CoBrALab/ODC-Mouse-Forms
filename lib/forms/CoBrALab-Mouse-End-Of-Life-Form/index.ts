@@ -33,7 +33,7 @@ export default defineInstrument({
         'End of Experiment': 'End of Experiment',
         'Humane endpoint': 'Humane Endpoint',
         'Veterinary Endpoint': 'Veterinary Endpoint',
-        Surplus: 'Surplus',
+        "Surplus": 'Surplus',
         'Surgical complications': 'Surgical complications'
       }
     },
@@ -57,8 +57,8 @@ export default defineInstrument({
       label: 'Form of termination',
       options: {
         'Gas induction': 'Gas induction',
-        Perfusion: 'Perfusion',
-        Guillotine: 'Guillotine',
+        "Perfusion": 'Perfusion',
+        "Guillotine": 'Guillotine',
         'Cardiac puncture': 'Cardiac puncture',
         'Cervical dislocation': 'Cervical dislocation'
       }
@@ -69,59 +69,69 @@ export default defineInstrument({
       label: 'Body part extracted'
     },
     bodyExtractionInfo: {
-      kind: 'record-array',
-      label: 'Body part extraction info',
-      fieldset: {
-        bodyPartExtracted: {
-          kind: 'string',
-          variant: 'select',
-          label: 'Body part extracted',
-          options: {
-            Brain: 'Brain',
-            Gut: 'Gut',
-            'Fat tissue': 'Fat tissue',
-            Heart: 'Heart'
-          }
-        },
-        bodyExtractionReason: {
-          kind: 'string',
-          variant: 'textarea',
-          label: 'Reason for Extraction'
-        },
-        bodyPartStorageSolution: {
-          kind: 'string',
-          variant: 'select',
-          label: 'Storage solution',
-          options: {
-            Ethanol: 'Ethanol 70%',
-            'Sodium Alzide': 'Sodium Alzide',
-            'Gadolum Bath': 'Gadolum Bath'
-          }
-        },
-        bodyPartStorageLocation: {
-          kind: 'string',
-          variant: 'select',
-          label: 'Storage Location',
-          options: {
-            'Fridge': 'Fridge',
-            'Freezer': 'Freezer/Deep Freeze',
-            'Room temperature': 'Room temperature'
-          }
-        },
-        storageFridgeId: {
-          kind: 'dynamic',
-          render(data) {
-            if (data.bodyPartStorageLocation === 'Fridge') {
-              return {
-                kind: 'string',
-                variant: 'input',
-                label: 'Fridge ID'
-              };
-            }
-            return null;
+      kind: 'dynamic',
+      deps: ["bodyExtractionDone"],
+      render(data) {
+        if(data.bodyExtractionDone){
+          return {
+              kind: 'record-array',
+              label: 'Body part extraction info',
+              fieldset: {
+                bodyPartExtracted: {
+                  kind: 'string',
+                  variant: 'select',
+                  label: 'Body part extracted',
+                  options: {
+                    'Brain': 'Brain',
+                    "Gut": 'Gut',
+                    'Fat tissue': 'Fat tissue',
+                    "Heart": 'Heart'
+                  }
+                },
+                bodyExtractionReason: {
+                  kind: 'string',
+                  variant: 'textarea',
+                  label: 'Reason for Extraction'
+                },
+                bodyPartStorageSolution: {
+                  kind: 'string',
+                  variant: 'select',
+                  label: 'Storage solution',
+                  options: {
+                    'Ethanol': 'Ethanol 70%',
+                    'Sodium Alzide': 'Sodium Alzide',
+                    'Gadolum Bath': 'Gadolum Bath'
+                  }
+                },
+                bodyPartStorageLocation: {
+                  kind: 'string',
+                  variant: 'select',
+                  label: 'Storage Location',
+                  options: {
+                    'Fridge': 'Fridge',
+                    'Freezer': 'Freezer',
+                    'Room temperature': 'Room temperature'
+                  }
+                },
+                storageFridgeId: {
+                  kind: 'dynamic',
+                  render(data) {
+                    if (data.bodyPartStorageLocation === 'Fridge') {
+                      return {
+                        kind: 'string',
+                        variant: 'input',
+                        label: 'Fridge ID'
+                      };
+                    }
+                    return null;
+                  }
+                }
+              }
           }
         }
+        return null
       }
+    
     }
   },
   details: {
