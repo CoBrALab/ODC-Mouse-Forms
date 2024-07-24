@@ -104,7 +104,7 @@ export default defineInstrument({
           label: 'Storage Location',
           options: {
             'Fridge': 'Fridge',
-            'Freezer': 'Freezer',
+            'Freezer': 'Freezer/Deep Freeze',
             'Room temperature': 'Room temperature'
           }
         },
