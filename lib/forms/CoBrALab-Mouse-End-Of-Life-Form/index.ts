@@ -63,6 +63,11 @@ export default defineInstrument({
         'Cervical dislocation': 'Cervical dislocation'
       }
     },
+    anesthesiaUsed: {
+      kind: "boolean",
+      variant: "radio",
+      label: "Anesthesia used"
+    },
     bodyExtractionDone: {
       kind: 'boolean',
       variant: 'radio',
@@ -85,7 +90,8 @@ export default defineInstrument({
                     'Brain': 'Brain',
                     "Gut": 'Gut',
                     'Fat tissue': 'Fat tissue',
-                    "Heart": 'Heart'
+                    "Heart": 'Heart',
+                    "Liver": "Liver"
                   }
                 },
                 bodyExtractionReason: {
@@ -100,7 +106,8 @@ export default defineInstrument({
                   options: {
                     'Ethanol': 'Ethanol 70%',
                     'Sodium Alzide': 'Sodium Alzide',
-                    'Gadolum Bath': 'Gadolum Bath'
+                    'Gadolum Bath': 'Gadolum Bath',
+                    "None": "None"
                   }
                 },
                 bodyPartStorageLocation: {
@@ -146,6 +153,7 @@ export default defineInstrument({
     terminationReason: z.string(),
     terminationComments: z.string().optional(),
     terminationType: z.string(),
+    anesthesiaUsed: z.boolean(),
     bodyExtractionDone: z.boolean(),
     bodyExtractionInfo: z
       .array(
