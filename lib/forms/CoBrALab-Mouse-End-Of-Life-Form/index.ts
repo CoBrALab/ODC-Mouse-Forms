@@ -91,13 +91,44 @@ export default defineInstrument({
                     "Gut": 'Gut',
                     'Fat tissue': 'Fat tissue',
                     "Heart": 'Heart',
-                    "Liver": "Liver"
+                    "Liver": "Liver",
+                    "Blood extraction": "Blood extraction"
                   }
                 },
-                bodyExtractionReason: {
+                extractionMotive: {
+                  kind: "dynamic",
+                  render(data){
+                    if(data.bodyPartExtracted === 'Brain'){
+                      return {
+                        kind: "string",
+                        variant: "select",
+                        label: "Brain extraction motive",
+                        options: {
+                          "ELISA": "ELISA",
+                          "Immunohistochemistry":"Immunohistochemistry",
+                          "RNA sequencing": "RNA sequencing",
+                          "Other": "Other"
+                        }
+                      }
+                    }
+                    else if(data.bodyPartExtracted === "Blood extraction"){
+                      return {
+                        kind: "string",
+                        variant: "select",
+                        label: "Blood extraction type",
+                        options: {
+                          "Plasma": "Plasma",
+                          "Serum": "Serum"
+                        }
+                      }
+                    }
+                    return null
+                  }
+                },
+                bodyExtractionComments: {
                   kind: 'string',
                   variant: 'textarea',
-                  label: 'Reason for Extraction'
+                  label: 'Comments for Extraction'
                 },
                 bodyPartStorageSolution: {
                   kind: 'string',
@@ -159,7 +190,8 @@ export default defineInstrument({
       .array(
         z.object({
           bodyPartExtracted: z.string(),
-          bodyExtractionReason: z.string(),
+          bodyExtractionComments: z.string(),
+          extractionMotive: z.string(),
           bodyPartStorageSolution: z.string(),
           bodyPartStorageLocation: z.string(),
           storageFridgeId: z.string().optional()
