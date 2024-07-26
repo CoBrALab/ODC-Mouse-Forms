@@ -101,7 +101,8 @@ export default defineInstrument({
     cervicalGestationalDay: createDependentField({
       kind: "date",
       label: "Gestational date"
-    },(type) => type === "Cervical dislocation"),
+    }, (type) => type === "Cervical dislocation"),
+
     anesthesiaUsed: {
       kind: 'boolean',
       variant: 'radio',
@@ -222,8 +223,8 @@ export default defineInstrument({
     terminationComments: z.string().optional(),
     terminationType: z.string(),
     cervicalBloodCollected: z.string().optional(),
-    cervicalEmbryoPresent: z.string().optional(),
-    cervicalGestationalDate: z.date().optional(),
+    cervicalEmbryoPresent: z.boolean().optional(),
+    cervicalGestationalDay: z.date().optional(),
     perfusionType: z.string().optional(),
     perfusionDose: z.string().optional(),
     anesthesiaUsed: z.boolean(),
