@@ -86,23 +86,6 @@ export default defineInstrument({
         return null
       }
     },
-    cervicalBloodCollected: createDependentField({
-      kind: "string",
-      variant: "input",
-      label: "Volume of blood collected (ml)"
-    },(type) => type === "Cervical dislocation"),
-
-    cervicalEmbryoPresent: createDependentField({
-      kind: "boolean",
-      variant: "radio",
-      label: "Embryo present"
-    },(type) => type === "Cervical dislocation"),
-
-    cervicalGestationalDay: createDependentField({
-      kind: "date",
-      label: "Gestational date"
-    }, (type) => type === "Cervical dislocation"),
-
     anesthesiaUsed: {
       kind: 'boolean',
       variant: 'radio',
@@ -217,14 +200,49 @@ export default defineInstrument({
     license: 'UNLICENSED',
     title: 'Mouse End Of Life Form'
   },
-  measures: {},
+  measures: {
+     terminationReason: {
+      kind: "const",
+      label: "Reason for termination",
+      ref: "terminationReason"
+    },
+    terminationComments: {
+      kind: "const",
+      label: "Comments",
+      ref: "terminationComments"
+    },
+    terminationType: {
+      kind: "const",
+      label: "Form of termination",
+      ref: "terminationType"
+    },
+    perfusionType: {
+      kind: "const",
+      label: "Type of perfusion",
+      ref: "perfusionType"
+    },
+    perfusionDose: {
+      kind: "const",
+      label: "Injection dose (ml)",
+      ref: "perfusionDose"
+    },
+    anesthesiaUsed: {
+      kind: "const",
+      label: "Anesthesia used",
+      ref: "anesthesiaUsed"
+    },
+    bodyExtractionDone: {
+      kind: "const",
+      label: "Body part extracted",
+      ref: "bodyExtractionDone"
+    },
+    
+
+  },
   validationSchema: z.object({
     terminationReason: z.string(),
     terminationComments: z.string().optional(),
     terminationType: z.string(),
-    cervicalBloodCollected: z.string().optional(),
-    cervicalEmbryoPresent: z.boolean().optional(),
-    cervicalGestationalDay: z.date().optional(),
     perfusionType: z.string().optional(),
     perfusionDose: z.string().optional(),
     anesthesiaUsed: z.boolean(),
@@ -234,7 +252,7 @@ export default defineInstrument({
         z.object({
           bodyPartExtracted: z.string(),
           bodyExtractionComments: z.string(),
-          extractionMotive: z.string(),
+          extractionMotive: z.string().optional(),
           bodyPartStorageSolution: z.string(),
           bodyPartStorageLocation: z.string(),
           storageFridgeId: z.string().optional()
