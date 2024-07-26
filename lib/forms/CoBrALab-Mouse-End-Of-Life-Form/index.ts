@@ -86,6 +86,22 @@ export default defineInstrument({
         return null
       }
     },
+    cervicalBloodCollected: createDependentField({
+      kind: "string",
+      variant: "input",
+      label: "Volume of blood collected (ml)"
+    },(type) => type === "Cervical dislocation"),
+
+    cervicalEmbryoPresent: createDependentField({
+      kind: "boolean",
+      variant: "radio",
+      label: "Embryo present"
+    },(type) => type === "Cervical dislocation"),
+
+    cervicalGestationalDay: createDependentField({
+      kind: "date",
+      label: "Gestational date"
+    },(type) => type === "Cervical dislocation"),
     anesthesiaUsed: {
       kind: 'boolean',
       variant: 'radio',
@@ -205,6 +221,9 @@ export default defineInstrument({
     terminationReason: z.string(),
     terminationComments: z.string().optional(),
     terminationType: z.string(),
+    cervicalBloodCollected: z.string().optional(),
+    cervicalEmbryoPresent: z.string().optional(),
+    cervicalGestationalDate: z.date().optional(),
     perfusionType: z.string().optional(),
     perfusionDose: z.string().optional(),
     anesthesiaUsed: z.boolean(),
