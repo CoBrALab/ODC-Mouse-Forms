@@ -68,10 +68,25 @@ export default defineInstrument({
       variant: "select",
       label: "Type of perfusion",
       options: {
-        "Injection":"Injection",
+        "Ip Injection":"Ip Injection",
         "Gas": "Gas"
       }
-    }, (type) => type === "Perfusion" ) ,
+    }, (type) => type === "Perfusion" ),
+    perfusionDose: createDependentField({
+      kind: "dynamic",
+      render(data) {
+        if(data.perfusionType === "Ip Injection"){
+          return {
+            kind: "string",
+            variant: "input",
+            label: "Injection dose"
+          }
+        }
+        return null
+      }
+    },
+      (type) => type === 'Perfusion'
+    ),
     anesthesiaUsed: {
       kind: 'boolean',
       variant: 'radio',
@@ -192,6 +207,7 @@ export default defineInstrument({
     terminationComments: z.string().optional(),
     terminationType: z.string(),
     perfusionType: z.string().optional(),
+    perfusionDose: z.string().optional(),
     anesthesiaUsed: z.boolean(),
     bodyExtractionDone: z.boolean(),
     bodyExtractionInfo: z
