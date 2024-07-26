@@ -236,7 +236,13 @@ export default defineInstrument({
       label: "Body part extracted",
       ref: "bodyExtractionDone"
     },
-    
+    bodyExtractionInfo: {
+      kind: "computed",
+      label: "Body part extraction info",
+      value: (data) => {
+        return ""
+      }
+    }
 
   },
   validationSchema: z.object({
