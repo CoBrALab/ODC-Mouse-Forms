@@ -72,21 +72,20 @@ export default defineInstrument({
         "Gas": "Gas"
       }
     }, (type) => type === "Perfusion" ),
-    perfusionDose: createDependentField({
-      kind: "dynamic",
-      render(data) {
-        if(data.perfusionType === "Ip Injection"){
+    perfusionDose: {
+      kind: 'dynamic',
+      deps: ["perfusionType"],
+      render(data){
+        if(data.perfusionType === 'Ip Injection'){
           return {
-            kind: "string",
+            kind: 'string',
             variant: "input",
-            label: "Injection dose"
+            label: 'Injection dose (ml)'
           }
         }
         return null
       }
     },
-      (type) => type === 'Perfusion'
-    ),
     anesthesiaUsed: {
       kind: 'boolean',
       variant: 'radio',
