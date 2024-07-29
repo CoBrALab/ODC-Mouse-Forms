@@ -240,7 +240,14 @@ export default defineInstrument({
       kind: "computed",
       label: "Body part extraction info",
       value: (data) => {
-        return ""
+        const val = data.bodyExtractionInfo?.map((x) => x);
+        let extractInfo = '';
+        if (val) {
+          for (const info of val) {
+            extractInfo += info.bodyPartExtracted + ' ' + info.extractionMotive + ' ' + info.bodyExtractionComments + ' ' + info.bodyPartStorageSolution + ' ' + info.bodyPartStorageLocation + '\n';
+          }
+        }
+        return extractInfo;
       }
     }
 
