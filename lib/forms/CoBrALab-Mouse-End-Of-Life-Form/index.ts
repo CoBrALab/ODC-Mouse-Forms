@@ -203,19 +203,6 @@ export default defineInstrument({
                   'Room temperature': 'Room temperature'
                 }
               },
-              storageFridgeId: {
-                kind: 'dynamic',
-                render(data) {
-                  if (data.bodyPartStorageLocation === 'Fridge') {
-                    return {
-                      kind: 'string',
-                      variant: 'input',
-                      label: 'Fridge ID'
-                    };
-                  }
-                  return null;
-                }
-              },
             }
           };
         }
@@ -301,8 +288,7 @@ export default defineInstrument({
           pfaBatch: z.string().optional(),
           pfaBatchExpiration: z.date().optional(),
           bodyPartStorageSolution: z.string(),
-          bodyPartStorageLocation: z.string(),
-          storageFridgeId: z.string().optional()
+          bodyPartStorageLocation: z.string()
         })
       )
       .optional()
