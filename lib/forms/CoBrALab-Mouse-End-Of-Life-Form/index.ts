@@ -147,6 +147,33 @@ export default defineInstrument({
                   return null;
                 }
               },
+              pfaBatch: {
+                kind: 'dynamic',
+                render(data) {
+                  if(data.bodyPartExtracted === 'Brain'){
+                    return {
+                      kind: 'string',
+                      variant: "input",
+                      label: "PFA batch"
+                    }
+                  
+                  }
+                  return null
+                }
+              },
+              pfaBatchExpiration: {
+                kind: 'dynamic',
+                render(data) {
+                  if(data.bodyPartExtracted === 'Brain'){
+                    return {
+                      kind: 'date',
+                      label: "PFA batch expiration date"
+                    }
+                  
+                  }
+                  return null
+                }
+              },
               bodyExtractionComments: {
                 kind: 'string',
                 variant: 'textarea',
@@ -244,7 +271,9 @@ export default defineInstrument({
         let extractInfo = '';
         if (val) {
           for (const info of val) {
-            extractInfo += info.bodyPartExtracted + ' ' + info.extractionMotive + ' ' + info.bodyExtractionComments + ' ' + info.bodyPartStorageSolution + ' ' + info.bodyPartStorageLocation + '\n';
+            extractInfo += info.bodyPartExtracted + ' ' + info.bodyExtractionComments + ' ' + (info.extractionMotive ?? '') + ' ' + (info.pfaBatch ?? '') + ' ' 
+            + (info.pfaBatchExpiration ?? '') + ' ' + info.bodyExtractionComments + ' ' + info.bodyPartStorageSolution + ' ' + info.bodyPartStorageLocation + ' ' + 
+            info.storageFridgeId + '\n';
           }
         }
         return extractInfo;
@@ -266,6 +295,8 @@ export default defineInstrument({
           bodyPartExtracted: z.string(),
           bodyExtractionComments: z.string(),
           extractionMotive: z.string().optional(),
+          pfaBatch: z.string().optional(),
+          pfaBatchExpiration: z.date().optional(),
           bodyPartStorageSolution: z.string(),
           bodyPartStorageLocation: z.string(),
           storageFridgeId: z.string().optional()
