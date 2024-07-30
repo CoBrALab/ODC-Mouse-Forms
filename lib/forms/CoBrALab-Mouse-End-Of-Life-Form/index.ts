@@ -68,8 +68,8 @@ export default defineInstrument({
       variant: "select",
       label: "Type of perfusion",
       options: {
-        "Ip Injection":"Ip Injection",
-        "Gas": "Gas"
+        "Ip Injection":"Ip Injection (Ketamine)",
+        "Gas": "Gas (Isoflurane)"
       }
     }, (type) => type === "Perfusion" ),
     perfusionDose: {
@@ -86,6 +86,32 @@ export default defineInstrument({
         return null
       }
     },
+    perfusionFlushingDone: createDependentField({
+      kind: "boolean",
+      variant: "radio",
+      label: "Flushing done"
+    },
+    (type) => type === "Perfusion"),
+
+  perfusionFlushingSolution: {
+    kind: "dynamic",
+    deps: ["perfusionFlushingDone"],
+    render(data){
+      if(data.perfusionFlushingDone){
+        return { 
+          kind: "string",
+          variant: "radio",
+          label: "Perfusion flushing solution",
+          options: {
+            "PBS+Heparin":"PBS and Heparin",
+            "4% Isoflurane": "4% Isoflurane"
+          }
+        }
+      }
+      return null
+    }
+   
+  },
     anesthesiaUsed: {
       kind: 'boolean',
       variant: 'radio',
@@ -263,7 +289,7 @@ export default defineInstrument({
           for (const info of val) {
             extractInfo += info.bodyPartExtracted + ' ' + info.bodyExtractionComments + ' ' + (info.extractionMotive ?? '') + ' ' + (info.pfaBatch ?? '') + ' ' 
             + (info.pfaBatchExpiration ?? '') + ' ' + info.bodyExtractionComments + ' ' + info.bodyPartStorageSolution + ' ' + info.bodyPartStorageLocation + ' ' + 
-            info.storageFridgeId + '\n';
+            + '\n';
           }
         }
         return extractInfo;
@@ -277,6 +303,8 @@ export default defineInstrument({
     terminationType: z.string(),
     perfusionType: z.string().optional(),
     perfusionDose: z.string().optional(),
+    perfusionFlushingDone: z.boolean().optional(),
+    perfusionFlushingSolution: z.string().optional(),
     anesthesiaUsed: z.boolean(),
     bodyExtractionDone: z.boolean(),
     bodyExtractionInfo: z
