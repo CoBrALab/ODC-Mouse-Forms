@@ -63,6 +63,26 @@ export default defineInstrument({
         'Cervical dislocation': 'Cervical dislocation'
       }
     },
+    bloodCollected: createDependentField({
+      kind: 'string',
+      variant: "input",
+      label: "Blood collected (ml)"
+    },
+      (type) => type === 'Cervical dislocation' || type === 'Cardiac puncture'
+    ),
+    embryoPresent: createDependentField({
+      kind: 'boolean',
+      variant: "radio",
+      label: "Embryo present"
+    },
+      (type) => type === 'Cervical dislocation'
+    ),
+    gestationalDay: createDependentField({
+      kind: 'date',
+      label: "Gestational day"
+    },
+      (type) => type === 'Cervical dislocation'
+    ),
     perfusionType: createDependentField({
       kind: "string",
       variant: "select",
@@ -259,6 +279,21 @@ export default defineInstrument({
       label: "Form of termination",
       ref: "terminationType"
     },
+    bloodCollected: {
+      kind: "const",
+      label: "Blood collected (ml)",
+      ref: "bloodCollected"
+    },
+    embryoPresent: {
+      kind: "const",
+      label: "Embryo present",
+      ref: "embryoPresent"
+    },
+    gestationalDay: {
+      kind: "const",
+      label: "Gestational day",
+      ref: "gestationalDay"
+    },
     perfusionType: {
       kind: "const",
       label: "Type of perfusion",
@@ -268,6 +303,16 @@ export default defineInstrument({
       kind: "const",
       label: "Injection dose (ml)",
       ref: "perfusionDose"
+    },
+    perfusionFlushingDone: {
+      kind: "const",
+      label: "Flushing done",
+      ref: "perfusionFlushingDone"
+    },
+    perfusionFlushingSolution: {
+      kind: "const",
+      label: "Perfusion flushing solution",
+      ref: "perfusionFlushingSolution"
     },
     anesthesiaUsed: {
       kind: "const",
@@ -301,6 +346,9 @@ export default defineInstrument({
     terminationReason: z.string(),
     terminationComments: z.string().optional(),
     terminationType: z.string(),
+    bloodCollected: z.string().optional(),
+    embryoPresent: z.boolean().optional(),
+    gestationalDay: z.date().optional(),
     perfusionType: z.string().optional(),
     perfusionDose: z.string().optional(),
     perfusionFlushingDone: z.boolean().optional(),
