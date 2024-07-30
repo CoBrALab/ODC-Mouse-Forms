@@ -115,6 +115,7 @@ export default defineInstrument({
                   'Fat tissue': 'Fat tissue',
                   "Heart": 'Heart',
                   "Liver": 'Liver',
+                  "Tail": "Tail",
                   'Blood extraction': 'Blood extraction'
                 }
               },
