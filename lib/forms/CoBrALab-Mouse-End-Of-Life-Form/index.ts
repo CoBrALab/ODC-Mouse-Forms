@@ -130,6 +130,8 @@ export default defineInstrument({
                       options: {
                         "ELISA": 'ELISA',
                         "Immunohistochemistry": 'Immunohistochemistry',
+                        "Immunofluorescence": "Immunofluorescence",
+                        "ex-Vivo MRI": "ex-Vivo MRI",
                         'RNA sequencing': 'RNA sequencing',
                         "Other": 'Other'
                       }
