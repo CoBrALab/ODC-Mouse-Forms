@@ -50,7 +50,28 @@ export default defineInstrument({
     license: 'UNLICENSED',
     title: 'Mouse Handling Form'
   },
-  measures: {},
+  measures: {
+    roomNumber: {
+      kind: 'const',
+      label: "Room number",
+      ref: "roomNumber"
+    },
+     handlingType: {
+      kind: 'const',
+      label: "Form of handling",
+      ref: "handlingType"
+    },
+    handlingSessionNumber: {
+      kind: 'const',
+      label: "Handling session",
+      ref: "handlingSessionNumber"
+    },
+    handlingDuration: {
+      kind: 'const',
+      label: "Duration (minutes)",
+      ref: "handlingDuration"
+    }
+  },
   validationSchema: z.object({
     roomNumber: z.string(),
     handlingType: z.string(),
