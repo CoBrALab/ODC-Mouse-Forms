@@ -346,11 +346,43 @@ export default defineInstrument({
     terminationReason: z.string(),
     terminationComments: z.string().optional(),
     terminationType: z.string(),
-    bloodCollected: z.string().optional(),
+    bloodCollected: z.string().transform<string | number>((val, ctx) => {
+      const parsed = parseFloat(val);
+      if (isNaN(parsed)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Not a number'
+        });
+        
+
+        // This is a special symbol you can use to
+        // return early from the transform function.
+        // It has type `never` so it does not affect the
+        // inferred return type.
+        return z.NEVER;
+      }
+      return parsed
+    }).optional(),
     embryoPresent: z.boolean().optional(),
     gestationalDay: z.date().optional(),
     perfusionType: z.string().optional(),
-    perfusionDose: z.string().optional(),
+    perfusionDose: z.string().transform<string | number>((val, ctx) => {
+      const parsed = parseFloat(val);
+      if (isNaN(parsed)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Not a number'
+        });
+        
+
+        // This is a special symbol you can use to
+        // return early from the transform function.
+        // It has type `never` so it does not affect the
+        // inferred return type.
+        return z.NEVER;
+      }
+      return parsed
+    }).optional(),
     perfusionFlushingDone: z.boolean().optional(),
     perfusionFlushingSolution: z.string().optional(),
     anesthesiaUsed: z.boolean(),
