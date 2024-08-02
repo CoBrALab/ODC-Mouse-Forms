@@ -20,7 +20,7 @@ export default defineInstrument({
     totalMice: {
       kind: "number",
       variant: "input",
-      label: "number of mice in cage"
+      label: "Number of mice in cage"
     },
     cageNumber: {
       kind: "number",
@@ -97,7 +97,49 @@ export default defineInstrument({
     title: 'Mouse Housing Form'
   },
   measures: {
-    
+    roomNumber: {
+      kind: "const",
+      label: "Room number",
+      ref: "roomNumber"
+    },
+     totalMice: {
+      kind: "const",
+      label: "Number of mice in cage",
+      ref: "totalMice"
+    },
+    cageNumber: {
+      kind: "const",
+      label: "Cage number",
+      ref: "cageNumber"
+    },
+    beddingType: {
+      kind: "const",
+      label: "Bedding type",
+      ref: "beddingType"
+    },
+    cageChangeDay: {
+      kind: "const",
+      label: "Cage change day",
+      ref: "cageChangeDay"
+    },
+    bottleType: {
+      kind: "const",
+      label: "Bottle type",
+      ref: "bottleType"
+    },
+    cageType: {
+      kind: "const",
+      label: "Cage type",
+      ref: "cageType"
+    },
+    cageEnrichment: {
+      kind: 'computed',
+      label: "Cage enrichment",
+      value: (data) => {
+        
+        return data.cageEnrichment ? Array.from(data.cageEnrichment).join(" ") : ""
+      }
+    }
   },
   validationSchema: z.object({
     roomNumber: z.string(),
