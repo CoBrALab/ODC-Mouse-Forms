@@ -6,7 +6,7 @@ const { z } = await import('/runtime/v1/zod@3.23.6/index.js');
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
-  tags: ['Handling'],
+  tags: ['Handling','Cupping','Training'],
   internal: {
     edition: 1,
     name: 'MOUSE_HANDLING_FORM'
@@ -44,9 +44,9 @@ export default defineInstrument({
     }
   },
   details: {
-    description: 'Form to describe when mouse was handled',
+    description: 'Form to describe when mouse was handled and the handling method used',
     estimatedDuration: 1,
-    instructions: ['Please fill out this form once a mouse finishes a handling session'],
+    instructions: ['Please fill out this form once a mouse finishes a handling session.'],
     license: 'UNLICENSED',
     title: 'Mouse Handling Form'
   },
