@@ -6,7 +6,7 @@ const { z } = await import('/runtime/v1/zod@3.23.6/index.js');
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
-  tags: ['Housing','Enrichment','Room Change'],
+  tags: ['Housing','Cage Enrichment','Room Change','Cage Change'],
   internal: {
     edition: 1,
     name: 'MOUSE_HOUSING_FORM'
@@ -90,9 +90,9 @@ export default defineInstrument({
     }
   },
   details: {
-    description: 'Form to describe a mouses housing',
+    description: "Form to describe a mouse's housing",
     estimatedDuration: 1,
-    instructions: ['Please describe the mouses housing whenever it is changed'],
+    instructions: ["A form used to describe a mouse's housing. Please fill out this form whenever a mouse's housing is changed."],
     license: 'UNLICENSED',
     title: 'Mouse Housing Form'
   },
