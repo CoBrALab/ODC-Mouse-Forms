@@ -25,6 +25,11 @@ export default defineInstrument({
     name: 'MOUSE_INJECTIONS_FORM'
   },
   content: {
+    roomNumber: {
+      kind: "string",
+      variant: "input",
+      label: "Room number"
+    },
     injectionType: {
       kind: "string",
       variant: "radio",
@@ -45,6 +50,7 @@ export default defineInstrument({
   },
   measures: {},
   validationSchema: z.object({
+    roomNumber: z.string(),
     injectionType: z.string(),
 
   })
