@@ -38,6 +38,35 @@ export default defineInstrument({
         "Intracerebral": "Intracerebral",
         "IP":"IP",
         "Subcutaneous": "Subcutaneous"
+      },
+    },
+    intracerebralInjectionType: createDependentField({
+        kind: "string",
+        variant: "select",
+        label: "Intracerebral injection type",
+        options: {
+          "PBS": "PBS",
+          "PFF": "PFF"
+        }
+      }, (type) => type === 'Intracerebral'),
+    hydrationProvided: createDependentField({
+      kind: "boolean",
+      variant: "radio",
+      label: "Hydration provided (saline)?"
+
+    },(type) => type === 'Intracerebral'),
+    hydrationVolume: {
+      kind: "dynamic",
+      deps: ["hydrationProvided"],
+      render(data) {
+        if(data.hydrationProvided){
+          return {
+            kind: "string",
+            variant: "input",
+            label: "Saline volume"
+          }
+        }
+        return null
       }
     }
   },
@@ -52,6 +81,9 @@ export default defineInstrument({
   validationSchema: z.object({
     roomNumber: z.string(),
     injectionType: z.string(),
+    intracerebralInjectionType: z.string().optional(),
+    hydrationProvided: z.boolean().optional(),
+    hydrationVolume: z.string().optional()
 
   })
 });
