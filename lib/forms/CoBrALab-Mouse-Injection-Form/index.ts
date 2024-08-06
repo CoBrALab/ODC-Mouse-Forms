@@ -36,8 +36,9 @@ export default defineInstrument({
       label: "Type of injection",
       options: {
         "Intracerebral": "Intracerebral",
-        "IP":"IP",
-        "Subcutaneous": "Subcutaneous"
+        "Subcutaneous": "Subcutaneous",
+        "IP":"IP"
+        
       },
     },
     intracerebralInjectionType: createDependentField({
@@ -79,6 +80,68 @@ export default defineInstrument({
       }
     },(type) => type === "Subcutaneous"),
 
+    subcutaneousInjectionTime: createDependentField({
+      kind: 'string',
+      variant: "select",
+      label: "Time of injection",
+      options: {
+        "During operation": "During operation",
+        "Post operation": "Post operation"
+      }
+    }, (type) => type === "Subcutaneous"),
+
+    postOperationDay: {
+      kind: "dynamic",
+      deps: ["subcutaneousInjectionTime"],
+      render(data) {
+        if(data.subcutaneousInjectionTime === "Post operation"){
+          return {
+            kind: "date",
+            label: "Post operation day"
+          }
+        }
+        return null
+      }
+    },
+
+    analgesicType: {
+      kind: "dynamic",
+      deps: ["subcutaneousInjectionType"],
+      render(data) {
+        if(data.subcutaneousInjectionType === "Analgesic"){
+          return {
+            kind: "string",
+            variant: "select",
+            label: "Analgesic type",
+            options: {
+              "Carpofem": "Carpofem",
+              "Buvicane": "Buvicane"
+            }
+          }
+        }
+        return null
+      }
+    },
+
+    ipDoseVolume: createDependentField({
+      kind: "string",
+      variant: "input",
+      label: "IP dose volume"
+    }, (type) => type === "IP"),
+
+    drugInjected: createDependentField({
+      kind: "string",
+      variant: "select",
+      label: "Drug injected",
+      options: {
+        "PU-AD":"PU-AD",
+        "PU-AD Vehicle": "PU-AD Vehicle",
+        "IP Tamoxifen": "IP Tamoxifen",
+        "STZ": "STZ"
+      }
+    }, (type) => type === "IP")
+
+    
   },
   details: {
     description: 'A form to describe a mouses injection information',
@@ -94,7 +157,30 @@ export default defineInstrument({
     intracerebralInjectionType: z.string().optional(),
     hydrationProvided: z.boolean().optional(),
     hydrationVolume: z.string().optional(),
-    subcutaneousInjectionType: z.string().optional()
+    subcutaneousInjectionType: z.string().optional(),
+    subcutaneousInjectionTime: z.string().optional(),
+    postOperationDay: z.date().optional(),
+    analgesicType: z.string().optional(),
+    ipDoseVolume: z.string().transform<string | number>((val, ctx) => {
+      const parsed = parseFloat(val);
+      if (isNaN(parsed)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Not a number'
+        });
+
+
+        // This is a special symbol you can use to
+        // return early from the transform function.
+        // It has type `never` so it does not affect the
+        // inferred return type.
+        return z.NEVER;
+      }
+
+      return parsed
+    }).optional(),
+    drugInjected: z.string().optional()
+
 
   })
 });
