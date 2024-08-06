@@ -68,7 +68,17 @@ export default defineInstrument({
         }
         return null
       }
-    }
+    },
+    subcutaneousInjectionType: createDependentField({
+      kind: "string",
+      variant: "select",
+      label: "Subcutaneous injection type",
+      options: {
+        "Analgesic": "Analgesic",
+        "Other": "Other"
+      }
+    },(type) => type === "Subcutaneous"),
+
   },
   details: {
     description: 'A form to describe a mouses injection information',
@@ -83,7 +93,8 @@ export default defineInstrument({
     injectionType: z.string(),
     intracerebralInjectionType: z.string().optional(),
     hydrationProvided: z.boolean().optional(),
-    hydrationVolume: z.string().optional()
+    hydrationVolume: z.string().optional(),
+    subcutaneousInjectionType: z.string().optional()
 
   })
 });
