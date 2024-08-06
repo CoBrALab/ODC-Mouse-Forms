@@ -160,7 +160,57 @@ export default defineInstrument({
     license: 'UNLICENSED',
     title: 'Injections Form'
   },
-  measures: {},
+  measures: {
+    roomNumber: {
+      kind: "const",
+      ref: "roomNumber"
+    },
+    injectionType: {
+      kind: "const",
+      ref: "injectionType"
+    },
+    intracerebralInjectionType: {
+      kind: "const",
+      ref: "intracerebralInjectionType"
+    },
+    hydrationProvided: {
+      kind: "const",
+      ref: "hydrationProvided"
+    },
+    hydrationVolume: {
+      kind: "const",
+      ref: "hydrationVolume"
+    },
+    subcutaneousInjectionType: {
+      kind: "const",
+      ref: "subcutaneousInjectionType"
+    },
+    subcutaneousInjectionTime: {
+      kind: "const",
+      ref: "subcutaneousInjectionTime"
+    },
+    postOperationDay: {
+      kind: "const",
+      ref: "postOperationDay"
+    },
+    analgesicType: {
+      kind: "const",
+      ref: "analgesicType"
+    },
+    ipDoseVolume: {
+      kind: "const",
+      ref: "ipDoseVolume"
+    },
+    drugInjected: {
+      kind: "const",
+      ref: "drugInjected"
+    },
+    ipInjectionType: {
+      kind: "const",
+      ref: "ipInjectionType"
+    }
+
+  },
   validationSchema: z.object({
     roomNumber: z.string(),
     injectionType: z.string(),
@@ -191,7 +241,5 @@ export default defineInstrument({
     }).optional(),
     drugInjected: z.string().optional(),
     ipInjectionType: z.string().optional()
-
-
   })
 });
