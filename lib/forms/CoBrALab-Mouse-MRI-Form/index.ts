@@ -84,8 +84,7 @@ export default defineInstrument({
         }
     },
     dexSolutionDate: createMRIDependentField(
-      {kind: "string",
-       variant: "input",
+      {kind: "date",
        label: "Dexmedetomidine solution creation date",},
        (type) => type === 'Structural and FMRI'),
 
@@ -148,7 +147,7 @@ export default defineInstrument({
     formOfMeasurement: createMRIDependentField({
       kind: "string",
       variant: "select",
-      label: "How were these recorded?",
+      label: "How were Oxygen concentration, SPO2, and respiration rate recorded?",
       options: {
         "Waveform": "Waveform",
         "Numerical": "Numberical",
@@ -298,7 +297,7 @@ export default defineInstrument({
     coilType: z.string(),
     paravisionVersion: z.string(),
     exVivoCranialStatus: z.string().optional(),
-    dexSolutionDate: z.string().optional(),
+    dexSolutionDate: z.date().optional(),
     dexBatchNumber: z.string().optional(),
     isofluoraneBatchNumber: z.string().optional(),
     isofluoraneAdjusted: z.boolean().optional(),
