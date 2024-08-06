@@ -139,7 +139,17 @@ export default defineInstrument({
         "IP Tamoxifen": "IP Tamoxifen",
         "STZ": "STZ"
       }
-    }, (type) => type === "IP")
+    }, (type) => type === "IP"),
+
+    ipInjectionType: createDependentField({
+      kind: "string",
+      variant: "select",
+      label: "IP injection type",
+      options: {
+        "Viral memetic": "Viral memetic",
+        "Anesthetic": "Anesthetic"
+      }
+    },(type) => type === "IP")
 
     
   },
@@ -179,7 +189,8 @@ export default defineInstrument({
 
       return parsed
     }).optional(),
-    drugInjected: z.string().optional()
+    drugInjected: z.string().optional(),
+    ipInjectionType: z.string().optional()
 
 
   })
