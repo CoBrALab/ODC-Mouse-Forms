@@ -29,13 +29,8 @@ export default defineInstrument({
     },
     handlingSessionNumber: {
       kind: "number",
-      variant: "radio",
+      variant: "input",
       label: "Handling session",
-      options: {
-        1: "first",
-        2: "second",
-        3: "third"
-      }
     },
     handlingDuration: {
       kind: "number",
