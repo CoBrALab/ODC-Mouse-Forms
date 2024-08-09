@@ -76,8 +76,22 @@ export default defineInstrument({
     },
     chamberNumber: {
       kind: 'number',
-      variant: 'input',
-      label: 'Chamber number'
+      variant: 'select',
+      label: 'Chamber number',
+      options: {
+        1: "one",
+        2: "two",
+        3: "three",
+        4: "four",
+        5: "five",
+        6: "six",
+        7: "seven",
+        8: "eight",
+        9: "nine",
+        10: "ten",
+        11: "eleven",
+        12: "twelve"
+      }
     },
     chamberSerialCode: {
       kind: 'string',
@@ -197,7 +211,7 @@ export default defineInstrument({
     trialFailed: {
       kind: 'const',
       label: 'Trail failed',
-      ref: "trailFailed"
+      ref: "trialFailed"
     },
     failureReason: {
       kind: 'const',
