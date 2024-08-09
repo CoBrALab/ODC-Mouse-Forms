@@ -67,7 +67,7 @@ export default defineInstrument({
       kind: 'dynamic',
       deps: ['boxMouse'],
       render(data) {
-       if(!data.boxMouse && data.boxMouse !== undefined){
+       if(data.boxMouse === false){
          return {
           kind: "string",
           variant: "input",
@@ -81,7 +81,7 @@ export default defineInstrument({
       kind: 'dynamic',
       deps: ['boxMouse'],
       render(data) {
-       if(!data.boxMouse && data.boxMouse !== undefined){
+       if(data.boxMouse === false){
          return {
          kind: 'boolean',
          variant: 'radio',
@@ -96,7 +96,7 @@ export default defineInstrument({
      kind: 'dynamic',
      deps: ['fatherKnown'],
      render(data) {
-      if(data.fatherKnown && data.boxMouse !== undefined){
+      if(data.boxMouse === false){
         return {
           kind: 'string',
           variant: 'input',
