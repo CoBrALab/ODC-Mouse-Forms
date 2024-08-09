@@ -75,8 +75,8 @@ export default defineInstrument({
                     variant: "radio",
                     label: "Type of ex-vivo scan",
                     options: {
-                        "In-cranial":"In-cranial",
-                        "Ex-cranial": "Ex-cranial"
+                        "In-cranio":"In-cranio",
+                        "Ex-cranio": "Ex-cranio"
                     }
                 }
             }
