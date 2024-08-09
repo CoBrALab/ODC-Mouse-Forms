@@ -6,7 +6,7 @@ const { z } = await import('/runtime/v1/zod@3.23.6/index.js');
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
-  tags: ['Birth', 'Mouse'],
+  tags: ['Birth', 'Mouse','Origin'],
   internal: {
     edition: 1,
     name: 'MOUSE_ORIGIN_FORM'
@@ -118,7 +118,7 @@ export default defineInstrument({
     }
   },
   details: {
-    description: 'Form used to track a mouses birth information',
+    description: 'Form used to track a mouse\'s birth information',
     estimatedDuration: 1,
     instructions: ['Please fill out this form for each new mouse within the lab'],
     license: 'UNLICENSED',
