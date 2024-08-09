@@ -90,9 +90,9 @@ export default defineInstrument({
     }
   },
   details: {
-    description: "Form to describe a mouse's housing",
+    description: "Describes a mouse's housing details whenever it is moved or changed.",
     estimatedDuration: 1,
-    instructions: ["A form used to describe a mouse's housing. Please fill out this form whenever a mouse's housing is changed."],
+    instructions: ["Used to log a mouse's housing information. Please fill out this form whenever a mouse's housing is changed or if they moved to a new cage. Changes to a mouse's housing include change in room, type of cage, number of cagemates, and if any cage enrichment is added"],
     license: 'UNLICENSED',
     title: 'Mouse Housing Form'
   },
