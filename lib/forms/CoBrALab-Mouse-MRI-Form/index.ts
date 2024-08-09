@@ -20,7 +20,7 @@ function createMRIDependentField<T>(field: T, fn: (typeOfMRI: string) => boolean
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
-  tags: ['Mouse', 'MRI', 'Structural', 'FMRI'],
+  tags: ['Mouse', 'MRI', 'Structural', 'fMRI'],
   internal: {
     edition: 1,
     name: 'MOUSE_MRI_FORM'
@@ -61,7 +61,7 @@ export default defineInstrument({
         options: {
             "Ex-vivo structural":"Ex-vivo structural",
             "In-vivo structural": "In-vivo structural",
-            "Structural and FMRI": "Structural and FMRI",
+            "Structural and fMRI": "Structural and fMRI",
             "Quantitative":"Quantitative"
         }
     },
@@ -86,7 +86,7 @@ export default defineInstrument({
     dexSolutionDate: createMRIDependentField(
       {kind: "date",
        label: "Dexmedetomidine solution creation date",},
-       (type) => type === 'Structural and FMRI'),
+       (type) => type === 'Structural and fMRI'),
 
     dexBatchNumber: createMRIDependentField(
       {
@@ -94,7 +94,7 @@ export default defineInstrument({
        variant: "input",
        label: "Dexmedetomidine batch number",
        },
-      (type) => type === 'Structural and FMRI'),
+      (type) => type === 'Structural and fMRI'),
       
     isofluoraneBatchNumber: createMRIDependentField({
       kind: 'string',
@@ -131,37 +131,37 @@ export default defineInstrument({
       variant: "input",
       label: "Oxygen Concentration (0-100%)"
     },
-    (type) => type === "Structural and FMRI" || type === "Quantitative"),
+    (type) => type === "Structural and fMRI" || type === "Quantitative"),
      oxygenSaturation: createMRIDependentField({
       kind: "number",
       variant: "input",
       label: "SPO2 value (0-100%)"
     },
-    (type) => type === "Structural and FMRI" || type === "Quantitative"),
+    (type) => type === "Structural and fMRI" || type === "Quantitative"),
     respirationRate: createMRIDependentField({
       kind: "number",
       variant: "input",
       label: "Respiration rate (breaths/min)"
     },
-    (type) => type === "Structural and FMRI" || type === "Quantitative"),
+    (type) => type === "Structural and fMRI" || type === "Quantitative"),
     formOfMeasurement: createMRIDependentField({
       kind: "string",
       variant: "select",
       label: "How were Oxygen concentration, SPO2, and respiration rate recorded?",
       options: {
         "Waveform": "Waveform",
-        "Numerical": "Numberical",
+        "Numerical": "Numerical",
         "Manual":"Manual"
       }
     },
-    (type) => type === "Structural and FMRI" || type === "Quantitative"),
+    (type) => type === "Structural and fMRI" || type === "Quantitative"),
     fmriIsofluorane: createMRIDependentField({
       kind: "number",
       variant: "slider",
-      label: "FMRI Isofluorane percentage",
+      label: "fMRI Isofluorane percentage",
       max: 15,
       min: 0
-    }, (type) => type ===  "Structural and FMRI"),
+    }, (type) => type ===  "Structural and fMRI"),
     fmriIsofluoraneColour: {
       kind: "dynamic",
       deps: ["fmriIsofluorane"],
@@ -276,12 +276,12 @@ export default defineInstrument({
     },
     fmriIsofluorane: {
       kind: 'const',
-      label: "FMRI Isofluorane amount",
+      label: "fMRI Isofluorane amount",
       ref: 'fmriIsofluorane'
     },
     fmriIsofluoraneColour: {
       kind: 'const',
-      label: 'FMRI Isofluorane level colour',
+      label: 'fMRI Isofluorane level colour',
       ref: 'fmriIsofluoraneColour'
     },
     otherComments: {
