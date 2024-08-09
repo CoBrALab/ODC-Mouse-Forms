@@ -31,10 +31,10 @@ export default defineInstrument({
         variant: "input",
         label: "Name of handler"
     },
-    mriOperator: {
+    mriOperatorName: {
         kind: "string",
         variant: "input",
-        label: "MRI operator"
+        label: "Name of MRI operator"
     },
     coilType: {
         kind: "string",
@@ -199,10 +199,10 @@ export default defineInstrument({
       label: "Handler name",
       ref: "handlerName"
     },
-    mriOperator: {
+    mriOperatorName: {
       kind: "const",
       label: "MRI operator",
-      ref: "mriOperator"
+      ref: "mriOperatorName"
     },
     typeOfMRI: {
       kind: 'const',
@@ -292,7 +292,7 @@ export default defineInstrument({
   },
   validationSchema: z.object({
     handlerName: z.string(),
-    mriOperator: z.string(),
+    mriOperatorName: z.string(),
     typeOfMRI: z.string(),
     coilType: z.string(),
     paravisionVersion: z.string(),
