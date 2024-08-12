@@ -68,7 +68,7 @@ export default defineInstrument({
       variant: "input",
       label: "Blood collected (ml)"
     },
-      (type) => type === 'Cervical dislocation' || type === 'Cardiac puncture'
+      (type) => type === 'Cardiac puncture'
     ),
     embryoPresent: createDependentField({
       kind: 'boolean',
