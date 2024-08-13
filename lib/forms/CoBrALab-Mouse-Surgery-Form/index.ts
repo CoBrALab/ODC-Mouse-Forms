@@ -180,9 +180,9 @@ export default defineInstrument({
 
     brainSurgeryPaxinosCoords: {
       kind: "dynamic",
-      deps: ["brainSurgeryLocation"],
+      deps: ["brainSurgeryLocation", "stereotaxUsed"],
       render(data) {
-        if(data.brainSurgeryLocation === "Paxinos coordinates"){
+        if(data.brainSurgeryLocation === "Paxinos coordinates" && data.stereotaxUsed){
           return {
             kind: "string",
             variant: "input",
