@@ -137,7 +137,7 @@ export default defineInstrument({
         return null
       }
     },
-    ovariectomyGroup: {
+    ovariectomyMouseGroup: {
       kind: "dynamic",
       deps: ["surgeryType"],
       render(data) {
@@ -220,9 +220,9 @@ export default defineInstrument({
       kind: "const",
       ref: "ovariectomySide"
     },
-    ovariectomyGroup: {
+    ovariectomyMouseGroup: {
       kind: "const",
-      ref: "ovariectomyGroup"
+      ref: "ovariectomyMouseGroup"
     },
     woundDateReported: {
       kind: "const",
@@ -246,7 +246,7 @@ export default defineInstrument({
     stereotaxId: z.string().optional(),
     surgeryType: z.string().optional(),
     ovariectomyType: z.string().optional(),
-    ovariectomyGroup: z.string().optional(),
+    ovariectomyMouseGroup: z.string().optional(),
     ovariectomySide: z.string().optional(),
     woundDateReported: z.date().optional(),
     clinicalCondition: z.string().optional(),
