@@ -177,11 +177,11 @@ export default defineInstrument({
         "Bregma": "Bregma",
         "Paxinos coordinates": "Paxinos coordinates"
       }
-    },(type) => type === "Electrode Implant" || type === "Fiber Optic Implant"),
+    },(type) => type === "Electrode implant" || type === "Fiber optic implant"),
 
     brainSurgeryPaxinosCoords: {
       kind: "dynamic",
-      deps: ["brainSurgeryLocation", "stereotaxUsed"],
+      deps: ["stereotaxUsed","brainSurgeryLocation"],
       render(data) {
         if(data.brainSurgeryLocation === "Paxinos coordinates" && data.stereotaxUsed){
           return {
@@ -190,6 +190,7 @@ export default defineInstrument({
             label: "Paxinos coordinates for surgery"
           }
         }
+        return null
       }
     },
 
