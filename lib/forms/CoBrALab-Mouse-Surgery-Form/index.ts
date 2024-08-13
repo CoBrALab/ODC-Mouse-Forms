@@ -145,7 +145,7 @@ export default defineInstrument({
           return {
              kind: "string",
              variant: "select",
-             label: "Ovariectomy group",
+             label: "Ovariectomy group (control/experiment)",
              options: {
              "Control":"Control",
              "Experiment": "Experiment"
