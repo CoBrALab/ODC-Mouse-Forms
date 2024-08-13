@@ -16,6 +16,19 @@ function createDependentField<T>(field: T, fn: (treatmentType: string) => boolea
   };
 }
 
+function createSurgeryDependentField<T>(field: T, fn: (surgeryType: string) => boolean) {
+  return {
+    kind: 'dynamic' as const,
+    deps: ['surgeryType'] as const,
+    render: (data: { surgeryType: string }) => {
+      if (fn(data.surgeryType)) {
+        return field;
+      }
+      return null;
+    }
+  };
+}
+
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
@@ -156,6 +169,29 @@ export default defineInstrument({
       }
     },
 
+    brainSurgeryLocation: createSurgeryDependentField({
+      kind: "string",
+      variant: "select",
+      options: {
+        "Bregma": "Bregma",
+        "Paxinos coordinates": "Paxinos coordinates"
+      }
+    },(type) => type === "Electrode Implant" || type === "Fiber Optic Implant"),
+
+    brainSurgeryPaxinosCoords: {
+      kind: "dynamic",
+      deps: ["brainSurgeryLocation"],
+      render(data) {
+        if(data.brainSurgeryLocation === "Paxinos coordinates"){
+          return {
+            kind: "string",
+            variant: "input",
+            label: "Paxinos coordinates for surgery"
+          }
+        }
+      }
+    },
+
     woundDateReported: createDependentField({
       kind: "date",
       label: "Wound reported date"
@@ -224,6 +260,14 @@ export default defineInstrument({
       kind: "const",
       ref: "ovariectomyMouseGroup"
     },
+    brainSurgeryLocation: {
+      kind: "const",
+      ref: "brainSurgeryLocation"
+    },
+    brainSurgeryPaxinosCoords:{
+      kind: "const",
+      ref: "brainSurgeryPaxinosCoords"
+    },
     woundDateReported: {
       kind: "const",
       ref: "woundDateReported"
@@ -248,6 +292,8 @@ export default defineInstrument({
     ovariectomyType: z.string().optional(),
     ovariectomyMouseGroup: z.string().optional(),
     ovariectomySide: z.string().optional(),
+    brainSurgeryLocation: z.string().optional(),
+    brainSurgeryPaxinosCoords: z.string().optional(),
     woundDateReported: z.date().optional(),
     clinicalCondition: z.string().optional(),
     treatmentProvided: z.string().optional()
