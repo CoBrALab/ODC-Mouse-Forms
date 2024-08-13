@@ -172,6 +172,7 @@ export default defineInstrument({
     brainSurgeryLocation: createSurgeryDependentField({
       kind: "string",
       variant: "select",
+      label: "Brain surgery location",
       options: {
         "Bregma": "Bregma",
         "Paxinos coordinates": "Paxinos coordinates"
