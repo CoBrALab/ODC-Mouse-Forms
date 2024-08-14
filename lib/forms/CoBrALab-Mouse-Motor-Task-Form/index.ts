@@ -33,7 +33,7 @@ export default defineInstrument({
     },
     trialNumber: {
       kind: "number",
-      variant: "radio",
+      variant: "select",
       label: "trial number",
       options: {
         1: "one",
@@ -65,7 +65,7 @@ export default defineInstrument({
       label: "Duration before falling (seconds)"
     },(type) => type === "Rotorod"),
 
-    rotorodPosition: createDependentField({
+    rotorodSlotPosition: createDependentField({
       kind: "string",
       variant: "select",
       label: "Rotorod position",
@@ -80,9 +80,51 @@ export default defineInstrument({
       kind: "boolean",
       variant: "radio",
       label: "Mouse failed session"
-    }, (type) => type === "Rotorod" || type === "Wire hang" )
+    }, (type) => type === "Rotorod" || type === "Wire hang" ),
+    
+    wirehangDuration:createDependentField({
+      kind: "number",
+      variant: "input",
+      label: "Duration before falling (seconds)"
+    },(type) => type === "Wire hang"),
 
+    wirehangPutbacks: createDependentField({
+      kind: "number",
+      variant: "input",
+      label: "Times put back on wire"
+    },(type) => type === "Wire hang"),
 
+    poleTestDuration: createDependentField({
+      kind: "number",
+      variant: "input",
+      label: "Pole test duration"
+    }, (type) => type === "Pole test"),
+
+    poleTestResultLevel: createDependentField({
+      kind: "string",
+      variant: "select",
+      label: "Pole test result",
+      options: {
+        "Pass": "Pass",
+        "Marginal failure" :"Marginal failure",
+        "Failure": "Failure"
+      }
+    }, (type) => type === "Pole test"),
+
+    poleTestMarginalFailureReason: {
+      kind: "dynamic",
+      deps: ["poleTestResultLevel"],
+      render(data) {
+        if(data.poleTestResultLevel === "Marginal failure"){
+          return {
+            kind: "string",
+            variant: "textarea",
+            label: "Reason for marginal failure"
+
+          }
+        }
+      }
+    }
   },
   details: {
     description: 'Form to describe data gathered in a mouse\'s motor task experiment',
@@ -99,6 +141,11 @@ export default defineInstrument({
     rotorodMiceNumber: z.number().optional(),
     rotorodDuration: z.number().optional(),
     rotorodWirehangFailure: z.boolean().optional(),
-    rotorodPosition: z.string().optional()
+    rotorodSlotPosition: z.string().optional(),
+    wirehangDuration: z.number().optional(),
+    wirehangPutbacks: z.number().optional(),
+    poleTestDuration: z.number().optional(),
+    poleTestResultLevel: z.string().optional(),
+    poleTestMarginalFailureReason: z.string().optional()
   })
 });
