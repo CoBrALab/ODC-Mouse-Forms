@@ -64,7 +64,18 @@ export default defineInstrument({
       variant: "input",
       label: "Duration before falling (seconds)"
     },(type) => type === "Rotorod"),
-    
+
+    rotorodPosition: createDependentField({
+      kind: "string",
+      variant: "select",
+      label: "Rotorod position",
+      options: {
+        "Left most": "Left most",
+        "Middle left": "Middle left",
+        "Middle right": "Middle right",
+        "Right most": "Right most"
+      }
+    }, (type) => type === "Rotorod"),
     rotorodWirehangFailure: createDependentField({
       kind: "boolean",
       variant: "radio",
@@ -87,6 +98,7 @@ export default defineInstrument({
     motorTask: z.string(),
     rotorodMiceNumber: z.number().optional(),
     rotorodDuration: z.number().optional(),
-    rotorodWirehangFailure: z.boolean().optional()
+    rotorodWirehangFailure: z.boolean().optional(),
+    rotorodPosition: z.string().optional()
   })
 });
