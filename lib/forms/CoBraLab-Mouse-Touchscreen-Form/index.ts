@@ -142,7 +142,7 @@ export default defineInstrument({
         if (data.trialFailed){
            return {
             kind: 'string',
-            variant: "input",
+            variant: "textarea",
             label: 'Reason for failure'
            }
         }
