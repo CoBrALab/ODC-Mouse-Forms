@@ -123,6 +123,7 @@ export default defineInstrument({
 
           }
         }
+        return null
       }
     }
   },
@@ -133,7 +134,56 @@ export default defineInstrument({
     license: 'UNLICENSED',
     title: 'Mouse Motor Task'
   },
-  measures: {},
+  measures: {
+    roomNumber: {
+      kind: "const",
+      ref: "roomNumber"
+    },
+    trialNumber: {
+      kind: "const",
+      ref: "trialNumber"
+    },
+    motorTask: {
+      kind: "const",
+      ref: "motorTask"
+    },
+    rotorodMiceNumber: {
+      kind: "const",
+      ref: "rotorodMiceNumber"
+    },
+    rotorodDuration: {
+      kind: "const",
+      ref: "rotorodDuration"
+    },
+    rotorodSlotPosition: {
+      kind: "const",
+      ref: "rotorodSlotPosition"
+    },
+    rotorodWirehangFailure: {
+      kind: "const",
+      ref: "rotorodWirehangFailure"
+    },
+    wirehangDuration: {
+      kind: "const",
+      ref: "wirehangDuration"
+    },
+    wirehangPutbacks: {
+      kind: "const",
+      ref: "wirehangPutbacks"
+    },
+    poleTestDuration: {
+      kind: "const",
+      ref: "poleTestDuration"
+    },
+    poleTestResultLevel: {
+      kind: "const",
+      ref: "poleTestResultLevel"
+    },
+    poleTestMarginalFailureReason: {
+      kind: "const",
+      ref: "poleTestMarginalFailureReason"
+    }
+  },
   validationSchema: z.object({
     roomNumber: z.string(),
     trialNumber: z.number(),
