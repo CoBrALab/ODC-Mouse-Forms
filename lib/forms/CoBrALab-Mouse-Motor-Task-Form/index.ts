@@ -51,6 +51,25 @@ export default defineInstrument({
         "Pole test": "Pole test"
       }
     },
+    rotorodMiceNumber: createDependentField({
+      kind: "number",
+      variant: "slider",
+      label: "Number of mice",
+      max: 5,
+      min: 1
+    },(type) => type === "Rotorod"),
+
+    rotorodDuration:createDependentField({
+      kind: "number",
+      variant: "input",
+      label: "Duration before falling (seconds)"
+    },(type) => type === "Rotorod"),
+    
+    rotorodWirehangFailure: createDependentField({
+      kind: "boolean",
+      variant: "radio",
+      label: "Mouse failed session"
+    }, (type) => type === "Rotorod" || type === "Wire hang" )
 
 
   },
@@ -66,5 +85,8 @@ export default defineInstrument({
     roomNumber: z.string(),
     trialNumber: z.number(),
     motorTask: z.string(),
+    rotorodMiceNumber: z.number().optional(),
+    rotorodDuration: z.number().optional(),
+    rotorodWirehangFailure: z.boolean().optional()
   })
 });
