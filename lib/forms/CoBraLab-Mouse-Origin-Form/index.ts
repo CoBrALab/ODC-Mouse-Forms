@@ -109,6 +109,7 @@ export default defineInstrument({
             label: "Other external breeder"
           }
         }
+        return null
       }
     },
     motherMouse: {
@@ -144,7 +145,7 @@ export default defineInstrument({
      kind: 'dynamic',
      deps: ['fatherKnown'],
      render(data) {
-      if(data.boxMouse === false){
+      if(data.boxMouse === false && data.fatherKnown){
         return {
           kind: 'string',
           variant: 'input',
@@ -173,56 +174,76 @@ export default defineInstrument({
     title: 'Mouse Origin Form'
   },
   measures: {
-    dateOfBirth: {
-      kind: 'const',
-      label: 'Date of birth',
-      ref: 'dateOfBirth'
-    },
-    mouseSex: {
-      kind: 'const',
-      label: 'Sex',
-      ref: 'mouseSex'
-    },
-    cohortId: {
-      kind: 'const',
-      label: 'Cohort',
-      ref: 'cohortId'
-    },
-    boxMouse: {
-      kind: 'const',
-      label: 'Imported mouse',
-      ref: "boxMouse"
-    },
-    orderId: {
-      kind: 'const',
-      label: 'Order ID',
-      ref: 'orderId'
-    },
-    motherMouse: {
-      kind: 'const',
-      label: 'Mother of mouse',
-      ref: 'motherMouse'
-    },
-    fatherKnown: {
-      kind: 'const',
-      label: 'Father known',
-      ref: 'fatherMouse'
-    },
-    breederOrigin:{
-      kind: 'const',
-      label: 'Breeder origin',
-      ref: 'breederOrigin'
-    },
-    origin: {
-      kind: 'const',
-      label: 'Origin',
-      ref: 'origin'
-    },
-    generationNumber: {
-      kind: 'const',
-      label: 'Generation Number',
-      ref: 'generationNumber'
-    }
+   dateOfBirth: {
+    kind: 'const',
+    label: 'Date of birth',
+    ref: 'dateOfBirth'
+  },
+  mouseSex: {
+    kind: 'const',
+    label: 'Sex',
+    ref: 'mouseSex'
+  },
+  cohortId: {
+    kind: 'const',
+    label: 'Cohort',
+    ref: 'cohortId'
+  },
+  mouseStrain: {
+    kind: 'const',
+    label: 'Mouse Strain',
+    ref: 'mouseStrain'
+  },
+  otherStrain: {
+    kind: 'const',
+    label: 'Other Strain',
+    ref: 'otherStrain'
+  },
+  boxMouse: {
+    kind: 'const',
+    label: 'Imported mouse',
+    ref: "boxMouse"
+  },
+  orderId: {
+    kind: 'const',
+    label: 'Order ID',
+    ref: 'orderId'
+  },
+  breederOrigin: {
+    kind: 'const',
+    label: 'Breeder origin',
+    ref: 'breederOrigin'
+  },
+  otherBreederOrigin: {
+    kind: 'const',
+    label: 'Other Breeder',
+    ref: 'otherBreederOrigin'
+  },
+  motherMouse: {
+    kind: 'const',
+    label: 'Mother of mouse',
+    ref: 'motherMouse'
+  },
+  fatherKnown: {
+    kind: 'const',
+    label: 'Father known',
+    ref: 'fatherKnown'
+  },
+  fatherMouse: {
+    kind: 'const',
+    label: 'Father of mouse',
+    ref: 'fatherMouse'
+  },
+  origin: {
+    kind: 'const',
+    label: 'Origin',
+    ref: 'origin'
+  },
+  generationNumber: {
+    kind: 'const',
+    label: 'Generation Number',
+    ref: 'generationNumber'
+  }
   },
   validationSchema: z.object({
     dateOfBirth: z.date(),
