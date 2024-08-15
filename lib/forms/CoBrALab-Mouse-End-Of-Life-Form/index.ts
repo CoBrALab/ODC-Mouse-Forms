@@ -52,15 +52,45 @@ export default defineInstrument({
       }
     },
     terminationType: {
-      kind: 'string',
-      variant: 'select',
-      label: 'Form of termination',
-      options: {
-        'Gas induction': 'Gas induction',
-        "Perfusion": 'Perfusion',
-        "Guillotine": 'Guillotine',
-        'Cardiac puncture': 'Cardiac puncture',
-        'Cervical dislocation': 'Cervical dislocation'
+      kind: 'dynamic',
+      deps: ['terminationReason'],
+      render(data) {
+        if(data.terminationReason === "Surgical complications" || data.terminationReason === undefined){
+          return null
+        }
+        return {
+          kind: 'string',
+          variant: 'select',
+          label: 'Form of termination',
+          options: {
+            'Gas induction': 'Gas induction',
+            "Perfusion": 'Perfusion',
+            "Guillotine": 'Guillotine',
+            'Cardiac puncture': 'Cardiac puncture',
+            'Cervical dislocation': 'Cervical dislocation'
+          }
+        }
+      }
+    },
+    surgeryDeathCause: {
+      kind: 'dynamic',
+      deps: ["terminationReason"],
+      render(data) {
+        if(data.terminationReason === 'Surgical complications'){
+          return {
+            kind: "string",
+            variant: "select",
+            label: "Cause of surgical complication death",
+            options: {
+              "irregular breathing": "Irregular breathing",
+              "Excessive blood loss": "Excessive blood loss",
+              "Blood hemorrhage": "Blood hemorrhage",
+              "Paralysis": "Paralysis",
+              "Other": "Other"
+            }
+          }
+        }
+      return null
       }
     },
     bloodCollected: createDependentField({
@@ -245,7 +275,8 @@ export default defineInstrument({
                 label: 'Storage Location',
                 options: {
                   "Fridge": 'Fridge',
-                  "Freezer": 'Freezer',
+                  "-20° Freezer": '-20° Freezer',
+                  "-80° Freezer":"-80° Freezer",
                   'Room temperature': 'Room temperature'
                 }
               },
@@ -278,6 +309,11 @@ export default defineInstrument({
       kind: "const",
       label: "Form of termination",
       ref: "terminationType"
+    },
+    surgeryDeathCause: {
+      kind: "const",
+      label: "Surgery complications death cause",
+      ref: "surgeryDeathCause"
     },
     bloodCollected: {
       kind: "const",
@@ -345,7 +381,8 @@ export default defineInstrument({
   validationSchema: z.object({
     terminationReason: z.string(),
     terminationComments: z.string().optional(),
-    terminationType: z.string(),
+    terminationType: z.string().optional(),
+    surgeryDeathCause: z.string().optional(),
     bloodCollected: z.string().transform<string | number>((val, ctx) => {
       const parsed = parseFloat(val);
       if (isNaN(parsed)) {
