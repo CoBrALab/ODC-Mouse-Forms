@@ -30,6 +30,19 @@ export default defineInstrument({
       variant: 'input',
       label: 'Cohort Identification (Optional)'
     },
+    mouseStrain: {
+      kind: "string",
+      variant: "select",
+      label: "Mouse strain",
+      options: {
+        "M86-hemi": "M86-hemi",
+        "M83-homo": "M83-homo",
+        "C57BL/6J": "C57BL/6J",
+        "Wild type": "Wild type",
+        "5XFAD": "5XFAD",
+        "3xTG-AD": "3xTG-AD"
+      }
+    },
     boxMouse: {
       kind: 'boolean',
       variant: 'radio',
@@ -181,6 +194,7 @@ export default defineInstrument({
     mouseSex: z.string(),
     cohortId: z.string().optional(),
     boxMouse: z.boolean(),
+    mouseStrain: z.string(),
     orderId: z.string().optional(),
     motherMouse: z.string().optional(),
     fatherKnown: z.boolean().optional(),
