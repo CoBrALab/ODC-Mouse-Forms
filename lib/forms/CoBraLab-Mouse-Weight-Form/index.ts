@@ -17,10 +17,10 @@ export default defineInstrument({
       variant: 'input',
       label: 'Weight of mouse (in grams)'
     },
-    scaleUsed: {
+    scaleIndentification: {
       kind: 'string',
       variant: 'input',
-      label: "Scale used"
+      label: "Scale identification"
     }
   },
   details: {
@@ -36,10 +36,10 @@ export default defineInstrument({
       label: 'Mouse weight',
       ref: 'mouseWeight'
     },
-    scaleUsed: {
+    scaleIndentification: {
       kind: 'const',
-      label: "Scale used",
-      ref: "scaleUsed"
+      label: "Scale Identification",
+      ref: "scaleIndentification"
     }
   },
   validationSchema: z.object({
@@ -68,6 +68,6 @@ export default defineInstrument({
 
       return parsed
     }),
-    scaleUsed: z.string()
+    scaleIdentification: z.string()
   })
 });
