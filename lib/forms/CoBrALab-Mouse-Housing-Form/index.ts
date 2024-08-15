@@ -22,10 +22,29 @@ export default defineInstrument({
       variant: "input",
       label: "Number of mice in cage"
     },
-    cageNumber: {
+    cageAMSNumber: {
       kind: "number",
       variant: "input",
-      label: "Cage number"
+      label: "AMS Cage number"
+    },
+    cageNameGiven: {
+      kind: "boolean",
+      variant: "radio",
+      label: "Cage given addtional name/identification"
+    },
+    cageName: {
+      kind: "dynamic",
+      deps: ["cageNameGiven"],
+      render(data) {
+        if(data.cageNameGiven) {
+          return {
+            kind: "string",
+            variant: "input",
+            label: "Additional cage name"
+          }
+        }
+        return null
+      }
     },
     beddingType: {
       kind: 'string',
@@ -107,10 +126,20 @@ export default defineInstrument({
       label: "Number of mice in cage",
       ref: "totalMice"
     },
-    cageNumber: {
+    cageAMSNumber: {
       kind: "const",
       label: "Cage number",
-      ref: "cageNumber"
+      ref: "cageAMSNumber"
+    },
+    cageNameGiven: {
+      kind: "const",
+      label: "Cage number",
+      ref: "cageNameGiven"
+    },
+    cageName: {
+      kind: "const",
+      label: "Cage number",
+      ref: "cageName"
     },
     beddingType: {
       kind: "const",
@@ -144,7 +173,9 @@ export default defineInstrument({
   validationSchema: z.object({
     roomNumber: z.string(),
     totalMice: z.number(),
-    cageNumber: z.number(),
+    cageAMSNumber: z.number(),
+    cageNameGiven: z.boolean(),
+    cageName: z.string().optional(),
     beddingType: z.string(),
     cageChangeDay: z.string(),
     bottleType: z.string(),
