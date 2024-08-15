@@ -40,7 +40,22 @@ export default defineInstrument({
         "C57BL/6J": "C57BL/6J",
         "Wild type": "Wild type",
         "5XFAD": "5XFAD",
-        "3xTG-AD": "3xTG-AD"
+        "3xTG-AD": "3xTG-AD",
+        "Other":"Other"
+      }
+    },
+    otherStrain: {
+      kind: "dynamic",
+      deps: ["mouseStrain"],
+      render(data) {
+        if(data.mouseStrain === "Other"){
+           return {
+            kind : "string",
+            variant: "input",
+            label: "Other strain"
+           }
+        }
+        return null
       }
     },
     boxMouse: {
@@ -69,11 +84,31 @@ export default defineInstrument({
         if (data.boxMouse){
           return {
             kind: 'string',
-            variant: 'input',
-            label: "Origin of breeder"
+            variant: 'select',
+            label: "Origin of breeder",
+            options: {
+              "Charles River Laboratories": "Charles River Laboratories",
+              "Envigo": "Envigo",
+              "Import": "Import",
+              "Jackson Laboratories": "Jackson Laboratories",
+              "Other": "Other"
+            }
           }
         }
         return null
+      }
+    },
+    otherBreederOrigin: {
+      kind: 'dynamic',
+      deps: ["breederOrigin"],
+      render(data) {
+        if(data.breederOrigin === "Other"){
+          return {
+            kind: "string",
+            variant: "input",
+            label: "Other external breeder"
+          }
+        }
       }
     },
     motherMouse: {
@@ -195,11 +230,13 @@ export default defineInstrument({
     cohortId: z.string().optional(),
     boxMouse: z.boolean(),
     mouseStrain: z.string(),
+    otherStrain: z.string().optional(),
     orderId: z.string().optional(),
     motherMouse: z.string().optional(),
     fatherKnown: z.boolean().optional(),
     fatherMouse: z.string().optional(),
     breederOrigin: z.string().optional(),
+    otherBreederOrigin: z.string().optional(),
     origin: z.string(),
     generationNumber: z.number()})
 });
