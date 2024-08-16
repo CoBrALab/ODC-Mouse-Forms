@@ -94,7 +94,7 @@ export default defineInstrument({
       }
     },
     bloodCollected: createDependentField({
-      kind: 'string',
+      kind: 'number',
       variant: "input",
       label: "Blood collected (ml)"
     },
@@ -128,7 +128,7 @@ export default defineInstrument({
       render(data){
         if(data.perfusionType === 'Ip Injection'){
           return {
-            kind: 'string',
+            kind: 'number',
             variant: "input",
             label: 'Injection dose (ml)'
           }
@@ -383,43 +383,11 @@ export default defineInstrument({
     terminationComments: z.string().optional(),
     terminationType: z.string().optional(),
     surgeryDeathCause: z.string().optional(),
-    bloodCollected: z.string().transform<string | number>((val, ctx) => {
-      const parsed = parseFloat(val);
-      if (isNaN(parsed)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Not a number'
-        });
-        
-
-        // This is a special symbol you can use to
-        // return early from the transform function.
-        // It has type `never` so it does not affect the
-        // inferred return type.
-        return z.NEVER;
-      }
-      return parsed
-    }).optional(),
+    bloodCollected: z.number().optional(),
     embryoPresent: z.boolean().optional(),
     gestationalDay: z.date().optional(),
     perfusionType: z.string().optional(),
-    perfusionDose: z.string().transform<string | number>((val, ctx) => {
-      const parsed = parseFloat(val);
-      if (isNaN(parsed)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Not a number'
-        });
-        
-
-        // This is a special symbol you can use to
-        // return early from the transform function.
-        // It has type `never` so it does not affect the
-        // inferred return type.
-        return z.NEVER;
-      }
-      return parsed
-    }).optional(),
+    perfusionDose: z.number().optional(),
     perfusionFlushingDone: z.boolean().optional(),
     perfusionFlushingSolution: z.string().optional(),
     anesthesiaUsed: z.boolean(),
