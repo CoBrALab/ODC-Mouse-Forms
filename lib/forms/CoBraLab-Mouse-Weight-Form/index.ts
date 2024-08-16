@@ -13,7 +13,7 @@ export default defineInstrument({
   },
   content: {
     mouseWeight: {
-      kind: 'string',
+      kind: 'number',
       variant: 'input',
       label: 'Weight of mouse (in grams)'
     },
@@ -57,31 +57,7 @@ export default defineInstrument({
 
   },
   validationSchema: z.object({
-    mouseWeight: z.string().transform<string | number>((val, ctx) => {
-      const parsed = parseFloat(val);
-      if (isNaN(parsed)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Not a number'
-        });
-        
-
-        // This is a special symbol you can use to
-        // return early from the transform function.
-        // It has type `never` so it does not affect the
-        // inferred return type.
-        return z.NEVER;
-      }
-      if(parsed < 0 || parsed > 45.0){
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Weight has to be in range for 0 to 45 grams'
-        })
-        return z.NEVER;
-      }
-
-      return parsed
-    }),
+    mouseWeight: z.number().min(1).max(50),
     scaleID: z.string(),
     scaleKind: z.string()
   })
