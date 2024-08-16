@@ -73,9 +73,9 @@ export default defineInstrument({
        render(data) {
         if(data.aneglesiaUsed){
           return {
-          kind: "string",
+          kind: "number",
           variant: "input",
-          label: "Aneglesia volume"
+          label: "Aneglesia volume (ml)"
           }
         }
         return null
@@ -287,7 +287,7 @@ export default defineInstrument({
     treatmentType: z.string(),
     aneglesiaUsed: z.boolean().optional(),
     aneglesiaType: z.string().optional(),
-    aneglesiaVolume: z.string().optional(),
+    aneglesiaVolume: z.number().optional(),
     stereotaxUsed: z.boolean().optional(),
     stereotaxId: z.string().optional(),
     surgeryType: z.string().optional(),
