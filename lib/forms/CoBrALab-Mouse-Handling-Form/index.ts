@@ -27,11 +27,6 @@ export default defineInstrument({
         "Tube method": "Tube method"
       }
     },
-    handlingSessionNumber: {
-      kind: "number",
-      variant: "input",
-      label: "Handling session",
-    },
     handlingDuration: {
       kind: "number",
       variant: "input",
@@ -39,7 +34,7 @@ export default defineInstrument({
     }
   },
   details: {
-    description: 'Describes when a mouse was handled, its current handling session, and the handling method used.',
+    description: 'Describes when an animal was handled, its current handling session, and the handling method used.',
     estimatedDuration: 1,
     instructions: ['Please fill out this form once a mouse finishes a handling session. During a handling session day this form is expected to done a total of three times for each individual session completed. All forms of handling used by the handler are all expected to be within the SOP'],
     license: 'UNLICENSED',
@@ -56,11 +51,6 @@ export default defineInstrument({
       label: "Form of handling",
       ref: "handlingType"
     },
-    handlingSessionNumber: {
-      kind: 'const',
-      label: "Handling session",
-      ref: "handlingSessionNumber"
-    },
     handlingDuration: {
       kind: 'const',
       label: "Duration (minutes)",
@@ -70,7 +60,6 @@ export default defineInstrument({
   validationSchema: z.object({
     roomNumber: z.string(),
     handlingType: z.string(),
-    handlingSessionNumber: z.number().min(1).max(3),
     handlingDuration: z.number()
   })
 });
