@@ -21,12 +21,21 @@ export default defineInstrument({
       kind: 'string',
       variant: 'input',
       label: "Scale ID"
+    },
+    scaleKind: {
+      kind: 'string',
+      variant: 'select',
+      label: "Kind of scale",
+      options: {
+        "Portable": "Small portable",
+        "Regular": "Regular"
+      }
     }
   },
   details: {
-    description: 'Form to track weight of mouse',
+    description: 'A form to track data from whenever an animal is weighed.',
     estimatedDuration: 1,
-    instructions: ['Please fill in the form to track the weight of the mouse'],
+    instructions: ['To be filled in whenver the animal is weighed. It is expected to know what type of scale is used (portable vs. non-portable). It is also assumed that proper weighing protocol is followed'],
     license: 'UNLICENSED',
     title: 'Mouse Weight Form'
   },
@@ -40,7 +49,12 @@ export default defineInstrument({
       kind: 'const',
       label: "Scale Identification",
       ref: "scaleID"
+    },
+    scaleKind: {
+      kind: "const",
+      ref: "scaleKind"
     }
+
   },
   validationSchema: z.object({
     mouseWeight: z.string().transform<string | number>((val, ctx) => {
@@ -68,6 +82,7 @@ export default defineInstrument({
 
       return parsed
     }),
-    scaleID: z.string()
+    scaleID: z.string(),
+    scaleKind: z.string()
   })
 });
