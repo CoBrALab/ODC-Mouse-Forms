@@ -126,7 +126,7 @@ export default defineInstrument({
       label: "Milkshake batch expiration date"
     },
     foodGiven: {
-      kind: 'string',
+      kind: 'number',
       variant: 'input',
       label: 'Amount of food given (in grams)'
     },
@@ -230,18 +230,7 @@ export default defineInstrument({
     milkshakeExpiration: z.date(),
     milkshakeBrand: z.string(),
     milkshakeBrandOther: z.string().optional(),
-    foodGiven: z.string().transform<string | number>((val, ctx) => {
-      const parsed = parseFloat(val);
-      if (isNaN(parsed)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Not a number'
-        });
-
-        return z.NEVER;
-      }
-      return parsed
-    }),
+    foodGiven: z.number().max(100),
     trialFailed: z.boolean(),
     failureReason: z.string().optional()
   })
