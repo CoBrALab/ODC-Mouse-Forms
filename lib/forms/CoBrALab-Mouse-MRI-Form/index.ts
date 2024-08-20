@@ -26,11 +26,6 @@ export default defineInstrument({
     name: 'MOUSE_MRI_FORM'
   },
   content: {
-    handlerName: {
-        kind: "string",
-        variant: "input",
-        label: "Name of handler"
-    },
     mriOperatorName: {
         kind: "string",
         variant: "input",
@@ -190,11 +185,6 @@ export default defineInstrument({
     title: 'Mouse MRI Form'
   },
   measures: {
-    handlerName: {
-      kind: "const",
-      label: "Handler name",
-      ref: "handlerName"
-    },
     mriOperatorName: {
       kind: "const",
       label: "MRI operator",
@@ -232,7 +222,6 @@ export default defineInstrument({
     }
   },
   validationSchema: z.object({
-    handlerName: z.string(),
     mriOperatorName: z.string(),
     coilType: z.string(),
     paravisionVersion: z.string(),
