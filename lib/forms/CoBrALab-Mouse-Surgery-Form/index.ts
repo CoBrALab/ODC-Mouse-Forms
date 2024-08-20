@@ -179,15 +179,43 @@ export default defineInstrument({
       }
     },(type) => type === "Electrode implant" || type === "Fiber optic implant"),
 
-    brainSurgeryPaxinosCoords: {
+    brainSurgeryPaxinosXCoords: {
       kind: "dynamic",
       deps: ["stereotaxUsed","brainSurgeryLocation"],
       render(data) {
         if(data.brainSurgeryLocation === "Paxinos coordinates" && data.stereotaxUsed){
           return {
-            kind: "string",
+            kind: "number",
             variant: "input",
-            label: "Paxinos coordinates for surgery"
+            label: "X Paxinos coordinates"
+          }
+        }
+        return null
+      }
+    },
+    brainSurgeryPaxinosYCoords: {
+      kind: "dynamic",
+      deps: ["stereotaxUsed","brainSurgeryLocation"],
+      render(data) {
+        if(data.brainSurgeryLocation === "Paxinos coordinates" && data.stereotaxUsed){
+          return {
+            kind: "number",
+            variant: "input",
+            label: "Y Paxinos coordinates"
+          }
+        }
+        return null
+      }
+    },
+    brainSurgeryPaxinosZCoords: {
+      kind: "dynamic",
+      deps: ["stereotaxUsed","brainSurgeryLocation"],
+      render(data) {
+        if(data.brainSurgeryLocation === "Paxinos coordinates" && data.stereotaxUsed){
+          return {
+            kind: "number",
+            variant: "input",
+            label: "Z Paxinos coordinates"
           }
         }
         return null
@@ -266,9 +294,17 @@ export default defineInstrument({
       kind: "const",
       ref: "brainSurgeryLocation"
     },
-    brainSurgeryPaxinosCoords:{
+    brainSurgeryPaxinosXCoords:{
       kind: "const",
-      ref: "brainSurgeryPaxinosCoords"
+      ref: "brainSurgeryPaxinosXCoords"
+    },
+    brainSurgeryPaxinosYCoords:{
+      kind: "const",
+      ref: "brainSurgeryPaxinosYCoords"
+    },
+    brainSurgeryPaxinosZCoords:{
+      kind: "const",
+      ref: "brainSurgeryPaxinosZCoords"
     },
     woundDateReported: {
       kind: "const",
@@ -295,7 +331,9 @@ export default defineInstrument({
     ovariectomyMouseGroup: z.string().optional(),
     ovariectomySide: z.string().optional(),
     brainSurgeryLocation: z.string().optional(),
-    brainSurgeryPaxinosCoords: z.string().optional(),
+    brainSurgeryPaxinosXCoords: z.number().optional(),
+    brainSurgeryPaxinosYCoords: z.number().optional(),
+    brainSurgeryPaxinosZCoords: z.number().optional(),
     woundDateReported: z.date().optional(),
     clinicalCondition: z.string().optional(),
     treatmentProvided: z.string().optional()
