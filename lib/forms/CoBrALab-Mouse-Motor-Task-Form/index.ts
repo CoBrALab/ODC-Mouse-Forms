@@ -31,16 +31,6 @@ export default defineInstrument({
       variant: "input",
       label: "Room number"
     },
-    trialNumber: {
-      kind: "number",
-      variant: "select",
-      label: "trial number",
-      options: {
-        1: "one",
-        2: "two",
-        3: "three"
-      }
-    },
     motorTask: {
       kind: "string",
       variant: "select",
@@ -139,10 +129,6 @@ export default defineInstrument({
       kind: "const",
       ref: "roomNumber"
     },
-    trialNumber: {
-      kind: "const",
-      ref: "trialNumber"
-    },
     motorTask: {
       kind: "const",
       ref: "motorTask"
@@ -186,7 +172,6 @@ export default defineInstrument({
   },
   validationSchema: z.object({
     roomNumber: z.string(),
-    trialNumber: z.number(),
     motorTask: z.string(),
     rotorodMiceNumber: z.number().optional(),
     rotorodDuration: z.number().optional(),
