@@ -124,7 +124,7 @@ export default defineInstrument({
     },
 
     ipDoseVolume: createDependentField({
-      kind: "string",
+      kind: "number",
       variant: "input",
       label: "IP dose volume"
     }, (type) => type === "IP"),
@@ -221,24 +221,7 @@ export default defineInstrument({
     subcutaneousInjectionTime: z.string().optional(),
     postOperationDay: z.date().optional(),
     analgesicType: z.string().optional(),
-    ipDoseVolume: z.string().transform<string | number>((val, ctx) => {
-      const parsed = parseFloat(val);
-      if (isNaN(parsed)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Not a number'
-        });
-
-
-        // This is a special symbol you can use to
-        // return early from the transform function.
-        // It has type `never` so it does not affect the
-        // inferred return type.
-        return z.NEVER;
-      }
-
-      return parsed
-    }).optional(),
+    ipDoseVolume: z.number().optional(),
     drugInjected: z.string().optional(),
     ipInjectionType: z.string().optional()
   })
