@@ -169,21 +169,11 @@ export default defineInstrument({
       }
     },
 
-    brainSurgeryLocation: createSurgeryDependentField({
-      kind: "string",
-      variant: "select",
-      label: "Brain surgery location",
-      options: {
-        "Bregma": "Bregma",
-        "Paxinos coordinates": "Paxinos coordinates"
-      }
-    },(type) => type === "Electrode implant" || type === "Fiber optic implant"),
-
     brainSurgeryPaxinosXCoords: {
       kind: "dynamic",
-      deps: ["stereotaxUsed","brainSurgeryLocation"],
+      deps: ["stereotaxUsed"],
       render(data) {
-        if(data.brainSurgeryLocation === "Paxinos coordinates" && data.stereotaxUsed){
+        if( data.stereotaxUsed){
           return {
             kind: "number",
             variant: "input",
@@ -195,9 +185,9 @@ export default defineInstrument({
     },
     brainSurgeryPaxinosYCoords: {
       kind: "dynamic",
-      deps: ["stereotaxUsed","brainSurgeryLocation"],
+      deps: ["stereotaxUsed"],
       render(data) {
-        if(data.brainSurgeryLocation === "Paxinos coordinates" && data.stereotaxUsed){
+        if( data.stereotaxUsed){
           return {
             kind: "number",
             variant: "input",
@@ -209,9 +199,9 @@ export default defineInstrument({
     },
     brainSurgeryPaxinosZCoords: {
       kind: "dynamic",
-      deps: ["stereotaxUsed","brainSurgeryLocation"],
+      deps: ["stereotaxUsed"],
       render(data) {
-        if(data.brainSurgeryLocation === "Paxinos coordinates" && data.stereotaxUsed){
+        if( data.stereotaxUsed){
           return {
             kind: "number",
             variant: "input",
@@ -290,10 +280,6 @@ export default defineInstrument({
       kind: "const",
       ref: "ovariectomyMouseGroup"
     },
-    brainSurgeryLocation: {
-      kind: "const",
-      ref: "brainSurgeryLocation"
-    },
     brainSurgeryPaxinosXCoords:{
       kind: "const",
       ref: "brainSurgeryPaxinosXCoords"
@@ -330,7 +316,6 @@ export default defineInstrument({
     ovariectomyType: z.string().optional(),
     ovariectomyMouseGroup: z.string().optional(),
     ovariectomySide: z.string().optional(),
-    brainSurgeryLocation: z.string().optional(),
     brainSurgeryPaxinosXCoords: z.number().optional(),
     brainSurgeryPaxinosYCoords: z.number().optional(),
     brainSurgeryPaxinosZCoords: z.number().optional(),
