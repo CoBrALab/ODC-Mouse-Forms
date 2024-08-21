@@ -216,7 +216,7 @@ export default defineInstrument({
     milkshakeExpiration: z.date(),
     milkshakeBrand: z.string(),
     milkshakeBrandOther: z.string().optional(),
-    foodGiven: z.number().max(100),
+    foodGiven: z.number().min(0).max(100),
     trialFailed: z.boolean(),
     failureReason: z.string().optional()
   })
