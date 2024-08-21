@@ -90,14 +90,14 @@ export default defineInstrument({
       label: "Milkshake brand",
       options: {
         "Neilson Strawberry Milkshake":"Neilson Strawberry Milkshake",
-        "other": "other"
+        "Other": "Other"
       }
     },
     milkshakeBrandOther: {
       kind: 'dynamic',
       deps: ['milkshakeBrand'],
       render(data){
-        if(data.milkshakeBrand === 'other'){
+        if(data.milkshakeBrand === 'Other'){
           return {
             kind: 'string',
             variant: "input",
