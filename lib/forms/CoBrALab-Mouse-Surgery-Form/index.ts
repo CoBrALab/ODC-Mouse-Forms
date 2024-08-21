@@ -168,6 +168,25 @@ export default defineInstrument({
         return null
       }
     },
+
+    brainSurgeryPaxinosType: {
+      kind: "dynamic",
+      deps: ["stereotaxUsed", "surgeryType"],
+      render(data) {
+        if( data.stereotaxUsed && (data.surgeryType !== 'Ovariectomy' && data.surgeryType !== undefined)){
+          return {
+            kind: "string",
+            variant: "radio",
+            label: "Paxinos coordinate type",
+            options: {
+              "Coronal": "Coronal",
+              "Sagittal": "Sagittal"
+            }
+          }
+        }
+        return null
+      }
+    },
     brainSurgeryPaxinosXCoords: {
       kind: "dynamic",
       deps: ["stereotaxUsed", "surgeryType"],
@@ -191,20 +210,6 @@ export default defineInstrument({
             kind: "number",
             variant: "input",
             label: "Y Paxinos coordinates"
-          }
-        }
-        return null
-      }
-    },
-    brainSurgeryPaxinosZCoords: {
-      kind: "dynamic",
-      deps: ["stereotaxUsed", "surgeryType"],
-      render(data) {
-        if( data.stereotaxUsed && (data.surgeryType !== 'Ovariectomy' && data.surgeryType !== undefined)){
-          return {
-            kind: "number",
-            variant: "input",
-            label: "Z Paxinos coordinates"
           }
         }
         return null
@@ -279,6 +284,10 @@ export default defineInstrument({
       kind: "const",
       ref: "ovariectomyMouseGroup"
     },
+    brainSurgeryPaxinosType:{
+      kind: "const",
+      ref: "brainSurgeryPaxinosType"
+    },
     brainSurgeryPaxinosXCoords:{
       kind: "const",
       ref: "brainSurgeryPaxinosXCoords"
@@ -286,10 +295,6 @@ export default defineInstrument({
     brainSurgeryPaxinosYCoords:{
       kind: "const",
       ref: "brainSurgeryPaxinosYCoords"
-    },
-    brainSurgeryPaxinosZCoords:{
-      kind: "const",
-      ref: "brainSurgeryPaxinosZCoords"
     },
     woundDateReported: {
       kind: "const",
@@ -315,9 +320,9 @@ export default defineInstrument({
     ovariectomyType: z.string().optional(),
     ovariectomyMouseGroup: z.string().optional(),
     ovariectomySide: z.string().optional(),
+    brainSurgeryPaxinosType: z.string().optional(),
     brainSurgeryPaxinosXCoords: z.number().optional(),
     brainSurgeryPaxinosYCoords: z.number().optional(),
-    brainSurgeryPaxinosZCoords: z.number().optional(),
     woundDateReported: z.date().optional(),
     clinicalCondition: z.string().optional(),
     treatmentProvided: z.string().optional()
