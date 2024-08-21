@@ -168,12 +168,11 @@ export default defineInstrument({
         return null
       }
     },
-
     brainSurgeryPaxinosXCoords: {
       kind: "dynamic",
-      deps: ["stereotaxUsed"],
+      deps: ["stereotaxUsed", "surgeryType"],
       render(data) {
-        if( data.stereotaxUsed){
+        if( data.stereotaxUsed && (data.surgeryType !== 'Ovariectomy' && data.surgeryType !== undefined)){
           return {
             kind: "number",
             variant: "input",
@@ -185,9 +184,9 @@ export default defineInstrument({
     },
     brainSurgeryPaxinosYCoords: {
       kind: "dynamic",
-      deps: ["stereotaxUsed"],
+      deps: ["stereotaxUsed","surgeryType"],
       render(data) {
-        if( data.stereotaxUsed){
+        if( data.stereotaxUsed && (data.surgeryType !== 'Ovariectomy' && data.surgeryType !== undefined)){
           return {
             kind: "number",
             variant: "input",
@@ -199,9 +198,9 @@ export default defineInstrument({
     },
     brainSurgeryPaxinosZCoords: {
       kind: "dynamic",
-      deps: ["stereotaxUsed"],
+      deps: ["stereotaxUsed", "surgeryType"],
       render(data) {
-        if( data.stereotaxUsed){
+        if( data.stereotaxUsed && (data.surgeryType !== 'Ovariectomy' && data.surgeryType !== undefined)){
           return {
             kind: "number",
             variant: "input",
