@@ -37,7 +37,7 @@ export default defineInstrument({
         label: "Type of coil",
         options: {
             "Cryocoil":"Cryocoil",
-            "23m volumetric": "23m volumetric"
+            "23mm volumetric": "23mm volumetric"
         }
     },
     paravisionVersion: {
