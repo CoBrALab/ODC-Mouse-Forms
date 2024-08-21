@@ -169,25 +169,7 @@ export default defineInstrument({
       }
     },
 
-    brainSurgeryPaxinosType: {
-      kind: "dynamic",
-      deps: ["stereotaxUsed", "surgeryType"],
-      render(data) {
-        if( data.stereotaxUsed && (data.surgeryType !== 'Ovariectomy' && data.surgeryType !== undefined)){
-          return {
-            kind: "string",
-            variant: "radio",
-            label: "Paxinos coordinate type",
-            options: {
-              "Coronal": "Coronal",
-              "Sagittal": "Sagittal"
-            }
-          }
-        }
-        return null
-      }
-    },
-    brainSurgeryPaxinosXCoords: {
+    brainSurgeryPaxinosMLCoords: {
       kind: "dynamic",
       deps: ["stereotaxUsed", "surgeryType"],
       render(data) {
@@ -195,13 +177,13 @@ export default defineInstrument({
           return {
             kind: "number",
             variant: "input",
-            label: "X Paxinos coordinates"
+            label: "ML Paxinos coordinates"
           }
         }
         return null
       }
     },
-    brainSurgeryPaxinosYCoords: {
+    brainSurgeryPaxinosAPCoords: {
       kind: "dynamic",
       deps: ["stereotaxUsed","surgeryType"],
       render(data) {
@@ -209,7 +191,22 @@ export default defineInstrument({
           return {
             kind: "number",
             variant: "input",
-            label: "Y Paxinos coordinates"
+            label: "AP Paxinos coordinates"
+          }
+        }
+        return null
+      }
+    },
+
+    brainSurgeryPaxinosDVCoords: {
+      kind: "dynamic",
+      deps: ["stereotaxUsed","surgeryType"],
+      render(data) {
+        if( data.stereotaxUsed && (data.surgeryType !== 'Ovariectomy' && data.surgeryType !== undefined)){
+          return {
+            kind: "number",
+            variant: "input",
+            label: "DV Paxinos coordinates"
           }
         }
         return null
@@ -284,17 +281,17 @@ export default defineInstrument({
       kind: "const",
       ref: "ovariectomyMouseGroup"
     },
-    brainSurgeryPaxinosType:{
+    brainSurgeryPaxinosMLCoords:{
       kind: "const",
-      ref: "brainSurgeryPaxinosType"
+      ref: "brainSurgeryPaxinosMLCoords"
     },
-    brainSurgeryPaxinosXCoords:{
+    brainSurgeryPaxinosAPCoords:{
       kind: "const",
-      ref: "brainSurgeryPaxinosXCoords"
+      ref: "brainSurgeryPaxinosAPCoords"
     },
-    brainSurgeryPaxinosYCoords:{
+    brainSurgeryPaxinosDVCoords:{
       kind: "const",
-      ref: "brainSurgeryPaxinosYCoords"
+      ref: "brainSurgeryPaxinosDVCoords"
     },
     woundDateReported: {
       kind: "const",
@@ -320,9 +317,9 @@ export default defineInstrument({
     ovariectomyType: z.string().optional(),
     ovariectomyMouseGroup: z.string().optional(),
     ovariectomySide: z.string().optional(),
-    brainSurgeryPaxinosType: z.string().optional(),
-    brainSurgeryPaxinosXCoords: z.number().optional(),
-    brainSurgeryPaxinosYCoords: z.number().optional(),
+    brainSurgeryPaxinosMLCoords: z.number().optional(),
+    brainSurgeryPaxinosAPCoords: z.number().optional(),
+    brainSurgeryPaxinosDVCoords: z.number().optional(),
     woundDateReported: z.date().optional(),
     clinicalCondition: z.string().optional(),
     treatmentProvided: z.string().optional()
