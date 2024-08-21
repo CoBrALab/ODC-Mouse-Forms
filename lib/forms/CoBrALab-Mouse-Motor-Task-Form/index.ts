@@ -173,7 +173,7 @@ export default defineInstrument({
   validationSchema: z.object({
     roomNumber: z.string(),
     motorTask: z.string(),
-    rotorodMiceNumber: z.number().min(1).max(4).optional(),
+    rotorodMiceNumber: z.number().min(1).max(51).optional(),
     rotorodDuration: z.number().min(0).optional(),
     rotorodWirehangFailure: z.boolean().optional(),
     rotorodSlotPosition: z.string().optional(),
