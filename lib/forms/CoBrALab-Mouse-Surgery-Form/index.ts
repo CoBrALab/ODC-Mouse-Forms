@@ -177,7 +177,7 @@ export default defineInstrument({
           return {
             kind: "number",
             variant: "input",
-            label: "ML Paxinos coordinates"
+            label: "ML Paxinos coordinate"
           }
         }
         return null
@@ -191,7 +191,7 @@ export default defineInstrument({
           return {
             kind: "number",
             variant: "input",
-            label: "AP Paxinos coordinates"
+            label: "AP Paxinos coordinate"
           }
         }
         return null
@@ -206,7 +206,7 @@ export default defineInstrument({
           return {
             kind: "number",
             variant: "input",
-            label: "DV Paxinos coordinates"
+            label: "DV Paxinos coordinate"
           }
         }
         return null
