@@ -148,7 +148,7 @@ export default defineInstrument({
       fmriIsofluorane: createMRIDependentField({
         kind: "number",
         variant: "slider",
-        label: "fMRI Isofluorane percentage",
+        label: "fMRI Isofluorane percentage, consider this as the value before it is divised by 10, i.e. 15 = 1.5%",
         max: 15,
         min: 0
       }, (type) => type ===  "Structural and fMRI"),
