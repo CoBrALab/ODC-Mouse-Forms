@@ -6,7 +6,7 @@ const { z } = await import('/runtime/v1/zod@3.23.6/index.js');
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
-  tags: ['Housing','Cage Enrichment','Room Change','Cage Change'],
+  tags: ['Housing','Cage Enrichment','Room Change','Cage Change', 'Cage'],
   internal: {
     edition: 1,
     name: 'MOUSE_HOUSING_FORM'
