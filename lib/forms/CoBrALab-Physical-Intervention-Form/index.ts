@@ -62,7 +62,78 @@ export default defineInstrument({
       kind: "number",
       variant: "input",
       label: "Cytology solution volume (ml)"
-    }, (type) => type === 'Vaginal cytology')
+    }, (type) => type === 'Vaginal cytology'),
+
+    genotypeBodyPart: createDependentField({
+      kind: "string",
+      variant: "select",
+      label: "Part of animal used for genotyping",
+      options: {
+        "Tail":"Tail",
+        "Ear":"Ear",
+        "Fecal matter": "Fecal matter"
+      }
+    }, (type) => type === "Genotyping"),
+    genotypeCompanyUsed: createDependentField({
+      kind: "string",
+      variant: "select",
+      label: "Company used",
+      options: {
+        "Transnetyx": "Transnetyx",
+        "Other": "Other"
+      }
+    }, (type) => type === "Genotyping"),
+    genotypeCopy: createDependentField({
+      kind: "string",
+      variant: "select",
+      label: "Genotype copy (if available)",
+      options: {
+        "Homozygous": "Homozygous",
+        "Heterozygous": "Heterozygous",
+        "Null": "Null",
+        "Other": "Other"
+      }
+    },
+    (type) => type === "Genotyping"),
+    earTaggingSystem: createDependentField({
+      kind: "string",
+      variant: "select",
+      label: "Ear tagging system",
+      options: {
+        "1-99 System": "1-99 System",
+        "1-32 System": "1-32 System",
+        "Other": "Other"
+      }
+    },
+    (type) => type === "Ear tagging"),
+    tattooInfo: createDependentField({
+      kind: "record-array",
+      label: "Tattooing information",
+      fieldset: {
+        tattooLocation: {
+          kind: "string",
+          variant: "select",
+          label: "Tattoo location",
+          options: {
+            "Upper left": "Upper left",
+            "Upper right": "Upper right",
+            "Lower left": "Lower left",
+            "Lower right": "Lower right"
+          }
+        }
+      }
+    },
+    (type) => type === "Tattooing"),
+    teethExtractionNumber: createDependentField({
+      kind: "number",
+      variant: "input",
+      label: "Number of teeth extracted"
+    }, (type) => type === "Teeth Extraction"),
+    bloodGlucoseLevel: createDependentField({
+      kind: "string",
+      variant: 'input',
+      label: "Blood glucose level"
+    }, (type) => type === "Blood glucose")
   },
   details: {
     description: '<PLACEHOLDER>',
@@ -77,6 +148,16 @@ export default defineInstrument({
     vaginalSwabber: z.string().optional(),
     vaginalSwabNumber: z.number().min(1).int().optional(),
     vaginalCytologyDuration: z.number().min(1).optional(),
-    vaginalCytologySolutionVolume: z.number().min(0).optional()
+    vaginalCytologySolutionVolume: z.number().min(0).optional(),
+    genotypeBodyPart: z.string().optional(),
+    genotypeCompanyUsed: z.string().optional(),
+    genotypeCopy: z.string().optional(),
+    earTaggingSystem: z.string().optional(),
+    tattooInfo: z.array(z.object({ tattooLocation: z.string().optional()}
+    )).optional(),
+    teethExtractionNumber: z.number().int().min(0).max(16).optional(),
+    bloodGlucoseLevel: z.string()
+
+
   })
 });
