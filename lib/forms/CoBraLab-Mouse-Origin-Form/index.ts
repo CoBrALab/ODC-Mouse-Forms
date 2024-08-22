@@ -248,5 +248,5 @@ export default defineInstrument({
     fatherMouse: z.string().optional(),
     breederOrigin: z.string().optional(),
     otherBreederOrigin: z.string().optional(),
-    generationNumber: z.number().min(1).integer()})
+    generationNumber: z.number().min(1).int()})
 });
