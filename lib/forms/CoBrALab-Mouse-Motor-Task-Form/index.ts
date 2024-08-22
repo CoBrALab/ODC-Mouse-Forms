@@ -75,7 +75,7 @@ export default defineInstrument({
     wirehangDuration:createDependentField({
       kind: "number",
       variant: "input",
-      label: "Duration before falling (seconds)"
+      label: "Longest duration before falling (seconds)"
     },(type) => type === "Wire hang"),
 
     wirehangPutbacks: createDependentField({
