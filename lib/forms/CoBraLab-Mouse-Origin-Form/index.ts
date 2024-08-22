@@ -61,7 +61,7 @@ export default defineInstrument({
     boxMouse: {
       kind: 'boolean',
       variant: 'radio',
-      label: 'External breeder (Box mouse)?'
+      label: 'Originates from external breeder (Box mouse)?'
     },
     orderId: {
       kind: 'dynamic',
@@ -155,11 +155,6 @@ export default defineInstrument({
       return null
      }
     },
-    origin: {
-      kind: 'string',
-      variant: 'input',
-      label: 'Mouse origin'
-    },
     generationNumber: {
       kind: 'number',
       variant: 'input',
@@ -234,11 +229,6 @@ export default defineInstrument({
     label: 'Father of mouse',
     ref: 'fatherMouse'
   },
-  origin: {
-    kind: 'const',
-    label: 'Origin',
-    ref: 'origin'
-  },
   generationNumber: {
     kind: 'const',
     label: 'Generation Number',
@@ -259,5 +249,5 @@ export default defineInstrument({
     breederOrigin: z.string().optional(),
     otherBreederOrigin: z.string().optional(),
     origin: z.string(),
-    generationNumber: z.number()})
+    generationNumber: z.number().min(1).integer()})
 });
