@@ -17,10 +17,10 @@ export default defineInstrument({
       variant: 'input',
       label: 'Weight of mouse (in grams)'
     },
-    scaleID: {
+    scaleSerialCode: {
       kind: 'string',
       variant: 'input',
-      label: "Scale ID"
+      label: "Scale serial code"
     },
     scaleKind: {
       kind: 'string',
@@ -35,7 +35,7 @@ export default defineInstrument({
   details: {
     description: 'A form to track data from whenever an animal is weighed.',
     estimatedDuration: 1,
-    instructions: ['To be filled in whenver the animal is weighed. It is expected to know what type of scale is used (portable vs. non-portable). It is also assumed that proper weighing protocol is followed'],
+    instructions: ['To be filled in whenever the animal is weighed. It is expected to know what type of scale is used (portable vs. non-portable) as well as its serial code. It is also assumed that proper weighing protocol is followed'],
     license: 'UNLICENSED',
     title: 'Mouse Weight Form'
   },
@@ -45,10 +45,10 @@ export default defineInstrument({
       label: 'Mouse weight',
       ref: 'mouseWeight'
     },
-    scaleID: {
+    scaleSerialCode: {
       kind: 'const',
-      label: "Scale Identification",
-      ref: "scaleID"
+      label: "Scale serial code",
+      ref: "scaleSerialCode"
     },
     scaleKind: {
       kind: "const",
@@ -58,7 +58,7 @@ export default defineInstrument({
   },
   validationSchema: z.object({
     mouseWeight: z.number().min(1).max(50),
-    scaleID: z.string(),
+    scaleSerialCode: z.string(),
     scaleKind: z.string()
   })
 });
