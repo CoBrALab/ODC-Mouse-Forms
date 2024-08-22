@@ -178,8 +178,8 @@ export default defineInstrument({
     rotorodWirehangFailure: z.boolean().optional(),
     rotorodSlotPosition: z.string().optional(),
     wirehangDuration: z.number().min(0).optional(),
-    wirehangPutbacks: z.number().min(0).positive().optional(),
-    poleTestDuration: z.number().min(0).positive().optional(),
+    wirehangPutbacks: z.number().min(0).optional(),
+    poleTestDuration: z.number().min(0).optional(),
     poleTestResultLevel: z.string().optional(),
     poleTestMarginalFailureReason: z.string().optional()
   })
