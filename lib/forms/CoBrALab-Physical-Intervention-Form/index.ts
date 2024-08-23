@@ -142,7 +142,57 @@ export default defineInstrument({
     license: 'UNLICENSED',
     title: 'Physical Intervention Form'
   },
-  measures: {},
+  measures: {
+    interventionType: {
+      kind: "const",
+      ref: "interventionType"
+    ,
+    vaginalSwabber: {
+      kind: "const",
+      ref: "vaginalSwabber"
+    },
+    vaginalSwabNumber: {
+      kind: "const",
+      ref: "vaginalSwabNumber"
+    },
+    vaginalCytologyDuration: {
+      kind: "const",
+      ref: "vaginalCytologyDuration"
+    },
+    vaginalCytologySolutionVolume: {
+      kind: "const",
+      ref: "vaginalCytologySolutionVolume"
+    },
+    genotypeBodyPart: {
+      kind: "const",
+      ref: "genotypeBodyPart"
+    },
+    genotypeCompanyUsed: {
+      kind: "const",
+      ref: "genotypeCompanyUsed"
+    },
+    genotypeCopy: {
+      kind: "const",
+      ref: "genotypeCopy"
+    },
+    earTaggingSystem: {
+      kind: "const",
+      ref: "earTaggingSystem"
+    },
+    tattooInfo: {
+      kind: "const",
+      ref: "tattooInfo"
+    },
+    teethExtractionNumber: {
+      kind: "const",
+      ref: "teethExtractionNumber"
+    },
+    bloodGlucoseLevel: {
+      kind: "const",
+      ref: "bloodGlucoseLevel"
+    }
+  }
+  },
   validationSchema: z.object({
     interventionType: z.string(),
     vaginalSwabber: z.string().optional(),
