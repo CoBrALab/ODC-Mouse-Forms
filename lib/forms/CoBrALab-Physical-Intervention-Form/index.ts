@@ -180,8 +180,19 @@ export default defineInstrument({
       ref: "earTaggingSystem"
     },
     tattooInfo: {
-      kind: "const",
-      ref: "tattooInfo"
+      kind: "computed",
+      label: "Tattoo Locations",
+      value: (data) => {
+        const val = data.tattooInfo?.map((x) => x)
+        let tattooText = ""
+        if(val){
+          for (const info of val){
+            tattooText += info.tattooLocation + " "
+          }
+          return tattooText
+        }
+        return ""
+      }
     },
     teethExtractionNumber: {
       kind: "const",
