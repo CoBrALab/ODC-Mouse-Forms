@@ -146,7 +146,7 @@ export default defineInstrument({
     interventionType: {
       kind: "const",
       ref: "interventionType"
-    ,
+    },
     vaginalSwabber: {
       kind: "const",
       ref: "vaginalSwabber"
@@ -202,7 +202,6 @@ export default defineInstrument({
       kind: "const",
       ref: "bloodGlucoseLevel"
     }
-  }
   },
   validationSchema: z.object({
     interventionType: z.string(),
@@ -217,7 +216,7 @@ export default defineInstrument({
     tattooInfo: z.array(z.object({ tattooLocation: z.string().optional()}
     )).optional(),
     teethExtractionNumber: z.number().int().min(0).max(16).optional(),
-    bloodGlucoseLevel: z.string()
+    bloodGlucoseLevel: z.string().optional()
 
 
   })
