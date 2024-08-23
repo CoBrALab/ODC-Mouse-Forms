@@ -191,7 +191,7 @@ export default defineInstrument({
           }
           return tattooText
         }
-        return ""
+        return undefined
       }
     },
     teethExtractionNumber: {
