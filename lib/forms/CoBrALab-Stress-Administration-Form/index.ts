@@ -69,9 +69,9 @@ export default defineInstrument({
     (type) => type === "Tail suspension")
   },
   details: {
-    description: '<PLACEHOLDER>',
+    description: 'describes the stress administration done upon an animal, with the current possible three options being tail suspension, restraint and electric foot shocks.',
     estimatedDuration: 1,
-    instructions: ['<PLACEHOLDER>'],
+    instructions: ['This is to be filled after a mouse is finished a stress administration session, it is expected to know how many mice were present during the session as well where it took place.'],
     license: 'UNLICENSED',
     title: 'Stress Administration Form'
   },
