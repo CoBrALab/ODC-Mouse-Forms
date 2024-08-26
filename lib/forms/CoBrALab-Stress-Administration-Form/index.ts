@@ -69,13 +69,38 @@ export default defineInstrument({
     (type) => type === "Tail suspension")
   },
   details: {
-    description: 'describes the stress administration done upon an animal, with the current possible three options being tail suspension, restraint and electric foot shocks.',
+    description: 'Describes the stress administration done upon an animal, with the current possible three options being tail suspension, restraint and electric foot shocks.',
     estimatedDuration: 1,
     instructions: ['This is to be filled after a mouse is finished a stress administration session, it is expected to know how many mice were present during the session as well where it took place.'],
     license: 'UNLICENSED',
     title: 'Stress Administration Form'
   },
-  measures: {},
+  measures: {
+    miceNumber: {
+        kind: "const",
+        ref: "miceNumber"
+    },
+    roomNumber: {
+        kind: "const",
+        ref: "roomNumber"
+      },
+      stressorType: {
+        kind: "const",
+        ref: "stressorType"
+      },
+      footShocksNumber: {
+        kind: "const",
+        ref: "footShocksNumber"
+      },
+      footShockAmpage: {
+        kind: "const",
+        ref: "footShockAmpage"
+      },
+      tailSupensionClimbers: {
+        kind: "const",
+        ref: "tailSupensionClimbers"
+      }
+  },
   validationSchema: z.object({
     miceNumber: z.number(),
     roomNumber: z.string(),
