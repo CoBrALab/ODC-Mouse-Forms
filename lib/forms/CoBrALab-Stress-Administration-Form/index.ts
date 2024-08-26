@@ -9,7 +9,7 @@ export default defineInstrument({
   tags: ['<PLACEHOLDER>'],
   internal: {
     edition: 1,
-    name: '<PLACEHOLDER>'
+    name: 'STRESS_ADMINISTRATION_FORM'
   },
   content: {},
   details: {
@@ -17,7 +17,7 @@ export default defineInstrument({
     estimatedDuration: 1,
     instructions: ['<PLACEHOLDER>'],
     license: 'UNLICENSED',
-    title: '<PLACEHOLDER>'
+    title: 'Stress Administration Form'
   },
   measures: {},
   validationSchema: z.object({})
