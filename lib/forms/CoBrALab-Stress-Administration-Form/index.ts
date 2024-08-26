@@ -19,7 +19,7 @@ function createDependentField<T>(field: T, fn: (stressorType: string) => boolean
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
-  tags: ['Stress', 'Tail suspension', 'restraint', 'electric shock'],
+  tags: ['Stress', 'Tail suspension', 'Restraint', 'Electric shock'],
   internal: {
     edition: 1,
     name: 'STRESS_ADMINISTRATION_FORM'
