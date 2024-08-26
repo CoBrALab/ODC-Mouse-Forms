@@ -61,7 +61,7 @@ export default defineInstrument({
     },
     (type) => type === "Electric foot shocks"),
     
-    tailSupensionClimbers: createDependentField({
+    tailSuspensionClimbStoppers: createDependentField({
       kind: "boolean",
       variant: "radio",
       label: "Climb stoppers used"
@@ -96,9 +96,9 @@ export default defineInstrument({
         kind: "const",
         ref: "footShockAmpage"
       },
-      tailSupensionClimbers: {
+      tailSuspensionClimbStoppers: {
         kind: "const",
-        ref: "tailSupensionClimbers"
+        ref: "tailSuspensionClimbStoppers"
       }
   },
   validationSchema: z.object({
@@ -107,7 +107,7 @@ export default defineInstrument({
     stressorType: z.string(),
     footShocksNumber: z.number().int().min(1).optional(),
     footShockAmpage: z.number().min(0).optional(),
-    tailSuspensionClimbers: z.boolean().optional()
+    tailSuspensionClimbStoppers: z.boolean().optional()
 
   })
 });
