@@ -3,12 +3,12 @@
 const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-core/index.js');
 const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
-function createMRIDependentField<T>(field: T, fn: (typeOfMRI: string) => boolean) {
+function createMRIDependentField<T>(field: T, fn: (mriProtocol: string) => boolean) {
     return {
       kind: 'dynamic' as const,
-      deps: ["typeOfMRI"] as const,
-      render: (data: { typeOfMRI: string }) => {
-        if (fn(data.typeOfMRI)) {
+      deps: ["mriProtocol"] as const,
+      render: (data: { mriProtocol: string }) => {
+        if (fn(data.mriProtocol)) {
           return field;
         }
         return null;
@@ -53,10 +53,10 @@ export default defineInstrument({
       kind: "record-array",
       label: "MRI scan record",
       fieldset: {
-        typeOfMRI: {
+        mriProtocol: {
           kind: "string",
           variant: "select",
-          label: "Type of MRI",
+          label: "MRI protocol",
           options: {
             "Ex-vivo structural":"Ex-vivo structural",
             "In-vivo structural": "In-vivo structural",
@@ -101,7 +101,7 @@ export default defineInstrument({
       isofluoraneAdjustedPercentage: {
         kind: "dynamic",
         render(data) {
-          if(data.isofluoraneAdjusted && data.typeOfMRI === "In-vivo structural"){
+          if(data.isofluoraneAdjusted && data.mriProtocol === "In-vivo structural"){
             return {
               kind: "string",
               variant: "input",
@@ -208,7 +208,7 @@ export default defineInstrument({
         let measureOutput = ''
         if(val){
           for (const info of val) {
-            measureOutput += info.typeOfMRI + ' ' + (info.exVivoCranioStatus ?? ' ') + ' ' + (info.dexSolutionDate ? 'dex solution date: ' + info.dexSolutionDate:'')  + ' ' + (info.dexBatchNumber ? 'dex batch number: ' + info.dexBatchNumber:'') +
+            measureOutput += info.mriProtocol + ' ' + (info.exVivoCranioStatus ?? ' ') + ' ' + (info.dexSolutionDate ? 'dex solution date: ' + info.dexSolutionDate:'')  + ' ' + (info.dexBatchNumber ? 'dex batch number: ' + info.dexBatchNumber:'') +
             ' ' + (info.isofluoraneBatchNumber ? 'isofluorane batch number: ' + info.isofluoraneBatchNumber:'') + ' ' + (info.isofluoraneAdjustedPercentage ? 'Isofluorane adjusted percentage: ' + 
             info.isofluoraneAdjustedPercentage + '%':'') + ' ' + (info.breathingStable ? 'breathing stable: ' + info.breathingStable: '') + ' ' +
             (info.oxygenConcentration ? 'O2 concentration: ' + info.oxygenConcentration + '%' : '') + ' ' + (info.oxygenSaturation ? 'O2 saturation: ' + info.oxygenSaturation + '%' : '') +
@@ -226,7 +226,7 @@ export default defineInstrument({
     coilType: z.string(),
     paravisionVersion: z.string(),
     scanRecordInfo: z.array(z.object({
-      typeOfMRI: z.string(),
+      mriProtocol: z.string(),
       exVivoCranioStatus: z.string().optional(),
       dexSolutionDate: z.date().optional(),
       dexBatchNumber: z.string().optional(),
