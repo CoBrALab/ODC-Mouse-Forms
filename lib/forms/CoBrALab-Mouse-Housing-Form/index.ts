@@ -1,7 +1,7 @@
 /* eslint-disable perfectionist/sort-objects */
 
-const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-core/index.js');
-const { z } = await import('/runtime/v1/zod@3.23.6/index.js');
+import { defineInstrument } from '/runtime/v1/@opendatacapture/runtime-core'
+import { z } from '/runtime/v1/zod@3.23.x'
 
 export default defineInstrument({
   kind: 'FORM',
@@ -22,7 +22,7 @@ export default defineInstrument({
       variant: "input",
       label: "Number of mice in cage"
     },
-    cageAMSNumber: {
+    cageAmsNumber: {
       kind: "number",
       variant: "input",
       label: "AMS Cage number"
@@ -126,10 +126,10 @@ export default defineInstrument({
       label: "Number of mice in cage",
       ref: "totalMice"
     },
-    cageAMSNumber: {
+    cageAmsNumber: {
       kind: "const",
       label: "Cage number",
-      ref: "cageAMSNumber"
+      ref: "cageAmsNumber"
     },
     cageNameGiven: {
       kind: "const",
@@ -173,7 +173,7 @@ export default defineInstrument({
   validationSchema: z.object({
     roomNumber: z.string(),
     totalMice: z.number(),
-    cageAMSNumber: z.number(),
+    cageAmsNumber: z.number(),
     cageNameGiven: z.boolean(),
     cageName: z.string().optional(),
     beddingType: z.string(),
