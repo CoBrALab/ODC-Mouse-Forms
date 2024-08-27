@@ -1,7 +1,7 @@
 /* eslint-disable perfectionist/sort-objects */
 
-const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-core/index.js');
-const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
+import { defineInstrument } from '/runtime/v1/@opendatacapture/runtime-core'
+import { z } from '/runtime/v1/zod@3.23.x'
 
 function createDependentField<const T>(field: T, fn: (terminationType: string) => boolean) {
   return {
@@ -99,13 +99,6 @@ export default defineInstrument({
       label: "Blood collected (ml)"
     },
       (type) => type === 'Cardiac puncture'
-    ),
-    embryoPresent: createDependentField({
-      kind: 'boolean',
-      variant: "radio",
-      label: "Embryo present"
-    },
-      (type) => type === 'Cervical dislocation'
     ),
     gestationalDay: createDependentField({
       kind: 'date',
@@ -320,11 +313,6 @@ export default defineInstrument({
       label: "Blood collected (ml)",
       ref: "bloodCollected"
     },
-    embryoPresent: {
-      kind: "const",
-      label: "Embryo present",
-      ref: "embryoPresent"
-    },
     gestationalDay: {
       kind: "const",
       label: "Gestational day",
@@ -384,7 +372,6 @@ export default defineInstrument({
     terminationType: z.string().optional(),
     surgeryDeathCause: z.string().optional(),
     bloodCollected: z.number().optional(),
-    embryoPresent: z.boolean().optional(),
     gestationalDay: z.date().optional(),
     perfusionType: z.string().optional(),
     perfusionDose: z.number().optional(),
