@@ -16,19 +16,6 @@ function createDependentField<T>(field: T, fn: (treatmentType: string) => boolea
   };
 }
 
-function createSurgeryDependentField<T>(field: T, fn: (surgeryType: string) => boolean) {
-  return {
-    kind: 'dynamic' as const,
-    deps: ['surgeryType'] as const,
-    render: (data: { surgeryType: string }) => {
-      if (fn(data.surgeryType)) {
-        return field;
-      }
-      return null;
-    }
-  };
-}
-
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
