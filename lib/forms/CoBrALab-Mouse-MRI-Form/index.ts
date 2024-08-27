@@ -1,9 +1,9 @@
 /* eslint-disable perfectionist/sort-objects */
 
-const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-core/index.js');
-const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
+import { defineInstrument } from '/runtime/v1/@opendatacapture/runtime-core'
+import { z } from '/runtime/v1/zod@3.23.x'
 
-function createMRIDependentField<T>(field: T, fn: (mriProtocol: string) => boolean) {
+function createMRIDependentField<const T>(field: T, fn: (mriProtocol: string) => boolean) {
     return {
       kind: 'dynamic' as const,
       deps: ["mriProtocol"] as const,
@@ -180,7 +180,7 @@ export default defineInstrument({
   details: {
     description: "To record information about a mouse's MRI scan session. Keeps track of multiple scans within a single session. Can be filled in by either MRI operator or scan requester.",
     estimatedDuration: 1,
-    instructions: ['Use this form for an individual mouse MRI sessions, which can contain multiple scans of different kinds. It is expected that the type of scan that are done on the mouse as well as certain information such as breath rate, and oxygenation level from the MRI monitor for certain scans. When recording the scans please put them in the exact order they done within the session.'],
+    instructions: ['Use this form for an individual mouse MRI sessions, which can contain multiple scans of different kinds. It is expected that the type of scan that are done on the mouse as well as certain information such as breath rate, and oxygenation level from the MRI monitor for certain scans. When recording the scans please put them in the exact order they were done within the session.'],
     license: 'UNLICENSED',
     title: 'Mouse MRI Form'
   },
