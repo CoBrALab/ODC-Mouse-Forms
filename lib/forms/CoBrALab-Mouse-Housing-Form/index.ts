@@ -172,8 +172,8 @@ export default defineInstrument({
   },
   validationSchema: z.object({
     roomNumber: z.string(),
-    totalMice: z.number(),
-    cageAmsNumber: z.number(),
+    totalMice: z.number().int().min(0),
+    cageAmsNumber: z.number().int().positive(),
     cageNameGiven: z.boolean(),
     cageName: z.string().optional(),
     beddingType: z.string(),
