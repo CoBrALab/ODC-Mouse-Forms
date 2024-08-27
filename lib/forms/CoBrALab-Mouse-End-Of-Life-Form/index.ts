@@ -106,20 +106,20 @@ export default defineInstrument({
     },
       (type) => type === 'Cervical dislocation'
     ),
-    perfusionType: createDependentField({
+    perfusionAnestheticType: createDependentField({
       kind: "string",
       variant: "select",
-      label: "Type of perfusion",
+      label: "Type of anesthetic used for perfusion",
       options: {
         "Ip Injection":"Ip Injection (Ketamine)",
         "Gas": "Gas (Isoflurane)"
       }
     }, (type) => type === "Perfusion" ),
-    perfusionDose: {
+    ipAnestheticDose: {
       kind: 'dynamic',
-      deps: ["perfusionType"],
+      deps: ["perfusionAnestheticType"],
       render(data){
-        if(data.perfusionType === 'Ip Injection'){
+        if(data.perfusionAnestheticType === 'Ip Injection'){
           return {
             kind: 'number',
             variant: "input",
@@ -318,15 +318,15 @@ export default defineInstrument({
       label: "Gestational day",
       ref: "gestationalDay"
     },
-    perfusionType: {
+    perfusionAnestheticType: {
       kind: "const",
       label: "Type of perfusion",
-      ref: "perfusionType"
+      ref: "perfusionAnestheticType"
     },
-    perfusionDose: {
+    ipAnestheticDose: {
       kind: "const",
       label: "Injection dose (ml)",
-      ref: "perfusionDose"
+      ref: "ipAnestheticDose"
     },
     perfusionFlushingDone: {
       kind: "const",
@@ -373,8 +373,8 @@ export default defineInstrument({
     surgeryDeathCause: z.string().optional(),
     bloodCollected: z.number().optional(),
     gestationalDay: z.date().optional(),
-    perfusionType: z.string().optional(),
-    perfusionDose: z.number().optional(),
+    perfusionAnestheticType: z.string().optional(),
+    ipAnestheticDose: z.number().optional(),
     perfusionFlushingDone: z.boolean().optional(),
     perfusionFlushingSolution: z.string().optional(),
     anesthesiaUsed: z.boolean(),
