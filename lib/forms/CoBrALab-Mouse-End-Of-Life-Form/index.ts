@@ -129,32 +129,17 @@ export default defineInstrument({
         return null
       }
     },
-    perfusionFlushingDone: createDependentField({
-      kind: "boolean",
-      variant: "radio",
-      label: "Flushing done"
-    },
-    (type) => type === "Perfusion"),
 
-  perfusionFlushingSolution: {
-    kind: "dynamic",
-    deps: ["perfusionFlushingDone"],
-    render(data){
-      if(data.perfusionFlushingDone){
-        return { 
-          kind: "string",
-          variant: "radio",
-          label: "Perfusion flushing solution",
-          options: {
-            "PBS+Heparin":"PBS and Heparin",
-            "4% Isoflurane": "4% Isoflurane"
-          }
-        }
-      }
-      return null
-    }
+    perfusionFlushingSolution: createDependentField({
+            kind: "string",
+            variant: "radio",
+            label: "Perfusion flushing solution",
+            options: {
+              "PBS+Heparin":"PBS and Heparin",
+              "4% Isoflurane": "4% Isoflurane"
+            }
+    }, (type) => type === 'Perfusion'),
    
-  },
     anesthesiaUsed: {
       kind: 'boolean',
       variant: 'radio',
@@ -328,11 +313,6 @@ export default defineInstrument({
       label: "Injection dose (ml)",
       ref: "ipAnestheticDose"
     },
-    perfusionFlushingDone: {
-      kind: "const",
-      label: "Flushing done",
-      ref: "perfusionFlushingDone"
-    },
     perfusionFlushingSolution: {
       kind: "const",
       label: "Perfusion flushing solution",
@@ -375,7 +355,6 @@ export default defineInstrument({
     gestationalDay: z.date().optional(),
     perfusionAnestheticType: z.string().optional(),
     ipAnestheticDose: z.number().optional(),
-    perfusionFlushingDone: z.boolean().optional(),
     perfusionFlushingSolution: z.string().optional(),
     anesthesiaUsed: z.boolean(),
     bodyExtractionDone: z.boolean(),
