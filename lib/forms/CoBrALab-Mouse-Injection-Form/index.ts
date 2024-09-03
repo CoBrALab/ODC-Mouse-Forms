@@ -3,7 +3,7 @@
 const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-core/index.js');
 const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
-function createDependentField<T>(field: T, fn: (injectionType: string) => boolean) {
+function createDependentField<const T>(field: T, fn: (injectionType: string) => boolean) {
   return {
     kind: 'dynamic' as const,
     deps: ['injectionType'] as const,
