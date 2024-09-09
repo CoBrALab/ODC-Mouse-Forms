@@ -16,6 +16,72 @@ function createMRIDependentField<const T>(field: T, fn: (mriProtocol: string) =>
     };
 }
 
+const scanNameOptions = {
+  "Tripilot":"Tripilot",
+  "T1_FLASH_3D_100iso_10deg":"T1_FLASH_3D_100iso_10deg",
+  "1_new_tripilot":"1_new_tripilot",
+  "FLASH_3D_reduced":"FLASH_3D_reduced",
+  "ADJ_B0MAP":"ADJ_B0MAP",
+  "revNoTrigAdjPEOffEPI":"revNoTrigAdjPEOffEPI",
+  "B0 Map":"B0 Map",
+  "1_Localizer_3slices_CIC":"1_Localizer_3slices_CIC",
+  "B1map_RARE_60deg_4s":"B1map_RARE_60deg_4s",
+  "B1map_RARE_120deg_4s":"B1map_RARE_120deg_4s",
+  "MGE_MTOff":"MGE_MTOff",
+  "MGE_MTOn":"MGE_MTOn",
+  "MGE_MTOff_Tw1_30deg":"MGE_MTOff_Tw1_30deg",
+  "T2star_FID_EPI_sat_dan_ver_original":"T2star_FID_EPI_sat_dan_ver_original",
+  "01-Tripilot-multi":"01-Tripilot-multi",
+  "exvivoDanFLASH":"exvivoDanFLASH"
+
+}
+
+const structScanNames = {
+  "Tripilot":"Tripilot",
+  "T1_FLASH_3D_100iso_10deg":"T1_FLASH_3D_100iso_10deg",
+}
+
+const neonateStructScanNames = {
+  "1_new_tripilot":"1_new_tripilot",
+  "FLASH_3D_reduced":"FLASH_3D_reduced",
+}
+
+const structAndFuncScanNames = {
+  "Tripilot":"Tripilot",
+  "ADJ_B0MAP":"ADJ_B0MAP",
+  "T1_FLASH_3D_100iso_10deg":"T1_FLASH_3D_100iso_10deg",
+  "revNoTrigAdjPEOffEPI":"revNoTrigAdjPEOffEPI",
+  "B0 Map":"B0 Map",
+}
+
+const quantAndFuncScanNames = {
+  "1_Localizer_3slices_CIC":"1_Localizer_3slices_CIC",
+  "ADJ_B0MAP":"ADJ_B0MAP",
+  "B1map_RARE_60deg_4s":"B1map_RARE_60deg_4s",
+  "B1map_RARE_120deg_4s":"B1map_RARE_120deg_4s",
+  "MGE_MTOff":"MGE_MTOff",
+  "MGE_MTOn":"MGE_MTOn",
+  "MGE_MTOff_Tw1_30deg":"MGE_MTOff_Tw1_30deg",
+  "T2star_FID_EPI_sat_dan_ver_original":"T2star_FID_EPI_sat_dan_ver_original",
+  "B0 Map":"B0 Map",
+}
+
+const quantAndStructScanNames = {
+  "1_Localizer_3slices_CIC":"1_Localizer_3slices_CIC",
+  "ADJ_B0MAP":"ADJ_B0MAP",
+  "MGE_MTOff":"MGE_MTOff",
+  "MGE_MTOn":"MGE_MTOn",
+  "MGE_MTOff_Tw1_30deg":"MGE_MTOff_Tw1_30deg",
+  "B1map_RARE_60deg_4s":"B1map_RARE_60deg_4s",
+  "B1map_RARE_120deg_4s":"B1map_RARE_120deg_4s",
+  "B0 Map":"B0 Map",
+}
+
+const exVivoScanNames = {
+  "01-Tripilot-multi":"01-Tripilot-multi",
+  "exvivoDanFLASH":"exvivoDanFLASH"
+}
+
 
 export default defineInstrument({
   kind: 'FORM',
