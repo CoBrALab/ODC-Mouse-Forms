@@ -82,6 +82,10 @@ const exVivoScanNames = {
   "exvivoDanFLASH":"exvivoDanFLASH"
 }
 
+const protocolList = {
+
+}
+
 
 export default defineInstrument({
   kind: 'FORM',
@@ -115,21 +119,92 @@ export default defineInstrument({
             "PV5": "PV5"
         }
     },
+
+    // mriProtocol: {
+    //   kind: "string",
+    //   variant: "select",
+    //   label: "MRI protocol",
+    //   options: {
+    //     "Ex-vivo Protocol":"Ex-vivo Protocol",
+    //     "Structural Protocol": "Structural Protocol",
+    //     "Structural and Functional Protocol": "Structural and Functional Protocol",
+    //     "Quantitative":"Quantitative"
+    // }
+    // },
+    mriProtocol: {
+      kind: "string",
+      variant: "select",
+      label: "MRI protocol",
+      options: {
+        "Ex-vivo Protocol":"Ex-vivo Protocol",
+        "Structural Protocol": "Structural Protocol",
+        "Neonate Structural Protocol": "Neonate Structural Protocol",
+        "Structural and Functional Protocol":"Structural and Functional Protocol",
+        "Quantitative and Functional Protocol":"Quantitative and Functional Protocol",
+        "Quantitative and Structural Protocol":"Quantitative and Structural Protocol",
+    }
+    },
     scanRecordInfo: {
       kind: "record-array",
       label: "MRI scan record",
       fieldset: {
-        mriProtocol: {
-          kind: "string",
-          variant: "select",
-          label: "MRI protocol",
-          options: {
-            "Ex-vivo structural":"Ex-vivo structural",
-            "In-vivo structural": "In-vivo structural",
-            "Structural and fMRI": "Structural and fMRI",
-            "Quantitative":"Quantitative"
-        }
+        mriScanName: {
+          kind: "dynamic",
+          deps: ["mriProtocol"],
+          render(data) {
+            if(data.mriProtocol === "Ex-vivo Protocol"){
+              return {
+                kind: "string",
+                variant: "select",
+                label: "MRI scan name",
+                options: exVivoScanNames
+              }
+              
+            }
+            else if (data.mriProtocol === "Structural Protocol"){
+              return {
+                kind: "string",
+                variant: "select",
+                label: "MRI scan name",
+                options: structScanNames
+              }
+            }
+            else if (data.mriProtocol === "Neonate Structural Protocol"){
+              return {
+                kind: "string",
+                variant: "select",
+                label: "MRI scan name",
+                options: neonateStructScanNames
+              }
+            }
+            else if (data.mriProtocol === "Structural and Functional Protocol"){
+              return {
+                kind: "string",
+                variant: "select",
+                label: "MRI scan name",
+                options: structAndFuncScanNames
+              }
+            }
+            else if (data.mriProtocol === "Quantitative and Functional Protocol"){
+              return {
+                kind: "string",
+                variant: "select",
+                label: "MRI scan name",
+                options: quantAndFuncScanNames
+              }
+            }
+            else if (data.mriProtocol === "Quantitative and Structural Protocol"){
+              return {
+                kind: "string",
+                variant: "select",
+                label: "MRI scan name",
+                options: quantAndStructScanNames
+              }
+            }
+            return null
+          }
         },
+        
         exVivoCranioStatus: createMRIDependentField(
           {  kind: "string",
                     variant: "radio",
@@ -138,12 +213,12 @@ export default defineInstrument({
                         "In-cranio":"In-cranio",
                         "Ex-cranio": "Ex-cranio"
                     }},
-           (type) => type === 'Ex-vivo structural'),
+           (type) => type === 'Ex-vivo Protocol'),
 
         dexSolutionDate: createMRIDependentField(
         {kind: "date",
        label: "Dexmedetomidine solution creation date",},
-       (type) => type === 'Structural and fMRI'),
+       (type) => type === 'Structural and Functional Protocol'),
 
           dexBatchNumber: createMRIDependentField(
         {
@@ -151,7 +226,7 @@ export default defineInstrument({
         variant: "input",
         label: "Dexmedetomidine batch number",
         },
-        (type) => type === 'Structural and fMRI'),
+        (type) => type === 'Structural and Functional Protocol'),
         
       isofluoraneBatchNumber: createMRIDependentField({
         kind: 'string',
@@ -181,25 +256,25 @@ export default defineInstrument({
         kind: "boolean",
         variant: "radio",
         label: "Was breathing stable?"
-      }, (type) => type !== "Ex-vivo structural" && type !== undefined),
+      }, (type) => type !== "Ex-vivo Protocol" && type !== undefined),
       oxygenConcentration: createMRIDependentField({
         kind: "number",
         variant: "input",
         label: "Oxygen Concentration (0-100%)"
       },
-      (type) => type === "Structural and fMRI" || type === "Quantitative"),
+      (type) => type === "Structural and Functional Protocol" || type === "Quantitative and Functional Protocol"),
       oxygenSaturation: createMRIDependentField({
         kind: "number",
         variant: "input",
         label: "SPO2 value (0-100%)"
       },
-      (type) => type === "Structural and fMRI" || type === "Quantitative"),
+      (type) => type === "Structural and Functional Protocol" || type === "Quantitative and Functional Protocol"),
       respirationRate: createMRIDependentField({
         kind: "number",
         variant: "input",
         label: "Respiration rate (breaths/min)"
       },
-      (type) => type === "Structural and fMRI" || type === "Quantitative"),
+      (type) => type === "Structural and Functional Protocol" || type === "Quantitative and Functional Protocol"),
       formOfMeasurement: createMRIDependentField({
         kind: "string",
         variant: "select",
@@ -210,14 +285,14 @@ export default defineInstrument({
           "Manual":"Manual"
         }
       },
-      (type) => type === "Structural and fMRI" || type === "Quantitative"),
+      (type) => type === "Structural and Functional Protocol" || type === "Quantitative and Functional Protocol"),
       fmriIsofluorane: createMRIDependentField({
         kind: "number",
         variant: "slider",
         label: "fMRI Isofluorane percentage, consider this as the value before it is divised by 10, i.e. 15 = 1.5%",
         max: 15,
         min: 0
-      }, (type) => type ===  "Structural and fMRI"),
+      }, (type) => type ===  "Structural and Functional Protocol"),
       fmriIsofluoraneColour: {
         kind: "dynamic",
         render(data){
@@ -274,7 +349,7 @@ export default defineInstrument({
         let measureOutput = ''
         if(val){
           for (const info of val) {
-            measureOutput += info.mriProtocol + ' ' + (info.exVivoCranioStatus ?? ' ') + ' ' + (info.dexSolutionDate ? 'dex solution date: ' + info.dexSolutionDate:'')  + ' ' + (info.dexBatchNumber ? 'dex batch number: ' + info.dexBatchNumber:'') +
+            measureOutput += (info.exVivoCranioStatus ?? ' ') + ' ' + (info.dexSolutionDate ? 'dex solution date: ' + info.dexSolutionDate:'')  + ' ' + (info.dexBatchNumber ? 'dex batch number: ' + info.dexBatchNumber:'') +
             ' ' + (info.isofluoraneBatchNumber ? 'isofluorane batch number: ' + info.isofluoraneBatchNumber:'') + ' ' + (info.isofluoraneAdjustedPercentage ? 'Isofluorane adjusted percentage: ' + 
             info.isofluoraneAdjustedPercentage + '%':'') + ' ' + (info.breathingStable ? 'breathing stable: ' + info.breathingStable: '') + ' ' +
             (info.oxygenConcentration ? 'O2 concentration: ' + info.oxygenConcentration + '%' : '') + ' ' + (info.oxygenSaturation ? 'O2 saturation: ' + info.oxygenSaturation + '%' : '') +
@@ -292,7 +367,7 @@ export default defineInstrument({
     coilType: z.string(),
     paravisionVersion: z.string(),
     scanRecordInfo: z.array(z.object({
-      mriProtocol: z.string(),
+      mriScanName: z.string(),
       exVivoCranioStatus: z.string().optional(),
       dexSolutionDate: z.date().optional(),
       dexBatchNumber: z.string().optional(),
