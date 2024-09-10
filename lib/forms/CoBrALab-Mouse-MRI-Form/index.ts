@@ -17,72 +17,19 @@ function createMRIDependentField<const T>(field: T, fn: (mriProtocol: string) =>
 }
 
 const scanNameOptions = {
-  "Tripilot":"Tripilot",
+  "Localizer": "Localizer",
   "T1_FLASH_3D_100iso_10deg":"T1_FLASH_3D_100iso_10deg",
-  "1_new_tripilot":"1_new_tripilot",
   "FLASH_3D_reduced":"FLASH_3D_reduced",
   "ADJ_B0MAP":"ADJ_B0MAP",
   "revNoTrigAdjPEOffEPI":"revNoTrigAdjPEOffEPI",
   "B0 Map":"B0 Map",
-  "1_Localizer_3slices_CIC":"1_Localizer_3slices_CIC",
   "B1map_RARE_60deg_4s":"B1map_RARE_60deg_4s",
   "B1map_RARE_120deg_4s":"B1map_RARE_120deg_4s",
   "MGE_MTOff":"MGE_MTOff",
   "MGE_MTOn":"MGE_MTOn",
   "MGE_MTOff_Tw1_30deg":"MGE_MTOff_Tw1_30deg",
   "T2star_FID_EPI_sat_dan_ver_original":"T2star_FID_EPI_sat_dan_ver_original",
-  "01-Tripilot-multi":"01-Tripilot-multi",
   "exvivoDanFLASH":"exvivoDanFLASH"
-
-}
-
-const structScanNames = {
-  "Tripilot":"Tripilot",
-  "T1_FLASH_3D_100iso_10deg":"T1_FLASH_3D_100iso_10deg",
-}
-
-const neonateStructScanNames = {
-  "1_new_tripilot":"1_new_tripilot",
-  "FLASH_3D_reduced":"FLASH_3D_reduced",
-}
-
-const structAndFuncScanNames = {
-  "Tripilot":"Tripilot",
-  "ADJ_B0MAP":"ADJ_B0MAP",
-  "T1_FLASH_3D_100iso_10deg":"T1_FLASH_3D_100iso_10deg",
-  "revNoTrigAdjPEOffEPI":"revNoTrigAdjPEOffEPI",
-  "B0 Map":"B0 Map",
-}
-
-const quantAndFuncScanNames = {
-  "1_Localizer_3slices_CIC":"1_Localizer_3slices_CIC",
-  "ADJ_B0MAP":"ADJ_B0MAP",
-  "B1map_RARE_60deg_4s":"B1map_RARE_60deg_4s",
-  "B1map_RARE_120deg_4s":"B1map_RARE_120deg_4s",
-  "MGE_MTOff":"MGE_MTOff",
-  "MGE_MTOn":"MGE_MTOn",
-  "MGE_MTOff_Tw1_30deg":"MGE_MTOff_Tw1_30deg",
-  "T2star_FID_EPI_sat_dan_ver_original":"T2star_FID_EPI_sat_dan_ver_original",
-  "B0 Map":"B0 Map",
-}
-
-const quantAndStructScanNames = {
-  "1_Localizer_3slices_CIC":"1_Localizer_3slices_CIC",
-  "ADJ_B0MAP":"ADJ_B0MAP",
-  "MGE_MTOff":"MGE_MTOff",
-  "MGE_MTOn":"MGE_MTOn",
-  "MGE_MTOff_Tw1_30deg":"MGE_MTOff_Tw1_30deg",
-  "B1map_RARE_60deg_4s":"B1map_RARE_60deg_4s",
-  "B1map_RARE_120deg_4s":"B1map_RARE_120deg_4s",
-  "B0 Map":"B0 Map",
-}
-
-const exVivoScanNames = {
-  "01-Tripilot-multi":"01-Tripilot-multi",
-  "exvivoDanFLASH":"exvivoDanFLASH"
-}
-
-const protocolList = {
 
 }
 
@@ -149,60 +96,10 @@ export default defineInstrument({
       label: "MRI scan record",
       fieldset: {
         mriScanName: {
-          kind: "dynamic",
-          deps: ["mriProtocol"],
-          render(data) {
-            if(data.mriProtocol === "Ex-vivo Protocol"){
-              return {
-                kind: "string",
-                variant: "select",
-                label: "MRI scan name",
-                options: exVivoScanNames
-              }
-              
-            }
-            else if (data.mriProtocol === "Structural Protocol"){
-              return {
-                kind: "string",
-                variant: "select",
-                label: "MRI scan name",
-                options: structScanNames
-              }
-            }
-            else if (data.mriProtocol === "Neonate Structural Protocol"){
-              return {
-                kind: "string",
-                variant: "select",
-                label: "MRI scan name",
-                options: neonateStructScanNames
-              }
-            }
-            else if (data.mriProtocol === "Structural and Functional Protocol"){
-              return {
-                kind: "string",
-                variant: "select",
-                label: "MRI scan name",
-                options: structAndFuncScanNames
-              }
-            }
-            else if (data.mriProtocol === "Quantitative and Functional Protocol"){
-              return {
-                kind: "string",
-                variant: "select",
-                label: "MRI scan name",
-                options: quantAndFuncScanNames
-              }
-            }
-            else if (data.mriProtocol === "Quantitative and Structural Protocol"){
-              return {
-                kind: "string",
-                variant: "select",
-                label: "MRI scan name",
-                options: quantAndStructScanNames
-              }
-            }
-            return null
-          }
+          kind: "string",
+          variant: "select",
+          label: "Scan name",
+          options: scanNameOptions
         },
         
         exVivoCranioStatus: createMRIDependentField(
@@ -349,7 +246,7 @@ export default defineInstrument({
         let measureOutput = ''
         if(val){
           for (const info of val) {
-            measureOutput += (info.exVivoCranioStatus ?? ' ') + ' ' + (info.dexSolutionDate ? 'dex solution date: ' + info.dexSolutionDate:'')  + ' ' + (info.dexBatchNumber ? 'dex batch number: ' + info.dexBatchNumber:'') +
+            measureOutput += info.mriScanName + ' ' +  (info.exVivoCranioStatus ?? ' ') + ' ' + (info.dexSolutionDate ? 'dex solution date: ' + info.dexSolutionDate:'')  + ' ' + (info.dexBatchNumber ? 'dex batch number: ' + info.dexBatchNumber:'') +
             ' ' + (info.isofluoraneBatchNumber ? 'isofluorane batch number: ' + info.isofluoraneBatchNumber:'') + ' ' + (info.isofluoraneAdjustedPercentage ? 'Isofluorane adjusted percentage: ' + 
             info.isofluoraneAdjustedPercentage + '%':'') + ' ' + (info.breathingStable ? 'breathing stable: ' + info.breathingStable: '') + ' ' +
             (info.oxygenConcentration ? 'O2 concentration: ' + info.oxygenConcentration + '%' : '') + ' ' + (info.oxygenSaturation ? 'O2 saturation: ' + info.oxygenSaturation + '%' : '') +
