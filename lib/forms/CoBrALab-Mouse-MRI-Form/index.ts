@@ -97,7 +97,6 @@ export default defineInstrument({
         },
         exVivoCranioStatus: {
           kind: 'dynamic',
-          deps: ["exVivoScan"],
           render(data) {
             if(data.exVivoScan){
               return {
@@ -113,35 +112,78 @@ export default defineInstrument({
             return null
           }
         },
-
-        dexSolutionDate: createMRIDependentField(
-        {kind: "date",
-       label: "Dexmedetomidine solution creation date",},
-       (type) => type === 'Structural and Functional Protocol'),
-
-          dexBatchNumber: createMRIDependentField(
-        {
-          kind: "string",
-        variant: "input",
-        label: "Dexmedetomidine batch number",
+        dexUsed: {
+          kind: "boolean",
+          variant: "radio",
+          label: "Was Dexmedetomidine used?"
         },
-        (type) => type === 'Structural and Functional Protocol'),
+
+        dexSolutionDate: {
+          kind: "dynamic",
+          render(data) {
+            if(data.dexUsed){
+              return {
+                kind: "date",
+                label: "Dexmedetomidine Solution date",
+              }
+            }
+            return null
+          }
+        },
+
+        dexBatchNumber:  {
+          kind: "dynamic",
+          render(data) {
+            if(data.dexUsed){
+              return {
+                kind: "string",
+                variant: "input",
+                label: "Dexmedetomidine batch number",
+              }
+            }
+            return null
+          }
+        },
+          
+      isofluoraneUsed: {
+        kind: "boolean",
+        variant : "radio",
+        label: "Isofluorane used?"
+      } ,
         
-      isofluoraneBatchNumber: createMRIDependentField({
-        kind: 'string',
-        variant: "input",
-        label: "Isofluorane batch number"
-      }, (type) => type === "In-vivo structural"),
-      isofluoraneAdjusted: createMRIDependentField({
-        kind: 'boolean',
-        variant: "radio",
-        label: "Isofluorane adjusted from SOP?"
-      }, (type) => type === "In-vivo structural"),
+      isofluoraneBatchNumber: {
+        kind: "dynamic",
+        render(data){
+          if(data.isofluoraneUsed){
+            return {
+               kind: 'string',
+              variant: "input",
+              label: "Isofluorane batch number"
+            }
+          }
+          return null
+        }
+      },
+      
+      
+      isofluoraneAdjusted: {
+         kind: "dynamic",
+        render(data){
+          if(data.isofluoraneUsed){
+            return {
+                kind: 'boolean',
+                variant: "radio",
+                label: "Isofluorane adjusted from SOP?"
+            }
+          }
+          return null
+        }
+      },
 
       isofluoraneAdjustedPercentage: {
         kind: "dynamic",
         render(data) {
-          if(data.isofluoraneAdjusted && data.mriProtocol === "In-vivo structural"){
+          if(data.isofluoraneAdjusted){
             return {
               kind: "string",
               variant: "input",
@@ -151,48 +193,106 @@ export default defineInstrument({
           return null
         }
       },
-      breathingStable: createMRIDependentField({
+
+      mouseVitalsTracked: {
         kind: "boolean",
         variant: "radio",
-        label: "Was breathing stable?"
-      }, (type) => type !== "Ex-vivo Protocol" && type !== undefined),
-
-      oxygenConcentration: createMRIDependentField({
-        kind: "number",
-        variant: "input",
-        label: "Oxygen Concentration (0-100%)"
-      },
-      (type) => type === "Structural and Functional Protocol" || type === "Quantitative and Functional Protocol"),
-      oxygenSaturation: createMRIDependentField({
-        kind: "number",
-        variant: "input",
-        label: "SPO2 value (0-100%)"
-      },
-      (type) => type === "Structural and Functional Protocol" || type === "Quantitative and Functional Protocol"),
-      respirationRate: createMRIDependentField({
-        kind: "number",
-        variant: "input",
-        label: "Respiration rate (breaths/min)"
-      },
-      (type) => type === "Structural and Functional Protocol" || type === "Quantitative and Functional Protocol"),
-      formOfMeasurement: createMRIDependentField({
-        kind: "string",
-        variant: "select",
-        label: "How were Oxygen concentration, SPO2, and respiration rate recorded?",
-        options: {
-          "Waveform": "Waveform",
-          "Numerical": "Numerical",
-          "Manual":"Manual"
+        label:"Were the animal's vitals tracked during scan (e.g. SPO2, O2 concentration, breathing,etc.)?"
+      },      
+      breathingStable: {
+        kind: 'dynamic',
+        render(data) {
+          if(data.mouseVitalsTracked){
+            return {
+              kind: "boolean",
+              variant: "radio",
+              label: "Was breathing stable?"
+            }
+          }
+          return null
         }
       },
-      (type) => type === "Structural and Functional Protocol" || type === "Quantitative and Functional Protocol"),
-      fmriIsofluorane: createMRIDependentField({
-        kind: "number",
-        variant: "slider",
-        label: "fMRI Isofluorane percentage, consider this as the value before it is divised by 10, i.e. 15 = 1.5%",
-        max: 15,
-        min: 0
-      }, (type) => type ===  "Structural and Functional Protocol"),
+
+      oxygenConcentration: {
+        kind: 'dynamic',
+        render(data) {
+          if(data.mouseVitalsTracked){
+            return {
+              kind: "number",
+              variant: "input",
+              label: "Oxygen Concentration (0-100%)"
+            }
+          }
+          return null
+        }
+      },
+      oxygenSaturation: {
+        kind: 'dynamic',
+        render(data) {
+          if(data.mouseVitalsTracked){
+            return {
+              kind: "number",
+              variant: "input",
+              label: "SPO2 value (0-100%)"
+            }
+          }
+          return null
+        }
+      },
+      respirationRate: {
+        kind: 'dynamic',
+        render(data) {
+          if(data.mouseVitalsTracked){
+            return {
+                kind: "number",
+                variant: "input",
+                label: "Respiration rate (breaths/min)"
+            }
+          }
+          return null
+        }
+      },
+
+      formOfMeasurement:  {
+        kind: 'dynamic',
+        render(data) {
+          if(data.mouseVitalsTracked){
+            return {
+                  kind: "string",
+                  variant: "select",
+                  label: "How were Oxygen concentration, SPO2, and respiration rate recorded?",
+                  options: {
+                    "Waveform": "Waveform",
+                    "Numerical": "Numerical",
+                    "Manual":"Manual"
+                  }
+            }
+          }
+          return null
+        }
+      },
+      
+      fmriIsofluoraneTracked: {
+        kind: "boolean",
+        variant: "radio",
+        label: "fmri isofluorane levels tracked?"
+      },
+      
+      fmriIsofluorane: {
+        kind: "dynamic",
+        render(data){
+          if(data.fmriIsofluoraneTracked){
+            return {
+              kind: "number",
+              variant: "slider",
+              label: "fMRI Isofluorane percentage, consider this as the value before it is divised by 10, i.e. 15 = 1.5%",
+              max: 15,
+              min: 0
+            }
+          }
+          return null
+        }
+      },
       fmriIsofluoraneColour: {
         kind: "dynamic",
         render(data){
@@ -271,16 +371,20 @@ export default defineInstrument({
       mriScanName: z.string(),
       exVivoScan: z.boolean(),
       exVivoCranioStatus: z.string().optional(),
+      dexUsed: z.boolean(),
       dexSolutionDate: z.date().optional(),
       dexBatchNumber: z.string().optional(),
+      isofluoraneUsed: z.boolean(),
       isofluoraneBatchNumber: z.string().optional(),
       isofluoraneAdjusted: z.boolean().optional(),
       isofluoraneAdjustedPercentage: z.string().optional(),
+      mouseVitalsTracked: z.boolean(),
       breathingStable: z.boolean().optional(),
       oxygenConcentration: z.number().min(0).max(100).optional(),
       oxygenSaturation: z.number().min(0).max(100).optional(),
       respirationRate: z.number().min(0).max(350).optional(),
       formOfMeasurement: z.string().optional(),
+      fmriIsofluoraneTracked: z.boolean(),
       fmriIsofluorane: z.number().optional(),
       fmriIsofluoraneColour: z.string().optional(),
       otherComments: z.string().optional()
