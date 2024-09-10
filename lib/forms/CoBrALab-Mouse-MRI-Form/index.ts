@@ -67,19 +67,6 @@ export default defineInstrument({
         }
     },
 
-    mriProtocol: {
-      kind: "string",
-      variant: "select",
-      label: "MRI protocol",
-      options: {
-        "Ex-vivo Protocol":"Ex-vivo Protocol",
-        "Structural Protocol": "Structural Protocol",
-        "Neonate Structural Protocol": "Neonate Structural Protocol",
-        "Structural and Functional Protocol":"Structural and Functional Protocol",
-        "Quantitative and Functional Protocol":"Quantitative and Functional Protocol",
-        "Quantitative and Structural Protocol":"Quantitative and Structural Protocol",
-    }
-    },
     scanRecordInfo: {
       kind: "record-array",
       label: "MRI scan record",
@@ -366,7 +353,6 @@ export default defineInstrument({
     mriOperatorName: z.string(),
     coilType: z.string(),
     paravisionVersion: z.string(),
-    mriProtocol: z.string(),
     scanRecordInfo: z.array(z.object({
       mriScanName: z.string(),
       exVivoScan: z.boolean(),
