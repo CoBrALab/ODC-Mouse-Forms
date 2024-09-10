@@ -67,17 +67,6 @@ export default defineInstrument({
         }
     },
 
-    // mriProtocol: {
-    //   kind: "string",
-    //   variant: "select",
-    //   label: "MRI protocol",
-    //   options: {
-    //     "Ex-vivo Protocol":"Ex-vivo Protocol",
-    //     "Structural Protocol": "Structural Protocol",
-    //     "Structural and Functional Protocol": "Structural and Functional Protocol",
-    //     "Quantitative":"Quantitative"
-    // }
-    // },
     mriProtocol: {
       kind: "string",
       variant: "select",
@@ -101,16 +90,29 @@ export default defineInstrument({
           label: "Scan name",
           options: scanNameOptions
         },
-        
-        exVivoCranioStatus: createMRIDependentField(
-          {  kind: "string",
-                    variant: "radio",
-                    label: "Type of ex-vivo scan",
-                    options: {
-                        "In-cranio":"In-cranio",
-                        "Ex-cranio": "Ex-cranio"
-                    }},
-           (type) => type === 'Ex-vivo Protocol'),
+        exVivoScan: {
+          kind: "boolean",
+          variant: "radio",
+          label: "Was scan done on ex-vivo subject?"
+        },
+        exVivoCranioStatus: {
+          kind: 'dynamic',
+          deps: ["exVivoScan"],
+          render(data) {
+            if(data.exVivoScan){
+              return {
+                kind: "string",
+                variant: "radio",
+                label: "Type of ex-vivo scan",
+                options: {
+                    "In-cranio":"In-cranio",
+                    "Ex-cranio": "Ex-cranio"
+                }
+              }
+            }
+            return null
+          }
+        },
 
         dexSolutionDate: createMRIDependentField(
         {kind: "date",
@@ -154,6 +156,7 @@ export default defineInstrument({
         variant: "radio",
         label: "Was breathing stable?"
       }, (type) => type !== "Ex-vivo Protocol" && type !== undefined),
+
       oxygenConcentration: createMRIDependentField({
         kind: "number",
         variant: "input",
@@ -263,8 +266,10 @@ export default defineInstrument({
     mriOperatorName: z.string(),
     coilType: z.string(),
     paravisionVersion: z.string(),
+    mriProtocol: z.string(),
     scanRecordInfo: z.array(z.object({
       mriScanName: z.string(),
+      exVivoScan: z.boolean(),
       exVivoCranioStatus: z.string().optional(),
       dexSolutionDate: z.date().optional(),
       dexBatchNumber: z.string().optional(),
