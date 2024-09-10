@@ -3,18 +3,6 @@
 import { defineInstrument } from '/runtime/v1/@opendatacapture/runtime-core'
 import { z } from '/runtime/v1/zod@3.23.x'
 
-function createMRIDependentField<const T>(field: T, fn: (mriProtocol: string) => boolean) {
-    return {
-      kind: 'dynamic' as const,
-      deps: ["mriProtocol"] as const,
-      render: (data: { mriProtocol: string }) => {
-        if (fn(data.mriProtocol)) {
-          return field;
-        }
-        return null;
-      }
-    };
-}
 
 const scanNameOptions = {
   "Localizer": "Localizer",
