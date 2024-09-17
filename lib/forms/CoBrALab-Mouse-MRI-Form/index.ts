@@ -172,7 +172,7 @@ export default defineInstrument({
       mouseVitalsTracked: {
         kind: "boolean",
         variant: "radio",
-        label:"Were the animal's vitals tracked during scan (e.g. SPO2, O2 concentration, breathing,etc.)?"
+        label:"Were the animal's vitals tracked during scan (e.g. SP_O2, O_2 concentration, breathing,etc.)?"
       },      
       breathingStable: {
         kind: 'dynamic',
@@ -208,7 +208,7 @@ export default defineInstrument({
             return {
               kind: "number",
               variant: "input",
-              label: "SPO2 value (0-100%)"
+              label: "SP_O2 value (0-100%)"
             }
           }
           return null
@@ -235,7 +235,7 @@ export default defineInstrument({
             return {
                   kind: "string",
                   variant: "select",
-                  label: "How were Oxygen concentration, SPO2, and respiration rate recorded?",
+                  label: "How were Oxygen concentration, SP_O2, and respiration rate recorded?",
                   options: {
                     "Waveform": "Waveform",
                     "Numerical": "Numerical",
@@ -327,7 +327,7 @@ export default defineInstrument({
             measureOutput += info.mriScanName + ' ' +  (info.exVivoCranioStatus ?? ' ') + ' ' + (info.dexSolutionDate ? 'dex solution date: ' + info.dexSolutionDate:'')  + ' ' + (info.dexBatchNumber ? 'dex batch number: ' + info.dexBatchNumber:'') +
             ' ' + (info.isofluoraneBatchNumber ? 'isofluorane batch number: ' + info.isofluoraneBatchNumber:'') + ' ' + (info.isofluoraneAdjustedPercentage ? 'Isofluorane adjusted percentage: ' + 
             info.isofluoraneAdjustedPercentage + '%':'') + ' ' + (info.breathingStable ? 'breathing stable: ' + info.breathingStable: '') + ' ' +
-            (info.oxygenConcentration ? 'O2 concentration: ' + info.oxygenConcentration + '%' : '') + ' ' + (info.oxygenSaturation ? 'O2 saturation: ' + info.oxygenSaturation + '%' : '') +
+            (info.oxygenConcentration ? 'O_2 concentration: ' + info.oxygenConcentration + '%' : '') + ' ' + (info.oxygenSaturation ? 'O_2 saturation: ' + info.oxygenSaturation + '%' : '') +
             ' ' + (info.respirationRate ? 'respiration rate: ' + info.respirationRate + 'breath/min' : '' ) + ' ' + (info.formOfMeasurement ? 'form of measurement: ' + info.formOfMeasurement: '') +
             ' ' + (info.fmriIsofluorane ? 'fMRI isofluorane percentage: ' + (info.fmriIsofluorane / 10) + '%': '') + ' ' + (info.fmriIsofluoraneColour ? 'fMRI isofluorane colour: ' + info.fmriIsofluoraneColour: '') + 
             ' ' + (info.otherComments ? 'comments: ' + info.otherComments: '') + '\n';
