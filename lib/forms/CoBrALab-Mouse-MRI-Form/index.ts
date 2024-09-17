@@ -55,6 +55,29 @@ export default defineInstrument({
         }
     },
 
+    exVivoScan: {
+      kind: "boolean",
+      variant: "radio",
+      label: "Was scan done on ex-vivo subject?"
+    },
+    exVivoCranioStatus: {
+      kind: 'dynamic',
+      render(data) {
+        if(data.exVivoScan){
+          return {
+            kind: "string",
+            variant: "radio",
+            label: "Type of ex-vivo scan",
+            options: {
+                "In-cranio":"In-cranio",
+                "Ex-cranio": "Ex-cranio"
+            }
+          }
+        }
+        return null
+      }
+    },
+
     scanRecordInfo: {
       kind: "record-array",
       label: "MRI scan record",
@@ -64,28 +87,6 @@ export default defineInstrument({
           variant: "select",
           label: "Scan name",
           options: scanNameOptions
-        },
-        exVivoScan: {
-          kind: "boolean",
-          variant: "radio",
-          label: "Was scan done on ex-vivo subject?"
-        },
-        exVivoCranioStatus: {
-          kind: 'dynamic',
-          render(data) {
-            if(data.exVivoScan){
-              return {
-                kind: "string",
-                variant: "radio",
-                label: "Type of ex-vivo scan",
-                options: {
-                    "In-cranio":"In-cranio",
-                    "Ex-cranio": "Ex-cranio"
-                }
-              }
-            }
-            return null
-          }
         },
         dexUsed: {
           kind: "boolean",
@@ -170,10 +171,19 @@ export default defineInstrument({
       },
 
       mouseVitalsTracked: {
-        kind: "boolean",
-        variant: "radio",
-        label:"Were the animal's vitals tracked during scan (e.g. SP_O2, O_2 concentration, breathing,etc.)?"
-      },      
+        kind: "computed",
+        render(data) {
+          if(!data.exVivoScan){
+            return {
+              kind: "boolean",
+              variant: "radio",
+              label:"Were the animal's vitals tracked during scan (e.g. SP_O2, O_2 concentration, breathing, etc.)?"
+            }
+          }
+          return null
+        }
+       
+      }, 
       breathingStable: {
         kind: 'dynamic',
         render(data) {
@@ -316,6 +326,14 @@ export default defineInstrument({
       label: 'Paravision Version',
       ref: 'paravisionVersion'
     },
+    exVivoScan: {
+      kind: "const",
+      ref: "exVivoScan"
+    },
+    exVivoCranioStatus: {
+      kind: "const",
+      ref: "exVivoCranioStatus"
+    },
     scanRecordInfo: {
       kind: "computed",
       label: "Scan record info",
@@ -341,10 +359,10 @@ export default defineInstrument({
     mriOperatorName: z.string(),
     coilType: z.string(),
     paravisionVersion: z.string(),
+    exVivoScan: z.boolean(),
+    exVivoCranioStatus: z.string().optional(),
     scanRecordInfo: z.array(z.object({
       mriScanName: z.string(),
-      exVivoScan: z.boolean(),
-      exVivoCranioStatus: z.string().optional(),
       dexUsed: z.boolean(),
       dexSolutionDate: z.date().optional(),
       dexBatchNumber: z.string().optional(),
@@ -352,7 +370,7 @@ export default defineInstrument({
       isofluoraneBatchNumber: z.string().optional(),
       isofluoraneAdjusted: z.boolean().optional(),
       isofluoraneAdjustedPercentage: z.string().optional(),
-      mouseVitalsTracked: z.boolean(),
+      mouseVitalsTracked: z.boolean().optional(),
       breathingStable: z.boolean().optional(),
       oxygenConcentration: z.number().min(0).max(100).optional(),
       oxygenSaturation: z.number().min(0).max(100).optional(),
