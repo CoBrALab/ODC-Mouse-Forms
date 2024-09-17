@@ -250,7 +250,7 @@ export default defineInstrument({
       fmriIsofluoraneTracked: {
         kind: "boolean",
         variant: "radio",
-        label: "fmri isofluorane levels tracked?"
+        label: "fMRI isofluorane levels tracked?"
       },
       
       fmriIsofluorane: {
