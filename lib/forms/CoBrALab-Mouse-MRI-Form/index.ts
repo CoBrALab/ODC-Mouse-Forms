@@ -68,6 +68,7 @@ export default defineInstrument({
     },
     exVivoCranioStatus: {
       kind: 'dynamic',
+      deps: ['exVivoScan'],
       render(data) {
         if(data.exVivoScan){
           return {
@@ -85,7 +86,11 @@ export default defineInstrument({
     },
 
     scanRecordInfo: {
-      kind: "record-array",
+      kind: "dynamic",
+      deps: ["exVivoScan"],
+      render({exVivoScan}){
+        return {
+           kind: "record-array",
       label: "MRI scan record",
       fieldset: {
         mriScanName: {
@@ -177,9 +182,9 @@ export default defineInstrument({
       },
 
       mouseVitalsTracked: {
-        kind: "computed",
+        kind: "dynamic",
         render(data) {
-          if(!data.exVivoScan){
+          if(!exVivoScan){
             return {
               kind: "boolean",
               variant: "radio",
@@ -306,6 +311,9 @@ export default defineInstrument({
         variant: "textarea",
         label: "Please write any additonal comments/notes here"
       }
+        }
+      }
+     
       }
     },
   },
@@ -348,7 +356,7 @@ export default defineInstrument({
         let measureOutput = ''
         if(val){
           for (const info of val) {
-            measureOutput += info.mriScanName + ' ' +  (info.exVivoCranioStatus ?? ' ') + ' ' + (info.dexSolutionDate ? 'dex solution date: ' + info.dexSolutionDate:'')  + ' ' + (info.dexBatchNumber ? 'dex batch number: ' + info.dexBatchNumber:'') +
+            measureOutput += info.mriScanName  + ' ' + (info.dexSolutionDate ? 'dex solution date: ' + info.dexSolutionDate:'')  + ' ' + (info.dexBatchNumber ? 'dex batch number: ' + info.dexBatchNumber:'') +
             ' ' + (info.isofluoraneBatchNumber ? 'isofluorane batch number: ' + info.isofluoraneBatchNumber:'') + ' ' + (info.isofluoraneAdjustedPercentage ? 'Isofluorane adjusted percentage: ' + 
             info.isofluoraneAdjustedPercentage + '%':'') + ' ' + (info.breathingStable ? 'breathing stable: ' + info.breathingStable: '') + ' ' +
             (info.oxygenConcentration ? 'O_2 concentration: ' + info.oxygenConcentration + '%' : '') + ' ' + (info.oxygenSaturation ? 'O_2 saturation: ' + info.oxygenSaturation + '%' : '') +
