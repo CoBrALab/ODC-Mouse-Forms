@@ -21,7 +21,6 @@ const scanNameOptions = {
 
 }
 
-
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
@@ -42,7 +41,14 @@ export default defineInstrument({
         label: "Type of coil",
         options: {
             "Cryocoil":"Cryocoil",
-            "23 mm volumetric": "23 mm volumetric"
+            "23 mm volumetric": "23 mm volumetric",
+            "40 mm volumetric rat coil":"40 mm volumetric rat coil",
+            "86 mm volumetric coil":"86 mm volumetric coil",
+            "mouse surface coil":"mouse surface coil",
+            "4 coil array mouse surface coil":"4 coil array mouse surface coil",
+            "10 mm loop coil":"10 mm loop coil",
+            "30 mm loop coil":"30 mm loop coil"
+
         }
     },
     paravisionVersion: {
