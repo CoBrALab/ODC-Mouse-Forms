@@ -19,8 +19,27 @@ export default defineInstrument({
     },
     scaleSerialCode: {
       kind: 'string',
-      variant: 'input',
-      label: "Scale serial code"
+      variant: 'select',
+      label: "Scale serial code",
+      options: {
+        "8334378068":"8334378068",
+        "Other": "Other"
+      }
+    },
+    scaleSerialCodeOther: {
+      kind: "dynamic",
+      deps: ["scaleSerialCode"],
+      render(data) {
+        if(data.scaleSerialCode === "Other"){
+          return {
+            kind: "string",
+            variant: "input",
+            label: "Please enter other serial code"
+          }
+        }
+        return null
+      }
+      
     },
     scaleKind: {
       kind: 'string',
@@ -50,6 +69,11 @@ export default defineInstrument({
       label: "Scale serial code",
       ref: "scaleSerialCode"
     },
+    scaleSerialCodeOther: {
+      kind: 'const',
+      label: "Other Scale serial code provided",
+      ref: "scaleSerialCode"
+    },
     scaleKind: {
       kind: "const",
       ref: "scaleKind"
@@ -57,8 +81,9 @@ export default defineInstrument({
 
   },
   validationSchema: z.object({
-    mouseWeight: z.number().min(1).max(50),
+    mouseWeight: z.number().min(1).max(100),
     scaleSerialCode: z.string(),
+    scaleSerialCodeOther: z.string().optional(),
     scaleKind: z.string()
   })
 });
