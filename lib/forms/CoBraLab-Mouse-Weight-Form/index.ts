@@ -47,7 +47,7 @@ export default defineInstrument({
       label: "Kind of scale",
       options: {
         "Portable": "Small portable",
-        "Regular": "Regular"
+        "Regular": "Regular (Scout Pro SP401)"
       }
     }
   },
