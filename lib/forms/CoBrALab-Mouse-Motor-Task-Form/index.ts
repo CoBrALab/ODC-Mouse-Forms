@@ -87,7 +87,7 @@ export default defineInstrument({
     poleTestDuration: createDependentField({
       kind: "number",
       variant: "input",
-      label: "Pole test duration"
+      label: "Pole test duration (seconds)"
     }, (type) => type === "Pole test"),
 
     poleTestResultLevel: createDependentField({
@@ -178,7 +178,7 @@ export default defineInstrument({
     rotorodWirehangFailure: z.boolean().optional(),
     rotorodSlotPosition: z.string().optional(),
     wirehangDuration: z.number().min(0).optional(),
-    wirehangPutbacks: z.number().min(0).optional(),
+    wirehangPutbacks: z.number().min(0).int().optional(),
     poleTestDuration: z.number().min(0).optional(),
     poleTestResultLevel: z.string().optional(),
     poleTestMarginalFailureReason: z.string().optional()
