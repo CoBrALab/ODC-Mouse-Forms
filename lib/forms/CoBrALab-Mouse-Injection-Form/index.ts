@@ -62,9 +62,9 @@ export default defineInstrument({
       render(data) {
         if(data.hydrationProvided){
           return {
-            kind: "string",
+            kind: "number",
             variant: "input",
-            label: "Saline volume"
+            label: "Saline volume (ml)"
           }
         }
         return null
@@ -126,7 +126,7 @@ export default defineInstrument({
     ipDoseVolume: createDependentField({
       kind: "number",
       variant: "input",
-      label: "IP dose volume"
+      label: "IP dose volume (ml)"
     }, (type) => type === "IP"),
 
     drugInjected: createDependentField({
@@ -216,12 +216,12 @@ export default defineInstrument({
     injectionType: z.string(),
     intracerebralInjectionType: z.string().optional(),
     hydrationProvided: z.boolean().optional(),
-    hydrationVolume: z.string().optional(),
+    hydrationVolume: z.number().min(0).optional(),
     subcutaneousInjectionType: z.string().optional(),
     subcutaneousInjectionTime: z.string().optional(),
     postOperationDay: z.date().optional(),
     analgesicType: z.string().optional(),
-    ipDoseVolume: z.number().optional(),
+    ipDoseVolume: z.number().min(0).optional(),
     drugInjected: z.string().optional(),
     ipInjectionType: z.string().optional()
   })
