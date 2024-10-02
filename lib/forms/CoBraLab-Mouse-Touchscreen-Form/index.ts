@@ -138,7 +138,7 @@ export default defineInstrument({
   },
   details: {
     description: 'This is a form to collect data from a mouses touchscreen session',
-    estimatedDuration: 1,
+    estimatedDuration: 2,
     instructions: ['Please answer the forms questions as accurately as possible, this form is meant be filled in per mouse used'],
     license: 'Apache-2.0',
     title: 'Mouse Touchscreen form'
