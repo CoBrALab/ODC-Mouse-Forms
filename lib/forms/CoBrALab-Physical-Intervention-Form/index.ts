@@ -40,7 +40,7 @@ export default defineInstrument({
         "Anesthesia": "Anesthesia"
       }
     },
-    NameOfVaginalSwabber: createDependentField({
+    nameOfVaginalSwabber: createDependentField({
       kind: "string",
       variant: 'input',
       label: "Person swabbing"
@@ -147,9 +147,9 @@ export default defineInstrument({
       kind: "const",
       ref: "interventionType"
     },
-    NameOfVaginalSwabber: {
+    nameOfVaginalSwabber: {
       kind: "const",
-      ref: "NameOfVaginalSwabber"
+      ref: "nameOfVaginalSwabber"
     },
     vaginalSwabNumber: {
       kind: "const",
@@ -205,7 +205,7 @@ export default defineInstrument({
   },
   validationSchema: z.object({
     interventionType: z.string(),
-    NameOfVaginalSwabber: z.string().optional(),
+    nameOfVaginalSwabber: z.string().optional(),
     vaginalSwabNumber: z.number().min(1).int().optional(),
     vaginalCytologyDuration: z.number().min(1).optional(),
     vaginalCytologySolutionVolume: z.number().min(0).optional(),
