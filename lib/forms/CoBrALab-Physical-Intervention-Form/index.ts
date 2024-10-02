@@ -128,7 +128,7 @@ export default defineInstrument({
       kind: "number",
       variant: "input",
       label: "Number of teeth extracted"
-    }, (type) => type === "Teeth Extraction"),
+    }, (type) => type === "Teeth extraction"),
     bloodGlucoseLevel: createDependentField({
       kind: "string",
       variant: 'input',
