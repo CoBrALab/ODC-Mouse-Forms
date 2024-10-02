@@ -37,7 +37,7 @@ export default defineInstrument({
     description: 'Describes when an animal was handled, its current handling session, and the handling method used.',
     estimatedDuration: 1,
     instructions: ['Please fill out this form once a mouse finishes a handling session. During a handling session day this form is expected to done a total of three times for each individual session completed. All forms of handling used by the handler are all expected to be within the SOP'],
-    license: 'UNLICENSED',
+    license: 'Apache-2.0',
     title: 'Mouse Handling Form'
   },
   measures: {

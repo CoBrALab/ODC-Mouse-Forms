@@ -221,9 +221,9 @@ export default defineInstrument({
   },
   details: {
     description: 'Describes the information about a physical intervention done upon a Mouse, either in the form of as surgery or as a wound treatment done by the veterinary team.',
-    estimatedDuration: 1,
+    estimatedDuration: 3,
     instructions: ['Please fill this form whenever a mouse has to through a surgery or has gone through veterinary care. If the wound treatment section is selected to be filled in, please use the information written on the card provided by the veterinary team'],
-    license: 'UNLICENSED',
+    license: 'Apache-2.0',
     title: 'Mouse Surgery and Wound Treatment Form'
   },
   measures: {
