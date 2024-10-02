@@ -40,7 +40,7 @@ export default defineInstrument({
         "Anesthesia": "Anesthesia"
       }
     },
-    vaginalSwabber: createDependentField({
+    NameOfVaginalSwabber: createDependentField({
       kind: "string",
       variant: 'input',
       label: "Person swabbing"
@@ -64,7 +64,7 @@ export default defineInstrument({
       label: "Cytology solution volume (ml)"
     }, (type) => type === 'Vaginal cytology'),
 
-    genotypeBodyPart: createDependentField({
+    genotypeBodyPartUsed: createDependentField({
       kind: "string",
       variant: "select",
       label: "Part of animal used for genotyping",
@@ -147,9 +147,9 @@ export default defineInstrument({
       kind: "const",
       ref: "interventionType"
     },
-    vaginalSwabber: {
+    NameOfVaginalSwabber: {
       kind: "const",
-      ref: "vaginalSwabber"
+      ref: "NameOfVaginalSwabber"
     },
     vaginalSwabNumber: {
       kind: "const",
@@ -163,9 +163,9 @@ export default defineInstrument({
       kind: "const",
       ref: "vaginalCytologySolutionVolume"
     },
-    genotypeBodyPart: {
+    genotypeBodyPartUsed: {
       kind: "const",
-      ref: "genotypeBodyPart"
+      ref: "genotypeBodyPartUsed"
     },
     genotypeCompanyUsed: {
       kind: "const",
@@ -205,11 +205,11 @@ export default defineInstrument({
   },
   validationSchema: z.object({
     interventionType: z.string(),
-    vaginalSwabber: z.string().optional(),
+    NameOfVaginalSwabber: z.string().optional(),
     vaginalSwabNumber: z.number().min(1).int().optional(),
     vaginalCytologyDuration: z.number().min(1).optional(),
     vaginalCytologySolutionVolume: z.number().min(0).optional(),
-    genotypeBodyPart: z.string().optional(),
+    genotypeBodyPartUsed: z.string().optional(),
     genotypeCompanyUsed: z.string().optional(),
     genotypeCopy: z.string().optional(),
     earTaggingSystem: z.string().optional(),
@@ -217,7 +217,5 @@ export default defineInstrument({
     )).optional(),
     teethExtractionNumber: z.number().int().min(0).max(16).optional(),
     bloodGlucoseLevel: z.string().optional()
-
-
   })
 });
