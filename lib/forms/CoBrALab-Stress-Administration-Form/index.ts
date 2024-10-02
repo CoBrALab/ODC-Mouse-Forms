@@ -3,7 +3,7 @@
 const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-core/index.js');
 const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
-function createDependentField<T>(field: T, fn: (stressorType: string) => boolean) {
+function createDependentField<const T>(field: T, fn: (stressorType: string) => boolean) {
   return {
     kind: 'dynamic' as const,
     deps: ['stressorType'] as const,
@@ -102,7 +102,7 @@ export default defineInstrument({
       }
   },
   validationSchema: z.object({
-    miceNumber: z.number(),
+    miceNumber: z.number().min(0).max(10).int(),
     roomNumber: z.string(),
     stressorType: z.string(),
     footShocksNumber: z.number().int().min(1).optional(),
