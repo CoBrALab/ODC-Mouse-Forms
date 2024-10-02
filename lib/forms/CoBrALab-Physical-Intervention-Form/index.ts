@@ -3,7 +3,7 @@
 const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-core/index.js');
 const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
-function createDependentField<T>(field: T, fn: (interventionType: string) => boolean) {
+function createDependentField<const T>(field: T, fn: (interventionType: string) => boolean) {
   return {
     kind: 'dynamic' as const,
     deps: ['interventionType'] as const,
@@ -28,7 +28,7 @@ export default defineInstrument({
     interventionType: {
       kind: "string",
       variant: "select",
-      label: "Type of physicial intervention",
+      label: "Type of physical intervention",
       options: {
         "Blood extraction": "Blood extraction",
         "Teeth extraction": "Teeth extraction",
@@ -106,7 +106,7 @@ export default defineInstrument({
       }
     },
     (type) => type === "Ear tagging"),
-    tattooInfo: createDependentField({
+    tattooLocationInfo: createDependentField({
       kind: "record-array",
       label: "Tattooing information",
       fieldset: {
@@ -179,11 +179,11 @@ export default defineInstrument({
       kind: "const",
       ref: "earTaggingSystem"
     },
-    tattooInfo: {
+    tattooLocationInfo: {
       kind: "computed",
       label: "Tattoo Locations",
       value: (data) => {
-        const val = data.tattooInfo?.map((x) => x)
+        const val = data.tattooLocationInfo?.map((x) => x)
         let tattooText = ""
         if(val){
           for (const info of val){
@@ -213,7 +213,7 @@ export default defineInstrument({
     genotypeCompanyUsed: z.string().optional(),
     genotypeCopy: z.string().optional(),
     earTaggingSystem: z.string().optional(),
-    tattooInfo: z.array(z.object({ tattooLocation: z.string().optional()}
+    tattooLocationInfo: z.array(z.object({ tattooLocation: z.string().optional()}
     )).optional(),
     teethExtractionNumber: z.number().int().min(0).max(16).optional(),
     bloodGlucoseLevel: z.string().optional()
