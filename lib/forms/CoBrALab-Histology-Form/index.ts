@@ -16,7 +16,7 @@ export default defineInstrument({
     description: '<PLACEHOLDER>',
     estimatedDuration: 1,
     instructions: ['<PLACEHOLDER>'],
-    license: 'UNLICENSED',
+    license: 'Apache 2.0',
     title: '<PLACEHOLDER>'
   },
   measures: {},
