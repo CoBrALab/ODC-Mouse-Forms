@@ -12,6 +12,11 @@ export default defineInstrument({
     name: 'HISTOLOGY_FORM'
   },
   content: {
+    roomNumber: {
+      kind: "string",
+      variant: "input",
+      label: "Room number"
+    },
     histologyType: {
       kind: "string",
       variant: "select",
@@ -111,7 +116,13 @@ export default defineInstrument({
         "Chicken serum": "Chicken serum",
         "Mice serum": "Mice serum"
       }
-    }
+    },
+    batchNumber: {
+      kind: "string",
+      variant: "input",
+      label: "Batch number"
+    },
+    
     
   },
   details: {
@@ -123,6 +134,7 @@ export default defineInstrument({
   },
   measures: {},
   validationSchema: z.object({
+    roomNumber: z.string(),
     histologyType: z.string(),
     brainStorageConditions: z.string(),
     wasBrainSliced: z.boolean(),
@@ -134,6 +146,8 @@ export default defineInstrument({
       antibodyName: z.string(),
       antibodyConcentration: z.number()
     })),
-    serumUsed: z.string()
+    serumUsed: z.string(),
+    batchNumber: z.string(),
+    
   })
 });
