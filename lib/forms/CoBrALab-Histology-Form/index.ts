@@ -172,9 +172,9 @@ export default defineInstrument({
     
   },
   details: {
-    description: 'Describes when a section animal goes through a histology process',
+    description: 'Describes when a section of an animal goes through a histology process. The processes listed in this form are Immunofluorescense and Immunohistochemistry. These are done with Ex-vivo samples usually consting of slices of the brain.',
     estimatedDuration: 1,
-    instructions: ['<PLACEHOLDER>'],
+    instructions: ['Please fill out this form whenever a Immunofluorescense or Immunohistochemistry task is done upon samples of an animal subject. In order to fill out the form the user must know which antibodies were used, if the sample was stained and if so the stain date, and how much brain tissue they used.'],
     license: 'Apache-2.0',
     title: 'Histology Form'
   },
