@@ -178,7 +178,76 @@ export default defineInstrument({
     license: 'Apache-2.0',
     title: 'Histology Form'
   },
-  measures: {},
+  measures: {
+     roomNumber: {
+    kind: 'const',
+    ref: 'roomNumber',
+  },
+  histologyType: {
+    kind: 'const',
+    ref: 'histologyType',
+  },
+  brainStorageConditions: {
+    kind: 'const',
+    ref: 'brainStorageConditions',
+  },
+  wasBrainSliced: {
+    kind: 'const',
+    ref: 'wasBrainSliced',
+  },
+  brainSliceWidth: {
+    kind: 'const',
+    ref: 'brainSliceWidth',
+  },
+  portionOfBrainSliced: {
+    kind: 'const',
+    ref: 'portionOfBrainSliced',
+  },
+  protocolFollowed: {
+    kind: 'const',
+    ref: 'protocolFollowed',
+  },
+  antibodiesUsedInfo: {
+    kind: 'computed',
+    label: "Antibodies used info",
+    value: (data) => {
+      const antibodyList = data.antibodiesUsedInfo.map((x) => x)
+      let antibodyInfoString = ''
+      if(antibodyList){
+        for (const antibody of antibodyList){
+          antibodyInfoString += 'Antibody Type: ' + antibody.antibodyType + " Antibody Name: " + antibody.antibodyName + " Antibody Concentration: " + antibody.antibodyConcentration + " μg/mL " 
+        }
+      }
+
+      return antibodyInfoString
+    }
+  },
+  serumUsed: {
+    kind: 'const',
+    ref: 'serumUsed',
+  },
+  batchNumber: {
+    kind: 'const',
+    ref: 'batchNumber',
+  },
+  wasSampleStained: {
+    kind: 'const',
+    ref: 'wasSampleStained',
+  },
+  stainUsed: {
+    kind: 'const',
+    ref: 'stainUsed',
+  },
+  dateStained: {
+    kind: 'const',
+    ref: 'dateStained',
+  },
+  histologyQuantified: {
+    kind: 'const',
+    ref: 'histologyQuantified',
+  }
+
+  },
   validationSchema: z.object({
     roomNumber: z.string(),
     histologyType: z.string(),
