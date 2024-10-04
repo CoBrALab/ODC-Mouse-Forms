@@ -122,6 +122,46 @@ export default defineInstrument({
       variant: "input",
       label: "Batch number"
     },
+    wasSampleStained: {
+      kind: "boolean",
+      variant: "radio",
+      label: "Was sample stained"
+    },
+    stainUsed: {
+      kind: "dynamic",
+      deps: ['wasSampleStained'],
+      render(data){
+        if(data.wasSampleStained){
+          return {
+              kind: "string",
+              variant: 'select',
+              label: "Stain used",
+              options: {
+                "GFAP":"GFAP",
+                "IBA1":"IBA1",
+                "PSYN":"PSYN",
+                "TH":"TH",
+                "NEUN":"NEUN"
+              }
+          }
+        }
+        return null
+      }
+    },
+    dateStained: {
+      kind: "dynamic",
+      deps: ['wasSampleStained'],
+      render(data){
+        if(data.wasSampleStained){
+          return {
+              kind: "date",
+              label: "Date sample was stained",
+              
+          }
+        }
+        return null
+      }
+    }
     
     
   },
@@ -148,6 +188,9 @@ export default defineInstrument({
     })),
     serumUsed: z.string(),
     batchNumber: z.string(),
+    wasSampleStained: z.boolean(),
+    stainUsed: z.string().optional(),
+    dateStained: z.date().optional()
     
   })
 });
