@@ -102,7 +102,7 @@ export default defineInstrument({
         antibodyConcentration: {
           kind: "number",
           variant: "input",
-          label: "Antibody Concentration"
+          label: "Antibody Concentration μg/mL"
         }
       }
     },
@@ -161,6 +161,12 @@ export default defineInstrument({
         }
         return null
       }
+    },
+
+    histologyQuantified: {
+      kind: "boolean",
+      variant: "radio",
+      label:"Histology Quantified" 
     }
     
     
@@ -190,7 +196,8 @@ export default defineInstrument({
     batchNumber: z.string(),
     wasSampleStained: z.boolean(),
     stainUsed: z.string().optional(),
-    dateStained: z.date().optional()
+    dateStained: z.date().optional(),
+    histologyQuantified: z.boolean()
     
   })
 });
