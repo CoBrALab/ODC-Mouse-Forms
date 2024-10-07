@@ -57,7 +57,7 @@ export default defineInstrument({
     footShockAmpage: createDependentField({
       kind: "number",
       variant: "input",
-      label: "Electric shock ampage (in milli-amps)"
+      label: "Electric shock ampage (in milliamps)"
     },
     (type) => type === "Electric foot shocks"),
     
