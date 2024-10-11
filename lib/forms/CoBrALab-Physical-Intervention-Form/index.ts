@@ -136,10 +136,10 @@ export default defineInstrument({
     }, (type) => type === "Blood glucose")
   },
   details: {
-    description: '<PLACEHOLDER>',
+    description: 'This form is used to track any physical intervention done upon an animal. Possible physical interventions include teeth extraction, tagging, tattooing, cytologies and other forms of swabbing.',
     estimatedDuration: 1,
-    instructions: ['<PLACEHOLDER>'],
-    license: 'UNLICENSED',
+    instructions: ['Whenever an physical intervention is done please fill out this form to describe the type of intervention and its details. One must keep track of the certain parts of the animal that were affected by the intervention or if any parts were extracted.'],
+    license: 'Apache-2.0',
     title: 'Physical Intervention Form'
   },
   measures: {
