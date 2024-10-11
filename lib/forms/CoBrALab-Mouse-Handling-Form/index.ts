@@ -59,7 +59,7 @@ export default defineInstrument({
   },
   validationSchema: z.object({
     roomNumber: z.string(),
-    handlingType: z.string(),
+    handlingType: z.enum(["Tail grabbing","Cupping","Tube method"]),
     handlingDuration: z.number().min(0)
   })
 });
