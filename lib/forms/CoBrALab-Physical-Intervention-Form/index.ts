@@ -3,11 +3,22 @@
 const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-core/index.js');
 const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
-function createDependentField<const T>(field: T, fn: (interventionType: string) => boolean) {
+const interventionTypeList = [ "Blood extraction",
+    "Teeth extraction",
+    "Ear tagging",
+    "Tattooing",
+    "Vaginal cytology",
+    "Genotyping",
+    "Blood glucose",
+    "Anesthesia"] as const
+
+type InterventionType = typeof interventionTypeList[number];
+
+function createDependentField<const T>(field: T, fn: (interventionType: InterventionType) => boolean) {
   return {
     kind: 'dynamic' as const,
     deps: ['interventionType'] as const,
-    render: (data: { interventionType: string }) => {
+    render: (data: { interventionType: InterventionType }) => {
       if (fn(data.interventionType)) {
         return field;
       }
@@ -204,7 +215,16 @@ export default defineInstrument({
     }
   },
   validationSchema: z.object({
-    interventionType: z.string(),
+     interventionType: z.enum([
+    "Blood extraction",
+    "Teeth extraction",
+    "Ear tagging",
+    "Tattooing",
+    "Vaginal cytology",
+    "Genotyping",
+    "Blood glucose",
+    "Anesthesia"
+  ]),
     nameOfVaginalSwabber: z.string().optional(),
     vaginalSwabNumber: z.number().min(1).int().optional(),
     vaginalCytologyDuration: z.number().min(1).optional(),
