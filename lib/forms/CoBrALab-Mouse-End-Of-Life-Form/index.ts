@@ -100,12 +100,7 @@ export default defineInstrument({
     },
       (type) => type === 'Cardiac puncture'
     ),
-    gestationalDay: createDependentField({
-      kind: 'date',
-      label: "Gestational day"
-    },
-      (type) => type === 'Cervical dislocation'
-    ),
+    
     perfusionAnestheticType: createDependentField({
       kind: "string",
       variant: "select",
@@ -298,11 +293,6 @@ export default defineInstrument({
       label: "Blood collected (ml)",
       ref: "bloodCollected"
     },
-    gestationalDay: {
-      kind: "const",
-      label: "Gestational day",
-      ref: "gestationalDay"
-    },
     perfusionAnestheticType: {
       kind: "const",
       label: "Type of perfusion",
@@ -352,7 +342,6 @@ export default defineInstrument({
     terminationType: z.string().optional(),
     surgeryDeathCause: z.string().optional(),
     bloodCollected: z.number().optional(),
-    gestationalDay: z.date().optional(),
     perfusionAnestheticType: z.string().optional(),
     ipAnestheticDose: z.number().optional(),
     perfusionFlushingSolution: z.string().optional(),
