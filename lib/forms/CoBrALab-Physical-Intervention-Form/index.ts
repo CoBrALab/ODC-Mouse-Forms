@@ -229,12 +229,34 @@ export default defineInstrument({
     vaginalSwabNumber: z.number().min(1).int().optional(),
     vaginalCytologyDuration: z.number().min(1).optional(),
     vaginalCytologySolutionVolume: z.number().min(0).optional(),
-    genotypeBodyPartUsed: z.string().optional(),
-    genotypeCompanyUsed: z.string().optional(),
-    genotypeCopy: z.string().optional(),
-    earTaggingSystem: z.string().optional(),
-    tattooLocationInfo: z.array(z.object({ tattooLocation: z.string().optional()}
-    )).optional(),
+     genotypeBodyPartUsed: z.enum([
+    "Tail",
+    "Ear",
+    "Fecal matter"
+  ]).optional(),
+  genotypeCompanyUsed: z.enum([
+    "Transnetyx",
+    "Other"
+  ]).optional(),
+  genotypeCopy: z.enum([
+    "Homozygous",
+    "Heterozygous",
+    "Null",
+    "Other"
+  ]).optional(),
+  earTaggingSystem: z.enum([
+    "1-99 System",
+    "1-32 System",
+    "Other"
+  ]).optional(),
+  tattooLocationInfo: z.array(z.object({
+    tattooLocation: z.enum([
+      "Upper left",
+      "Upper right",
+      "Lower left",
+      "Lower right"
+    ]).optional()
+  })).optional(),
     teethExtractionNumber: z.number().int().min(0).max(16).optional(),
     bloodGlucoseLevel: z.string().optional()
   })
