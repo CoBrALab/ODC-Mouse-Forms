@@ -250,21 +250,47 @@ export default defineInstrument({
   },
   validationSchema: z.object({
     roomNumber: z.string(),
-    histologyType: z.string(),
-    brainStorageConditions: z.string(),
+    histologyType: z.enum([
+      "Immunohistochemistry",
+      "Immunofluorescense"
+    ]),
+    brainStorageConditions: z.enum([
+      "Parrafin",
+      "Frozen"
+    ]),
     wasBrainSliced: z.boolean(),
     brainSliceWidth: z.number().optional(),
-    portionOfBrainSliced: z.string().optional(),
-    protocolFollowed: z.string(),
+    portionOfBrainSliced: z.enum([
+      "Whole brain",
+      "Half brain"
+    ]).optional(),
+    protocolFollowed: z.enum([
+      "CoBrA Lab",
+      "Other"
+    ]),
     antibodiesUsedInfo: z.array(z.object({
-      antibodyType: z.string(),
+      antibodyType: z.enum([
+        "Primary",
+        "Secondary"
+      ]),
       antibodyName: z.string(),
       antibodyConcentration: z.number()
     })),
-    serumUsed: z.string(),
+    serumUsed: z.enum([
+      "Donkey serum",
+      "Goat serum",
+      "Chicken serum",
+      "Mice serum"
+    ]),
     batchNumber: z.string(),
     wasSampleStained: z.boolean(),
-    stainUsed: z.string().optional(),
+    stainUsed: z.enum([
+      "GFAP",
+      "IBA1",
+      "PSYN",
+      "TH",
+      "NEUN"
+    ]).optional(),
     dateStained: z.date().optional(),
     histologyQuantified: z.boolean()
     
