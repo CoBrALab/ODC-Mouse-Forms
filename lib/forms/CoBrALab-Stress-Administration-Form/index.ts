@@ -3,11 +3,15 @@
 const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-core/index.js');
 const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
-function createDependentField<const T>(field: T, fn: (stressorType: string) => boolean) {
+
+type StressorType = "Electric foot shocks" | "Tail suspension" | "Restraint";
+
+
+function createDependentField<const T>(field: T, fn: (stressorType: StressorType) => boolean) {
   return {
     kind: 'dynamic' as const,
     deps: ['stressorType'] as const,
-    render: (data: { stressorType: string }) => {
+    render: (data: { stressorType: StressorType }) => {
       if (fn(data.stressorType)) {
         return field;
       }
@@ -104,7 +108,7 @@ export default defineInstrument({
   validationSchema: z.object({
     miceNumber: z.number().min(0).max(10).int(),
     roomNumber: z.string(),
-    stressorType: z.string(),
+    stressorType: z.enum(["Electric foot shocks", "Tail suspension", "Restraint"]),
     footShocksNumber: z.number().int().min(1).optional(),
     footShockAmpage: z.number().min(0).optional(),
     tailSuspensionClimbStoppers: z.boolean().optional()
