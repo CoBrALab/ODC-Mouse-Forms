@@ -3,11 +3,13 @@
 import { defineInstrument } from '/runtime/v1/@opendatacapture/runtime-core'
 import { z } from '/runtime/v1/zod@3.23.x'
 
-function createDependentField<const T>(field: T, fn: (treatmentType: string) => boolean) {
+type TreatmentType =  "Surgery" | "Wound treatment"
+
+function createDependentField<const T>(field: T, fn: (treatmentType: TreatmentType) => boolean) {
   return {
     kind: 'dynamic' as const,
     deps: ['treatmentType'] as const,
-    render: (data: { treatmentType: string }) => {
+    render: (data: { treatmentType: TreatmentType }) => {
       if (fn(data.treatmentType)) {
         return field;
       }
@@ -294,22 +296,22 @@ export default defineInstrument({
     }
   },
   validationSchema: z.object({
-    treatmentType: z.string(),
-    aneglesiaUsed: z.boolean().optional(),
-    aneglesiaType: z.string().optional(),
-    aneglesiaVolume: z.number().min(0).optional(),
-    stereotaxUsed: z.boolean().optional(),
-    stereotaxId: z.string().optional(),
-    surgeryType: z.string().optional(),
-    ovariectomyType: z.string().optional(),
-    ovariectomyMouseGroup: z.string().optional(),
-    ovariectomySide: z.string().optional(),
-    brainSurgeryPaxinosMLCoords: z.number().min(-5).max(5).optional(),
-    brainSurgeryPaxinosAPCoords: z.number().min(-8.8).max(6).optional(),
-    brainSurgeryPaxinosDVCoords: z.number().min(0).max(6.4).optional(),
-    woundDateReported: z.date().optional(),
-    clinicalCondition: z.string().optional(),
-    treatmentProvided: z.string().optional()
+      treatmentType: z.enum(["Surgery", "Wound treatment"]),
+      aneglesiaUsed: z.boolean().optional(),
+      aneglesiaType: z.string().optional(),
+      aneglesiaVolume: z.number().min(0).optional(),
+      stereotaxUsed: z.boolean().optional(),
+      stereotaxId: z.string().optional(),
+      surgeryType: z.enum(["Ovariectomy", "Electrode implant", "Fiber optic implant"]).optional(),
+      ovariectomyType: z.enum(["Unilateral", "Bilateral"]).optional(),
+      ovariectomyMouseGroup: z.enum(["Control", "Experiment"]).optional(),
+      ovariectomySide: z.enum(["Right", "Left"]).optional(),
+      brainSurgeryPaxinosMLCoords: z.number().min(-5).max(5).optional(),
+      brainSurgeryPaxinosAPCoords: z.number().min(-8.8).max(6).optional(),
+      brainSurgeryPaxinosDVCoords: z.number().min(0).max(6.4).optional(),
+      woundDateReported: z.date().optional(),
+      clinicalCondition: z.string().optional(),
+      treatmentProvided: z.string().optional()
 
   })
 });
