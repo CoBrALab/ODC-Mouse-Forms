@@ -371,12 +371,35 @@ export default defineInstrument({
   },
   validationSchema: z.object({
     mriOperatorName: z.string(),
-    coilType: z.string(),
-    paravisionVersion: z.string(),
+    coilType: z.enum([
+    "Cryocoil",
+    "23 mm volumetric",
+    "40 mm volumetric rat coil",
+    "86 mm volumetric coil",
+    "mouse surface coil",
+    "4 coil array mouse surface coil",
+    "10 mm loop coil",
+    "30 mm loop coil"
+    ]),
+    paravisionVersion: z.enum(['PV5', 'PV6']),
     exVivoScan: z.boolean(),
-    exVivoCranioStatus: z.string().optional(),
+    exVivoCranioStatus: z.enum(['In-cranio', 'Ex-cranio']).optional(),
     scanRecordInfo: z.array(z.object({
-      mriScanName: z.string(),
+      mriScanName: z.enum([
+      "Localizer",
+      "T1_FLASH_3D_100iso_10deg",
+      "FLASH_3D_reduced",
+      "ADJ_B0MAP",
+      "revNoTrigAdjPEOffEPI",
+      "B0 Map",
+      "B1map_RARE_60deg_4s",
+      "B1map_RARE_120deg_4s",
+      "MGE_MTOff",
+      "MGE_MTOn",
+      "MGE_MTOff_Tw1_30deg",
+      "T2star_FID_EPI_sat_dan_ver_original",
+      "exvivoDanFLASH"
+    ]),
       dexUsed: z.boolean(),
       dexSolutionDate: z.date().optional(),
       dexBatchNumber: z.string().optional(),
@@ -389,10 +412,10 @@ export default defineInstrument({
       oxygenConcentration: z.number().min(0).max(100).optional(),
       oxygenSaturation: z.number().min(0).max(100).optional(),
       respirationRate: z.number().min(0).max(350).optional(),
-      formOfMeasurement: z.string().optional(),
+      formOfMeasurement: z.enum(['Waveform', 'Numerical', 'Manual']).optional(),
       fmriIsofluoraneTracked: z.boolean(),
       fmriIsofluorane: z.number().optional(),
-      fmriIsofluoraneColour: z.string().optional(),
+      fmriIsofluoraneColour: z.enum(['yellow', 'green']).optional(),
       otherComments: z.string().optional()
 
     })),
