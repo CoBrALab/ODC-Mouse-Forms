@@ -4,11 +4,13 @@ const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-
 const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
 
-function createDependentField<const T>(field: T, fn: (motorTask: string) => boolean) {
+type MotorTask =  "Rotorod" | "Wire hang" | "Pole test"
+
+function createDependentField<const T>(field: T, fn: (motorTask: MotorTask) => boolean) {
   return {
     kind: 'dynamic' as const,
     deps: ['motorTask'] as const,
-    render: (data: { motorTask: string }) => {
+    render: (data: { motorTask: MotorTask }) => {
       if (fn(data.motorTask)) {
         return field;
       }
