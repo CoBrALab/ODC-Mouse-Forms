@@ -176,10 +176,18 @@ export default defineInstrument({
     cageAmsNumber: z.number().int().positive(),
     cageNameGiven: z.boolean(),
     cageName: z.string().optional(),
-    beddingType: z.string(),
-    cageChangeDay: z.string(),
-    bottleType: z.string(),
-    cageType: z.string(),
+    beddingType: z.enum(['Corncob','Woodchip']),
+    cageChangeDay: z.enum([
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday'
+    ]),
+    bottleType: z.enum(['Auto Bottle', 'Standard']),
+    cageType: z.enum(['Enriched', 'Standard']),
     cageEnrichment: z.set(z.enum(['Wheel',"Cover","Tube","Enlarged Cage"])).optional(),
 
   })
