@@ -207,7 +207,7 @@ export default defineInstrument({
 
   },
   validationSchema: z.object({
-    experimentType: z.string(),
+    experimentType: z.enum(["PVD", "5-choice"]),
     experimentStage: z.string(),
     pvdStage: z.string().optional(),
     fiveChoiceStage: z.string().optional(),
