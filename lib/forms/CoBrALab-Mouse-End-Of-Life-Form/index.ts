@@ -3,11 +3,13 @@
 import { defineInstrument } from '/runtime/v1/@opendatacapture/runtime-core'
 import { z } from '/runtime/v1/zod@3.23.x'
 
-function createDependentField<const T>(field: T, fn: (terminationType: string) => boolean) {
+type TerminationType =  'Gas induction' | "Perfusion" | "Guillotine" | 'Cardiac puncture' | 'Cervical dislocation'
+
+function createDependentField<const T>(field: T, fn: (terminationType: TerminationType) => boolean) {
   return {
     kind: 'dynamic' as const,
     deps: ['terminationType'] as const,
-    render: (data: { terminationType: string }) => {
+    render: (data: { terminationType: TerminationType }) => {
       if (fn(data.terminationType)) {
         return field;
       }
@@ -82,7 +84,7 @@ export default defineInstrument({
             variant: "select",
             label: "Cause of surgical complication death",
             options: {
-              "irregular breathing": "Irregular breathing",
+              "Irregular breathing": "Irregular breathing",
               "Excessive blood loss": "Excessive blood loss",
               "Blood hemorrhage": "Blood hemorrhage",
               "Paralysis": "Paralysis",
@@ -337,7 +339,11 @@ export default defineInstrument({
 
   },
   validationSchema: z.object({
-    terminationReason: z.string(),
+    terminationReason: z.enum(['End of Experiment',
+      'Humane endpoint',
+      'Veterinary Endpoint',
+      "Surplus",
+      'Surgical complications']),
     terminationComments: z.string().optional(),
     terminationType: z.string().optional(),
     surgeryDeathCause: z.string().optional(),
