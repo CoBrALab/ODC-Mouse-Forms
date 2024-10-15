@@ -345,24 +345,60 @@ export default defineInstrument({
       "Surplus",
       'Surgical complications']),
     terminationComments: z.string().optional(),
-    terminationType: z.string().optional(),
-    surgeryDeathCause: z.string().optional(),
+    terminationType: z.enum([
+    'Gas induction',
+    'Perfusion',
+    'Guillotine',
+    'Cardiac puncture',
+    'Cervical dislocation'
+  ]).optional(),
+    surgeryDeathCause: z.enum([
+    'Irregular breathing',
+    'Excessive blood loss',
+    'Blood hemorrhage',
+    'Paralysis',
+    'Other'
+  ]).optional(),
     bloodCollected: z.number().optional(),
-    perfusionAnestheticType: z.string().optional(),
+    perfusionAnestheticType: z.enum([
+    'Ip Injection',
+    'Gas'
+  ]).optional(),
     ipAnestheticDose: z.number().optional(),
-    perfusionFlushingSolution: z.string().optional(),
+    perfusionFlushingSolution:  z.enum([
+    'PBS+Heparin',
+    '4% Isoflurane'
+  ]).optional(),
     anesthesiaUsed: z.boolean(),
     bodyExtractionDone: z.boolean(),
     bodyExtractionInfo: z
       .array(
         z.object({
-          bodyPartExtracted: z.string(),
+          bodyPartExtracted: z.enum([
+          'Brain',
+          'Gut',
+          'Fat tissue',
+          'Heart',
+          'Liver',
+          'Tail',
+          'Blood extraction'
+        ]),
           bodyExtractionComments: z.string(),
           extractionMotive: z.string().optional(),
           pfaBatch: z.string().optional(),
           pfaBatchExpiration: z.date().optional(),
-          bodyPartStorageSolution: z.string(),
-          bodyPartStorageLocation: z.string()
+          bodyPartStorageSolution: z.enum([
+          'Ethanol',
+          'Sodium Alzide',
+          'Gadolum Bath',
+          'None'
+        ]),
+          bodyPartStorageLocation: z.enum([
+          'Fridge',
+          '-20° Freezer',
+          '-80° Freezer',
+          'Room temperature'
+        ])
         })
       )
       .optional()
