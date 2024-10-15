@@ -3,11 +3,13 @@
 import { defineInstrument } from '/runtime/v1/@opendatacapture/runtime-core'
 import { z } from '/runtime/v1/zod@3.23.x'
 
-function createDependentField<const T>(field: T, fn: (treatmentType: string) => boolean) {
+type TreatmentType =  "Surgery" | "Wound treatment"
+
+function createDependentField<const T>(field: T, fn: (treatmentType: TreatmentType) => boolean) {
   return {
     kind: 'dynamic' as const,
     deps: ['treatmentType'] as const,
-    render: (data: { treatmentType: string }) => {
+    render: (data: { treatmentType: TreatmentType }) => {
       if (fn(data.treatmentType)) {
         return field;
       }
@@ -294,7 +296,7 @@ export default defineInstrument({
     }
   },
   validationSchema: z.object({
-    treatmentType: z.string(),
+    treatmentType: z.enum(["Surgery" , "Wound treatment"]),
     aneglesiaUsed: z.boolean().optional(),
     aneglesiaType: z.string().optional(),
     aneglesiaVolume: z.number().min(0).optional(),
