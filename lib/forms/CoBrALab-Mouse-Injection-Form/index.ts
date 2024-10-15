@@ -3,11 +3,13 @@
 const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-core/index.js');
 const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
-function createDependentField<const T>(field: T, fn: (injectionType: string) => boolean) {
+type InjectionType = "Intracerebral" | "Subcutaneous" | "IP"
+
+function createDependentField<const T>(field: T, fn: (injectionType: InjectionType) => boolean) {
   return {
     kind: 'dynamic' as const,
     deps: ['injectionType'] as const,
-    render: (data: { injectionType: string }) => {
+    render: (data: { injectionType: InjectionType }) => {
       if (fn(data.injectionType)) {
         return field;
       }
@@ -213,7 +215,7 @@ export default defineInstrument({
   },
   validationSchema: z.object({
     roomNumber: z.string(),
-    injectionType: z.string(),
+    injectionType: z.enum(["Intracerebral","Subcutaneous","IP"]),
     intracerebralInjectionType: z.string().optional(),
     hydrationProvided: z.boolean().optional(),
     hydrationVolume: z.number().min(0).optional(),
