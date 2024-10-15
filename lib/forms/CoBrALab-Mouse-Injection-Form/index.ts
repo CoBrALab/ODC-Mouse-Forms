@@ -216,15 +216,15 @@ export default defineInstrument({
   validationSchema: z.object({
     roomNumber: z.string(),
     injectionType: z.enum(["Intracerebral","Subcutaneous","IP"]),
-    intracerebralInjectionType: z.string().optional(),
+    intracerebralInjectionType: z.enum(["PBS", "PFF"]).optional(),
     hydrationProvided: z.boolean().optional(),
     hydrationVolume: z.number().min(0).optional(),
-    subcutaneousInjectionType: z.string().optional(),
-    subcutaneousInjectionTime: z.string().optional(),
+    subcutaneousInjectionType: z.enum(["Analgesic", "Other"]).optional(),
+    subcutaneousInjectionTime: z.enum(["During operation", "Post operation"]).optional(),
     postOperationDay: z.date().optional(),
-    analgesicType: z.string().optional(),
+    analgesicType: z.enum(["Carpofem", "Buvicane"]).optional(),
     ipDoseVolume: z.number().min(0).optional(),
-    drugInjected: z.string().optional(),
-    ipInjectionType: z.string().optional()
+    drugInjected: z.enum(["PU-AD", "PU-AD Vehicle", "IP Tamoxifen", "STZ"]).optional(),
+    ipInjectionType: z.enum(["Viral memetic", "Anesthetic"]).optional()
   })
 });
