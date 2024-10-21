@@ -236,17 +236,32 @@ export default defineInstrument({
   }
   },
   validationSchema: z.object({
-    dateOfBirth: z.date(),
-    mouseSex: z.string(),
-    cohortId: z.string().optional(),
-    boxMouse: z.boolean(),
-    mouseStrain: z.string(),
-    otherStrain: z.string().optional(),
-    orderId: z.string().optional(),
-    motherMouse: z.string().optional(),
-    fatherKnown: z.boolean().optional(),
-    fatherMouse: z.string().optional(),
-    breederOrigin: z.string().optional(),
-    otherBreederOrigin: z.string().optional(),
-    generationNumber: z.number().min(1).int()})
+  dateOfBirth: z.date(),
+  mouseSex: z.enum(['Male', 'Female']),
+  cohortId: z.string().optional(),
+  boxMouse: z.boolean(),
+  mouseStrain: z.enum([
+    'M86-hemi',
+    'M83-homo',
+    'C57BL/6J',
+    'Wild type',
+    '5XFAD',
+    '3xTG-AD',
+    'Other'
+  ]),
+  otherStrain: z.string().optional(),
+  orderId: z.string().optional(),
+  motherMouse: z.string().optional(),
+  fatherKnown: z.boolean().optional(),
+  fatherMouse: z.string().optional(),
+  breederOrigin: z.enum([
+    'Charles River Laboratories',
+    'Envigo',
+    'Import',
+    'Jackson Laboratories',
+    'Other'
+  ]).optional(),
+  otherBreederOrigin: z.string().optional(),
+  generationNumber: z.number().min(0).int()
+})
 });

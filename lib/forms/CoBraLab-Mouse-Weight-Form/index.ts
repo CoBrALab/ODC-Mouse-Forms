@@ -82,8 +82,8 @@ export default defineInstrument({
   },
   validationSchema: z.object({
     mouseWeight: z.number().min(1).max(100),
-    scaleSerialCode: z.string(),
+    scaleSerialCode: z.enum(["8334378068","Other"]),
     scaleSerialCodeOther: z.string().optional(),
-    scaleKind: z.string()
+    scaleKind: z.enum(["Portable","Regular"])
   })
 });
