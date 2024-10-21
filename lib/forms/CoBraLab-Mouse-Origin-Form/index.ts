@@ -262,6 +262,6 @@ export default defineInstrument({
     'Other'
   ]).optional(),
   otherBreederOrigin: z.string().optional(),
-  generationNumber: z.number().min(1).int()
+  generationNumber: z.number().min(0).int()
 })
 });
