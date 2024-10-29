@@ -4,11 +4,13 @@ const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-
 const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
 
-function createDependentField<const T>(field: T, fn: (motorTask: string) => boolean) {
+type MotorTask =  "Rotorod" | "Wire hang" | "Pole test"
+
+function createDependentField<const T>(field: T, fn: (motorTask: MotorTask) => boolean) {
   return {
     kind: 'dynamic' as const,
     deps: ['motorTask'] as const,
-    render: (data: { motorTask: string }) => {
+    render: (data: { motorTask: MotorTask }) => {
       if (fn(data.motorTask)) {
         return field;
       }
@@ -172,15 +174,15 @@ export default defineInstrument({
   },
   validationSchema: z.object({
     roomNumber: z.string(),
-    motorTask: z.string(),
-    rotorodMiceNumber: z.number().min(1).max(51).optional(),
+    motorTask: z.enum(["Rotorod" , "Wire hang" , "Pole test"]),
+    rotorodMiceNumber: z.number().min(1).max(5).optional(),
     rotorodDuration: z.number().min(0).optional(),
+    rotorodSlotPosition: z.enum(["Left most", "Middle left", "Middle right", "Right most"]).optional(),
     rotorodWirehangFailure: z.boolean().optional(),
-    rotorodSlotPosition: z.string().optional(),
     wirehangDuration: z.number().min(0).optional(),
     wirehangPutbacks: z.number().min(0).int().optional(),
     poleTestDuration: z.number().min(0).optional(),
-    poleTestResultLevel: z.string().optional(),
+    poleTestResultLevel: z.enum(["Pass", "Marginal failure", "Failure"]).optional(),
     poleTestMarginalFailureReason: z.string().optional()
   })
 });

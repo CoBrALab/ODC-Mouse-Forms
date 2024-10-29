@@ -3,11 +3,13 @@
 const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-core/index.js');
 const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
-function createDependentField<const T>(field: T, fn: (injectionType: string) => boolean) {
+type InjectionType = "Intracerebral" | "Subcutaneous" | "IP"
+
+function createDependentField<const T>(field: T, fn: (injectionType: InjectionType) => boolean) {
   return {
     kind: 'dynamic' as const,
     deps: ['injectionType'] as const,
-    render: (data: { injectionType: string }) => {
+    render: (data: { injectionType: InjectionType }) => {
       if (fn(data.injectionType)) {
         return field;
       }
@@ -213,16 +215,16 @@ export default defineInstrument({
   },
   validationSchema: z.object({
     roomNumber: z.string(),
-    injectionType: z.string(),
-    intracerebralInjectionType: z.string().optional(),
+    injectionType: z.enum(["Intracerebral","Subcutaneous","IP"]),
+    intracerebralInjectionType: z.enum(["PBS", "PFF"]).optional(),
     hydrationProvided: z.boolean().optional(),
     hydrationVolume: z.number().min(0).optional(),
-    subcutaneousInjectionType: z.string().optional(),
-    subcutaneousInjectionTime: z.string().optional(),
+    subcutaneousInjectionType: z.enum(["Analgesic", "Other"]).optional(),
+    subcutaneousInjectionTime: z.enum(["During operation", "Post operation"]).optional(),
     postOperationDay: z.date().optional(),
-    analgesicType: z.string().optional(),
+    analgesicType: z.enum(["Carpofem", "Buvicane"]).optional(),
     ipDoseVolume: z.number().min(0).optional(),
-    drugInjected: z.string().optional(),
-    ipInjectionType: z.string().optional()
+    drugInjected: z.enum(["PU-AD", "PU-AD Vehicle", "IP Tamoxifen", "STZ"]).optional(),
+    ipInjectionType: z.enum(["Viral memetic", "Anesthetic"]).optional()
   })
 });

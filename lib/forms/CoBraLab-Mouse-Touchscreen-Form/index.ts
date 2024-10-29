@@ -207,17 +207,26 @@ export default defineInstrument({
 
   },
   validationSchema: z.object({
-    experimentType: z.string(),
-    experimentStage: z.string(),
-    pvdStage: z.string().optional(),
-    fiveChoiceStage: z.string().optional(),
-    chamberNumber: z.number().min(1).max(12),
-    chamberSerialCode: z.string(),
-    milkshakeExpiration: z.date(),
-    milkshakeBrand: z.string(),
-    milkshakeBrandOther: z.string().optional(),
-    foodGiven: z.number().min(0).max(100),
-    trialFailed: z.boolean(),
-    failureReason: z.string().optional()
+    experimentType: z.enum(["PVD", "5-choice"]),
+  experimentStage: z.enum([
+    "habituation",
+    "habituation2a",
+    "habituation2b",
+    "intial touch",
+    "must touch",
+    "must initiate",
+    "punish incorrect",
+    "full session"
+  ]),
+  pvdStage: z.enum(["aquisition", "reversal", "re-reversal"]).optional(),
+  fiveChoiceStage: z.enum(["4 second stimulus", "2 second stimulus", "Pro trial"]).optional(),
+  chamberNumber: z.number().min(1).max(12),
+  chamberSerialCode: z.string(),
+  milkshakeExpiration: z.date(),
+  milkshakeBrand: z.enum(["Neilson Strawberry Milkshake", "Other"]),
+  milkshakeBrandOther: z.string().optional(),
+  foodGiven: z.number().min(0).max(100),
+  trialFailed: z.boolean(),
+  failureReason: z.string().optional()
   })
 });
