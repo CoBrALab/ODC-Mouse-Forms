@@ -51,10 +51,12 @@ export default defineInstrument({
       }
     }
   },
+  clientDetails: {
+    estimatedDuration: 1,
+    instructions: ['To be filled in whenever the animal is weighed. It is expected to know what type of scale is used (portable vs. non-portable) as well as its serial code. It is also assumed that proper weighing protocol is followed']
+  },
   details: {
     description: 'A form to track data from whenever an animal is weighed.',
-    estimatedDuration: 1,
-    instructions: ['To be filled in whenever the animal is weighed. It is expected to know what type of scale is used (portable vs. non-portable) as well as its serial code. It is also assumed that proper weighing protocol is followed'],
     license: 'Apache-2.0',
     title: 'Mouse Weight Form'
   },
