@@ -35,10 +35,8 @@ export default defineInstrument({
       variant: "select",
       label: "Mouse strain",
       options: {
-        "M86-hemi": "M86-hemi",
-        "M83-homo": "M83-homo",
+        "M83": "M83",
         "C57BL/6J": "C57BL/6J",
-        "Wild type": "Wild type",
         "5XFAD": "5XFAD",
         "3xTG-AD": "3xTG-AD",
         "Other":"Other"
@@ -56,6 +54,16 @@ export default defineInstrument({
            }
         }
         return null
+      }
+    },
+    mouseGenotype: {
+      kind: "string",
+      variant: "select",
+      label: "Mouse strain",
+      options: {
+        "Hemizygous": "Hemizygous",
+        "Homozygous": "Homozygous",
+        "Wild-type": "Wild-type"
       }
     },
     boxMouse: {
@@ -112,11 +120,25 @@ export default defineInstrument({
         return null
       }
     },
-    motherMouse: {
+    motherKnown: {
       kind: 'dynamic',
       deps: ['boxMouse'],
       render(data) {
        if(data.boxMouse === false){
+         return {
+         kind: 'boolean',
+         variant: 'radio',
+         label: "Is the mother known?"
+         }
+       }
+       return null
+      }
+    },
+    motherMouse: {
+      kind: 'dynamic',
+      deps: ['boxMouse','motherKnown'],
+      render(data) {
+       if(data.boxMouse === false && data.motherKnown){
          return {
           kind: "string",
           variant: "input",
@@ -139,11 +161,10 @@ export default defineInstrument({
        }
        return null
       }
-      
     },
     fatherMouse: {
      kind: 'dynamic',
-     deps: ['fatherKnown'],
+     deps: ['boxMouse','fatherKnown'],
      render(data) {
       if(data.boxMouse === false && data.fatherKnown){
         return {
@@ -196,6 +217,11 @@ export default defineInstrument({
     label: 'Other Strain',
     ref: 'otherStrain'
   },
+  mouseGenotype: {
+    kind: 'const',
+    label: 'Mouse Genotype',
+    ref: 'mouseGenotype'
+  },
   boxMouse: {
     kind: 'const',
     label: 'Imported mouse',
@@ -215,6 +241,11 @@ export default defineInstrument({
     kind: 'const',
     label: 'Other Breeder',
     ref: 'otherBreederOrigin'
+  },
+  motherKnown: {
+    kind: 'const',
+    label: 'Mother known',
+    ref: 'motherKnown'
   },
   motherMouse: {
     kind: 'const',
@@ -243,16 +274,20 @@ export default defineInstrument({
   cohortId: z.string().optional(),
   boxMouse: z.boolean(),
   mouseStrain: z.enum([
-    'M86-hemi',
-    'M83-homo',
+    'M83',
     'C57BL/6J',
-    'Wild type',
     '5XFAD',
     '3xTG-AD',
     'Other'
   ]),
   otherStrain: z.string().optional(),
+  mouseGenotype: z.enum([
+    'Homozygous',
+    'Hemizygous',
+    'Wild-type'
+  ]),
   orderId: z.string().optional(),
+  motherKnown: z.boolean().optional(),
   motherMouse: z.string().optional(),
   fatherKnown: z.boolean().optional(),
   fatherMouse: z.string().optional(),
