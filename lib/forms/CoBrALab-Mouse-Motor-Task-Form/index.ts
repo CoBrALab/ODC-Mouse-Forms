@@ -47,7 +47,7 @@ export default defineInstrument({
       kind: "number",
       variant: "slider",
       label: "Number of mice on apparatus during the current mouse's task (including mouse)",
-      max: 5,
+      max: 4,
       min: 1
     },(type) => type === "Rotarod"),
 
@@ -177,7 +177,7 @@ export default defineInstrument({
   validationSchema: z.object({
     roomNumber: z.string(),
     motorTask: z.enum(["Rotarod" , "Wire hang" , "Pole test"]),
-    rotarodTotalMiceNumber: z.number().min(1).max(5).optional(),
+    rotarodTotalMiceNumber: z.number().min(1).max(4).optional(),
     rotarodDuration: z.number().min(0).optional(),
     rotarodSlotPosition: z.enum(["Left most", "Middle left", "Middle right", "Right most"]).optional(),
     rotarodWirehangFailure: z.boolean().optional(),
