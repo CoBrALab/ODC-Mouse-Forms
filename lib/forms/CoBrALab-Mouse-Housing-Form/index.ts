@@ -108,10 +108,12 @@ export default defineInstrument({
       }
     }
   },
+  clientDetails: {
+    estimatedDuration: 1,
+    instructions: ["Used to log a mouse's housing information. Please fill out this form whenever a mouse's housing is changed or if they moved to a new cage. Changes to a mouse's housing include change in room, type of cage, number of cagemates, and if any cage enrichment is added."]
+  },
   details: {
     description: "Describes a mouse's housing details whenever it is moved or changed.",
-    estimatedDuration: 1,
-    instructions: ["Used to log a mouse's housing information. Please fill out this form whenever a mouse's housing is changed or if they moved to a new cage. Changes to a mouse's housing include change in room, type of cage, number of cagemates, and if any cage enrichment is added."],
     license: 'Apache-2.0',
     title: 'Mouse Housing Form'
   },

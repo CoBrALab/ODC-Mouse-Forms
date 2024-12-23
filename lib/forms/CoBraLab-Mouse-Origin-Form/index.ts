@@ -161,10 +161,12 @@ export default defineInstrument({
       label: 'N-generation of mouse'
     }
   },
+  clientDetails: {
+    estimatedDuration: 1,
+    instructions: ['Whenever a new mouse is born within the lab, or is exported from an external breeder this form should be filled in to log its information. If the mouse is from an external breeder, information of the breeder as well as the box the mouse came in is expected to be known.']
+  },
   details: {
     description: 'Tracks a mouse\'s birth information, whether it was born within the lab or an exported mouse from an external breeder',
-    estimatedDuration: 1,
-    instructions: ['Whenever a new mouse is born within the lab, or is exported from an external breeder this form should be filled in to log its information. If the mouse is from an external breeder, information of the breeder as well as the box the mouse came in is expected to be known.'],
     license: 'Apache-2.0',
     title: 'Mouse Origin Form'
   },

@@ -317,11 +317,14 @@ export default defineInstrument({
       }
     },
   },
-  details: {
-    description: "To record information about a mouse's MRI scan session. Keeps track of multiple scans within a single session. Can be filled in by either MRI operator or scan requester.",
+  clientDetails: {
     estimatedDuration: 1,
     instructions: ['Use this form for an individual mouse MRI sessions, which can contain multiple scans of different kinds. It is expected that the type of scan that are done on the mouse as well as certain information such as breath rate, and oxygenation level from the MRI monitor for certain scans. When recording the scans please put them in the exact order they were done within the session.'],
-    license: 'Apache-2.0',
+    
+  },
+  details: {
+    description: "To record information about a mouse's MRI scan session. Keeps track of multiple scans within a single session. Can be filled in by either MRI operator or scan requester.",
+   license: 'Apache-2.0',
     title: 'Mouse MRI Form'
   },
   measures: {
