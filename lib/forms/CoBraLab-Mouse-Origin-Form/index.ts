@@ -112,11 +112,25 @@ export default defineInstrument({
         return null
       }
     },
-    motherMouse: {
+    motherKnown: {
       kind: 'dynamic',
       deps: ['boxMouse'],
       render(data) {
        if(data.boxMouse === false){
+         return {
+         kind: 'boolean',
+         variant: 'radio',
+         label: "Is the mother known?"
+         }
+       }
+       return null
+      }
+    },
+    motherMouse: {
+      kind: 'dynamic',
+      deps: ['boxMouse','motherKnown'],
+      render(data) {
+       if(data.boxMouse === false && data.motherKnown){
          return {
           kind: "string",
           variant: "input",
@@ -139,11 +153,10 @@ export default defineInstrument({
        }
        return null
       }
-      
     },
     fatherMouse: {
      kind: 'dynamic',
-     deps: ['fatherKnown'],
+     deps: ['boxMouse','fatherKnown'],
      render(data) {
       if(data.boxMouse === false && data.fatherKnown){
         return {
@@ -216,6 +229,11 @@ export default defineInstrument({
     label: 'Other Breeder',
     ref: 'otherBreederOrigin'
   },
+  motherKnown: {
+    kind: 'const',
+    label: 'Mother known',
+    ref: 'motherKnown'
+  },
   motherMouse: {
     kind: 'const',
     label: 'Mother of mouse',
@@ -253,6 +271,7 @@ export default defineInstrument({
   ]),
   otherStrain: z.string().optional(),
   orderId: z.string().optional(),
+  motherKnown: z.boolean().optional(),
   motherMouse: z.string().optional(),
   fatherKnown: z.boolean().optional(),
   fatherMouse: z.string().optional(),
