@@ -43,10 +43,10 @@ export default defineInstrument({
         "Pole test": "Pole test"
       }
     },
-    rotarodMiceNumber: createDependentField({
+    rotarodTotalMiceNumber: createDependentField({
       kind: "number",
       variant: "slider",
-      label: "Number of mice",
+      label: "Number of mice on apparatus during the current mouse's task (including mouse)",
       max: 5,
       min: 1
     },(type) => type === "Rotarod"),
@@ -137,9 +137,9 @@ export default defineInstrument({
       kind: "const",
       ref: "motorTask"
     },
-    rotarodMiceNumber: {
+    rotarodTotalMiceNumber: {
       kind: "const",
-      ref: "rotarodMiceNumber"
+      ref: "rotarodTotalMiceNumber"
     },
     rotarodDuration: {
       kind: "const",
@@ -177,7 +177,7 @@ export default defineInstrument({
   validationSchema: z.object({
     roomNumber: z.string(),
     motorTask: z.enum(["Rotarod" , "Wire hang" , "Pole test"]),
-    rotarodMiceNumber: z.number().min(1).max(5).optional(),
+    rotarodTotalMiceNumber: z.number().min(1).max(5).optional(),
     rotarodDuration: z.number().min(0).optional(),
     rotarodSlotPosition: z.enum(["Left most", "Middle left", "Middle right", "Right most"]).optional(),
     rotarodWirehangFailure: z.boolean().optional(),
