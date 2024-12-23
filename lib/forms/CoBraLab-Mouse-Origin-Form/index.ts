@@ -35,7 +35,7 @@ export default defineInstrument({
       variant: "select",
       label: "Mouse strain",
       options: {
-        "M86-hemi": "M86-hemi",
+        "M83-hemi": "M83-hemi",
         "M83-homo": "M83-homo",
         "C57BL/6J": "C57BL/6J",
         "Wild type": "Wild type",
@@ -261,7 +261,7 @@ export default defineInstrument({
   cohortId: z.string().optional(),
   boxMouse: z.boolean(),
   mouseStrain: z.enum([
-    'M86-hemi',
+    'M83-hemi',
     'M83-homo',
     'C57BL/6J',
     'Wild type',
