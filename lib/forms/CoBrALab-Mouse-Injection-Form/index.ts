@@ -155,10 +155,12 @@ export default defineInstrument({
 
     
   },
+  clientDetails: {
+    estimatedDuration: 1,
+    instructions: ['Please fill out this form whenever a mouse experiences an injection']
+  },
   details: {
     description: 'A form to describe a mouses injection information',
-    estimatedDuration: 1,
-    instructions: ['Please fill out this form whenever a mouse experiences an injection'],
     license: 'Apache-2.0',
     title: 'Injections Form'
   },
