@@ -119,12 +119,22 @@ export default defineInstrument({
       }
     },
     dexUsed: {
-          kind: "boolean",
-          variant: "radio",
-          label: "Was Dexmedetomidine used?"
+          kind: "dynamic",
+          deps: ["exVivoScan"],
+          render(data) {
+            if(!data.exVivoScan){
+              return {
+                  kind: "boolean",
+                  variant: "radio",
+                  label: "Was Dexmedetomidine used?"
+              }
+            }
+            return null
+          }
+          
         },
 
-    dexSolutionDate: {
+    dexSolutionCreationDate: {
           kind: "dynamic",
           deps: ['dexUsed'],
           render(data) {
@@ -138,7 +148,7 @@ export default defineInstrument({
           }
         },
 
-        dexBatchNumber:  {
+        dexBottleSerialCode:  {
           kind: "dynamic",
           deps: ['dexUsed'],
           render(data) {
@@ -154,12 +164,22 @@ export default defineInstrument({
         },
           
       isofluoraneUsed: {
-        kind: "boolean",
-        variant : "radio",
-        label: "Isofluorane used?"
+        kind: "dynamic",
+          deps: ["exVivoScan"],
+          render(data) {
+            if(!data.exVivoScan){
+              return {
+                  kind: "boolean",
+                  variant : "radio",
+                  label: "Isofluorane used?"
+              }
+            }
+            return null
+          }
+       
       } ,
         
-      isofluoraneBatchNumber: {
+      isofluoraneBottleSerialCode: {
         kind: "dynamic",
         deps: ['isofluoraneUsed'],
         render(data){
@@ -167,7 +187,7 @@ export default defineInstrument({
             return {
                kind: 'string',
               variant: "input",
-              label: "Isofluorane batch number"
+              label: "Isofluorane bottle code"
             }
           }
           return null
@@ -427,10 +447,10 @@ export default defineInstrument({
     exVivoScanningMedium:  z.enum(["Dry","Fluorinert","Other"]).optional(),
     exVivoScanningMediumOther: z.string().optional(),
     dexUsed: z.boolean(),
-    dexSolutionDate: z.date().optional(),
-    dexBatchNumber: z.string().optional(),
+    dexSolutionCreationDate: z.date().optional(),
+    dexBottleSerialCode: z.string().optional(),
     isofluoraneUsed: z.boolean(),
-    isofluoraneBatchNumber: z.string().optional(),
+    isofluoraneBottleSerialCode: z.string().optional(),
     isofluoraneAdjusted: z.boolean().optional(),
     isofluoraneAdjustedPercentage: z.string().optional(),
     scanRecordInfo: z.array(z.object({
