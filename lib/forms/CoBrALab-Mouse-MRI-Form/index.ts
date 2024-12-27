@@ -85,6 +85,40 @@ export default defineInstrument({
       }
     },
 
+    exVivoScanningMedium: {
+      kind: 'dynamic',
+      deps: ['exVivoScan'],
+      render(data) {
+        if(data.exVivoScan){
+          return {
+            kind: "string",
+            variant: "radio",
+            label: "Ex-vivo scan medium",
+            options: {
+                "Dry":"Dry",
+                "Fluorinert": "Fluorinert",
+                "Other": "Other"
+            }
+          }
+        }
+        return null
+      }
+    },
+    exVivoScanningMediumOther: {
+      kind: 'dynamic',
+      deps: ['exVivoScanningMedium'],
+      render(data) {
+        if(data.exVivoScanningMedium === 'Other'){
+          return {
+            kind: "string",
+            variant: "input",
+            label: "Other ex-vivo scan medium:",
+          }
+        }
+        return null
+      }
+    },
+
     scanRecordInfo: {
       kind: "dynamic",
       deps: ["exVivoScan"],
@@ -387,6 +421,8 @@ export default defineInstrument({
     paravisionVersion: z.enum(['PV5', 'PV6']),
     exVivoScan: z.boolean(),
     exVivoCranioStatus: z.enum(['In-cranio', 'Ex-cranio']).optional(),
+    exVivoScanningMedium:  z.enum(["Dry","Fluorinert","Other"]).optional(),
+    exVivoScanningMediumOther: z.string().optional(),
     scanRecordInfo: z.array(z.object({
       mriScanName: z.enum([
       "Localizer",
