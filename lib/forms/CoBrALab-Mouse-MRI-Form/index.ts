@@ -118,29 +118,15 @@ export default defineInstrument({
         return null
       }
     },
-
-    scanRecordInfo: {
-      kind: "dynamic",
-      deps: ["exVivoScan"],
-      render({exVivoScan}){
-        return {
-           kind: "record-array",
-      label: "MRI scan record",
-      fieldset: {
-        mriScanName: {
-          kind: "string",
-          variant: "select",
-          label: "Scan name",
-          options: scanNameOptions
-        },
-        dexUsed: {
+    dexUsed: {
           kind: "boolean",
           variant: "radio",
           label: "Was Dexmedetomidine used?"
         },
 
-        dexSolutionDate: {
+    dexSolutionDate: {
           kind: "dynamic",
+          deps: ['dexUsed'],
           render(data) {
             if(data.dexUsed){
               return {
@@ -154,6 +140,7 @@ export default defineInstrument({
 
         dexBatchNumber:  {
           kind: "dynamic",
+          deps: ['dexUsed'],
           render(data) {
             if(data.dexUsed){
               return {
@@ -174,6 +161,7 @@ export default defineInstrument({
         
       isofluoraneBatchNumber: {
         kind: "dynamic",
+        deps: ['isofluoraneUsed'],
         render(data){
           if(data.isofluoraneUsed){
             return {
@@ -189,6 +177,7 @@ export default defineInstrument({
       
       isofluoraneAdjusted: {
          kind: "dynamic",
+         deps: ['isofluoraneUsed'],
         render(data){
           if(data.isofluoraneUsed){
             return {
@@ -203,6 +192,7 @@ export default defineInstrument({
 
       isofluoraneAdjustedPercentage: {
         kind: "dynamic",
+        deps: ['isofluoraneAdjusted'],
         render(data) {
           if(data.isofluoraneAdjusted){
             return {
@@ -214,6 +204,21 @@ export default defineInstrument({
           return null
         }
       },
+
+    scanRecordInfo: {
+      kind: "dynamic",
+      deps: ["exVivoScan"],
+      render({exVivoScan}){
+        return {
+           kind: "record-array",
+      label: "MRI scan record",
+      fieldset: {
+        mriScanName: {
+          kind: "string",
+          variant: "select",
+          label: "Scan name",
+          options: scanNameOptions
+        },
 
       mouseVitalsTracked: {
         kind: "dynamic",
@@ -423,6 +428,13 @@ export default defineInstrument({
     exVivoCranioStatus: z.enum(['In-cranio', 'Ex-cranio']).optional(),
     exVivoScanningMedium:  z.enum(["Dry","Fluorinert","Other"]).optional(),
     exVivoScanningMediumOther: z.string().optional(),
+    dexUsed: z.boolean(),
+    dexSolutionDate: z.date().optional(),
+    dexBatchNumber: z.string().optional(),
+    isofluoraneUsed: z.boolean(),
+    isofluoraneBatchNumber: z.string().optional(),
+    isofluoraneAdjusted: z.boolean().optional(),
+    isofluoraneAdjustedPercentage: z.string().optional(),
     scanRecordInfo: z.array(z.object({
       mriScanName: z.enum([
       "Localizer",
@@ -439,13 +451,6 @@ export default defineInstrument({
       "T2star_FID_EPI_sat_dan_ver_original",
       "exvivoDanFLASH"
     ]),
-      dexUsed: z.boolean(),
-      dexSolutionDate: z.date().optional(),
-      dexBatchNumber: z.string().optional(),
-      isofluoraneUsed: z.boolean(),
-      isofluoraneBatchNumber: z.string().optional(),
-      isofluoraneAdjusted: z.boolean().optional(),
-      isofluoraneAdjustedPercentage: z.string().optional(),
       mouseVitalsTracked: z.boolean().optional(),
       breathingStable: z.boolean().optional(),
       oxygenConcentration: z.number().min(0).max(100).optional(),
