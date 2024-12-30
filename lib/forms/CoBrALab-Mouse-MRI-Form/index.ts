@@ -410,6 +410,34 @@ export default defineInstrument({
       kind: "const",
       ref: "exVivoCranioStatus"
     },
+    dexUsed: {
+      kind: "const",
+      ref: "dexUsed"
+    },
+    dexSolutionCreationDate: {
+      kind: "const",
+      ref: "dexSolutionCreationDate"
+    },
+    dexBottleSerialCode: {
+      kind: "const",
+      ref: "dexBottleSerialCode"
+    },
+    isofluoraneUsed: {
+      kind: "const",
+      ref: "isofluoraneUsed"
+    },
+    isofluoraneBottleSerialCode: {
+      kind: "const",
+      ref: "isofluoraneBottleSerialCode"
+    },
+    isofluoraneAdjusted: {
+      kind: "const",
+      ref: "isofluoraneAdjusted"
+    },
+    isofluoraneAdjustedPercentage: {
+      kind: "const",
+      ref: "isofluoraneAdjustedPercentage"
+    },
     scanRecordInfo: {
       kind: "computed",
       label: "Scan record info",
