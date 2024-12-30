@@ -141,7 +141,7 @@ export default defineInstrument({
             if(data.dexUsed){
               return {
                 kind: "date",
-                label: "Dexmedetomidine Solution date",
+                label: "Dexmedetomidine solution creation date",
               }
             }
             return null
