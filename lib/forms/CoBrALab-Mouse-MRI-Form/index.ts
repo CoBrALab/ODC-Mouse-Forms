@@ -279,12 +279,14 @@ export default defineInstrument({
             label: "fMRI isofluorane levels tracked?"
           }
         }
+        return null
       }
       
     },
 
     fmriIsofluorane: {
       kind: "dynamic",
+      deps: ['fmriIsofluoraneTracked'],
       render(data) {
         if (data.fmriIsofluoraneTracked) {
           return {
@@ -300,6 +302,7 @@ export default defineInstrument({
     },
     fmriIsofluoraneColour: {
       kind: "dynamic",
+      deps: ['fmriIsofluorane'],
       render(data) {
         if (data.fmriIsofluorane === 2) {
           return {
