@@ -163,6 +163,36 @@ export default defineInstrument({
       }
     },
 
+    dexAdjustedFromSOP: {
+      kind: "dynamic",
+      deps: ['dexUsed'],
+      render(data) {
+        if (data.dexUsed) {
+          return {
+            kind: 'boolean',
+            variant: "radio",
+            label: "Dexmedetomidine adjusted from SOP?"
+          }
+        }
+        return null
+      }
+    },
+
+    dexAdjustedPercentage: {
+      kind: "dynamic",
+      deps: ['dexAdjustedFromSOP'],
+      render(data) {
+        if (data.dexAdjustedFromSOP) {
+          return {
+            kind: "string",
+            variant: "input",
+            label: "Dexmedetomidine percentage",
+          }
+        }
+        return null
+      }
+    },
+
     isofluoraneUsed: {
       kind: "dynamic",
       deps: ["exVivoScan"],
@@ -195,7 +225,7 @@ export default defineInstrument({
     },
 
 
-    isofluoraneAdjusted: {
+    isofluoraneAdjustedFromSOP: {
       kind: "dynamic",
       deps: ['isofluoraneUsed'],
       render(data) {
@@ -212,9 +242,9 @@ export default defineInstrument({
 
     isofluoraneAdjustedPercentage: {
       kind: "dynamic",
-      deps: ['isofluoraneAdjusted'],
+      deps: ['isofluoraneAdjustedFromSOP'],
       render(data) {
-        if (data.isofluoraneAdjusted) {
+        if (data.isofluoraneAdjustedFromSOP) {
           return {
             kind: "string",
             variant: "input",
@@ -422,6 +452,14 @@ export default defineInstrument({
       kind: "const",
       ref: "dexBottleSerialCode"
     },
+    dexAdjustedFromSOP: {
+      kind: "const",
+      ref: "dexAdjustedFromSOP"
+    },
+    dexAdjustedPercentage: {
+      kind: "const",
+      ref: "dexAdjustedPercentage"
+    },
     isofluoraneUsed: {
       kind: "const",
       ref: "isofluoraneUsed"
@@ -430,9 +468,9 @@ export default defineInstrument({
       kind: "const",
       ref: "isofluoraneBottleSerialCode"
     },
-    isofluoraneAdjusted: {
+    isofluoraneAdjustedFromSOP: {
       kind: "const",
-      ref: "isofluoraneAdjusted"
+      ref: "isofluoraneAdjustedFromSOP"
     },
     isofluoraneAdjustedPercentage: {
       kind: "const",
@@ -477,9 +515,11 @@ export default defineInstrument({
     dexUsed: z.boolean(),
     dexSolutionCreationDate: z.date().optional(),
     dexBottleSerialCode: z.string().optional(),
+    dexAdjustedFromSOP: z.boolean(),
+    dexAdjustedPercentage: z.string().optional(),
     isofluoraneUsed: z.boolean(),
     isofluoraneBottleSerialCode: z.string().optional(),
-    isofluoraneAdjusted: z.boolean().optional(),
+    isofluoraneAdjustedFromSOP: z.boolean().optional(),
     isofluoraneAdjustedPercentage: z.string().optional(),
     scanRecordInfo: z.array(z.object({
       mriScanName: z.enum([
