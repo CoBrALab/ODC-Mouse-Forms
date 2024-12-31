@@ -492,6 +492,18 @@ export default defineInstrument({
       kind: "const",
       ref: "isofluoraneAdjustedPercentage"
     },
+    fmriIsofluoraneTracked: {
+      kind: "const",
+      ref: "fmriIsofluoraneTracked"
+    },
+    fmriIsofluorane: {
+      kind: "const",
+      ref: "fmriIsofluorane"
+    },
+    fmriIsofluoraneColour: {
+      kind: "const",
+      ref: "fmriIsofluoraneColour"
+    },
     scanRecordInfo: {
       kind: "computed",
       label: "Scan record info",
