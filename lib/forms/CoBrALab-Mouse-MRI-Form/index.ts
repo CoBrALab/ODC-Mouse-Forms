@@ -118,11 +118,24 @@ export default defineInstrument({
         return null
       }
     },
+    anestheticUsed: {
+     kind: "dynamic",
+     deps: ['exVivoScan'],
+     render(data){
+       if(!data.exVivoScan && data.exVivoScan !== undefined){
+        return {  
+          kind: "boolean",
+          variant: "radio",
+          label: "Was anesthetic used?"
+          }
+     }
+      return null
+    }},
     dexUsed: {
       kind: "dynamic",
-      deps: ["exVivoScan"],
+      deps: ["anestheticUsed"],
       render(data) {
-        if (!data.exVivoScan) {
+        if (data.anestheticUsed) {
           return {
             kind: "boolean",
             variant: "radio",
@@ -195,9 +208,9 @@ export default defineInstrument({
 
     isofluoraneUsed: {
       kind: "dynamic",
-      deps: ["exVivoScan"],
+      deps: ["anestheticUsed"],
       render(data) {
-        if (!data.exVivoScan) {
+        if (data.anestheticUsed) {
           return {
             kind: "boolean",
             variant: "radio",
@@ -452,14 +465,6 @@ export default defineInstrument({
       kind: "const",
       ref: "dexBottleSerialCode"
     },
-    dexAdjustedFromSOP: {
-      kind: "const",
-      ref: "dexAdjustedFromSOP"
-    },
-    dexAdjustedPercentage: {
-      kind: "const",
-      ref: "dexAdjustedPercentage"
-    },
     isofluoraneUsed: {
       kind: "const",
       ref: "isofluoraneUsed"
@@ -512,10 +517,11 @@ export default defineInstrument({
     exVivoCranioStatus: z.enum(['In-cranio', 'Ex-cranio']).optional(),
     exVivoScanningMedium: z.enum(["Dry", "Fluorinert", "Other"]).optional(),
     exVivoScanningMediumOther: z.string().optional(),
-    dexUsed: z.boolean(),
+    anestheticUsed: z.boolean(),
+    dexUsed: z.boolean().optional(),
     dexSolutionCreationDate: z.date().optional(),
     dexBottleSerialCode: z.string().optional(),
-    dexAdjustedFromSOP: z.boolean(),
+    dexAdjustedFromSOP: z.boolean().optional(),
     dexAdjustedPercentage: z.string().optional(),
     isofluoraneUsed: z.boolean(),
     isofluoraneBottleSerialCode: z.string().optional(),
