@@ -268,6 +268,54 @@ export default defineInstrument({
       }
     },
 
+    fmriIsofluoraneTracked: {
+      kind: "dynamic",
+      deps: ['isofluoraneUsed'],
+      render(data) {
+        if(data.isofluoraneUsed){
+          return {
+            kind: "boolean",
+            variant: "radio",
+            label: "fMRI isofluorane levels tracked?"
+          }
+        }
+      }
+      
+    },
+
+    fmriIsofluorane: {
+      kind: "dynamic",
+      render(data) {
+        if (data.fmriIsofluoraneTracked) {
+          return {
+            kind: "number",
+            variant: "slider",
+            label: "fMRI Isofluorane percentage, consider this as the value before it is divised by 10, i.e. 15 = 1.5%",
+            max: 15,
+            min: 0
+          }
+        }
+        return null
+      }
+    },
+    fmriIsofluoraneColour: {
+      kind: "dynamic",
+      render(data) {
+        if (data.fmriIsofluorane === 2) {
+          return {
+            kind: "string",
+            variant: "radio",
+            label: "Isofluorane colour code",
+            options: {
+              "yellow": "Yellow",
+              "green": "Green"
+            }
+          }
+        }
+        return null
+      }
+    },
+
     scanRecordInfo: {
       kind: "dynamic",
       deps: ["exVivoScan"],
@@ -370,44 +418,7 @@ export default defineInstrument({
               }
             },
 
-            fmriIsofluoraneTracked: {
-              kind: "boolean",
-              variant: "radio",
-              label: "fMRI isofluorane levels tracked?"
-            },
-
-            fmriIsofluorane: {
-              kind: "dynamic",
-              render(data) {
-                if (data.fmriIsofluoraneTracked) {
-                  return {
-                    kind: "number",
-                    variant: "slider",
-                    label: "fMRI Isofluorane percentage, consider this as the value before it is divised by 10, i.e. 15 = 1.5%",
-                    max: 15,
-                    min: 0
-                  }
-                }
-                return null
-              }
-            },
-            fmriIsofluoraneColour: {
-              kind: "dynamic",
-              render(data) {
-                if (data.fmriIsofluorane === 2) {
-                  return {
-                    kind: "string",
-                    variant: "radio",
-                    label: "Isofluorane colour code",
-                    options: {
-                      "yellow": "Yellow",
-                      "green": "Green"
-                    }
-                  }
-                }
-                return null
-              }
-            },
+            
             otherComments: {
               kind: "string",
               variant: "textarea",
@@ -492,8 +503,7 @@ export default defineInstrument({
             measureOutput += info.mriScanName + ' ' + (info.breathingStable ? 'breathing stable: ' + info.breathingStable : '') + ' ' +
               (info.oxygenConcentration ? 'O_2 concentration: ' + info.oxygenConcentration + '%' : '') + ' ' + (info.oxygenSaturation ? 'O_2 saturation: ' + info.oxygenSaturation + '%' : '') +
               ' ' + (info.respirationRate ? 'respiration rate: ' + info.respirationRate + 'breath/min' : '') + ' ' + (info.formOfMeasurement ? 'form of measurement: ' + info.formOfMeasurement : '') +
-              ' ' + (info.fmriIsofluorane ? 'fMRI isofluorane percentage: ' + (info.fmriIsofluorane / 10) + '%' : '') + ' ' + (info.fmriIsofluoraneColour ? 'fMRI isofluorane colour: ' + info.fmriIsofluoraneColour : '') +
-              ' ' + (info.otherComments ? 'comments: ' + info.otherComments : '') + '\n';
+              + (info.otherComments ? 'comments: ' + info.otherComments : '') + '\n';
           }
         }
         return measureOutput
@@ -527,6 +537,9 @@ export default defineInstrument({
     isofluoraneBottleSerialCode: z.string().optional(),
     isofluoraneAdjustedFromSOP: z.boolean().optional(),
     isofluoraneAdjustedPercentage: z.string().optional(),
+    fmriIsofluoraneTracked: z.boolean().optional(),
+    fmriIsofluorane: z.number().optional(),
+    fmriIsofluoraneColour: z.enum(['yellow', 'green']).optional(),
     scanRecordInfo: z.array(z.object({
       mriScanName: z.enum([
         "Localizer",
@@ -549,9 +562,6 @@ export default defineInstrument({
       oxygenSaturation: z.number().min(0).max(100).optional(),
       respirationRate: z.number().min(0).max(350).optional(),
       formOfMeasurement: z.enum(['Waveform', 'Numerical', 'Manual']).optional(),
-      fmriIsofluoraneTracked: z.boolean(),
-      fmriIsofluorane: z.number().optional(),
-      fmriIsofluoraneColour: z.enum(['yellow', 'green']).optional(),
       otherComments: z.string().optional()
 
     })),
