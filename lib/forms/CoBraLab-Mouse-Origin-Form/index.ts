@@ -33,7 +33,7 @@ export default defineInstrument({
     mouseStrain: {
       kind: "string",
       variant: "select",
-      label: "Mouse strain",
+      label: "Mouse Strain",
       options: {
         "M83": "M83",
         "C57BL/6J": "C57BL/6J",
@@ -59,10 +59,11 @@ export default defineInstrument({
     mouseGenotype: {
       kind: "string",
       variant: "select",
-      label: "Mouse strain",
+      label: "Mouse Genotype",
       options: {
         "Hemizygous": "Hemizygous",
         "Homozygous": "Homozygous",
+        "Heterozygous": "Heterozygous",
         "Wild-type": "Wild-type"
       }
     },
@@ -284,6 +285,7 @@ export default defineInstrument({
   mouseGenotype: z.enum([
     'Homozygous',
     'Hemizygous',
+    'Heterozygous',
     'Wild-type'
   ]),
   orderId: z.string().optional(),
