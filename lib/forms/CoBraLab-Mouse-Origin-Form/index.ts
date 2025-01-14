@@ -121,6 +121,20 @@ export default defineInstrument({
         return null
       }
     },
+    breedingCageId: {
+      kind: 'dynamic',
+      deps: ['boxMouse'],
+      render(data) {
+       if(data.boxMouse === false){
+         return {
+         kind: 'string',
+         variant: 'input',
+         label: "Breeding Cage ID"
+         }
+       }
+       return null
+      }
+    },
     motherKnown: {
       kind: 'dynamic',
       deps: ['boxMouse'],
@@ -243,6 +257,11 @@ export default defineInstrument({
     label: 'Other Breeder',
     ref: 'otherBreederOrigin'
   },
+  breedingCageId: {
+    kind: "const",
+    label: 'Breeding cage ID',
+    ref: 'breedingCageId'
+  },
   motherKnown: {
     kind: 'const',
     label: 'Mother known',
@@ -289,6 +308,7 @@ export default defineInstrument({
     'Wild-type'
   ]),
   orderId: z.string().optional(),
+  breedingCageId: z.string().optional(),
   motherKnown: z.boolean().optional(),
   motherMouse: z.string().optional(),
   fatherKnown: z.boolean().optional(),
