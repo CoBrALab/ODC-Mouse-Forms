@@ -64,8 +64,25 @@ export default defineInstrument({
         "Hemizygous": "Hemizygous",
         "Homozygous": "Homozygous",
         "Heterozygous": "Heterozygous",
-        "Wild-type": "Wild-type"
+        "Wild-type": "Wild-type",
+        "Other": "Other"
       }
+    },
+    mouseGenotypeOther: {
+      kind: "dynamic",
+      deps: ["mouseGenotype"],
+      render(data) {
+        if(data.mouseStrain === "Other"){
+           return {
+            kind : "string",
+            variant: "input",
+            label: "Other Genotype"
+           }
+        }
+        return null
+      }
+    
+
     },
     boxMouse: {
       kind: 'boolean',
@@ -237,6 +254,11 @@ export default defineInstrument({
     label: 'Mouse Genotype',
     ref: 'mouseGenotype'
   },
+  mouseGenotypeOther: {
+    kind: 'const',
+    label: 'Other Genotype',
+    ref: 'mouseGenotypeOther'
+  },
   boxMouse: {
     kind: 'const',
     label: 'Imported mouse',
@@ -305,8 +327,10 @@ export default defineInstrument({
     'Homozygous',
     'Hemizygous',
     'Heterozygous',
-    'Wild-type'
+    'Wild-type',
+    'Other'
   ]),
+  mouseGenotypeOther: z.string().optional(),
   orderId: z.string().optional(),
   breedingCageId: z.string().optional(),
   motherKnown: z.boolean().optional(),
