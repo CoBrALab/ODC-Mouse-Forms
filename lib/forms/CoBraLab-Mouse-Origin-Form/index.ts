@@ -72,7 +72,7 @@ export default defineInstrument({
       kind: "dynamic",
       deps: ["mouseGenotype"],
       render(data) {
-        if(data.mouseStrain === "Other"){
+        if(data.mouseGenotype === "Other"){
            return {
             kind : "string",
             variant: "input",
