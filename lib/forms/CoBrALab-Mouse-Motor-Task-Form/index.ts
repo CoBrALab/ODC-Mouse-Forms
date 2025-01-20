@@ -4,7 +4,7 @@ const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-
 const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
 
-type MotorTask =  "Rotorod" | "Wire hang" | "Pole test"
+type MotorTask =  "Rotarod" | "Wire hang" | "Pole test"
 
 function createDependentField<const T>(field: T, fn: (motorTask: MotorTask) => boolean) {
   return {
@@ -22,7 +22,7 @@ function createDependentField<const T>(field: T, fn: (motorTask: MotorTask) => b
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
-  tags: ['Rotorod', 'Motor tasks', 'Wire Hang', 'Pole test'],
+  tags: ['Rotarod', 'Motor tasks', 'Wire Hang', 'Pole test'],
   internal: {
     edition: 1,
     name: 'MOUSE_MOTOR_TASK_FORM'
@@ -38,41 +38,41 @@ export default defineInstrument({
       variant: "select",
       label: "Motor task",
       options: {
-        "Rotorod": "Rotorod",
+        "Rotarod": "Rotarod",
         "Wire hang": "Wire hang",
         "Pole test": "Pole test"
       }
     },
-    rotorodMiceNumber: createDependentField({
+    rotarodTotalMiceNumber: createDependentField({
       kind: "number",
       variant: "slider",
-      label: "Number of mice",
-      max: 5,
+      label: "Number of mice on apparatus during the current mouse's task (including mouse)",
+      max: 4,
       min: 1
-    },(type) => type === "Rotorod"),
+    },(type) => type === "Rotarod"),
 
-    rotorodDuration:createDependentField({
+    rotarodDuration:createDependentField({
       kind: "number",
       variant: "input",
       label: "Duration before falling (seconds)"
-    },(type) => type === "Rotorod"),
+    },(type) => type === "Rotarod"),
 
-    rotorodSlotPosition: createDependentField({
+    rotarodSlotPosition: createDependentField({
       kind: "string",
       variant: "select",
-      label: "Rotorod position",
+      label: "Rotarod position",
       options: {
         "Left most": "Left most",
         "Middle left": "Middle left",
         "Middle right": "Middle right",
         "Right most": "Right most"
       }
-    }, (type) => type === "Rotorod"),
-    rotorodWirehangFailure: createDependentField({
+    }, (type) => type === "Rotarod"),
+    rotarodWirehangFailure: createDependentField({
       kind: "boolean",
       variant: "radio",
       label: "Mouse failed session"
-    }, (type) => type === "Rotorod" || type === "Wire hang" ),
+    }, (type) => type === "Rotarod" || type === "Wire hang" ),
     
     wirehangDuration:createDependentField({
       kind: "number",
@@ -121,7 +121,7 @@ export default defineInstrument({
   },
   clientDetails: {
     estimatedDuration: 1,
-    instructions: ["To be filled in whenever a mouse completes a motor task. It is expected that the motor task session as well as the tool used (Rotorod, Pole test, wire hang) is known."]
+    instructions: ["To be filled in whenever a mouse completes a motor task. It is expected that the motor task session as well as the tool used (Rotarod, Pole test, wire hang) is known."]
   },
   details: {
     description: 'Form to describe data gathered in a mouse\'s motor task experiment',
@@ -137,21 +137,21 @@ export default defineInstrument({
       kind: "const",
       ref: "motorTask"
     },
-    rotorodMiceNumber: {
+    rotarodTotalMiceNumber: {
       kind: "const",
-      ref: "rotorodMiceNumber"
+      ref: "rotarodTotalMiceNumber"
     },
-    rotorodDuration: {
+    rotarodDuration: {
       kind: "const",
-      ref: "rotorodDuration"
+      ref: "rotarodDuration"
     },
-    rotorodSlotPosition: {
+    rotarodSlotPosition: {
       kind: "const",
-      ref: "rotorodSlotPosition"
+      ref: "rotarodSlotPosition"
     },
-    rotorodWirehangFailure: {
+    rotarodWirehangFailure: {
       kind: "const",
-      ref: "rotorodWirehangFailure"
+      ref: "rotarodWirehangFailure"
     },
     wirehangDuration: {
       kind: "const",
@@ -176,11 +176,11 @@ export default defineInstrument({
   },
   validationSchema: z.object({
     roomNumber: z.string(),
-    motorTask: z.enum(["Rotorod" , "Wire hang" , "Pole test"]),
-    rotorodMiceNumber: z.number().min(1).max(5).optional(),
-    rotorodDuration: z.number().min(0).optional(),
-    rotorodSlotPosition: z.enum(["Left most", "Middle left", "Middle right", "Right most"]).optional(),
-    rotorodWirehangFailure: z.boolean().optional(),
+    motorTask: z.enum(["Rotarod" , "Wire hang" , "Pole test"]),
+    rotarodTotalMiceNumber: z.number().min(1).max(4).optional(),
+    rotarodDuration: z.number().min(0).optional(),
+    rotarodSlotPosition: z.enum(["Left most", "Middle left", "Middle right", "Right most"]).optional(),
+    rotarodWirehangFailure: z.boolean().optional(),
     wirehangDuration: z.number().min(0).optional(),
     wirehangPutbacks: z.number().min(0).int().optional(),
     poleTestDuration: z.number().min(0).optional(),
