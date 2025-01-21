@@ -148,10 +148,12 @@ export default defineInstrument({
   },
   details: {
     description: 'This form is used to track any physical intervention done upon an animal. Possible physical interventions include teeth extraction, tagging, tattooing, cytologies and other forms of swabbing.',
-    estimatedDuration: 1,
-    instructions: ['Whenever an physical intervention is done please fill out this form to describe the type of intervention and its details. One must keep track of the certain parts of the animal that were affected by the intervention or if any parts were extracted.'],
     license: 'Apache-2.0',
     title: 'Physical Intervention Form'
+  },
+  clientDetails: {
+    estimatedDuration: 1,
+    instructions: ['Whenever an physical intervention is done please fill out this form to describe the type of intervention and its details. One must keep track of the certain parts of the animal that were affected by the intervention or if any parts were extracted.']
   },
   measures: {
     interventionType: {
@@ -215,7 +217,7 @@ export default defineInstrument({
     }
   },
   validationSchema: z.object({
-     interventionType: z.enum([
+  interventionType: z.enum([
     "Blood extraction",
     "Teeth extraction",
     "Ear tagging",
