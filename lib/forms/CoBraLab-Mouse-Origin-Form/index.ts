@@ -8,7 +8,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Birth', 'Mouse','Origin'],
   internal: {
-    edition: 1,
+    edition: 2,
     name: 'MOUSE_ORIGIN_FORM'
   },
   content: {
