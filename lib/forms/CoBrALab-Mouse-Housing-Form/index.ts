@@ -8,7 +8,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Housing','Cage Enrichment','Room Change','Cage Change', 'Cage'],
   internal: {
-    edition: 1,
+    edition: 2,
     name: 'MOUSE_HOUSING_FORM'
   },
   content: {
@@ -22,29 +22,40 @@ export default defineInstrument({
       variant: "input",
       label: "Number of mice in cage"
     },
-    cageAmsNumber: {
-      kind: "number",
-      variant: "input",
-      label: "AMS Cage number"
+    cageIdentificationType: {
+      kind: "string",
+      variant: "select",
+      label: "Cage Identification Type",
+      options: {
+        "AMS Number": "AMS Number",
+        "Other": "Other"
+      }
     },
-    cageNameGiven: {
-      kind: "boolean",
-      variant: "radio",
-      label: "Cage given addtional name/identification"
-    },
-    cageName: {
-      kind: "dynamic",
-      deps: ["cageNameGiven"],
+    cageIdentification: {
+      kind: 'dynamic',
+      deps: ['cageIdentificationType'],
       render(data) {
-        if(data.cageNameGiven) {
+        if(data.cageIdentificationType === 'AMS Number') {
+          return {
+            kind: "string",
+            variant:"input",
+            label: "AMS Cage Number"
+          }
+        }
+        else if (data.cageIdentificationType === 'Other'){
           return {
             kind: "string",
             variant: "input",
-            label: "Additional cage name"
+            label: "Other identification name"
           }
         }
         return null
       }
+    },
+    additionalCageName: {
+      kind: "string",
+      variant: "input",
+      label: "If the cage was given an additional name/identification please enter it here."
     },
     beddingType: {
       kind: 'string',
@@ -128,20 +139,20 @@ export default defineInstrument({
       label: "Number of mice in cage",
       ref: "totalMice"
     },
-    cageAmsNumber: {
+    cageIdentificationType: {
       kind: "const",
-      label: "Cage number",
-      ref: "cageAmsNumber"
+      label: "Cage Identification Given",
+      ref: "cageIdentificationType"
     },
-    cageNameGiven: {
+    cageIdentification: {
       kind: "const",
-      label: "Cage number",
-      ref: "cageNameGiven"
+      label: "Cage Identification",
+      ref: "cageIdentification"
     },
-    cageName: {
+    additionalCageName: {
       kind: "const",
       label: "Cage number",
-      ref: "cageName"
+      ref: "additionalCageName"
     },
     beddingType: {
       kind: "const",
@@ -175,9 +186,9 @@ export default defineInstrument({
   validationSchema: z.object({
     roomNumber: z.string(),
     totalMice: z.number().int().min(0),
-    cageAmsNumber: z.number().int().positive(),
-    cageNameGiven: z.boolean(),
-    cageName: z.string().optional(),
+    cageIdentificationType: z.enum(['AMS Number', 'Other']),
+    cageIdentification: z.string(),
+    additionalCageName: z.string().optional(),
     beddingType: z.enum(['Corncob','Woodchip']),
     cageChangeDay: z.enum([
       'Monday',
