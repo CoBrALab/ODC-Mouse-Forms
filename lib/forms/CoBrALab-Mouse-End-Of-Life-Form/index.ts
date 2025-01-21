@@ -264,10 +264,12 @@ export default defineInstrument({
   },
   details: {
     description: 'Form to fill in info of mouse end of life',
-    estimatedDuration: 1,
-    instructions: ['Please fill in this for when a mouse reaches the end of its life'],
     license: 'Apache-2.0',
     title: 'Mouse End Of Life Form'
+  },
+  clientDetails: {
+    estimatedDuration: 1,
+    instructions: ['Please fill in this for when a mouse reaches the end of its life']
   },
   measures: {
      terminationReason: {
