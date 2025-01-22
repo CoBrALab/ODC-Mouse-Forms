@@ -40,7 +40,7 @@ export default defineInstrument({
       variant: "select",
       label: "Type of storage brain was kept in",
       options: {
-        "Parrafin": "Parrafin",
+        "Paraffin": "Paraffin",
         "Frozen": "Frozen",
       },
     },
@@ -193,7 +193,7 @@ export default defineInstrument({
   },
   details: {
     description:
-      "Describes when a section of an animal goes through a histology process. The processes listed in this form are Immunofluorescence and Immunohistochemistry. These are done with Ex-vivo samples usually consting of slices of the brain.",
+      "Describes when a section of an animal goes through a histology process. The processes listed in this form are Immunofluorescence and Immunohistochemistry. These are done with Ex-vivo samples usually consisting of slices of the brain.",
     license: "Apache-2.0",
     title: "Histology Form",
   },
