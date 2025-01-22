@@ -116,8 +116,8 @@ export default defineInstrument({
             variant: "select",
             label: "Analgesic type",
             options: {
-              "Carpofem": "Carpofem",
-              "Buvicane": "Buvicane"
+              "Carprofen": "Carprofen",
+              "Bupivacaine": "Bupivacaine"
             }
           }
         }
@@ -224,7 +224,7 @@ export default defineInstrument({
     subcutaneousInjectionType: z.enum(["Analgesic", "Other"]).optional(),
     subcutaneousInjectionTime: z.enum(["During operation", "Post operation"]).optional(),
     postOperationDay: z.date().optional(),
-    analgesicType: z.enum(["Carpofem", "Buvicane"]).optional(),
+    analgesicType: z.enum(["Carprofen", "Bupivacaine"]).optional(),
     ipDoseVolume: z.number().min(0).optional(),
     drugInjected: z.enum(["PU-AD", "PU-AD Vehicle", "IP Tamoxifen", "STZ"]).optional(),
     ipInjectionType: z.enum(["Viral memetic", "Anesthetic"]).optional()
