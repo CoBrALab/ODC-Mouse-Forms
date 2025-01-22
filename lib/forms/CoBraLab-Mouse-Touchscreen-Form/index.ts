@@ -198,7 +198,7 @@ export default defineInstrument({
     },
     trialFailed: {
       kind: 'const',
-      label: 'Trail failed',
+      label: 'Trial failed',
       ref: "trialFailed"
     },
     failureReason: {
