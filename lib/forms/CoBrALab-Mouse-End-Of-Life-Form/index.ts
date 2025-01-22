@@ -240,7 +240,7 @@ export default defineInstrument({
                 options: {
                   "Ethanol": 'Ethanol 70%',
                   'Sodium Alzide': 'Sodium Alzide',
-                  'Gadolum Bath': 'Gadolum Bath',
+                  'Gadolinium Bath': 'Gadolinium Bath',
                   "None": 'None'
                 }
               },
@@ -392,7 +392,7 @@ export default defineInstrument({
           bodyPartStorageSolution: z.enum([
           'Ethanol',
           'Sodium Alzide',
-          'Gadolum Bath',
+          'Gadolinium Bath',
           'None'
         ]),
           bodyPartStorageLocation: z.enum([
