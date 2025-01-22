@@ -286,7 +286,7 @@ export default defineInstrument({
   validationSchema: z.object({
     roomNumber: z.string(),
     histologyType: z.enum(["Immunohistochemistry", "Immunofluorescence"]),
-    brainStorageConditions: z.enum(["Parrafin", "Frozen"]),
+    brainStorageConditions: z.enum(["Paraffin", "Frozen"]),
     wasBrainSliced: z.boolean(),
     brainSliceWidth: z.number().optional(),
     portionOfBrainSliced: z.enum(["Whole brain", "Half brain"]).optional(),
