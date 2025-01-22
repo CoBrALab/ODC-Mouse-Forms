@@ -31,8 +31,8 @@ export default defineInstrument({
       variant: "select",
       label: "Type of Histology used",
       options: {
-        Immunohistochemistry: "Immunohistochemistry",
-        Immunofluorescence: "Immunofluorescence",
+        "Immunohistochemistry": "Immunohistochemistry",
+        "Immunofluorescence": "Immunofluorescence",
       },
     },
     brainStorageConditions: {
@@ -40,8 +40,8 @@ export default defineInstrument({
       variant: "select",
       label: "Type of storage brain was kept in",
       options: {
-        Parrafin: "Parrafin",
-        Frozen: "Frozen",
+        "Parrafin": "Parrafin",
+        "Frozen": "Frozen",
       },
     },
     wasBrainSliced: {
@@ -160,11 +160,11 @@ export default defineInstrument({
             variant: "select",
             label: "Stain used",
             options: {
-              GFAP: "GFAP",
-              IBA1: "IBA1",
-              PSYN: "PSYN",
-              TH: "TH",
-              NEUN: "NEUN",
+              "GFAP": "GFAP",
+              "IBA1": "IBA1",
+              "PSYN": "PSYN",
+              "TH": "TH",
+              "NEUN": "NEUN",
             },
           };
         }
