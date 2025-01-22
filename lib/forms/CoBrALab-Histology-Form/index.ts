@@ -13,7 +13,8 @@ export default defineInstrument({
     "Histology",
     "Brain Slicing",
     "Immunohistochemistry",
-    "Immunofluorescense",
+    "Immunofluorescence",
+    "Antibodies"
   ],
   internal: {
     edition: 1,
@@ -31,7 +32,7 @@ export default defineInstrument({
       label: "Type of Histology used",
       options: {
         Immunohistochemistry: "Immunohistochemistry",
-        Immunofluorescense: "Immunofluorescense",
+        Immunofluorescence: "Immunofluorescence",
       },
     },
     brainStorageConditions: {
@@ -192,14 +193,14 @@ export default defineInstrument({
   },
   details: {
     description:
-      "Describes when a section of an animal goes through a histology process. The processes listed in this form are Immunofluorescense and Immunohistochemistry. These are done with Ex-vivo samples usually consting of slices of the brain.",
+      "Describes when a section of an animal goes through a histology process. The processes listed in this form are Immunofluorescence and Immunohistochemistry. These are done with Ex-vivo samples usually consting of slices of the brain.",
     license: "Apache-2.0",
     title: "Histology Form",
   },
   clientDetails: {
     estimatedDuration: 3,
     instructions: [
-      "Please fill out this form whenever a Immunofluorescense or Immunohistochemistry task is done upon samples of an animal subject. In order to fill out the form the user must know which antibodies were used, if the sample was stained and if so the stain date, and how much brain tissue they used.",
+      "Please fill out this form whenever a Immunofluorescence or Immunohistochemistry task is done upon samples of an animal subject. In order to fill out the form the user must know which antibodies were used, if the sample was stained and if so the stain date, and how much brain tissue they used.",
     ],
   },
   measures: {
@@ -284,7 +285,7 @@ export default defineInstrument({
   },
   validationSchema: z.object({
     roomNumber: z.string(),
-    histologyType: z.enum(["Immunohistochemistry", "Immunofluorescense"]),
+    histologyType: z.enum(["Immunohistochemistry", "Immunofluorescence"]),
     brainStorageConditions: z.enum(["Parrafin", "Frozen"]),
     wasBrainSliced: z.boolean(),
     brainSliceWidth: z.number().optional(),
