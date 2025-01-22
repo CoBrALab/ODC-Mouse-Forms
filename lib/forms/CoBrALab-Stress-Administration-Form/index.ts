@@ -58,10 +58,10 @@ export default defineInstrument({
       label: "Number of foot shocks"
     }, (type) => type === "Electric foot shocks"),
 
-    footShockAmpage: createDependentField({
+    footShockAmperage: createDependentField({
       kind: "number",
       variant: "input",
-      label: "Electric shock ampage (in milliamps)"
+      label: "Electric shock amperage (in milliamps)"
     },
     (type) => type === "Electric foot shocks"),
     
@@ -98,9 +98,9 @@ export default defineInstrument({
         kind: "const",
         ref: "footShocksNumber"
       },
-      footShockAmpage: {
+      footShockAmperage: {
         kind: "const",
-        ref: "footShockAmpage"
+        ref: "footShockAmperage"
       },
       tailSuspensionClimbStoppers: {
         kind: "const",
@@ -112,7 +112,7 @@ export default defineInstrument({
     roomNumber: z.string(),
     stressorType: z.enum(["Electric foot shocks", "Tail suspension", "Restraint"]),
     footShocksNumber: z.number().int().min(1).optional(),
-    footShockAmpage: z.number().min(0).optional(),
+    footShockAmperage: z.number().min(0).optional(),
     tailSuspensionClimbStoppers: z.boolean().optional()
 
   })
