@@ -23,7 +23,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Surgery', 'Vet Care', 'Wound Treatment', 'Ovariectomy'],
   internal: {
-    edition: 1,
+    edition: 2,
     name: 'MOUSE_SURGERY_FORM'
   },
   content: {

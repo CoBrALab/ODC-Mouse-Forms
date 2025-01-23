@@ -23,7 +23,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['End of Life', 'Mouse', 'Euthanasia', 'Termination'],
   internal: {
-    edition: 1,
+    edition: 2,
     name: 'MOUSE_END_OF_LIFE_FORM'
   },
   content: {
