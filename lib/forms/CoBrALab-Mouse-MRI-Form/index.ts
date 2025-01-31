@@ -26,7 +26,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Mouse', 'MRI', 'Structural', 'fMRI'],
   internal: {
-    edition: 1,
+    edition: 2,
     name: 'MOUSE_MRI_FORM'
   },
   content: {
@@ -206,7 +206,7 @@ export default defineInstrument({
       }
     },
 
-    isofluoraneUsed: {
+    isofluraneUsed: {
       kind: "dynamic",
       deps: ["anestheticUsed"],
       render(data) {
@@ -214,7 +214,7 @@ export default defineInstrument({
           return {
             kind: "boolean",
             variant: "radio",
-            label: "Isofluorane used?"
+            label: "Isoflurane used?"
           }
         }
         return null
@@ -222,15 +222,15 @@ export default defineInstrument({
 
     },
 
-    isofluoraneBottleSerialCode: {
+    isofluraneBottleSerialCode: {
       kind: "dynamic",
-      deps: ['isofluoraneUsed'],
+      deps: ['isofluraneUsed'],
       render(data) {
-        if (data.isofluoraneUsed) {
+        if (data.isofluraneUsed) {
           return {
             kind: 'string',
             variant: "input",
-            label: "Isofluorane bottle code"
+            label: "Isoflurane bottle code"
           }
         }
         return null
@@ -238,45 +238,45 @@ export default defineInstrument({
     },
 
 
-    isofluoraneAdjustedFromSOP: {
+    isofluraneAdjustedFromSOP: {
       kind: "dynamic",
-      deps: ['isofluoraneUsed'],
+      deps: ['isofluraneUsed'],
       render(data) {
-        if (data.isofluoraneUsed) {
+        if (data.isofluraneUsed) {
           return {
             kind: 'boolean',
             variant: "radio",
-            label: "Isofluorane adjusted from SOP?"
+            label: "Isoflurane adjusted from SOP?"
           }
         }
         return null
       }
     },
 
-    isofluoraneAdjustedPercentage: {
+    isofluraneAdjustedPercentage: {
       kind: "dynamic",
-      deps: ['isofluoraneAdjustedFromSOP'],
+      deps: ['isofluraneAdjustedFromSOP'],
       render(data) {
-        if (data.isofluoraneAdjustedFromSOP) {
+        if (data.isofluraneAdjustedFromSOP) {
           return {
             kind: "string",
             variant: "input",
-            label: "Isofluorane percentage",
+            label: "Isoflurane percentage",
           }
         }
         return null
       }
     },
 
-    fmriIsofluoraneTracked: {
+    fmriIsofluraneTracked: {
       kind: "dynamic",
-      deps: ['isofluoraneUsed'],
+      deps: ['isofluraneUsed'],
       render(data) {
-        if(data.isofluoraneUsed){
+        if(data.isofluraneUsed){
           return {
             kind: "boolean",
             variant: "radio",
-            label: "fMRI isofluorane levels tracked?"
+            label: "fMRI isoflurane levels tracked?"
           }
         }
         return null
@@ -284,15 +284,15 @@ export default defineInstrument({
       
     },
 
-    fmriIsofluorane: {
+    fmriIsoflurane: {
       kind: "dynamic",
-      deps: ['fmriIsofluoraneTracked'],
+      deps: ['fmriIsofluraneTracked'],
       render(data) {
-        if (data.fmriIsofluoraneTracked) {
+        if (data.fmriIsofluraneTracked) {
           return {
             kind: "number",
             variant: "slider",
-            label: "fMRI Isofluorane percentage, consider this as the value before it is divised by 10, i.e. 15 = 1.5%",
+            label: "fMRI Isoflurane percentage, consider this as the value before it is divided by 10, i.e. 15 = 1.5%",
             max: 15,
             min: 0
           }
@@ -300,15 +300,15 @@ export default defineInstrument({
         return null
       }
     },
-    fmriIsofluoraneColour: {
+    fmriIsofluraneColour: {
       kind: "dynamic",
-      deps: ['fmriIsofluorane'],
+      deps: ['fmriIsoflurane'],
       render(data) {
-        if (data.fmriIsofluorane === 2) {
+        if (data.fmriIsoflurane === 2) {
           return {
             kind: "string",
             variant: "radio",
-            label: "Isofluorane colour code",
+            label: "Isoflurane colour code",
             options: {
               "yellow": "Yellow",
               "green": "Green"
@@ -425,7 +425,7 @@ export default defineInstrument({
             otherComments: {
               kind: "string",
               variant: "textarea",
-              label: "Please write any additonal comments/notes here"
+              label: "Please write any additional comments/notes here"
             }
           }
         }
@@ -479,33 +479,33 @@ export default defineInstrument({
       kind: "const",
       ref: "dexBottleSerialCode"
     },
-    isofluoraneUsed: {
+    isofluraneUsed: {
       kind: "const",
-      ref: "isofluoraneUsed"
+      ref: "isofluraneUsed"
     },
-    isofluoraneBottleSerialCode: {
+    isofluraneBottleSerialCode: {
       kind: "const",
-      ref: "isofluoraneBottleSerialCode"
+      ref: "isofluraneBottleSerialCode"
     },
-    isofluoraneAdjustedFromSOP: {
+    isofluraneAdjustedFromSOP: {
       kind: "const",
-      ref: "isofluoraneAdjustedFromSOP"
+      ref: "isofluraneAdjustedFromSOP"
     },
-    isofluoraneAdjustedPercentage: {
+    isofluraneAdjustedPercentage: {
       kind: "const",
-      ref: "isofluoraneAdjustedPercentage"
+      ref: "isofluraneAdjustedPercentage"
     },
-    fmriIsofluoraneTracked: {
+    fmriIsofluraneTracked: {
       kind: "const",
-      ref: "fmriIsofluoraneTracked"
+      ref: "fmriIsofluraneTracked"
     },
-    fmriIsofluorane: {
+    fmriIsoflurane: {
       kind: "const",
-      ref: "fmriIsofluorane"
+      ref: "fmriIsoflurane"
     },
-    fmriIsofluoraneColour: {
+    fmriIsofluraneColour: {
       kind: "const",
-      ref: "fmriIsofluoraneColour"
+      ref: "fmriIsofluraneColour"
     },
     scanRecordInfo: {
       kind: "computed",
@@ -548,13 +548,13 @@ export default defineInstrument({
     dexBottleSerialCode: z.string().optional(),
     dexAdjustedFromSOP: z.boolean().optional(),
     dexAdjustedPercentage: z.string().optional(),
-    isofluoraneUsed: z.boolean(),
-    isofluoraneBottleSerialCode: z.string().optional(),
-    isofluoraneAdjustedFromSOP: z.boolean().optional(),
-    isofluoraneAdjustedPercentage: z.string().optional(),
-    fmriIsofluoraneTracked: z.boolean().optional(),
-    fmriIsofluorane: z.number().optional(),
-    fmriIsofluoraneColour: z.enum(['yellow', 'green']).optional(),
+    isofluraneUsed: z.boolean(),
+    isofluraneBottleSerialCode: z.string().optional(),
+    isofluraneAdjustedFromSOP: z.boolean().optional(),
+    isofluraneAdjustedPercentage: z.string().optional(),
+    fmriIsofluraneTracked: z.boolean().optional(),
+    fmriIsoflurane: z.number().optional(),
+    fmriIsofluraneColour: z.enum(['yellow', 'green']).optional(),
     scanRecordInfo: z.array(z.object({
       mriScanName: z.enum([
         "Localizer",

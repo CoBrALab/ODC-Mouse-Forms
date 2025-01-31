@@ -23,7 +23,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['End of Life', 'Mouse', 'Euthanasia', 'Termination'],
   internal: {
-    edition: 1,
+    edition: 2,
     name: 'MOUSE_END_OF_LIFE_FORM'
   },
   content: {
@@ -240,7 +240,7 @@ export default defineInstrument({
                 options: {
                   "Ethanol": 'Ethanol 70%',
                   'Sodium Alzide': 'Sodium Alzide',
-                  'Gadolum Bath': 'Gadolum Bath',
+                  'Gadolinium Bath': 'Gadolinium Bath',
                   "None": 'None'
                 }
               },
@@ -392,7 +392,7 @@ export default defineInstrument({
           bodyPartStorageSolution: z.enum([
           'Ethanol',
           'Sodium Alzide',
-          'Gadolum Bath',
+          'Gadolinium Bath',
           'None'
         ]),
           bodyPartStorageLocation: z.enum([

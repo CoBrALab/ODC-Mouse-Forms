@@ -8,7 +8,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Mouse, Touchscreen','PVD','5-choice'],
   internal: {
-    edition: 1,
+    edition: 2,
     name: 'MOUSE_TOUCHSCREEN_FORM'
   },
   content: {
@@ -29,7 +29,7 @@ export default defineInstrument({
         "habituation":"Habituation",
         "habituation2a":"Habituation2a",
         "habituation2b":"Habituation2b",
-        "intial touch": "Initial touch",
+        "initial touch": "Initial touch",
         "must touch": "Must touch",
         "must initiate": "Must initiate",
         "punish incorrect":"Punish incorrect",
@@ -46,7 +46,7 @@ export default defineInstrument({
             variant: 'radio',
             label: "PVD experiment stage",
             options: {
-              "aquisition": "Aquisition",
+              "acquisition": "Acquisition",
               "reversal":"Reversal",
               "re-reversal": "Re-reversal"
             }
@@ -198,7 +198,7 @@ export default defineInstrument({
     },
     trialFailed: {
       kind: 'const',
-      label: 'Trail failed',
+      label: 'Trial failed',
       ref: "trialFailed"
     },
     failureReason: {
@@ -214,13 +214,13 @@ export default defineInstrument({
     "habituation",
     "habituation2a",
     "habituation2b",
-    "intial touch",
+    "initial touch",
     "must touch",
     "must initiate",
     "punish incorrect",
     "full session"
   ]),
-  pvdStage: z.enum(["aquisition", "reversal", "re-reversal"]).optional(),
+  pvdStage: z.enum(["acquisition", "reversal", "re-reversal"]).optional(),
   fiveChoiceStage: z.enum(["4 second stimulus", "2 second stimulus", "Pro trial"]).optional(),
   chamberNumber: z.number().min(1).max(12),
   chamberSerialCode: z.string(),

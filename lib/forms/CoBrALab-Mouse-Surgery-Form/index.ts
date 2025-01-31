@@ -23,7 +23,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Surgery', 'Vet Care', 'Wound Treatment', 'Ovariectomy'],
   internal: {
-    edition: 1,
+    edition: 2,
     name: 'MOUSE_SURGERY_FORM'
   },
   content: {
@@ -36,35 +36,35 @@ export default defineInstrument({
         "Wound treatment": "Wound treatment"
       }
     },
-    aneglesiaUsed: createDependentField({
+    analglesiaUsed: createDependentField({
       kind: "boolean",
       variant: "radio",
-      label: "Aneglesia used"
+      label: "Analglesia used"
     }, (type) => type === "Surgery"),
 
-    aneglesiaType: {
+    analglesiaType: {
       kind: "dynamic",
-      deps: ["aneglesiaUsed"],
+      deps: ["analglesiaUsed"],
       render(data) {
-        if(data.aneglesiaUsed){
+        if(data.analglesiaUsed){
           return {
             kind: "string",
             variant: "input",
-            label: "Aneglesia type"
+            label: "Analglesia type"
           }
         }
         return null
       }
     },
-    aneglesiaVolume: {
+    analglesiaVolume: {
        kind: "dynamic",
-       deps: ["aneglesiaUsed"],
+       deps: ["analglesiaUsed"],
        render(data) {
-        if(data.aneglesiaUsed){
+        if(data.analglesiaUsed){
           return {
           kind: "number",
           variant: "input",
-          label: "Aneglesia volume (ml)"
+          label: "Analglesia volume (ml)"
           }
         }
         return null
@@ -236,17 +236,17 @@ export default defineInstrument({
       label: "Selected physical intervention",
       ref: "treatmentType"
     },
-    aneglesiaUsed: {
+    analglesiaUsed: {
       kind: "const",
-      ref: "aneglesiaUsed"
+      ref: "analglesiaUsed"
     },
-    aneglesiaType: {
+    analglesiaType: {
       kind: "const",
-      ref: "aneglesiaType"
+      ref: "analglesiaType"
     },
-    aneglesiaVolume: {
+    analglesiaVolume: {
       kind: "const",
-      ref: "aneglesiaVolume"
+      ref: "analglesiaVolume"
     },
     stereotaxUsed: {
       kind: "const",
@@ -299,9 +299,9 @@ export default defineInstrument({
   },
   validationSchema: z.object({
       treatmentType: z.enum(["Surgery", "Wound treatment"]),
-      aneglesiaUsed: z.boolean().optional(),
-      aneglesiaType: z.string().optional(),
-      aneglesiaVolume: z.number().min(0).optional(),
+      analglesiaUsed: z.boolean().optional(),
+      analglesiaType: z.string().optional(),
+      analglesiaVolume: z.number().min(0).optional(),
       stereotaxUsed: z.boolean().optional(),
       stereotaxId: z.string().optional(),
       surgeryType: z.enum(["Ovariectomy", "Electrode implant", "Fiber optic implant"]).optional(),
