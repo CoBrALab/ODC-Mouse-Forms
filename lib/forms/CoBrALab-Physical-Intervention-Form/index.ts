@@ -32,7 +32,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Physical intervention','Blood extraction', 'Ear tagging', 'Genotyping', 'Vaginal cytology','Blood glucose','anesthesia'],
   internal: {
-    edition: 1,
+    edition: 2,
     name: 'PHYSICAL_INTERVENTION_FORM'
   },
   content: {
@@ -144,7 +144,13 @@ export default defineInstrument({
       kind: "string",
       variant: 'input',
       label: "Blood glucose level"
-    }, (type) => type === "Blood glucose")
+    }, (type) => type === "Blood glucose"),
+
+    additionalComments: {
+      kind: "string",
+      variant: "textarea",
+      label: "Additional Comments"
+    }
   },
   details: {
     description: 'This form is used to track any physical intervention done upon an animal. Possible physical interventions include teeth extraction, tagging, tattooing, cytologies and other forms of swabbing.',
@@ -214,6 +220,10 @@ export default defineInstrument({
     bloodGlucoseLevel: {
       kind: "const",
       ref: "bloodGlucoseLevel"
+    },
+    additionalComments: {
+      kind: 'const',
+      ref: 'additionalComments'
     }
   },
   validationSchema: z.object({
@@ -260,6 +270,7 @@ export default defineInstrument({
     ]).optional()
   })).optional(),
     teethExtractionNumber: z.number().int().min(0).max(16).optional(),
-    bloodGlucoseLevel: z.string().optional()
+    bloodGlucoseLevel: z.string().optional(),
+    additionalComments: z.string().optional()
   })
 });

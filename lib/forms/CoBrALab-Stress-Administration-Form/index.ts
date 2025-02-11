@@ -25,7 +25,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Stress', 'Tail suspension', 'Restraint', 'Electric shock'],
   internal: {
-    edition: 1,
+    edition: 2,
     name: 'STRESS_ADMINISTRATION_FORM'
   },
   content: {
@@ -70,7 +70,13 @@ export default defineInstrument({
       variant: "radio",
       label: "Climb stoppers used"
     },
-    (type) => type === "Tail suspension")
+    (type) => type === "Tail suspension"),
+
+    additionalComments: {
+      kind: "string",
+      variant: "textarea",
+      label: "Additional Comments"
+    }
   },
   details: {
     description: 'Describes the stress administration done upon an animal, with the current possible three options being tail suspension, restraint and electric foot shocks.',
@@ -105,7 +111,12 @@ export default defineInstrument({
       tailSuspensionClimbStoppers: {
         kind: "const",
         ref: "tailSuspensionClimbStoppers"
+      },
+      additionalComments: {
+        kind: 'const',
+        ref: 'additionalComments'
       }
+
   },
   validationSchema: z.object({
     miceNumber: z.number().min(0).max(10).int(),
@@ -113,7 +124,8 @@ export default defineInstrument({
     stressorType: z.enum(["Electric foot shocks", "Tail suspension", "Restraint"]),
     footShocksNumber: z.number().int().min(1).optional(),
     footShockAmperage: z.number().min(0).optional(),
-    tailSuspensionClimbStoppers: z.boolean().optional()
+    tailSuspensionClimbStoppers: z.boolean().optional(),
+    additionalComments: z.string().optional()
 
   })
 });

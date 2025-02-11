@@ -23,7 +23,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Surgery', 'Vet Care', 'Wound Treatment', 'Ovariectomy'],
   internal: {
-    edition: 2,
+    edition: 3,
     name: 'MOUSE_SURGERY_FORM'
   },
   content: {
@@ -218,6 +218,12 @@ export default defineInstrument({
       variant: "input",
       label: "Treatment provided"
     }, (type) => type === "Wound treatment"),
+
+    additionalComments: {
+      kind: "string",
+      variant: "textarea",
+      label: "Additional Comments"
+    }
     
 
   },
@@ -295,6 +301,10 @@ export default defineInstrument({
     treatmentProvided: {
       kind: "const",
       ref: "treatmentProvided"
+    },
+    additionalComments: {
+      kind: "const",
+      ref: "additionalComments"
     }
   },
   validationSchema: z.object({
@@ -313,7 +323,8 @@ export default defineInstrument({
       brainSurgeryPaxinosDVCoords: z.number().min(0).max(6.4).optional(),
       woundDateReported: z.date().optional(),
       clinicalCondition: z.string().optional(),
-      treatmentProvided: z.string().optional()
+      treatmentProvided: z.string().optional(),
+      additionalComments: z.string().optional()
 
   })
 });

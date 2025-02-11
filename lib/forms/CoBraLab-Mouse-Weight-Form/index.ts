@@ -8,7 +8,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Mouse', 'Weight', 'Scale'],
   internal: {
-    edition: 1,
+    edition: 2,
     name: 'MOUSE_WEIGHT_FORM'
   },
   content: {
@@ -49,6 +49,11 @@ export default defineInstrument({
         "Portable": "Small portable",
         "Regular": "Regular (Scout Pro SP401)"
       }
+    },
+    additionalComments: {
+      kind: "string",
+      variant: "textarea",
+      label: "Additional Comments"
     }
   },
   clientDetails: {
@@ -79,6 +84,10 @@ export default defineInstrument({
     scaleKind: {
       kind: "const",
       ref: "scaleKind"
+    },
+    additionalComments: {
+      kind: 'const',
+      ref: 'additionalComments'
     }
 
   },
@@ -86,6 +95,7 @@ export default defineInstrument({
     mouseWeight: z.number().min(1).max(100),
     scaleSerialCode: z.enum(["8334378068","Other"]),
     scaleSerialCodeOther: z.string().optional(),
-    scaleKind: z.enum(["Portable","Regular"])
+    scaleKind: z.enum(["Portable","Regular"]),
+    additionalComments: z.string().optional()
   })
 });

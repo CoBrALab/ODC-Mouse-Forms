@@ -8,7 +8,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Mouse, Touchscreen','PVD','5-choice'],
   internal: {
-    edition: 2,
+    edition: 3,
     name: 'MOUSE_TOUCHSCREEN_FORM'
   },
   content: {
@@ -134,6 +134,11 @@ export default defineInstrument({
         }
         return null
       }
+    },
+    additionalComments: {
+      kind: "string",
+      variant: "textarea",
+      label: "Additional Comments"
     }
   },
   clientDetails: {
@@ -205,6 +210,11 @@ export default defineInstrument({
       kind: 'const',
       label: 'Reason for failure',
       ref: 'failureReason'
+    },
+    additionalComments: {
+      kind: "const",
+      label: 'Additional Comments',
+      ref: 'additionalComments'
     }
 
   },
@@ -229,6 +239,7 @@ export default defineInstrument({
   milkshakeBrandOther: z.string().optional(),
   foodGiven: z.number().min(0).max(100),
   trialFailed: z.boolean(),
-  failureReason: z.string().optional()
+  failureReason: z.string().optional(),
+  additionalComments: z.string().optional()
   })
 });
