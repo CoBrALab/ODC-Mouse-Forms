@@ -8,7 +8,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Housing','Cage Enrichment','Room Change','Cage Change', 'Cage'],
   internal: {
-    edition: 2,
+    edition: 3,
     name: 'MOUSE_HOUSING_FORM'
   },
   content: {
@@ -117,6 +117,11 @@ export default defineInstrument({
         }
         return null
       }
+    },
+    additionalComments: {
+      kind: "string",
+      variant: "textarea",
+      label: "Additional Comments"
     }
   },
   clientDetails: {
@@ -181,6 +186,10 @@ export default defineInstrument({
         
         return data.cageEnrichment ? Array.from(data.cageEnrichment).join(" ") : ""
       }
+    },
+    additionalComments: {
+      kind: "const",
+      ref: "additionalComments"
     }
   },
   validationSchema: z.object({
@@ -202,6 +211,7 @@ export default defineInstrument({
     bottleType: z.enum(['Auto Bottle', 'Standard']),
     cageType: z.enum(['Enriched', 'Standard']),
     cageEnrichment: z.set(z.enum(['Wheel',"Cover","Tube","Enlarged Cage"])).optional(),
+    additionalComments: z.string().optional()
 
   })
 });
