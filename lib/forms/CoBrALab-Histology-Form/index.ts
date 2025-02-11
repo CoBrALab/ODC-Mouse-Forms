@@ -17,7 +17,7 @@ export default defineInstrument({
     "Antibodies"
   ],
   internal: {
-    edition: 1,
+    edition: 2,
     name: "HISTOLOGY_FORM",
   },
   content: {
