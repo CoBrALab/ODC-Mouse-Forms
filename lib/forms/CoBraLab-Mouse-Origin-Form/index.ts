@@ -8,7 +8,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Birth', 'Mouse','Origin'],
   internal: {
-    edition: 2,
+    edition: 3,
     name: 'MOUSE_ORIGIN_FORM'
   },
   content: {
@@ -212,6 +212,11 @@ export default defineInstrument({
       kind: 'number',
       variant: 'input',
       label: 'N-generation of mouse'
+    },
+    additionalComments: {
+      kind: "string",
+      variant: "textarea",
+      label: "Additional Comments"
     }
   },
   clientDetails: {
@@ -308,6 +313,10 @@ export default defineInstrument({
     kind: 'const',
     label: 'Generation Number',
     ref: 'generationNumber'
+  },
+  additionalComments: {
+    kind: 'const',
+    ref: 'additionalComments'
   }
   },
   validationSchema: z.object({
@@ -345,6 +354,7 @@ export default defineInstrument({
     'Other'
   ]).optional(),
   otherBreederOrigin: z.string().optional(),
-  generationNumber: z.number().min(0).int()
+  generationNumber: z.number().min(0).int(),
+  additionalComments: z.string().optional()
 })
 });
