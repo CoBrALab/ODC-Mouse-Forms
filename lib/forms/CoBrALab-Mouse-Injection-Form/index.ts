@@ -23,7 +23,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Injections', 'Drug', 'Physical Intervention','Anesthesia'],
   internal: {
-    edition: 2,
+    edition: 3,
     name: 'MOUSE_INJECTIONS_FORM'
   },
   content: {
@@ -151,7 +151,13 @@ export default defineInstrument({
         "Viral memetic": "Viral memetic",
         "Anesthetic": "Anesthetic"
       }
-    },(type) => type === "IP")
+    },(type) => type === "IP"),
+
+    additionalComments: {
+      kind: "string",
+      variant: "textarea",
+      label: "Additional Comments"
+    }
 
     
   },
@@ -212,6 +218,10 @@ export default defineInstrument({
     ipInjectionType: {
       kind: "const",
       ref: "ipInjectionType"
+    },
+    additionalComments: {
+      kind: "const",
+      ref: "additionalComments"
     }
 
   },
@@ -227,6 +237,7 @@ export default defineInstrument({
     analgesicType: z.enum(["Carprofen", "Bupivacaine"]).optional(),
     ipDoseVolume: z.number().min(0).optional(),
     drugInjected: z.enum(["PU-AD", "PU-AD Vehicle", "IP Tamoxifen", "STZ"]).optional(),
-    ipInjectionType: z.enum(["Viral memetic", "Anesthetic"]).optional()
+    ipInjectionType: z.enum(["Viral memetic", "Anesthetic"]).optional(),
+    additionalComments: z.string().optional()
   })
 });
