@@ -37,17 +37,17 @@ export default defineInstrument({
         "Re-stitching": "Re-stitching"
       }
     },
-    analglesiaUsed: createDependentField({
+    analgesiaUsed: createDependentField({
       kind: "boolean",
       variant: "radio",
       label: "Analglesia used"
     }, (type) => type === "Surgery" || type === "Re-stitching"),
 
-    analglesiaType: {
+    analgesiaType: {
       kind: "dynamic",
-      deps: ["analglesiaUsed"],
+      deps: ["analgesiaUsed"],
       render(data) {
-        if(data.analglesiaUsed){
+        if(data.analgesiaUsed){
           return {
             kind: "string",
             variant: "input",
@@ -57,11 +57,11 @@ export default defineInstrument({
         return null
       }
     },
-    analglesiaVolume: {
+    analgesiaVolume: {
        kind: "dynamic",
-       deps: ["analglesiaUsed"],
+       deps: ["analgesiaUsed"],
        render(data) {
-        if(data.analglesiaUsed){
+        if(data.analgesiaUsed){
           return {
           kind: "number",
           variant: "input",
@@ -249,17 +249,17 @@ export default defineInstrument({
       label: "Selected physical intervention",
       ref: "treatmentType"
     },
-    analglesiaUsed: {
+    analgesiaUsed: {
       kind: "const",
-      ref: "analglesiaUsed"
+      ref: "analgesiaUsed"
     },
-    analglesiaType: {
+    analgesiaType: {
       kind: "const",
-      ref: "analglesiaType"
+      ref: "analgesiaType"
     },
-    analglesiaVolume: {
+    analgesiaVolume: {
       kind: "const",
-      ref: "analglesiaVolume"
+      ref: "analgesiaVolume"
     },
     stereotaxUsed: {
       kind: "const",
@@ -320,9 +320,9 @@ export default defineInstrument({
   },
   validationSchema: z.object({
       treatmentType: z.enum(["Surgery", "Wound treatment","Re-stitching"]),
-      analglesiaUsed: z.boolean().optional(),
-      analglesiaType: z.string().optional(),
-      analglesiaVolume: z.number().min(0).optional(),
+      analgesiaUsed: z.boolean().optional(),
+      analgesiaType: z.string().optional(),
+      analgesiaVolume: z.number().min(0).optional(),
       stereotaxUsed: z.boolean().optional(),
       stereotaxId: z.string().optional(),
       surgeryType: z.enum(["Ovariectomy", "Electrode implant", "Fiber optic implant"]).optional(),
