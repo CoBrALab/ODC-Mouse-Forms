@@ -263,9 +263,9 @@ export default defineInstrument({
     },
     additionalComments: {
       kind: 'string',
-      variant: 'textArea',
+      variant: 'textarea',
       label: 'Additional comments'
-    } 
+    }
     
   },
   details: {
