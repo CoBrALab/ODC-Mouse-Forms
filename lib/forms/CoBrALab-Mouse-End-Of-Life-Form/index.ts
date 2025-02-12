@@ -23,7 +23,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['End of Life', 'Mouse', 'Euthanasia', 'Termination'],
   internal: {
-    edition: 2,
+    edition: 3,
     name: 'MOUSE_END_OF_LIFE_FORM'
   },
   content: {
@@ -260,7 +260,13 @@ export default defineInstrument({
         }
         return null;
       }
+    },
+    additionalComments: {
+      kind: 'string',
+      variant: 'textarea',
+      label: 'Additional comments'
     }
+    
   },
   details: {
     description: 'Form to fill in info of mouse end of life',
@@ -337,6 +343,11 @@ export default defineInstrument({
         }
         return extractInfo;
       }
+    },
+    additionalComments: {
+      kind: "const",
+      label: "Additional comments",
+      ref: "additionalComments"
     }
 
   },
@@ -403,6 +414,8 @@ export default defineInstrument({
         ])
         })
       )
-      .optional()
+      .optional(),
+    
+    additionalComments: z.string().optional()
   })
 });

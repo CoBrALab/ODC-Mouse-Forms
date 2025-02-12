@@ -17,7 +17,7 @@ export default defineInstrument({
     "Antibodies"
   ],
   internal: {
-    edition: 1,
+    edition: 2,
     name: "HISTOLOGY_FORM",
   },
   content: {
@@ -190,6 +190,12 @@ export default defineInstrument({
       variant: "radio",
       label: "Histology Quantified",
     },
+
+    additionalComments: {
+      kind: "string",
+      variant: "textarea",
+      label: "Additional Comments"
+    }
   },
   details: {
     description:
@@ -282,6 +288,10 @@ export default defineInstrument({
       kind: "const",
       ref: "histologyQuantified",
     },
+    additionalComments: {
+      kind: "const",
+      ref: "additionalComments"
+    }
   },
   validationSchema: z.object({
     roomNumber: z.string(),
@@ -310,5 +320,6 @@ export default defineInstrument({
     stainUsed: z.enum(["GFAP", "IBA1", "PSYN", "TH", "NEUN"]).optional(),
     dateStained: z.date().optional(),
     histologyQuantified: z.boolean(),
+    additionalComments: z.string().optional()
   }),
 });

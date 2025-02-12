@@ -8,7 +8,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Handling','Cupping','Training'],
   internal: {
-    edition: 1,
+    edition: 2,
     name: 'MOUSE_HANDLING_FORM'
   },
   clientDetails: {
@@ -36,6 +36,11 @@ export default defineInstrument({
       kind: "number",
       variant: "input",
       label: "Duration (minutes)"
+    },
+    additionalComments: {
+      kind: "string",
+      variant: "textarea",
+      label: "Additional Comments"
     }
   },
   details: {
@@ -58,11 +63,16 @@ export default defineInstrument({
       kind: 'const',
       label: "Duration (minutes)",
       ref: "handlingDuration"
+    },
+    additionalComments: {
+      kind: "const",
+      ref: "additionalComments"
     }
   },
   validationSchema: z.object({
     roomNumber: z.string(),
     handlingType: z.enum(["Tail grabbing","Cupping","Tube method"]),
-    handlingDuration: z.number().min(0)
+    handlingDuration: z.number().min(0),
+    additionalComments: z.string().optional()
   })
 });
