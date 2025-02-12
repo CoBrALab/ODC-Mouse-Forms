@@ -133,6 +133,28 @@ export default defineInstrument({
 
     },
 
+    hydrationProvided: createDependentField({
+      kind: "boolean",
+      variant: "radio",
+      label: "Was hydration provided"
+    }, (type) => type === "Surgery" || type === "Intracerebral injection"),
+
+    hydrationVolume: {
+      kind: "dynamic",
+      deps: ["hydrationProvided"],
+      render(data) {
+       if(data.hydrationProvided){
+         return {
+         kind: "number",
+         variant: "input",
+         label: "Hydration solution volume (ml)"
+         }
+       }
+       return null
+     }
+     
+    },
+
     surgeryType: createDependentField({
       kind: "string",
       variant: "select",
@@ -277,27 +299,6 @@ export default defineInstrument({
       label: "Expected number of days until recovery"
     }, (type) => type === "Surgery" || type === "Intracerebral injection"),
 
-    hydrationProvided: createDependentField({
-      kind: "boolean",
-      label: "Was hydration provided"
-    }, (type) => type === "Surgery" || type === "Intracerebral injection"),
-
-    hydrationVolume: {
-      kind: "dynamic",
-      deps: ["hydrationProvided"],
-      render(data) {
-       if(data.hydrationProvided){
-         return {
-         kind: "number",
-         variant: "input",
-         label: "Hydration solution volume (ml)"
-         }
-       }
-       return null
-     }
-     
-    },
-
     additionalComments: {
       kind: "string",
       variant: "textarea",
@@ -344,6 +345,14 @@ export default defineInstrument({
     anesthesiaVolume: {
       kind: "const",
       ref: "anesthesiaVolume"
+    },
+    hydrationProvided: {
+      kind: "const",
+      ref: "hydrationProvided"
+    },
+    hydrationVolume: {
+      kind: "const",
+      ref: "hydrationVolume"
     },
     stereotaxUsed: {
       kind: "const",
@@ -396,6 +405,14 @@ export default defineInstrument({
     treatmentDuration: {
       kind: "const",
       ref:"treatmentDuration"
+    },
+    surgeryDuration: {
+      kind: "const",
+      ref:"surgeryDuration"
+    },
+    daysUntilRecovery:{
+      kind: "const",
+      ref: "daysUntilRecovery"
     },
     additionalComments: {
       kind: "const",
