@@ -3,7 +3,7 @@
 import { defineInstrument } from '/runtime/v1/@opendatacapture/runtime-core'
 import { z } from '/runtime/v1/zod@3.23.x'
 
-type TreatmentType =  "Surgery" | "Wound treatment"
+type TreatmentType =  "Surgery" | "Wound treatment" | "Re-stitching"
 
 function createDependentField<const T>(field: T, fn: (treatmentType: TreatmentType) => boolean) {
   return {
@@ -33,14 +33,15 @@ export default defineInstrument({
       label: "Select physical intervention",
       options: {
         "Surgery": "Surgery",
-        "Wound treatment": "Wound treatment"
+        "Wound treatment": "Wound treatment",
+        "Re-stitching": "Re-stitching"
       }
     },
     analglesiaUsed: createDependentField({
       kind: "boolean",
       variant: "radio",
       label: "Analglesia used"
-    }, (type) => type === "Surgery"),
+    }, (type) => type === "Surgery" || type === "Re-stitching"),
 
     analglesiaType: {
       kind: "dynamic",
@@ -75,7 +76,7 @@ export default defineInstrument({
       kind: "boolean",
       variant: "radio",
       label: "Stereotax used"
-    },(type) => type === "Surgery"),
+    },(type) => type === "Surgery" || type === "Re-stitching"),
 
     stereotaxId:{
       kind: "dynamic",
@@ -219,6 +220,12 @@ export default defineInstrument({
       label: "Treatment provided"
     }, (type) => type === "Wound treatment"),
 
+    treatmentDuration: createDependentField({
+      kind: "number",
+      variant: "input",
+      label: "Treatment duration (days)"
+    }, (type) => type === "Wound treatment" || type === "Re-stitching"),
+
     additionalComments: {
       kind: "string",
       variant: "textarea",
@@ -302,13 +309,17 @@ export default defineInstrument({
       kind: "const",
       ref: "treatmentProvided"
     },
+    treatmentDuration: {
+      kind: "const",
+      ref:"treatmentDuration"
+    },
     additionalComments: {
       kind: "const",
       ref: "additionalComments"
     }
   },
   validationSchema: z.object({
-      treatmentType: z.enum(["Surgery", "Wound treatment"]),
+      treatmentType: z.enum(["Surgery", "Wound treatment","Re-stitching"]),
       analglesiaUsed: z.boolean().optional(),
       analglesiaType: z.string().optional(),
       analglesiaVolume: z.number().min(0).optional(),
@@ -324,6 +335,7 @@ export default defineInstrument({
       woundDateReported: z.date().optional(),
       clinicalCondition: z.string().optional(),
       treatmentProvided: z.string().optional(),
+      treatmentDuration: z.number().min(0).int().optional(),
       additionalComments: z.string().optional()
 
   })
