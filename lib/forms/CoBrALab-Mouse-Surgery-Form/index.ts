@@ -3,7 +3,7 @@
 import { defineInstrument } from '/runtime/v1/@opendatacapture/runtime-core'
 import { z } from '/runtime/v1/zod@3.23.x'
 
-type TreatmentType =  "Surgery" | "Wound treatment" | "Re-stitching"
+type TreatmentType =  "Surgery" | "Wound treatment" | "Re-stitching" | "Intracerebral injection"
 
 function createDependentField<const T>(field: T, fn: (treatmentType: TreatmentType) => boolean) {
   return {
@@ -34,7 +34,8 @@ export default defineInstrument({
       options: {
         "Surgery": "Surgery",
         "Wound treatment": "Wound treatment",
-        "Re-stitching": "Re-stitching"
+        "Re-stitching": "Re-stitching",
+        "Intracerebral injection": "Intracerebral injection"
       }
     },
     analgesiaUsed: createDependentField({
@@ -319,7 +320,7 @@ export default defineInstrument({
     }
   },
   validationSchema: z.object({
-      treatmentType: z.enum(["Surgery", "Wound treatment","Re-stitching"]),
+      treatmentType: z.enum(["Surgery", "Wound treatment","Re-stitching", "Intracerebral injection"]),
       analgesiaUsed: z.boolean().optional(),
       analgesiaType: z.string().optional(),
       analgesiaVolume: z.number().min(0).optional(),
