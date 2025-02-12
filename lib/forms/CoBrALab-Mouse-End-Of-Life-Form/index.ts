@@ -346,6 +346,7 @@ export default defineInstrument({
     },
     additionalComments: {
       kind: "const",
+      label: "Additional comments",
       ref: "additionalComments"
     }
 
