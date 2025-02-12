@@ -277,6 +277,27 @@ export default defineInstrument({
       label: "Expected number of days until recovery"
     }, (type) => type === "Surgery" || type === "Intracerebral injection"),
 
+    hydrationProvided: createDependentField({
+      kind: "boolean",
+      label: "Was hydration provided"
+    }, (type) => type === "Surgery" || type === "Intracerebral injection"),
+
+    hydrationVolume: {
+      kind: "dynamic",
+      deps: ["hydrationProvided"],
+      render(data) {
+       if(data.hydrationProvided){
+         return {
+         kind: "number",
+         variant: "input",
+         label: "Hydration solution volume (ml)"
+         }
+       }
+       return null
+     }
+     
+    },
+
     additionalComments: {
       kind: "string",
       variant: "textarea",
@@ -311,6 +332,18 @@ export default defineInstrument({
     analgesiaVolume: {
       kind: "const",
       ref: "analgesiaVolume"
+    },
+    anesthesiaUsed: {
+      kind: "const",
+      ref: "anesthesiaUsed"
+    },
+    anesthesiaType: {
+      kind: "const",
+      ref: "anesthesiaType"
+    },
+    anesthesiaVolume: {
+      kind: "const",
+      ref: "anesthesiaVolume"
     },
     stereotaxUsed: {
       kind: "const",
@@ -377,6 +410,8 @@ export default defineInstrument({
       anesthesiaUsed: z.boolean().optional(),
       anesthesiaType: z.string().optional(),
       anesthesiaVolume: z.number().min(0).optional(),
+      hydrationProvided: z.boolean().optional(),
+      hydrationVolume:  z.number().min(0).optional(),
       stereotaxUsed: z.boolean().optional(),
       stereotaxId: z.string().optional(),
       surgeryType: z.enum(["Ovariectomy", "Electrode implant", "Fiber optic implant"]).optional(),
