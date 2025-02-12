@@ -42,7 +42,7 @@ export default defineInstrument({
       kind: "boolean",
       variant: "radio",
       label: "Analglesia used"
-    }, (type) => type === "Surgery" || type === "Re-stitching"),
+    }, (type) => type === "Surgery" || type === "Re-stitching" || type === "Intracerebral injection"),
 
     analgesiaType: {
       kind: "dynamic",
@@ -73,11 +73,49 @@ export default defineInstrument({
       }
       
     },
+
+    anesthesiaUsed: createDependentField({
+      kind: "boolean",
+      variant: "radio",
+      label: "Anesthesia used"
+    }, (type) => type === "Surgery" || type === "Re-stitching" || type === "Intracerebral injection"),
+
+    anesthesiaVolume: {
+      kind: "dynamic",
+       deps: ["anesthesiaUsed"],
+       render(data) {
+        if(data.anesthesiaUsed){
+          return {
+          kind: "number",
+          variant: "input",
+          label: "Anesthesia volume (ml)"
+          }
+        }
+        return null
+      }
+      
+    },
+    
+    anesthesiaType: {
+      kind: "dynamic",
+      deps: ["anesthesiaUsed"],
+      render(data) {
+        if(data.anesthesiaUsed){
+          return {
+            kind: "string",
+            variant: "input",
+            label: "Anesthesia type"
+          }
+        }
+        return null
+      }
+    },
+
     stereotaxUsed: createDependentField({
       kind: "boolean",
       variant: "radio",
       label: "Stereotax used"
-    },(type) => type === "Surgery" || type === "Re-stitching"),
+    },(type) => type === "Surgery" || type === "Re-stitching" || type === "Intracerebral injection"),
 
     stereotaxId:{
       kind: "dynamic",
@@ -227,6 +265,18 @@ export default defineInstrument({
       label: "Treatment duration (days)"
     }, (type) => type === "Wound treatment" || type === "Re-stitching"),
 
+    surgeryDuration: createDependentField({
+      kind: "number",
+      variant: "input",
+      label: "Surgery duration (minutes)"
+    }, (type) => type === "Surgery" || type === "Intracerebral injection"),
+
+    daysUntilRecovery: createDependentField({
+      kind: "number",
+      variant: "input",
+      label: "Expected number of days until recovery"
+    }, (type) => type === "Surgery" || type === "Intracerebral injection"),
+
     additionalComments: {
       kind: "string",
       variant: "textarea",
@@ -324,6 +374,9 @@ export default defineInstrument({
       analgesiaUsed: z.boolean().optional(),
       analgesiaType: z.string().optional(),
       analgesiaVolume: z.number().min(0).optional(),
+      anesthesiaUsed: z.boolean().optional(),
+      anesthesiaType: z.string().optional(),
+      anesthesiaVolume: z.number().min(0).optional(),
       stereotaxUsed: z.boolean().optional(),
       stereotaxId: z.string().optional(),
       surgeryType: z.enum(["Ovariectomy", "Electrode implant", "Fiber optic implant"]).optional(),
@@ -337,7 +390,9 @@ export default defineInstrument({
       clinicalCondition: z.string().optional(),
       treatmentProvided: z.string().optional(),
       treatmentDuration: z.number().min(0).int().optional(),
-      additionalComments: z.string().optional()
+      surgeryDuration: z.number().min(0).optional(),
+      daysUntilRecovery: z.number().min(0).int().optional(),
+      additionalComments: z.string().optional(),
 
   })
 });
