@@ -41,7 +41,7 @@ export default defineInstrument({
     analgesiaUsed: createDependentField({
       kind: "boolean",
       variant: "radio",
-      label: "Analglesia used"
+      label: "Analgesia used"
     }, (type) => type === "Surgery" || type === "Re-stitching" || type === "Intracerebral injection"),
 
     analgesiaType: {
@@ -52,7 +52,7 @@ export default defineInstrument({
           return {
             kind: "string",
             variant: "input",
-            label: "Analglesia type"
+            label: "Analgesia type"
           }
         }
         return null
@@ -66,7 +66,7 @@ export default defineInstrument({
           return {
           kind: "number",
           variant: "input",
-          label: "Analglesia volume (ml)"
+          label: "Analgesia volume (ml)"
           }
         }
         return null
