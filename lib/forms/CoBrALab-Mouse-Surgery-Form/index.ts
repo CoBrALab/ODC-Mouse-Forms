@@ -285,18 +285,12 @@ export default defineInstrument({
       kind: "number",
       variant: "input",
       label: "Treatment duration (days)"
-    }, (type) => type === "Wound treatment" || type === "Re-stitching"),
+    }, (type) => type === "Wound treatment"),
 
     surgeryDuration: createDependentField({
       kind: "number",
       variant: "input",
       label: "Surgery duration (minutes)"
-    }, (type) => type === "Surgery" || type === "Intracerebral injection"),
-
-    daysUntilRecovery: createDependentField({
-      kind: "number",
-      variant: "input",
-      label: "Expected number of days until recovery"
     }, (type) => type === "Surgery" || type === "Intracerebral injection"),
 
     additionalComments: {
@@ -410,10 +404,6 @@ export default defineInstrument({
       kind: "const",
       ref:"surgeryDuration"
     },
-    daysUntilRecovery:{
-      kind: "const",
-      ref: "daysUntilRecovery"
-    },
     additionalComments: {
       kind: "const",
       ref: "additionalComments"
@@ -443,7 +433,6 @@ export default defineInstrument({
       treatmentProvided: z.string().optional(),
       treatmentDuration: z.number().min(0).int().optional(),
       surgeryDuration: z.number().min(0).optional(),
-      daysUntilRecovery: z.number().min(0).int().optional(),
       additionalComments: z.string().optional(),
 
   })
