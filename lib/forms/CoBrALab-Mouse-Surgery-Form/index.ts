@@ -139,7 +139,7 @@ export default defineInstrument({
           return {
             kind: "string",
             variant: "input",
-            label: "Time until recovery from Anethesia (minutes)"
+            label: "Time until recovery from Anesthesia (minutes)"
           }
         }
         return null
