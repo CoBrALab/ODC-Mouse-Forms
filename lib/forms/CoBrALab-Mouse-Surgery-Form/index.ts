@@ -44,7 +44,7 @@ export default defineInstrument({
       label: "Analgesia used"
     }, (type) => type === "Surgery" || type === "Re-stitching" || type === "Intracerebral injection"),
 
-    analgesiaType: {
+    analgesiaChemicalName: {
       kind: "dynamic",
       deps: ["analgesiaUsed"],
       render(data) {
@@ -52,7 +52,7 @@ export default defineInstrument({
           return {
             kind: "string",
             variant: "input",
-            label: "Analgesia type"
+            label: "Analgesia chemical name"
           }
         }
         return null
@@ -116,7 +116,7 @@ export default defineInstrument({
       
     },
     
-    anesthesiaType: {
+    anesthesiaChemicalName: {
       kind: "dynamic",
       deps: ["anesthesiaUsed"],
       render(data) {
@@ -124,7 +124,7 @@ export default defineInstrument({
           return {
             kind: "string",
             variant: "input",
-            label: "Anesthesia type"
+            label: "Anesthesia chemical name"
           }
         }
         return null
@@ -356,9 +356,9 @@ export default defineInstrument({
       kind: "const",
       ref: "analgesiaUsed"
     },
-    analgesiaType: {
+    analgesiaChemicalName: {
       kind: "const",
-      ref: "analgesiaType"
+      ref: "analgesiaChemicalName"
     },
     analgesiaVolume: {
       kind: "const",
@@ -368,9 +368,9 @@ export default defineInstrument({
       kind: "const",
       ref: "anesthesiaUsed"
     },
-    anesthesiaType: {
+    anesthesiaChemicalName: {
       kind: "const",
-      ref: "anesthesiaType"
+      ref: "anesthesiaChemicalName"
     },
     anesthesiaAdministrationType:{
       kind: "const",
@@ -456,10 +456,10 @@ export default defineInstrument({
   validationSchema: z.object({
       treatmentType: z.enum(["Surgery", "Wound treatment","Re-stitching", "Intracerebral injection"]),
       analgesiaUsed: z.boolean().optional(),
-      analgesiaType: z.string().optional(),
+      analgesiaChemicalName: z.string().optional(),
       analgesiaVolume: z.number().min(0).optional(),
       anesthesiaUsed: z.boolean().optional(),
-      anesthesiaType: z.string().optional(),
+      anesthesiaChemicalName: z.string().optional(),
       anesthesiaAdministrationType: z.enum(["Inhalation", "Intraperitoneal", "Intravenous"]),
       anesthesiaVolume: z.number().min(0).optional(),
       anesthesiaRecoveryTime: z.number().min(0).int().optional(),
