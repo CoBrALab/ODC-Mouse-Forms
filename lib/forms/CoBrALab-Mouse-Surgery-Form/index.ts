@@ -111,6 +111,21 @@ export default defineInstrument({
       }
     },
 
+    anesthesiaRecoveryTime: {
+      kind: "dynamic",
+      deps: ["anesthesiaUsed"],
+      render(data) {
+        if(data.anesthesiaUsed){
+          return {
+            kind: "string",
+            variant: "input",
+            label: "Time until recovery from Anethesia (minutes)"
+          }
+        }
+        return null
+      }
+    },
+
     stereotaxUsed: createDependentField({
       kind: "boolean",
       variant: "radio",
@@ -293,6 +308,7 @@ export default defineInstrument({
       label: "Surgery duration (minutes)"
     }, (type) => type === "Surgery" || type === "Intracerebral injection"),
 
+
     additionalComments: {
       kind: "string",
       variant: "textarea",
@@ -339,6 +355,10 @@ export default defineInstrument({
     anesthesiaVolume: {
       kind: "const",
       ref: "anesthesiaVolume"
+    },
+    anesthesiaRecoveryTime: {
+      kind: "const",
+      ref: "anethesiaRecoveryTime"
     },
     hydrationProvided: {
       kind: "const",
@@ -417,6 +437,7 @@ export default defineInstrument({
       anesthesiaUsed: z.boolean().optional(),
       anesthesiaType: z.string().optional(),
       anesthesiaVolume: z.number().min(0).optional(),
+      anesthesiaRecoveryTime: z.number().min(0).int().optional(),
       hydrationProvided: z.boolean().optional(),
       hydrationVolume:  z.number().min(0).optional(),
       stereotaxUsed: z.boolean().optional(),
