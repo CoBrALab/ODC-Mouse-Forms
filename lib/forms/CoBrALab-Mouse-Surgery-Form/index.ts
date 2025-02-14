@@ -80,11 +80,31 @@ export default defineInstrument({
       label: "Anesthesia used"
     }, (type) => type === "Surgery" || type === "Re-stitching" || type === "Intracerebral injection"),
 
+    anesthesiaAdministrationType: {
+      kind: "dynamic",
+      deps: ["anesthesiaUsed"],
+      render(data) {
+        if(data.anesthesiaUsed){
+          return {
+            kind: "string",
+            variant: "select",
+            label: "Anesthesia administration type",
+            options: {
+              "Inhalation": "Inhalation",
+              "Intraperitoneal":"Intraperitoneal",
+              "Intravenous": "Intravenous"
+            }
+          }
+        }
+        return null
+      }
+    },
+
     anesthesiaVolume: {
       kind: "dynamic",
-       deps: ["anesthesiaUsed"],
+       deps: ["anesthesiaUsed","anesthesiaAdministrationType"],
        render(data) {
-        if(data.anesthesiaUsed){
+        if(data.anesthesiaUsed && data.anesthesiaAdministrationType !== "Inhalation"){
           return {
           kind: "number",
           variant: "input",
@@ -352,6 +372,10 @@ export default defineInstrument({
       kind: "const",
       ref: "anesthesiaType"
     },
+    anesthesiaAdministrationType:{
+      kind: "const",
+      ref: "anesthesiaAdministrationType"
+    },
     anesthesiaVolume: {
       kind: "const",
       ref: "anesthesiaVolume"
@@ -436,6 +460,7 @@ export default defineInstrument({
       analgesiaVolume: z.number().min(0).optional(),
       anesthesiaUsed: z.boolean().optional(),
       anesthesiaType: z.string().optional(),
+      anesthesiaAdministrationType: z.enum(["Inhalation", "Intraperitoneal", "Intravenous"]),
       anesthesiaVolume: z.number().min(0).optional(),
       anesthesiaRecoveryTime: z.number().min(0).int().optional(),
       hydrationProvided: z.boolean().optional(),
