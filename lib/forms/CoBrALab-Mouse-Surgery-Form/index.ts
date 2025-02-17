@@ -316,10 +316,14 @@ export default defineInstrument({
       label: "Treatment provided"
     }, (type) => type === "Wound treatment"),
 
-    treatmentDuration: createDependentField({
-      kind: "number",
-      variant: "input",
-      label: "Treatment duration (days)"
+    treatmentStartDate: createDependentField({
+      kind: "date",
+      label: "Treatment start date"
+    }, (type) => type === "Wound treatment"),
+
+    treatmentEndDate: createDependentField({
+      kind: "date",
+      label: "Treatment end date"
     }, (type) => type === "Wound treatment"),
 
     surgeryDuration: createDependentField({
@@ -440,9 +444,13 @@ export default defineInstrument({
       kind: "const",
       ref: "treatmentProvided"
     },
-    treatmentDuration: {
+    treatmentStartDate: {
       kind: "const",
-      ref:"treatmentDuration"
+      ref: "treatmentStartDate"
+    },
+    treatmentEndDate: {
+      kind: "const",
+      ref: "treatmentEndDate"
     },
     surgeryDuration: {
       kind: "const",
@@ -460,7 +468,7 @@ export default defineInstrument({
       analgesiaVolume: z.number().min(0).optional(),
       anesthesiaUsed: z.boolean().optional(),
       anesthesiaChemicalName: z.string().optional(),
-      anesthesiaAdministrationType: z.enum(["Inhalation", "Intraperitoneal", "Intravenous"]),
+      anesthesiaAdministrationType: z.enum(["Inhalation", "Intraperitoneal", "Intravenous"]).optional(),
       anesthesiaVolume: z.number().min(0).optional(),
       anesthesiaRecoveryTime: z.number().min(0).int().optional(),
       hydrationProvided: z.boolean().optional(),
@@ -477,7 +485,8 @@ export default defineInstrument({
       woundDateReported: z.date().optional(),
       clinicalCondition: z.string().optional(),
       treatmentProvided: z.string().optional(),
-      treatmentDuration: z.number().min(0).int().optional(),
+      treatmentStartDate: z.date().optional(),
+      treatmentEndDate: z.date().optional(),
       surgeryDuration: z.number().min(0).optional(),
       additionalComments: z.string().optional(),
 
