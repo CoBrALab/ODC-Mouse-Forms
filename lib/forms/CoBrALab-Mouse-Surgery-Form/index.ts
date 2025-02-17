@@ -137,7 +137,7 @@ export default defineInstrument({
       render(data) {
         if(data.anesthesiaUsed){
           return {
-            kind: "string",
+            kind: "number",
             variant: "input",
             label: "Time until recovery from Anesthesia (minutes)"
           }
