@@ -382,7 +382,7 @@ export default defineInstrument({
     },
     anesthesiaRecoveryTime: {
       kind: "const",
-      ref: "anethesiaRecoveryTime"
+      ref: "anesthesiaRecoveryTime"
     },
     hydrationProvided: {
       kind: "const",
