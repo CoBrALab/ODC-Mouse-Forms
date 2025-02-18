@@ -321,11 +321,6 @@ export default defineInstrument({
       label: "Treatment start date"
     }, (type) => type === "Wound treatment"),
 
-    treatmentEndDate: createDependentField({
-      kind: "date",
-      label: "Treatment end date"
-    }, (type) => type === "Wound treatment"),
-
     surgeryDuration: createDependentField({
       kind: "number",
       variant: "input",
@@ -448,10 +443,6 @@ export default defineInstrument({
       kind: "const",
       ref: "treatmentStartDate"
     },
-    treatmentEndDate: {
-      kind: "const",
-      ref: "treatmentEndDate"
-    },
     surgeryDuration: {
       kind: "const",
       ref:"surgeryDuration"
@@ -486,7 +477,6 @@ export default defineInstrument({
       clinicalCondition: z.string().optional(),
       treatmentProvided: z.string().optional(),
       treatmentStartDate: z.date().optional(),
-      treatmentEndDate: z.date().optional(),
       surgeryDuration: z.number().min(0).optional(),
       additionalComments: z.string().optional(),
 
