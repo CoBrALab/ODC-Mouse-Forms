@@ -131,6 +131,21 @@ export default defineInstrument({
       }
     },
 
+    anesthesiaDuration: {
+      kind: "dynamic",
+      deps: ["anesthesiaUsed","anesthesiaAdministrationType"],
+      render(data: any) {
+        if(data.anesthesiaUsed && data.anesthesiaAdministrationType === "Inhalation"){
+          return {
+            kind: "number",
+            variant: "input",
+            label: "Duration of Anesthesia provided (minutes)"
+          }
+        }
+        return null
+      }
+    },
+
     anesthesiaRecoveryTime: {
       kind: "dynamic",
       deps: ["anesthesiaUsed"],
@@ -200,6 +215,7 @@ export default defineInstrument({
         "Fiber optic implant": "Fiber optic implant"
       }
     },(type) => type === "Surgery"),
+
     ovariectomyType: {
       kind: "dynamic",
       deps: ["surgeryType"],
@@ -379,6 +395,10 @@ export default defineInstrument({
       kind: "const",
       ref: "anesthesiaVolume"
     },
+    anesthesiaDuration: {
+      kind: "const",
+      ref: "anesthesiaDuration"
+    },
     anesthesiaRecoveryTime: {
       kind: "const",
       ref: "anesthesiaRecoveryTime"
@@ -461,6 +481,7 @@ export default defineInstrument({
       anesthesiaChemicalName: z.string().optional(),
       anesthesiaAdministrationType: z.enum(["Inhalation", "Intraperitoneal", "Intravenous"]).optional(),
       anesthesiaVolume: z.number().min(0).optional(),
+      anesthesiaDuration: z.number().min(0).int().optional(),
       anesthesiaRecoveryTime: z.number().min(0).int().optional(),
       hydrationProvided: z.boolean().optional(),
       hydrationVolume:  z.number().min(0).optional(),
