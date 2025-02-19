@@ -178,7 +178,7 @@ export default defineInstrument({
           return {
             kind: 'string',
             variant: 'select',
-            label: 'mother mouse strain',
+            label: 'Mother mouse strain (optional)',
             options: {
               "M83": "M83",
               "C57BL/6J": "C57BL/6J",
@@ -214,7 +214,7 @@ export default defineInstrument({
           return {
             kind: "string",
             variant: "select",
-            label: "mother mouse Genotype",
+            label: "Mother mouse Genotype (optional)",
             options: {
               "Hemizygous": "Hemizygous",
               "Homozygous": "Homozygous",
@@ -268,7 +268,7 @@ export default defineInstrument({
           return {
             kind: 'string',
             variant: 'select',
-            label: 'father mouse strain',
+            label: 'Father mouse strain (optional)',
             options: {
               "M83": "M83",
               "C57BL/6J": "C57BL/6J",
@@ -289,7 +289,7 @@ export default defineInstrument({
            return {
             kind : "string",
             variant: "input",
-            label: "father other strain"
+            label: "Father other strain"
            }
         }
         return null
@@ -304,7 +304,7 @@ export default defineInstrument({
           return {
             kind: "string",
             variant: "select",
-            label: "Father mouse Genotype",
+            label: "Father mouse genotype (optional)",
             options: {
               "Hemizygous": "Hemizygous",
               "Homozygous": "Homozygous",
@@ -325,7 +325,7 @@ export default defineInstrument({
            return {
             kind : "string",
             variant: "input",
-            label: "Other Genotype"
+            label: "Father other Genotype"
            }
         }
         return null
