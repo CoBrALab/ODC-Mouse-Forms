@@ -106,7 +106,6 @@ export default defineInstrument({
       }
     },
 
-
     ipInoculumAdministered: createDependentField({
       kind: "string",
       variant: "select",
@@ -118,6 +117,12 @@ export default defineInstrument({
         "STZ": "STZ",
         "Dexmedetomidine":"Dexmedetomidine"
       }
+    }, (type) => type === "IP"),
+
+    ipInoculumBatchNumber: createDependentField({
+      kind: "string",
+      variant: "input",
+      label: "IP inoculum batch number",
     }, (type) => type === "IP"),
 
     ipInjectionPurpose: createDependentField({
@@ -159,7 +164,6 @@ export default defineInstrument({
       variant: "textarea",
       label: "Additional Comments"
     }
-
     
   },
   clientDetails: {
@@ -208,6 +212,10 @@ export default defineInstrument({
       kind: "const",
       ref: "ipInoculumAdministered"
     },
+    ipInoculumBatchNumber: {
+      kind: "const",
+      ref: "ipInoculumBatchNumber"
+    },
     ipInjectionPurpose: {
       kind: "const",
       ref: "ipInjectionPurpose"
@@ -232,6 +240,7 @@ export default defineInstrument({
     analgesicType: z.enum(["Carprofen", "Bupivacaine"]).optional(),
     ipDoseVolume: z.number().min(0).optional(),
     ipInoculumAdministered: z.enum(["PU-AD", "PU-AD Vehicle", "IP Tamoxifen", "STZ","Dexmedetomidine"]).optional(),
+    ipInoculumBatchNumber: z.string().optional(),
     ipInjectionPurpose: z.enum(["Viral memetic","Intervention","Drug treatment", "Anesthetic","Other"]).optional(),
     ipInjectionPurposeOther: z.string().optional(),
     additionalComments: z.string().optional()
