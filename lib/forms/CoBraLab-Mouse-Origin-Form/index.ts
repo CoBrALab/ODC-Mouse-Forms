@@ -81,8 +81,6 @@ export default defineInstrument({
         }
         return null
       }
-    
-
     },
     boxMouse: {
       kind: 'boolean',
@@ -154,24 +152,15 @@ export default defineInstrument({
       }
     },
     motherKnown: {
-      kind: 'dynamic',
-      deps: ['boxMouse'],
-      render(data) {
-       if(data.boxMouse === false){
-         return {
-         kind: 'boolean',
-         variant: 'radio',
-         label: "Is the mother known?"
-         }
-       }
-       return null
-      }
+      kind: 'boolean',
+      variant: 'radio',
+      label: "Is the mother known?"
     },
     motherMouse: {
       kind: 'dynamic',
-      deps: ['boxMouse','motherKnown'],
+      deps: ['motherKnown'],
       render(data) {
-       if(data.boxMouse === false && data.motherKnown){
+       if(data.motherKnown){
          return {
           kind: "string",
           variant: "input",
@@ -182,24 +171,15 @@ export default defineInstrument({
       }
     },
     fatherKnown: {
-      kind: 'dynamic',
-      deps: ['boxMouse'],
-      render(data) {
-       if(data.boxMouse === false){
-         return {
-         kind: 'boolean',
-         variant: 'radio',
-         label: "Is the father known?"
-         }
-       }
-       return null
-      }
+      kind: 'boolean',
+      variant: 'radio',
+      label: "Is the father known?"
     },
     fatherMouse: {
      kind: 'dynamic',
-     deps: ['boxMouse','fatherKnown'],
+     deps: ['fatherKnown'],
      render(data) {
-      if(data.boxMouse === false && data.fatherKnown){
+      if(data.fatherKnown){
         return {
           kind: 'string',
           variant: 'input',
@@ -208,6 +188,20 @@ export default defineInstrument({
       }
       return null
      }
+    },
+    roomNumber: {
+      kind: 'dynamic',
+      deps: ['boxMouse'],
+      render(data){
+        if(data.boxMouse === false){
+          return {
+            kind: "string",
+            variant: "input",
+            label: "Room number mouse was bred in"
+          }
+        }
+        return null
+      }
     },
     generationNumber: {
       kind: 'number',
@@ -300,6 +294,26 @@ export default defineInstrument({
     label: 'Mother of mouse',
     ref: 'motherMouse'
   },
+  motherMouseStrain: {
+    kind: 'const',
+    label: 'Mother mouse Strain',
+    ref: 'motherMouseStrain'
+  },
+  motherMouseOtherStrain: {
+    kind: 'const',
+    label: 'Mother other Strain',
+    ref: 'motherMouseOtherStrain'
+  },
+  motherMouseGenotype: {
+    kind: 'const',
+    label: 'Mother mouse Genotype',
+    ref: 'motherMouseGenotype'
+  },
+  motherMouseGenotypeOther: {
+    kind: 'const',
+    label: 'Mother mouse Other Genotype',
+    ref: 'motherMouseGenotypeOther'
+  },
   fatherKnown: {
     kind: 'const',
     label: 'Father known',
@@ -309,6 +323,26 @@ export default defineInstrument({
     kind: 'const',
     label: 'Father of mouse',
     ref: 'fatherMouse'
+  },
+  fatherMouseStrain: {
+    kind: 'const',
+    label: 'fatherMouse Strain',
+    ref: 'fatherMouseStrain'
+  },
+  fatherMouseOtherStrain: {
+    kind: 'const',
+    label: 'Father mouse other Strain',
+    ref: 'otherStrain'
+  },
+  fatherMouseGenotype: {
+    kind: 'const',
+    label: 'Father mouse Genotype',
+    ref: 'fatherMouseGenotype'
+  },
+  fatherMouseGenotypeOther: {
+    kind: 'const',
+    label: 'Father mouse other Genotype',
+    ref: 'fatherMouseGenotypeOther'
   },
   generationNumber: {
     kind: 'const',
@@ -343,10 +377,42 @@ export default defineInstrument({
   mouseGenotypeOther: z.string().optional(),
   orderId: z.string().optional(),
   breedingCageId: z.string().optional(),
-  motherKnown: z.boolean().optional(),
+  motherKnown: z.boolean(),
   motherMouse: z.string().optional(),
-  fatherKnown: z.boolean().optional(),
+  motherMouseStrain: z.enum([
+    'M83',
+    'C57BL/6J',
+    '5XFAD',
+    '3xTG-AD',
+    'Other'
+  ]).optional(),
+  motherMouseOtherStrain: z.string().optional(),
+  motherMouseGenotype: z.enum([
+    'Homozygous',
+    'Hemizygous',
+    'Heterozygous',
+    'Wild-type',
+    'Other'
+  ]).optional(),
+  motherMouseGenotypeOther: z.string().optional(),
+  fatherKnown: z.boolean(),
   fatherMouse: z.string().optional(),
+  fatherMouseStrain: z.enum([
+    'M83',
+    'C57BL/6J',
+    '5XFAD',
+    '3xTG-AD',
+    'Other'
+  ]).optional(),
+  fatherMouseOtherStrain: z.string().optional(),
+  fatherMouseGenotype: z.enum([
+    'Homozygous',
+    'Hemizygous',
+    'Heterozygous',
+    'Wild-type',
+    'Other'
+  ]).optional(),
+  fatherMouseGenotypeOther: z.string().optional(),
   breederOrigin: z.enum([
     'Charles River Laboratories',
     'Envigo',
@@ -356,6 +422,7 @@ export default defineInstrument({
     'Other'
   ]).optional(),
   otherBreederOrigin: z.string().optional(),
+  roomNumber: z.string().optional(),
   generationNumber: z.number().min(0).int(),
   additionalComments: z.string().optional()
 })
