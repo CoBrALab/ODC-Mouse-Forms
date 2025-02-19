@@ -205,6 +205,23 @@ export default defineInstrument({
      
     },
 
+    intracerebralInjectionType: createDependentField({
+      kind: "string",
+      variant: "select",
+      label: "Intracerebral injection type",
+      options: {
+        "PBS": "PBS",
+        "Ms-PFF": "Ms-PFF",
+        "Hu-PFF": "Hu-PFF"
+      }
+    }, (type) => type === 'Intracerebral injection'),
+
+    intracerebralInjectionBatchType: createDependentField({
+      kind: "string",
+      variant: "input",
+      label: "Intracerebral injection batch type"
+    }, (type) => type === 'Intracerebral injection'),
+
     surgeryType: createDependentField({
       kind: "string",
       variant: "select",
@@ -411,6 +428,14 @@ export default defineInstrument({
       kind: "const",
       ref: "hydrationVolume"
     },
+    intracerebralInjectionType: {
+      kind: "const",
+      ref: "intracerebralInjectionType"
+    },
+    intracerebralInjectionBatchType: {
+      kind: "const",
+      ref: "intracerebralInjectionBatchType"
+    },
     stereotaxUsed: {
       kind: "const",
       ref: "stereotaxUsed"
@@ -485,6 +510,8 @@ export default defineInstrument({
       anesthesiaRecoveryTime: z.number().min(0).int().optional(),
       hydrationProvided: z.boolean().optional(),
       hydrationVolume:  z.number().min(0).optional(),
+      intracerebralInjectionType: z.enum(["PBS", "Ms-PFF","Hu-PFF"]).optional(),
+      intracerebralInjectionBatchType: z.string().optional(),
       stereotaxUsed: z.boolean().optional(),
       stereotaxId: z.string().optional(),
       surgeryType: z.enum(["Ovariectomy", "Electrode implant", "Fiber optic implant"]).optional(),
