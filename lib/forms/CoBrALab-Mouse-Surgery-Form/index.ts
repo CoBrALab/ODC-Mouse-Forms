@@ -5,11 +5,11 @@ import { z } from '/runtime/v1/zod@3.23.x'
 
 type TreatmentType =  "Surgery" | "Wound treatment" | "Re-stitching" | "Intracerebral injection"
 
-function createDependentField<const T>(field: T, fn: (treatmentType: TreatmentType) => boolean) {
+function createDependentField<const T>(field: T, fn: (treatmentType?: TreatmentType) => boolean) {
   return {
     kind: 'dynamic' as const,
     deps: ['treatmentType'] as const,
-    render: (data: { treatmentType: TreatmentType }) => {
+    render: (data: { treatmentType?: TreatmentType }) => {
       if (fn(data.treatmentType)) {
         return field;
       }
