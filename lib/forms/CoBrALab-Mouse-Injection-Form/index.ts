@@ -3,7 +3,7 @@
 const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-core/index.js');
 const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
-type InjectionType = "Intracerebral" | "Subcutaneous" | "IP"
+type InjectionType = "Subcutaneous" | "IP"
 
 function createDependentField<const T>(field: T, fn: (injectionType: InjectionType) => boolean) {
   return {
@@ -37,21 +37,11 @@ export default defineInstrument({
       variant: "radio",
       label: "Type of injection",
       options: {
-        "Intracerebral": "Intracerebral",
         "Subcutaneous": "Subcutaneous",
         "IP":"IP"
         
       },
     },
-    intracerebralInjectionType: createDependentField({
-        kind: "string",
-        variant: "select",
-        label: "Intracerebral injection type",
-        options: {
-          "PBS": "PBS",
-          "PFF": "PFF"
-        }
-      }, (type) => type === 'Intracerebral'),
     hydrationProvided: createDependentField({
       kind: "boolean",
       variant: "radio",
@@ -179,10 +169,6 @@ export default defineInstrument({
       kind: "const",
       ref: "injectionType"
     },
-    intracerebralInjectionType: {
-      kind: "const",
-      ref: "intracerebralInjectionType"
-    },
     hydrationProvided: {
       kind: "const",
       ref: "hydrationProvided"
@@ -227,8 +213,7 @@ export default defineInstrument({
   },
   validationSchema: z.object({
     roomNumber: z.string(),
-    injectionType: z.enum(["Intracerebral","Subcutaneous","IP"]),
-    intracerebralInjectionType: z.enum(["PBS", "PFF"]).optional(),
+    injectionType: z.enum(["Subcutaneous","IP"]),
     hydrationProvided: z.boolean().optional(),
     hydrationVolume: z.number().min(0).optional(),
     subcutaneousInjectionType: z.enum(["Analgesic", "Other"]).optional(),
