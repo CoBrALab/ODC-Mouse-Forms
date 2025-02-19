@@ -145,7 +145,7 @@ export default defineInstrument({
         if(data.ipInjectionPurpose === "Other"){
            return {
             kind: "string",
-            variant: "input",
+            variant: "textarea",
             label: "Other purpose for IP injection"
            }
         }
