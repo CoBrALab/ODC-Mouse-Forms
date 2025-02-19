@@ -87,7 +87,7 @@ export default defineInstrument({
     boxMouse: {
       kind: 'boolean',
       variant: 'radio',
-      label: 'Originates from external breeder (Box mouse)?'
+      label: 'Originates from external breeder (bought/imported mouse)?'
     },
     orderId: {
       kind: 'dynamic',
@@ -117,6 +117,7 @@ export default defineInstrument({
               "Envigo": "Envigo",
               "Import": "Import",
               "Jackson Laboratories": "Jackson Laboratories",
+              "Western University": "Western University",
               "Other": "Other"
             }
           }
@@ -351,6 +352,7 @@ export default defineInstrument({
     'Envigo',
     'Import',
     'Jackson Laboratories',
+    'Western University',
     'Other'
   ]).optional(),
   otherBreederOrigin: z.string().optional(),
