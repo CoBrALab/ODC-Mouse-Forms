@@ -206,7 +206,7 @@ export default defineInstrument({
     },
     ipInoculumAdministered: {
       kind: "const",
-      ref: "ipInoculumAdministred"
+      ref: "ipInoculumAdministered"
     },
     ipInjectionPurpose: {
       kind: "const",
