@@ -38,6 +38,24 @@ export default defineInstrument({
         "Intracerebral injection": "Intracerebral injection"
       }
     },
+
+    intracerebralInjectionType: createDependentField({
+      kind: "string",
+      variant: "select",
+      label: "Intracerebral injection type",
+      options: {
+        "PBS": "PBS",
+        "Ms-PFF": "Ms-PFF",
+        "Hu-PFF": "Hu-PFF"
+      }
+    }, (type) => type === 'Intracerebral injection'),
+
+    intracerebralInjectionBatchType: createDependentField({
+      kind: "string",
+      variant: "input",
+      label: "Intracerebral injection batch type"
+    }, (type) => type === 'Intracerebral injection'),
+    
     analgesiaUsed: createDependentField({
       kind: "boolean",
       variant: "radio",
@@ -204,23 +222,6 @@ export default defineInstrument({
      }
      
     },
-
-    intracerebralInjectionType: createDependentField({
-      kind: "string",
-      variant: "select",
-      label: "Intracerebral injection type",
-      options: {
-        "PBS": "PBS",
-        "Ms-PFF": "Ms-PFF",
-        "Hu-PFF": "Hu-PFF"
-      }
-    }, (type) => type === 'Intracerebral injection'),
-
-    intracerebralInjectionBatchType: createDependentField({
-      kind: "string",
-      variant: "input",
-      label: "Intracerebral injection batch type"
-    }, (type) => type === 'Intracerebral injection'),
 
     surgeryType: createDependentField({
       kind: "string",
