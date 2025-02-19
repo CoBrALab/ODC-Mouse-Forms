@@ -439,22 +439,22 @@ export default defineInstrument({
   },
   motherMouseStrain: {
     kind: 'const',
-    label: 'Mother mouse Strain',
+    label: 'Mother mouse strain',
     ref: 'motherMouseStrain'
   },
   motherMouseOtherStrain: {
     kind: 'const',
-    label: 'Mother other Strain',
+    label: 'Mother other strain',
     ref: 'motherMouseOtherStrain'
   },
   motherMouseGenotype: {
     kind: 'const',
-    label: 'Mother mouse Genotype',
+    label: 'Mother mouse genotype',
     ref: 'motherMouseGenotype'
   },
   motherMouseGenotypeOther: {
     kind: 'const',
-    label: 'Mother mouse Other Genotype',
+    label: 'Mother mouse other genotype',
     ref: 'motherMouseGenotypeOther'
   },
   fatherKnown: {
@@ -469,22 +469,22 @@ export default defineInstrument({
   },
   fatherMouseStrain: {
     kind: 'const',
-    label: 'fatherMouse Strain',
+    label: 'Father mouse strain',
     ref: 'fatherMouseStrain'
   },
   fatherMouseOtherStrain: {
     kind: 'const',
-    label: 'Father mouse other Strain',
+    label: 'Father mouse other strain',
     ref: 'fatherMouseOtherStrain'
   },
   fatherMouseGenotype: {
     kind: 'const',
-    label: 'Father mouse Genotype',
+    label: 'Father mouse genotype',
     ref: 'fatherMouseGenotype'
   },
   fatherMouseGenotypeOther: {
     kind: 'const',
-    label: 'Father mouse other Genotype',
+    label: 'Father mouse other genotype',
     ref: 'fatherMouseGenotypeOther'
   },
   generationNumber: {
