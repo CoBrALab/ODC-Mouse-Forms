@@ -475,7 +475,7 @@ export default defineInstrument({
   fatherMouseOtherStrain: {
     kind: 'const',
     label: 'Father mouse other Strain',
-    ref: 'otherStrain'
+    ref: 'fatherMouseOtherStrain'
   },
   fatherMouseGenotype: {
     kind: 'const',
