@@ -42,26 +42,6 @@ export default defineInstrument({
         
       },
     },
-    hydrationProvided: createDependentField({
-      kind: "boolean",
-      variant: "radio",
-      label: "Hydration provided (saline)?"
-
-    },(type) => type === 'Intracerebral'),
-    hydrationVolume: {
-      kind: "dynamic",
-      deps: ["hydrationProvided"],
-      render(data) {
-        if(data.hydrationProvided){
-          return {
-            kind: "number",
-            variant: "input",
-            label: "Saline volume (ml)"
-          }
-        }
-        return null
-      }
-    },
     subcutaneousInjectionType: createDependentField({
       kind: "string",
       variant: "select",
@@ -169,14 +149,6 @@ export default defineInstrument({
       kind: "const",
       ref: "injectionType"
     },
-    hydrationProvided: {
-      kind: "const",
-      ref: "hydrationProvided"
-    },
-    hydrationVolume: {
-      kind: "const",
-      ref: "hydrationVolume"
-    },
     subcutaneousInjectionType: {
       kind: "const",
       ref: "subcutaneousInjectionType"
@@ -214,8 +186,6 @@ export default defineInstrument({
   validationSchema: z.object({
     roomNumber: z.string(),
     injectionType: z.enum(["Subcutaneous","IP"]),
-    hydrationProvided: z.boolean().optional(),
-    hydrationVolume: z.number().min(0).optional(),
     subcutaneousInjectionType: z.enum(["Analgesic", "Other"]).optional(),
     subcutaneousInjectionTime: z.enum(["During operation", "Post operation"]).optional(),
     postOperationDay: z.date().optional(),
