@@ -21,7 +21,7 @@ function createDependentField<const T>(field: T, fn: (treatmentType: TreatmentTy
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
-  tags: ['Surgery', 'Vet Care', 'Wound Treatment', 'Ovariectomy'],
+  tags: ['Surgery', 'Vet Care', 'Wound Treatment', 'Ovariectomy','Intracerebral injection'],
   internal: {
     edition: 3,
     name: 'MOUSE_SURGERY_FORM'
