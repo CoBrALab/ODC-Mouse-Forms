@@ -170,6 +170,77 @@ export default defineInstrument({
        return null
       }
     },
+    motherMouseStrain: {
+      kind: 'dynamic',
+      deps: ['motherKnown'],
+      render(data) {
+        if(data.motherKnown){
+          return {
+            kind: 'string',
+            variant: 'select',
+            label: 'mother mouse strain',
+            options: {
+              "M83": "M83",
+              "C57BL/6J": "C57BL/6J",
+              "5XFAD": "5XFAD",
+              "3xTG-AD": "3xTG-AD",
+              "Other":"Other"
+            }
+          }
+        }
+        return null
+      }
+    },
+    motherMouseOtherStrain: {
+      kind: "dynamic",
+      deps: ["motherMouseStrain"],
+      render(data) {
+        if(data.motherMouseStrain === "Other"){
+           return {
+            kind : "string",
+            variant: "input",
+            label: "Mother other strain"
+           }
+        }
+        return null
+      }
+    },
+
+    motherMouseGenotype: {
+      kind: 'dynamic',
+      deps: ['motherKnown'],
+      render(data) {
+        if(data.motherKnown){
+          return {
+            kind: "string",
+            variant: "select",
+            label: "mother mouse Genotype",
+            options: {
+              "Hemizygous": "Hemizygous",
+              "Homozygous": "Homozygous",
+              "Heterozygous": "Heterozygous",
+              "Wild-type": "Wild-type",
+              "Other": "Other"
+            }
+          }
+        }
+        return null
+      }
+    },
+    motherMouseGenotypeOther: {
+      kind: "dynamic",
+      deps: ["motherMouseGenotype"],
+      render(data) {
+        if(data.motherMouseGenotype === "Other"){
+           return {
+            kind : "string",
+            variant: "input",
+            label: "Other Genotype"
+           }
+        }
+        return null
+      }
+    },
     fatherKnown: {
       kind: 'boolean',
       variant: 'radio',
@@ -189,6 +260,78 @@ export default defineInstrument({
       return null
      }
     },
+    fatherMouseStrain: {
+      kind: 'dynamic',
+      deps: ['fatherKnown'],
+      render(data) {
+        if(data.fatherKnown){
+          return {
+            kind: 'string',
+            variant: 'select',
+            label: 'father mouse strain',
+            options: {
+              "M83": "M83",
+              "C57BL/6J": "C57BL/6J",
+              "5XFAD": "5XFAD",
+              "3xTG-AD": "3xTG-AD",
+              "Other":"Other"
+            }
+          }
+        }
+        return null
+      }
+    },
+    fatherMouseOtherStrain: {
+      kind: "dynamic",
+      deps: ["fatherMouseStrain"],
+      render(data) {
+        if(data.fatherMouseStrain === "Other"){
+           return {
+            kind : "string",
+            variant: "input",
+            label: "father other strain"
+           }
+        }
+        return null
+      }
+    },
+
+    fatherMouseGenotype: {
+      kind: 'dynamic',
+      deps: ['fatherKnown'],
+      render(data) {
+        if(data.fatherKnown){
+          return {
+            kind: "string",
+            variant: "select",
+            label: "Father mouse Genotype",
+            options: {
+              "Hemizygous": "Hemizygous",
+              "Homozygous": "Homozygous",
+              "Heterozygous": "Heterozygous",
+              "Wild-type": "Wild-type",
+              "Other": "Other"
+            }
+          }
+        }
+        return null
+      }
+    },
+    fatherMouseGenotypeOther: {
+      kind: "dynamic",
+      deps: ["fatherMouseGenotype"],
+      render(data) {
+        if(data.fatherMouseGenotype === "Other"){
+           return {
+            kind : "string",
+            variant: "input",
+            label: "Other Genotype"
+           }
+        }
+        return null
+      }
+    },
+
     roomNumber: {
       kind: 'dynamic',
       deps: ['boxMouse'],
