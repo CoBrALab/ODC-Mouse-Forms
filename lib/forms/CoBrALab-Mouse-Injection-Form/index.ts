@@ -162,7 +162,7 @@ export default defineInstrument({
     
   },
   clientDetails: {
-    estimatedDuration: 1,
+    estimatedDuration: 2,
     instructions: ['Please fill out this form whenever a mouse experiences an injection']
   },
   details: {
