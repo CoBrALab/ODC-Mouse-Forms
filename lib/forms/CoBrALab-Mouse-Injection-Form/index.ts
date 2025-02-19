@@ -107,10 +107,10 @@ export default defineInstrument({
     },
 
 
-    ipInoculumAdministred: createDependentField({
+    ipInoculumAdministered: createDependentField({
       kind: "string",
       variant: "select",
-      label: "IP inoculum administred",
+      label: "IP inoculum administered",
       options: {
         "PU-AD":"PU-AD",
         "PU-AD Vehicle": "PU-AD Vehicle",
@@ -204,7 +204,7 @@ export default defineInstrument({
       kind: "const",
       ref: "ipDoseVolume"
     },
-    ipInoculumAdministred: {
+    ipInoculumAdministered: {
       kind: "const",
       ref: "ipInoculumAdministred"
     },
@@ -231,7 +231,7 @@ export default defineInstrument({
     postOperationDay: z.date().optional(),
     analgesicType: z.enum(["Carprofen", "Bupivacaine"]).optional(),
     ipDoseVolume: z.number().min(0).optional(),
-    ipInoculumAdministred: z.enum(["PU-AD", "PU-AD Vehicle", "IP Tamoxifen", "STZ","Dexmedetomidine"]).optional(),
+    ipInoculumAdministered: z.enum(["PU-AD", "PU-AD Vehicle", "IP Tamoxifen", "STZ","Dexmedetomidine"]).optional(),
     ipInjectionPurpose: z.enum(["Viral memetic","Intervention","Drug treatment", "Anesthetic","Other"]).optional(),
     ipInjectionPurposeOther: z.string().optional(),
     additionalComments: z.string().optional()
