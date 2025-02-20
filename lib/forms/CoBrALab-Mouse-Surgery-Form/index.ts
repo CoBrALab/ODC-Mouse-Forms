@@ -341,7 +341,7 @@ export default defineInstrument({
     clinicalCondition: createDependentField({
       kind: "string",
       variant: "input",
-      label: "Clincal condition"
+      label: "Clinical condition"
     }, (type) => type === "Wound treatment"),
     
     treatmentProvided: createDependentField({
