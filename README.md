@@ -1,10 +1,14 @@
 # Welcome To The Mouse ODC Repository!
 
-## What is the Mouse ODC
+## What is the MouseODC
 
 The mouse ODC is an application to help actively collect meta data from animal studies and experiments through the use of web app forms. It is a rendition of the DNP's OpenDataCapture web application. This current repository contain the code for all form to be used within the application. 
 
-# ODC-Mouse-Forms
+## Entering the MouseODC
+
+After requesting account to be created with your group admin, you can log in and access the MouseODC  [here](http://mouseodc.douglas.rtss.qc.ca/auth/login). Currently hosted and accessible on the internal douglas network with a public facing application in the works :)
+
+## ODC-Mouse-Forms
 A repo containing OpenDataCapture forms for tracking mouse data gathered from experiments within the CoBra Lab
 
 ## Having issues?
