@@ -370,130 +370,139 @@ export default defineInstrument({
    dateOfBirth: {
     kind: 'const',
     label: 'Date of birth',
+    visibility: 'visible',
     ref: 'dateOfBirth'
   },
   mouseSex: {
     kind: 'const',
     label: 'Sex',
+    visibility: 'visible',
     ref: 'mouseSex'
   },
   cohortId: {
     kind: 'const',
     label: 'Cohort',
+    visibility: 'visible',
     ref: 'cohortId'
   },
   mouseStrain: {
     kind: 'const',
     label: 'Mouse Strain',
+    visibility: 'visible',
     ref: 'mouseStrain'
   },
   otherStrain: {
     kind: 'const',
-    label: 'Other Strain',
+    visibility: 'visible',
     ref: 'otherStrain'
   },
   mouseGenotype: {
     kind: 'const',
     label: 'Mouse Genotype',
+    visibility: 'visible',
     ref: 'mouseGenotype'
   },
   mouseGenotypeOther: {
     kind: 'const',
-    label: 'Other Genotype',
+    visibility: 'visible',
     ref: 'mouseGenotypeOther'
   },
   boxMouse: {
     kind: 'const',
-    label: 'Imported mouse',
+    label: 'Originates from external breeder',
+    visibility: 'visible',
     ref: "boxMouse"
   },
   orderId: {
     kind: 'const',
-    label: 'Order ID',
+    visibility: 'visible',
     ref: 'orderId'
   },
   breederOrigin: {
     kind: 'const',
-    label: 'Breeder origin',
+    visibility: 'visible',
     ref: 'breederOrigin'
   },
   otherBreederOrigin: {
     kind: 'const',
-    label: 'Other Breeder',
+    visibility: 'visible',
     ref: 'otherBreederOrigin'
   },
   breedingCageId: {
     kind: "const",
-    label: 'Breeding cage ID',
+    visibility: 'visible',
     ref: 'breedingCageId'
   },
   motherKnown: {
     kind: 'const',
-    label: 'Mother known',
+    visibility: 'visible',
+    label: 'Is mother known',
     ref: 'motherKnown'
   },
   motherMouse: {
     kind: 'const',
-    label: 'Mother of mouse',
+    visibility: 'visible',
     ref: 'motherMouse'
   },
   motherMouseStrain: {
     kind: 'const',
-    label: 'Mother mouse strain',
+    visibility: 'visible',
     ref: 'motherMouseStrain'
   },
   motherMouseOtherStrain: {
     kind: 'const',
-    label: 'Mother other strain',
+    visibility: 'visible',
     ref: 'motherMouseOtherStrain'
   },
   motherMouseGenotype: {
     kind: 'const',
-    label: 'Mother mouse genotype',
+    visibility: 'visible',
     ref: 'motherMouseGenotype'
   },
   motherMouseGenotypeOther: {
     kind: 'const',
-    label: 'Mother mouse other genotype',
+    visibility: 'visible',
     ref: 'motherMouseGenotypeOther'
   },
   fatherKnown: {
     kind: 'const',
-    label: 'Father known',
+    visibility: 'visible',
+    label: 'Is father known',
     ref: 'fatherKnown'
   },
   fatherMouse: {
     kind: 'const',
-    label: 'Father of mouse',
+    visibility: 'visible',
     ref: 'fatherMouse'
   },
   fatherMouseStrain: {
     kind: 'const',
-    label: 'Father mouse strain',
+    visibility: 'visible',
     ref: 'fatherMouseStrain'
   },
   fatherMouseOtherStrain: {
     kind: 'const',
-    label: 'Father mouse other strain',
+    visibility: 'visible',
     ref: 'fatherMouseOtherStrain'
   },
   fatherMouseGenotype: {
     kind: 'const',
-    label: 'Father mouse genotype',
+    visibility: 'visible',
     ref: 'fatherMouseGenotype'
   },
   fatherMouseGenotypeOther: {
     kind: 'const',
-    label: 'Father mouse other genotype',
+    visibility: 'visible',
     ref: 'fatherMouseGenotypeOther'
   },
   generationNumber: {
     kind: 'const',
-    label: 'Generation Number',
+    visibility: 'visible',
     ref: 'generationNumber'
   },
   additionalComments: {
     kind: 'const',
+    visibility: 'visible',
     ref: 'additionalComments'
   }
   },
