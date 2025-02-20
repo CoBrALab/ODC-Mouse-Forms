@@ -29,3 +29,10 @@ If you encounter a bug or problem when using the mouseODC please refer to the fo
  - Add the name of form you like to change within the issue title
  - Describe the changes you would to have added to the form in the description section of the issue
  - Click the create button to submit the issue to the repository
+
+ ## Useful links
+
+- [OpenDataCapture Website](https://opendatacapture.org/en/)
+- [Upload Data Documentation](https://opendatacapture.org/en/docs/guides/how-to-upload-data/)
+- [Form Creation Playground](https://playground.opendatacapture.org/)
+
