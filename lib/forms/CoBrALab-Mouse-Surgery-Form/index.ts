@@ -152,7 +152,7 @@ export default defineInstrument({
     anesthesiaDuration: {
       kind: "dynamic",
       deps: ["anesthesiaUsed","anesthesiaAdministrationType"],
-      render(data: any) {
+      render(data) {
         if(data.anesthesiaUsed && data.anesthesiaAdministrationType === "Inhalation"){
           return {
             kind: "number",
