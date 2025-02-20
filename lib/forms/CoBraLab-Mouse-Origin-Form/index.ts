@@ -172,9 +172,9 @@ export default defineInstrument({
     },
     motherMouseStrain: {
       kind: 'dynamic',
-      deps: ['motherKnown','boxMouse'],
+      deps: ['motherKnown'],
       render(data) {
-        if(data.motherKnown && data.boxMouse === false){
+        if(data.motherKnown){
           return {
             kind: 'string',
             variant: 'select',
@@ -208,9 +208,9 @@ export default defineInstrument({
 
     motherMouseGenotype: {
       kind: 'dynamic',
-      deps: ['motherKnown','boxMouse'],
+      deps: ['motherKnown'],
       render(data) {
-        if(data.motherKnown && data.boxMouse === false){
+        if(data.motherKnown){
           return {
             kind: "string",
             variant: "select",
@@ -262,9 +262,9 @@ export default defineInstrument({
     },
     fatherMouseStrain: {
       kind: 'dynamic',
-      deps: ['fatherKnown','boxMouse'],
+      deps: ['fatherKnown'],
       render(data) {
-        if(data.fatherKnown && data.boxMouse === false){
+        if(data.fatherKnown){
           return {
             kind: 'string',
             variant: 'select',
@@ -298,9 +298,9 @@ export default defineInstrument({
 
     fatherMouseGenotype: {
       kind: 'dynamic',
-      deps: ['fatherKnown','boxMouse'],
+      deps: ['fatherKnown'],
       render(data) {
-        if(data.fatherKnown && data.boxMouse === false){
+        if(data.fatherKnown){
           return {
             kind: "string",
             variant: "select",
