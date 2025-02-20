@@ -3,13 +3,13 @@
 const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-core/index.js');
 const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
-type InjectionType = "Intracerebral" | "Subcutaneous" | "IP"
+type InjectionType = "Subcutaneous" | "IP"
 
-function createDependentField<const T>(field: T, fn: (injectionType: InjectionType) => boolean) {
+function createDependentField<const T>(field: T, fn: (injectionType?: InjectionType) => boolean) {
   return {
     kind: 'dynamic' as const,
     deps: ['injectionType'] as const,
-    render: (data: { injectionType: InjectionType }) => {
+    render: (data: { injectionType?: InjectionType }) => {
       if (fn(data.injectionType)) {
         return field;
       }
@@ -37,40 +37,9 @@ export default defineInstrument({
       variant: "radio",
       label: "Type of injection",
       options: {
-        "Intracerebral": "Intracerebral",
         "Subcutaneous": "Subcutaneous",
         "IP":"IP"
-        
       },
-    },
-    intracerebralInjectionType: createDependentField({
-        kind: "string",
-        variant: "select",
-        label: "Intracerebral injection type",
-        options: {
-          "PBS": "PBS",
-          "PFF": "PFF"
-        }
-      }, (type) => type === 'Intracerebral'),
-    hydrationProvided: createDependentField({
-      kind: "boolean",
-      variant: "radio",
-      label: "Hydration provided (saline)?"
-
-    },(type) => type === 'Intracerebral'),
-    hydrationVolume: {
-      kind: "dynamic",
-      deps: ["hydrationProvided"],
-      render(data) {
-        if(data.hydrationProvided){
-          return {
-            kind: "number",
-            variant: "input",
-            label: "Saline volume (ml)"
-          }
-        }
-        return null
-      }
     },
     subcutaneousInjectionType: createDependentField({
       kind: "string",
@@ -82,21 +51,33 @@ export default defineInstrument({
       }
     },(type) => type === "Subcutaneous"),
 
-    subcutaneousInjectionTime: createDependentField({
-      kind: 'string',
-      variant: "select",
-      label: "Time of injection",
-      options: {
-        "During operation": "During operation",
-        "Post operation": "Post operation"
+    subcutaneousInjectionTypeOther: {
+      kind: "dynamic",
+      deps: ['subcutaneousInjectionType'],
+      render(data){
+        if(data.subcutaneousInjectionType === "Other"){
+          return {
+            kind: "string",
+            variant: "input",
+            label: "Other subcutaneous injection type"
+          }
+        }
+        return null
       }
+      
+    },
+
+    subcutaneousInjectionPostOperation: createDependentField({
+      kind: 'boolean',
+      variant: 'radio',
+      label: "Was the subcutaneous injection for post-operation recovery?"
     }, (type) => type === "Subcutaneous"),
 
     postOperationDay: {
       kind: "dynamic",
-      deps: ["subcutaneousInjectionTime"],
+      deps: ["subcutaneousInjectionPostOperation"],
       render(data) {
-        if(data.subcutaneousInjectionTime === "Post operation"){
+        if(data.subcutaneousInjectionPostOperation){
           return {
             kind: "date",
             label: "Post operation day"
@@ -125,44 +106,68 @@ export default defineInstrument({
       }
     },
 
+    ipInoculumAdministered: createDependentField({
+      kind: "string",
+      variant: "select",
+      label: "IP inoculum administered",
+      options: {
+        "PU-AD":"PU-AD",
+        "PU-AD Vehicle": "PU-AD Vehicle",
+        "IP Tamoxifen": "IP Tamoxifen",
+        "STZ": "STZ",
+        "Dexmedetomidine":"Dexmedetomidine"
+      }
+    }, (type) => type === "IP"),
+
+    ipInoculumBatchNumber: createDependentField({
+      kind: "string",
+      variant: "input",
+      label: "IP inoculum batch number",
+    }, (type) => type === "IP"),
+
+    ipInjectionPurpose: createDependentField({
+      kind: "string",
+      variant: "select",
+      label: "Purpose of IP injection",
+      options: {
+        "Viral memetic": "Viral memetic",
+        "Anesthetic": "Anesthetic",
+        "Intervention": "Intervention",
+        "Drug treatment": "Drug treatment",
+        "Other": "Other"
+      }
+    },(type) => type === "IP"),
+
+    ipInjectionPurposeOther: {
+      kind: "dynamic",
+      deps: ["ipInjectionPurpose"],
+      render(data){
+        if(data.ipInjectionPurpose === "Other"){
+           return {
+            kind: "string",
+            variant: "textarea",
+            label: "Other purpose for IP injection"
+           }
+        }
+        return null
+      }
+    },
+
     ipDoseVolume: createDependentField({
       kind: "number",
       variant: "input",
       label: "IP dose volume (ml)"
     }, (type) => type === "IP"),
 
-    drugInjected: createDependentField({
-      kind: "string",
-      variant: "select",
-      label: "Drug injected",
-      options: {
-        "PU-AD":"PU-AD",
-        "PU-AD Vehicle": "PU-AD Vehicle",
-        "IP Tamoxifen": "IP Tamoxifen",
-        "STZ": "STZ"
-      }
-    }, (type) => type === "IP"),
-
-    ipInjectionType: createDependentField({
-      kind: "string",
-      variant: "select",
-      label: "IP injection type",
-      options: {
-        "Viral memetic": "Viral memetic",
-        "Anesthetic": "Anesthetic"
-      }
-    },(type) => type === "IP"),
-
     additionalComments: {
       kind: "string",
       variant: "textarea",
       label: "Additional Comments"
     }
-
     
   },
   clientDetails: {
-    estimatedDuration: 1,
+    estimatedDuration: 2,
     instructions: ['Please fill out this form whenever a mouse experiences an injection']
   },
   details: {
@@ -179,25 +184,17 @@ export default defineInstrument({
       kind: "const",
       ref: "injectionType"
     },
-    intracerebralInjectionType: {
-      kind: "const",
-      ref: "intracerebralInjectionType"
-    },
-    hydrationProvided: {
-      kind: "const",
-      ref: "hydrationProvided"
-    },
-    hydrationVolume: {
-      kind: "const",
-      ref: "hydrationVolume"
-    },
     subcutaneousInjectionType: {
       kind: "const",
       ref: "subcutaneousInjectionType"
     },
-    subcutaneousInjectionTime: {
+    subcutaneousInjectionTypeOther: {
       kind: "const",
-      ref: "subcutaneousInjectionTime"
+      ref: "subcutaneousInjectionTypeOther"
+    },
+    subcutaneousInjectionPostOperation: {
+      kind: "const",
+      ref: "subcutaneousInjectionPostOperation"
     },
     postOperationDay: {
       kind: "const",
@@ -211,13 +208,21 @@ export default defineInstrument({
       kind: "const",
       ref: "ipDoseVolume"
     },
-    drugInjected: {
+    ipInoculumAdministered: {
       kind: "const",
-      ref: "drugInjected"
+      ref: "ipInoculumAdministered"
     },
-    ipInjectionType: {
+    ipInoculumBatchNumber: {
       kind: "const",
-      ref: "ipInjectionType"
+      ref: "ipInoculumBatchNumber"
+    },
+    ipInjectionPurpose: {
+      kind: "const",
+      ref: "ipInjectionPurpose"
+    },
+    ipInjectionPurposeOther: {
+      kind: "const",
+      ref: "ipInjectionPurposeOther"
     },
     additionalComments: {
       kind: "const",
@@ -227,17 +232,17 @@ export default defineInstrument({
   },
   validationSchema: z.object({
     roomNumber: z.string(),
-    injectionType: z.enum(["Intracerebral","Subcutaneous","IP"]),
-    intracerebralInjectionType: z.enum(["PBS", "PFF"]).optional(),
-    hydrationProvided: z.boolean().optional(),
-    hydrationVolume: z.number().min(0).optional(),
+    injectionType: z.enum(["Subcutaneous","IP"]),
     subcutaneousInjectionType: z.enum(["Analgesic", "Other"]).optional(),
-    subcutaneousInjectionTime: z.enum(["During operation", "Post operation"]).optional(),
+    subcutaneousInjectionTypeOther: z.string().optional(),
+    subcutaneousInjectionPostOperation: z.boolean().optional(),
     postOperationDay: z.date().optional(),
     analgesicType: z.enum(["Carprofen", "Bupivacaine"]).optional(),
     ipDoseVolume: z.number().min(0).optional(),
-    drugInjected: z.enum(["PU-AD", "PU-AD Vehicle", "IP Tamoxifen", "STZ"]).optional(),
-    ipInjectionType: z.enum(["Viral memetic", "Anesthetic"]).optional(),
+    ipInoculumAdministered: z.enum(["PU-AD", "PU-AD Vehicle", "IP Tamoxifen", "STZ","Dexmedetomidine"]).optional(),
+    ipInoculumBatchNumber: z.string().optional(),
+    ipInjectionPurpose: z.enum(["Viral memetic","Intervention","Drug treatment", "Anesthetic","Other"]).optional(),
+    ipInjectionPurposeOther: z.string().optional(),
     additionalComments: z.string().optional()
   })
 });
