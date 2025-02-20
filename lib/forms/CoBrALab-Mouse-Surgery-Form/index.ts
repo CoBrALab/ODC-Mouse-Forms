@@ -341,7 +341,7 @@ export default defineInstrument({
     clinicalCondition: createDependentField({
       kind: "string",
       variant: "input",
-      label: "Clinical condition"
+      label: "Clincal condition"
     }, (type) => type === "Wound treatment"),
     
     treatmentProvided: createDependentField({
@@ -383,118 +383,147 @@ export default defineInstrument({
     treatmentType: {
       kind: "const",
       label: "Selected physical intervention",
+      visibility: "visible",
       ref: "treatmentType"
     },
     analgesiaUsed: {
       kind: "const",
+      visibility: "visible",
       ref: "analgesiaUsed"
     },
     analgesiaChemicalName: {
       kind: "const",
+      visibility: "visible",
       ref: "analgesiaChemicalName"
     },
     analgesiaVolume: {
       kind: "const",
+      visibility: "visible",
       ref: "analgesiaVolume"
     },
     anesthesiaUsed: {
       kind: "const",
+      visibility: "visible",
       ref: "anesthesiaUsed"
     },
     anesthesiaChemicalName: {
       kind: "const",
+      visibility: "visible",
       ref: "anesthesiaChemicalName"
     },
     anesthesiaAdministrationType:{
       kind: "const",
+      visibility: "visible",
       ref: "anesthesiaAdministrationType"
     },
     anesthesiaVolume: {
       kind: "const",
+      visibility: "visible",
       ref: "anesthesiaVolume"
     },
     anesthesiaDuration: {
       kind: "const",
+      visibility: "visible",
       ref: "anesthesiaDuration"
     },
     anesthesiaRecoveryTime: {
       kind: "const",
+      visibility: "visible",
       ref: "anesthesiaRecoveryTime"
     },
     hydrationProvided: {
       kind: "const",
+      visibility: "visible",
       ref: "hydrationProvided"
     },
     hydrationVolume: {
       kind: "const",
+      visibility: "visible",
       ref: "hydrationVolume"
     },
     intracerebralInjectionType: {
       kind: "const",
+      visibility: "visible",
       ref: "intracerebralInjectionType"
     },
     intracerebralInjectionBatchType: {
       kind: "const",
+      visibility: "visible",
       ref: "intracerebralInjectionBatchType"
     },
     stereotaxUsed: {
       kind: "const",
+      visibility: "visible",
       ref: "stereotaxUsed"
     },
     stereotaxId: {
       kind: "const",
+      visibility: "visible",
       ref: "stereotaxId"
     },
     surgeryType: {
       kind: "const",
+      visibility: "visible",
       ref: "surgeryType"
     },
     ovariectomyType: {
       kind: "const",
+      visibility: "visible",
       ref: "ovariectomyType"
     },
     ovariectomySide: {
       kind: "const",
+      visibility: "visible",
       ref: "ovariectomySide"
     },
     ovariectomyMouseGroup: {
       kind: "const",
+      visibility: "visible",
       ref: "ovariectomyMouseGroup"
     },
     brainSurgeryPaxinosMLCoords:{
       kind: "const",
+      visibility: "visible",
       ref: "brainSurgeryPaxinosMLCoords"
     },
     brainSurgeryPaxinosAPCoords:{
       kind: "const",
+      visibility: "visible",
       ref: "brainSurgeryPaxinosAPCoords"
     },
     brainSurgeryPaxinosDVCoords:{
       kind: "const",
+      visibility: "visible",
       ref: "brainSurgeryPaxinosDVCoords"
     },
     woundDateReported: {
       kind: "const",
+      visibility: "visible",
       ref: "woundDateReported"
     },
     clinicalCondition: {
       kind: "const",
+      visibility: "visible",
       ref: "clinicalCondition"
     },
     treatmentProvided: {
       kind: "const",
+      visibility: "visible",
       ref: "treatmentProvided"
     },
     treatmentStartDate: {
       kind: "const",
+      visibility: "visible",
       ref: "treatmentStartDate"
     },
     surgeryDuration: {
       kind: "const",
+      visibility: "visible",
       ref:"surgeryDuration"
     },
     additionalComments: {
       kind: "const",
+      visibility: "visible",
       ref: "additionalComments"
     }
   },
