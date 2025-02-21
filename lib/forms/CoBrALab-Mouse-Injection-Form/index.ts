@@ -178,54 +178,67 @@ export default defineInstrument({
   measures: {
     roomNumber: {
       kind: "const",
+      visibility: "visible",
       ref: "roomNumber"
     },
     injectionType: {
       kind: "const",
+      visibility: "visible",
       ref: "injectionType"
     },
     subcutaneousInjectionType: {
       kind: "const",
+      visibility: "visible",
       ref: "subcutaneousInjectionType"
     },
     subcutaneousInjectionTypeOther: {
       kind: "const",
+      visibility: "visible",
       ref: "subcutaneousInjectionTypeOther"
     },
     subcutaneousInjectionPostOperation: {
       kind: "const",
+      visibility: "visible",
       ref: "subcutaneousInjectionPostOperation"
     },
     postOperationDay: {
       kind: "const",
+      visibility: "visible",
       ref: "postOperationDay"
     },
     analgesicType: {
       kind: "const",
+      visibility: "visible",
       ref: "analgesicType"
     },
     ipDoseVolume: {
       kind: "const",
+      visibility: "visible",
       ref: "ipDoseVolume"
     },
     ipInoculumAdministered: {
       kind: "const",
+      visibility: "visible",
       ref: "ipInoculumAdministered"
     },
     ipInoculumBatchNumber: {
       kind: "const",
+      visibility: "visible",
       ref: "ipInoculumBatchNumber"
     },
     ipInjectionPurpose: {
       kind: "const",
+      visibility: "visible",
       ref: "ipInjectionPurpose"
     },
     ipInjectionPurposeOther: {
       kind: "const",
+      visibility: "visible",
       ref: "ipInjectionPurposeOther"
     },
     additionalComments: {
       kind: "const",
+      visibility: "visible",
       ref: "additionalComments"
     }
 
