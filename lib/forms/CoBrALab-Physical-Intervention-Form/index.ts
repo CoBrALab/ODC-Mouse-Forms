@@ -14,11 +14,11 @@ const interventionTypeList = [ "Blood extraction",
 
 type InterventionType = typeof interventionTypeList[number];
 
-function createDependentField<const T>(field: T, fn: (interventionType: InterventionType) => boolean) {
+function createDependentField<const T>(field: T, fn: (interventionType?: InterventionType) => boolean) {
   return {
     kind: 'dynamic' as const,
     deps: ['interventionType'] as const,
-    render: (data: { interventionType: InterventionType }) => {
+    render: (data: { interventionType?: InterventionType }) => {
       if (fn(data.interventionType)) {
         return field;
       }
@@ -164,43 +164,53 @@ export default defineInstrument({
   measures: {
     interventionType: {
       kind: "const",
+      visibility: "visible",
       ref: "interventionType"
     },
     nameOfVaginalSwabber: {
       kind: "const",
+      visibility: "visible",
       ref: "nameOfVaginalSwabber"
     },
     vaginalSwabNumber: {
       kind: "const",
+      visibility: "visible",
       ref: "vaginalSwabNumber"
     },
     vaginalCytologyDuration: {
       kind: "const",
+      visibility: "visible",
       ref: "vaginalCytologyDuration"
     },
     vaginalCytologySolutionVolume: {
       kind: "const",
+      visibility: "visible",
       ref: "vaginalCytologySolutionVolume"
     },
     genotypeBodyPartUsed: {
       kind: "const",
+      visibility: "visible",
       ref: "genotypeBodyPartUsed"
     },
     genotypeCompanyUsed: {
       kind: "const",
+      visibility: "visible",
       ref: "genotypeCompanyUsed"
     },
     genotypeCopy: {
       kind: "const",
+      visibility: "visible",
       ref: "genotypeCopy"
     },
     earTaggingSystem: {
       kind: "const",
+      visibility: "visible",
       ref: "earTaggingSystem"
     },
     tattooLocationInfo: {
       kind: "computed",
       label: "Tattoo Locations",
+      visibility: "visible",
       value: (data) => {
         const val = data.tattooLocationInfo?.map((x) => x)
         let tattooText = ""
@@ -215,14 +225,17 @@ export default defineInstrument({
     },
     teethExtractionNumber: {
       kind: "const",
+      visibility: "visible",
       ref: "teethExtractionNumber"
     },
     bloodGlucoseLevel: {
       kind: "const",
+      visibility: "visible",
       ref: "bloodGlucoseLevel"
     },
     additionalComments: {
       kind: 'const',
+      visibility: "visible",
       ref: 'additionalComments'
     }
   },
