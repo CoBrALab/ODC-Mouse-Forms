@@ -137,58 +137,68 @@ export default defineInstrument({
     roomNumber: {
       kind: "const",
       label: "Room number",
+      visibility: "visible",
       ref: "roomNumber"
     },
      totalMice: {
       kind: "const",
       label: "Number of mice in cage",
+      visibility: "visible",
       ref: "totalMice"
     },
     cageIdentificationType: {
       kind: "const",
       label: "Cage Identification Given",
+      visibility: "visible",
       ref: "cageIdentificationType"
     },
     cageIdentification: {
       kind: "const",
       label: "Cage Identification",
+      visibility: "visible",
       ref: "cageIdentification"
     },
     additionalCageName: {
       kind: "const",
       label: "Cage number",
+      visibility: "visible",
       ref: "additionalCageName"
     },
     beddingType: {
       kind: "const",
       label: "Bedding type",
+      visibility: "visible",
       ref: "beddingType"
     },
     cageChangeDay: {
       kind: "const",
       label: "Cage change day",
+      visibility: "visible",
       ref: "cageChangeDay"
     },
     bottleType: {
       kind: "const",
       label: "Bottle type",
+      visibility: "visible",
       ref: "bottleType"
     },
     cageType: {
       kind: "const",
       label: "Cage type",
+      visibility: "visible",
       ref: "cageType"
     },
     cageEnrichment: {
       kind: 'computed',
       label: "Cage enrichment",
+      visibility: "visible",
       value: (data) => {
-        
         return data.cageEnrichment ? Array.from(data.cageEnrichment).join(" ") : ""
       }
     },
     additionalComments: {
       kind: "const",
+      visibility: "visible",
       ref: "additionalComments"
     }
   },

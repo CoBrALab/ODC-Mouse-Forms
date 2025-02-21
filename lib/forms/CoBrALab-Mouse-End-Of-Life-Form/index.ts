@@ -5,11 +5,11 @@ import { z } from '/runtime/v1/zod@3.23.x'
 
 type TerminationType =  'Gas induction' | "Perfusion" | "Guillotine" | 'Cardiac puncture' | 'Cervical dislocation'
 
-function createDependentField<const T>(field: T, fn: (terminationType: TerminationType) => boolean) {
+function createDependentField<const T>(field: T, fn: (terminationType?: TerminationType) => boolean) {
   return {
     kind: 'dynamic' as const,
     deps: ['terminationType'] as const,
-    render: (data: { terminationType: TerminationType }) => {
+    render: (data: { terminationType?: TerminationType }) => {
       if (fn(data.terminationType)) {
         return field;
       }
@@ -172,6 +172,7 @@ export default defineInstrument({
               },
               extractionMotive: {
                 kind: 'dynamic',
+                deps: ['bodyPartExtracted'],
                 render(data) {
                   if (data.bodyPartExtracted === 'Brain') {
                     return {
@@ -281,56 +282,67 @@ export default defineInstrument({
      terminationReason: {
       kind: "const",
       label: "Reason for termination",
+      visibility: "visible",
       ref: "terminationReason"
     },
     terminationComments: {
       kind: "const",
       label: "Comments",
+      visibility: "visible",
       ref: "terminationComments"
     },
     terminationType: {
       kind: "const",
       label: "Form of termination",
+      visibility: "visible",
       ref: "terminationType"
     },
     surgeryDeathCause: {
       kind: "const",
       label: "Surgery complications death cause",
+      visibility: "visible",
       ref: "surgeryDeathCause"
     },
     bloodCollected: {
       kind: "const",
       label: "Blood collected (ml)",
+      visibility: "visible",
       ref: "bloodCollected"
     },
     perfusionAnestheticType: {
       kind: "const",
       label: "Type of perfusion",
+      visibility: "visible",
       ref: "perfusionAnestheticType"
     },
     ipAnestheticDose: {
       kind: "const",
       label: "Injection dose (ml)",
+      visibility: "visible",
       ref: "ipAnestheticDose"
     },
     perfusionFlushingSolution: {
       kind: "const",
       label: "Perfusion flushing solution",
+      visibility: "visible",
       ref: "perfusionFlushingSolution"
     },
     anesthesiaUsed: {
       kind: "const",
       label: "Anesthesia used",
+      visibility: "visible",
       ref: "anesthesiaUsed"
     },
     bodyExtractionDone: {
       kind: "const",
       label: "Body part extracted",
+      visibility: "visible",
       ref: "bodyExtractionDone"
     },
     bodyExtractionInfo: {
       kind: "computed",
       label: "Body part extraction info",
+      visibility: "visible",
       value: (data) => {
         const val = data.bodyExtractionInfo?.map((x) => x);
         let extractInfo = '';
@@ -347,6 +359,7 @@ export default defineInstrument({
     additionalComments: {
       kind: "const",
       label: "Additional comments",
+      visibility: "visible",
       ref: "additionalComments"
     }
 

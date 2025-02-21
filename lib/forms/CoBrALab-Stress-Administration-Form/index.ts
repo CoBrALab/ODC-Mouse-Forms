@@ -7,11 +7,11 @@ const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 type StressorType = "Electric foot shocks" | "Tail suspension" | "Restraint";
 
 
-function createDependentField<const T>(field: T, fn: (stressorType: StressorType) => boolean) {
+function createDependentField<const T>(field: T, fn: (stressorType?: StressorType) => boolean) {
   return {
     kind: 'dynamic' as const,
     deps: ['stressorType'] as const,
-    render: (data: { stressorType: StressorType }) => {
+    render: (data: { stressorType?: StressorType }) => {
       if (fn(data.stressorType)) {
         return field;
       }
@@ -90,30 +90,37 @@ export default defineInstrument({
   measures: {
     miceNumber: {
         kind: "const",
+        visibility: "visible",
         ref: "miceNumber"
     },
     roomNumber: {
         kind: "const",
+        visibility: "visible",
         ref: "roomNumber"
       },
       stressorType: {
         kind: "const",
+        visibility: "visible",
         ref: "stressorType"
       },
       footShocksNumber: {
         kind: "const",
+        visibility: "visible",
         ref: "footShocksNumber"
       },
       footShockAmperage: {
         kind: "const",
+        visibility: "visible",
         ref: "footShockAmperage"
       },
       tailSuspensionClimbStoppers: {
         kind: "const",
+        visibility: "visible",
         ref: "tailSuspensionClimbStoppers"
       },
       additionalComments: {
         kind: 'const',
+        visibility: "visible",
         ref: 'additionalComments'
       }
 

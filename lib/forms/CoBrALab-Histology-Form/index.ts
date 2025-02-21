@@ -212,39 +212,48 @@ export default defineInstrument({
   measures: {
     roomNumber: {
       kind: "const",
-      ref: "roomNumber",
+      visibility: "visible",
+      ref:  "roomNumber",
     },
     histologyType: {
       kind: "const",
-      ref: "histologyType",
+      visibility: "visible",
+      ref:  "histologyType",
     },
     brainStorageConditions: {
       kind: "const",
-      ref: "brainStorageConditions",
+      visibility: "visible",
+      ref:  "brainStorageConditions",
     },
     wasBrainSliced: {
       kind: "const",
-      ref: "wasBrainSliced",
+      visibility: "visible",
+      ref:  "wasBrainSliced",
     },
     brainSliceWidth: {
       kind: "const",
-      ref: "brainSliceWidth",
+      visibility: "visible",
+      ref:  "brainSliceWidth",
     },
     portionOfBrainSliced: {
       kind: "const",
-      ref: "portionOfBrainSliced",
+      visibility: "visible",
+      ref:  "portionOfBrainSliced",
     },
     protocolFollowed: {
       kind: "const",
-      ref: "protocolFollowed",
+      visibility: "visible",
+      ref:  "protocolFollowed",
     },
     otherProtocolName: {
       kind: "const",
-      ref: "otherProtocolName",
+      visibility: "visible",
+      ref:  "otherProtocolName",
     },
     antibodiesUsedInfo: {
       kind: "computed",
       label: "Antibodies used info",
+      visibility: "visible",
       value: (data) => {
         const antibodyList = data.antibodiesUsedInfo.map((x) => x);
         let antibodyInfoString = "";
@@ -266,31 +275,38 @@ export default defineInstrument({
     },
     serumUsed: {
       kind: "const",
-      ref: "serumUsed",
+      visibility: "visible",
+      ref:  "serumUsed",
     },
     batchNumber: {
       kind: "const",
-      ref: "batchNumber",
+      visibility: "visible",
+      ref:  "batchNumber",
     },
     wasSampleStained: {
       kind: "const",
-      ref: "wasSampleStained",
+      visibility: "visible",
+      ref:  "wasSampleStained",
     },
     stainUsed: {
       kind: "const",
-      ref: "stainUsed",
+      visibility: "visible",
+      ref:  "stainUsed",
     },
     dateStained: {
       kind: "const",
-      ref: "dateStained",
+      visibility: "visible",
+      ref:  "dateStained",
     },
     histologyQuantified: {
       kind: "const",
-      ref: "histologyQuantified",
+      visibility: "visible",
+      ref:  "histologyQuantified",
     },
     additionalComments: {
       kind: "const",
-      ref: "additionalComments"
+      visibility: "visible",
+      ref:  "additionalComments"
     }
   },
   validationSchema: z.object({

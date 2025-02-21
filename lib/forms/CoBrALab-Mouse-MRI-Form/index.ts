@@ -447,64 +447,79 @@ export default defineInstrument({
     mriOperatorName: {
       kind: "const",
       label: "MRI operator",
+      visibility: "visible",
       ref: "mriOperatorName"
     },
     coilType: {
       kind: 'const',
       label: 'Coil type',
+      visibility: "visible",
       ref: 'coilType'
     },
     paravisionVersion: {
       kind: 'const',
       label: 'Paravision Version',
+      visibility: "visible",
       ref: 'paravisionVersion'
     },
     exVivoScan: {
       kind: "const",
+      visibility: "visible",
       ref: "exVivoScan"
     },
     exVivoCranioStatus: {
       kind: "const",
+      visibility: "visible",
       ref: "exVivoCranioStatus"
     },
     dexUsed: {
       kind: "const",
+      visibility: "visible",
       ref: "dexUsed"
     },
     dexSolutionCreationDate: {
       kind: "const",
+      visibility: "visible",
       ref: "dexSolutionCreationDate"
     },
     dexBottleSerialCode: {
       kind: "const",
+      visibility: "visible",
       ref: "dexBottleSerialCode"
     },
     isofluraneUsed: {
       kind: "const",
+      visibility: "visible",
       ref: "isofluraneUsed"
     },
     isofluraneBottleSerialCode: {
       kind: "const",
+      visibility: "visible",
       ref: "isofluraneBottleSerialCode"
     },
     isofluraneAdjustedFromSOP: {
       kind: "const",
+      visibility: "visible",
       ref: "isofluraneAdjustedFromSOP"
     },
     isofluraneAdjustedPercentage: {
       kind: "const",
+      visibility: "visible",
       ref: "isofluraneAdjustedPercentage"
     },
     fmriIsofluraneTracked: {
       kind: "const",
+      visibility: "visible",
       ref: "fmriIsofluraneTracked"
     },
     fmriIsoflurane: {
       kind: "const",
+      visibility: "visible",
       ref: "fmriIsoflurane"
     },
     fmriIsofluraneColour: {
       kind: "const",
+      visibility: "visible",
       ref: "fmriIsofluraneColour"
     },
     scanRecordInfo: {
@@ -548,7 +563,7 @@ export default defineInstrument({
     dexBottleSerialCode: z.string().optional(),
     dexAdjustedFromSOP: z.boolean().optional(),
     dexAdjustedPercentage: z.string().optional(),
-    isofluraneUsed: z.boolean(),
+    isofluraneUsed: z.boolean().optional(),
     isofluraneBottleSerialCode: z.string().optional(),
     isofluraneAdjustedFromSOP: z.boolean().optional(),
     isofluraneAdjustedPercentage: z.string().optional(),
