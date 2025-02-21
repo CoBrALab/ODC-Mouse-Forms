@@ -69,24 +69,29 @@ export default defineInstrument({
     mouseWeight: {
       kind: 'const',
       label: 'Mouse weight',
+      visibility: 'visible',
       ref: 'mouseWeight'
     },
     scaleSerialCode: {
       kind: 'const',
       label: "Scale serial code",
+      visibility: 'visible',
       ref: "scaleSerialCode"
     },
     scaleSerialCodeOther: {
       kind: 'const',
       label: "Other Scale serial code provided",
+      visibility: 'visible',
       ref: "scaleSerialCode"
     },
     scaleKind: {
       kind: "const",
+      visibility: 'visible',
       ref: "scaleKind"
     },
     additionalComments: {
       kind: 'const',
+      visibility: 'visible',
       ref: 'additionalComments'
     }
 
