@@ -6,11 +6,11 @@ const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
 type MotorTask =  "Rotarod" | "Wire hang" | "Pole test"
 
-function createDependentField<const T>(field: T, fn: (motorTask: MotorTask) => boolean) {
+function createDependentField<const T>(field: T, fn: (motorTask?: MotorTask) => boolean) {
   return {
     kind: 'dynamic' as const,
     deps: ['motorTask'] as const,
-    render: (data: { motorTask: MotorTask }) => {
+    render: (data: { motorTask?: MotorTask }) => {
       if (fn(data.motorTask)) {
         return field;
       }
@@ -117,6 +117,11 @@ export default defineInstrument({
         }
         return null
       }
+    },
+    additionalComments: {
+      kind: "string",
+      variant: "textarea",
+      label: "Additional comments"
     }
   },
   clientDetails: {
@@ -131,47 +136,63 @@ export default defineInstrument({
   measures: {
     roomNumber: {
       kind: "const",
+      visibility: "visible",
       ref: "roomNumber"
     },
     motorTask: {
       kind: "const",
+      visibility: "visible",
       ref: "motorTask"
     },
     rotarodTotalMiceNumber: {
       kind: "const",
+      visibility: "visible",
       ref: "rotarodTotalMiceNumber"
     },
     rotarodDuration: {
       kind: "const",
+      visibility: "visible",
       ref: "rotarodDuration"
     },
     rotarodSlotPosition: {
       kind: "const",
+      visibility: "visible",
       ref: "rotarodSlotPosition"
     },
     rotarodWirehangFailure: {
       kind: "const",
+      visibility: "visible",
       ref: "rotarodWirehangFailure"
     },
     wirehangDuration: {
       kind: "const",
+      visibility: "visible",
       ref: "wirehangDuration"
     },
     wirehangPutbacks: {
       kind: "const",
+      visibility: "visible",
       ref: "wirehangPutbacks"
     },
     poleTestDuration: {
       kind: "const",
+      visibility: "visible",
       ref: "poleTestDuration"
     },
     poleTestResultLevel: {
       kind: "const",
+      visibility: "visible",
       ref: "poleTestResultLevel"
     },
     poleTestMarginalFailureReason: {
       kind: "const",
+      visibility: "visible",
       ref: "poleTestMarginalFailureReason"
+    },
+    additionalComments: {
+      kind: "const",
+      visibility: "visible",
+      ref: "additionalComments"
     }
   },
   validationSchema: z.object({
@@ -185,6 +206,7 @@ export default defineInstrument({
     wirehangPutbacks: z.number().min(0).int().optional(),
     poleTestDuration: z.number().min(0).optional(),
     poleTestResultLevel: z.enum(["Pass", "Marginal failure", "Failure"]).optional(),
-    poleTestMarginalFailureReason: z.string().optional()
+    poleTestMarginalFailureReason: z.string().optional(),
+    additionalComments: z.string().optional()
   })
 });
