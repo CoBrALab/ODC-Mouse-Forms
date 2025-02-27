@@ -14,7 +14,7 @@ A repo containing OpenDataCapture forms for tracking mouse data gathered from ex
 
 If you encounter a bug or problem when using the mouseODC please refer to the following steps
 
-If it's a bug with the system itself, i.e., website crash or error, an issue can be created on the ODC repository website [here](https://github.com/DouglasNeuroInformatics/OpenDataCapture/issues/new?template=bug.yaml)
+If it's a bug with the system itself (i.e. website crash or error), an issue can be created on the ODC repository website [here](https://github.com/DouglasNeuroInformatics/OpenDataCapture/issues/new?template=bug.yaml)
 
  - Add the cause of the error in the title section of the issue (ex: Submitting form X crashed website)
  - Add the reason for crash/behavior in the current behavior section
@@ -23,7 +23,7 @@ If it's a bug with the system itself, i.e., website crash or error, an issue can
  - Describe steps you took to encounter the error in the "Steps to reproduce section"
 
 
- If it is an issue or suggestion for a mouseODC form please make an issue for it on the MouseODC repository by clicking this [link](https://github.com/CoBrALab/ODC-Mouse-Forms/issues/new) and do the following:
+ If it is an issue or suggestion for a MouseODC form, please make an issue for it on the MouseODC repository by clicking this [link](https://github.com/CoBrALab/ODC-Mouse-Forms/issues/new) and doing the following:
  
  - Add the name of form you like to change within the issue title
  - Describe the changes you would to have added to the form in the description section of the issue
