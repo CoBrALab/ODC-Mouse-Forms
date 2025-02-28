@@ -48,6 +48,11 @@ export default function formViewer() {
     ul.appendChild(li);
   }
 
-
-  return document.querySelector<HTMLDivElement>('#app')?.appendChild(ul);
+  const appElement = document.querySelector<HTMLDivElement>('#app');
+  
+  if (!appElement) {
+    console.error("Could not find app element");
+    return null;
+  }
+  return appElement.appendChild(ul);
 }
