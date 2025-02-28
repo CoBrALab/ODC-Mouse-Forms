@@ -1,6 +1,5 @@
 import './style.css'
+import formViewer from './form-view'
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-  </div>
-`
+
+formViewer()
