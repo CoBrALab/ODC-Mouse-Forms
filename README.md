@@ -10,6 +10,40 @@ After requesting account to be created with your group admin, you can log in and
 ## ODC-Mouse-Forms
 A repo containing OpenDataCapture forms for tracking mouse data gathered from experiments within the CoBra Lab
 
+# Running the Form Viewer
+
+The form viewer contains the most up to date forms for each mouse experiment. The form viewer can be run with the following steps. In order to run the form viewer locally one must have Node installed, which can be installed and managed with [Node Version Manger](https://github.com/nvm-sh/nvm). 
+
+1. Installing and activating pnpm package manager
+
+    Pnpm can be activated after a node version is selected, which is done with the following command
+    ```
+    nvm install --lts
+    ```
+    To activate pnpm use the command below
+    ```
+    corepack enable
+    ```
+
+2. Change to the mouse form viewer directory
+
+    ```
+    cd mouse-form-viewer
+    ```
+3. Install packages
+
+    ```
+    pnpm install
+    ```
+4. Run Localhost instance with this command
+
+    ```
+    pnpm dev
+    ```
+5. Access the form links on locally hosted web page
+
+    Links to the forms are now accessible on the local webpage, which is hosted on http://localhost:5173/ by default
+
 ## Having issues?
 
 If you encounter a bug or problem when using the mouseODC please refer to the following steps
