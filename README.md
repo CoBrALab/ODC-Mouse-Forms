@@ -24,23 +24,17 @@ The form viewer contains the most up to date forms for each mouse experiment. Th
     ```
     corepack enable
     ```
-
-2. Change to the mouse form viewer directory
-
-    ```
-    cd mouse-form-viewer
-    ```
-3. Install packages
+2. Install packages
 
     ```
     pnpm install
     ```
-4. Run Localhost instance with this command
+3. Run Localhost instance with this command
 
     ```
     pnpm dev
     ```
-5. Access the form links on locally hosted web page
+4. Access the form links on locally hosted web page
 
     Links to the forms are now accessible on the local webpage, which is hosted on http://localhost:5173/ by default
 
