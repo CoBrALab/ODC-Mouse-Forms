@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: 'ODC-Mouse-Forms',
+  base: '/ODC-Mouse-Forms/',
 });
