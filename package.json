@@ -1,6 +1,22 @@
 {
+	"name": "mouse-form-viewer",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+	  "dev": "vite",
+	  "build": "tsc && vite build",
+	  "preview": "vite preview",
+	  "predeploy": "pnpm run build",
+	  "deploy": "gh-pages -d dist"
+	},
+	"devDependencies": {
+	  "typescript": "~5.7.2",
+	  "vite": "^6.2.0"
+	},
 	"dependencies": {
-		"vite": "^6.2.0"
+	  "gh-pages": "^6.3.0",
+	  "lz-string": "^1.5.0"
 	},
 	"packageManager": "pnpm@9.15.4+sha512.b2dc20e2fc72b3e18848459b37359a32064663e5627a51e4c74b2c29dd8e8e0491483c3abb40789cfd578bf362fb6ba8261b05f0387d76792ed6e23ea3b1b6a0"
-}
+  }
