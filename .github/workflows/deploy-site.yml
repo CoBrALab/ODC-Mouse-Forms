@@ -42,7 +42,7 @@ jobs:
       - name: Build project
         run: pnpm build
         env:
-          VITE_BASE: /https://cobralab.github.io/ODC-Mouse-Forms/
+          VITE_BASE: /ODC-Mouse-Forms/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
