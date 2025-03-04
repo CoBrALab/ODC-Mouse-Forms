@@ -7,8 +7,6 @@ on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -18,8 +16,17 @@ permissions:
   pages: write
   id-token: write
 
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
   build-and-deploy:
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
 
     steps:
@@ -32,14 +39,27 @@ jobs:
           node-version: 22.x
           cache: 'pnpm'
 
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v3
+
       - name: Install dependencies
         run: pnpm install
 
       - name: Build project
-        run: pnpm run build
+        run: pnpm build
+        env:
+          VITE_BASE: /ODC-Mouse-Forms/
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+            # Upload dist folder
+            path: "./dist"
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: dist
+        id: deployment
+        uses: actions/deploy-pages@v4
 
