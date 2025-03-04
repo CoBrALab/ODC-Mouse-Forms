@@ -24,7 +24,7 @@ function encodeShareURL({ files, label }: EncodedInstrument): URL {
 export default function formViewer() {
   // if instrument contain more than just an index file, handle this case
   const textFiles: { [filepath: string]: string } = import.meta.glob(
-    "../../lib/forms/**/index.{js,jsx,ts,tsx}",
+    "../lib/forms/**/index.{js,jsx,ts,tsx}",
     {
       eager: true,
       import: "default",
@@ -36,7 +36,7 @@ export default function formViewer() {
 
   for (const filepath in textFiles) {
     const li = document.createElement("li");
-    const formLabel = filepath.split("/")[4]
+    const formLabel = filepath.split("/")[3]
     li.innerHTML = `<span>${formLabel}</span>: <a target="_blank" href=${encodeShareURL(
       {
         label: formLabel,
