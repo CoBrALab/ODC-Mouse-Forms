@@ -23,9 +23,6 @@ concurrency:
 
 jobs:
   build-and-deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}/ODC-Mouse-Forms/
     runs-on: ubuntu-latest
 
     steps:
