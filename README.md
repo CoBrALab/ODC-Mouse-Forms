@@ -12,7 +12,7 @@ A repo containing OpenDataCapture forms for tracking mouse data gathered from ex
 
 ## Form Viewer Website
 
-If you would like to review the most up to date forms they're links can be seen in the form viewer website, which can be accessed here: https://cobralab.github.io/ODC-Mouse-Forms/
+If you would like to review the most up-to-date forms, visit the Form Viewer Website here: [https://cobralab.github.io/ODC-Mouse-Forms/](https://cobralab.github.io/ODC-Mouse-Forms/)
 
 ## Running the Form Viewer Locally
 
