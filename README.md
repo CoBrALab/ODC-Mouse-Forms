@@ -10,7 +10,11 @@ After requesting account to be created with your group admin, you can log in and
 ## ODC-Mouse-Forms
 A repo containing OpenDataCapture forms for tracking mouse data gathered from experiments within the CoBra Lab
 
-# Running the Form Viewer
+## Form Viewer Website
+
+If you would like to review the most up-to-date forms, visit the Form Viewer Website here: [https://cobralab.github.io/ODC-Mouse-Forms/](https://cobralab.github.io/ODC-Mouse-Forms/)
+
+## Running the Form Viewer Locally
 
 The form viewer contains the most up to date forms for each mouse experiment. The form viewer can be run with the following steps. In order to run the form viewer locally one must have Node installed, which can be installed and managed with [Node Version Manger](https://github.com/nvm-sh/nvm). 
 
@@ -62,4 +66,5 @@ If it's a bug with the system itself (i.e. website crash or error), an issue can
 - [OpenDataCapture Website](https://opendatacapture.org/en/)
 - [Upload Data Documentation](https://opendatacapture.org/en/docs/guides/how-to-upload-data/)
 - [Form Creation Playground](https://playground.opendatacapture.org/)
+- [Form Viewer Page](https://cobralab.github.io/ODC-Mouse-Forms/)
 
