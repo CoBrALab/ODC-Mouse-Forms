@@ -3,6 +3,23 @@
 const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-core/index.js');
 const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
+type BuryingItemType = "Food" | "Marbles"
+
+
+function createDependentField<const T>(field: T, fn: (buryingItemType?: BuryingItemType) => boolean) {
+  return {
+    kind: 'dynamic' as const,
+    deps: ['itemBuried'] as const,
+    render: (data: { itemBuried?: BuryingItemType }) => {
+      if (fn(data.itemBuried)) {
+        return field;
+      }
+      return null;
+    }
+  };
+}
+
+
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
@@ -26,6 +43,24 @@ export default defineInstrument({
         "Food": "Food"
       }
     },
+    cageNumber: createDependentField({
+      kind: 'string',
+      variant: "input",
+      label: "Cage number"
+    }, (type) => type === "Marbles"),
+    percentageMarblesBuried: createDependentField({
+      kind: 'string',
+            variant: "radio",
+            label: "Percentage range of marbles buried",
+            options: {
+              "100 %": "100 %",
+              "100 - 75%": "100 - 75%",
+              "75% - 0%":"75% - 0%"
+            }
+    },(type) => type === "Marbles"),
+
+
+
     additionalComments: {
       kind: "string",
       variant: "textarea",
@@ -62,6 +97,8 @@ export default defineInstrument({
   validationSchema: z.object({
     roomNumber: z.string(),
     itemBuried: z.enum(["Marbles","Food"]),
+    cageNumber: z.string().optional(),
+    percentageMarblesBuried: z.enum(["100 %","100 - 75%","75% - 0%"]).optional(),
     additionalComments: z.string().optional()
   })
 });
