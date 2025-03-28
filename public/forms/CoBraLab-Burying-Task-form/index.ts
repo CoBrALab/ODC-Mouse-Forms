@@ -6,12 +6,17 @@ const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
-  tags: ['Mouse', 'Marble burying', 'MRI Habituation', 'Odour task', 'Food Burying', 'Ultrasonic Vocalization'],
+  tags: ['Mouse', 'Marble burying', 'Food Burying'],
   internal: {
     edition: 1,
-    name: 'MOUSE_BEHAVIOURAL_FORM'
+    name: 'MOUSE_BURYING_TASK_FORM'
   },
   content: {
+    roomNumber: {
+      kind: 'string',
+      variant: "input",
+      label: "Room number"
+    },
     additionalComments: {
       kind: "string",
       variant: "textarea",
@@ -19,8 +24,8 @@ export default defineInstrument({
     }
   },
   clientDetails: {
-    estimatedDuration: 1,
-    instructions: ['To be filled in whenever the animal is weighed. It is expected to know what type of scale is used (portable vs. non-portable) as well as its serial code. It is also assumed that proper weighing protocol is followed']
+    estimatedDuration: 2,
+    instructions: ['To be filled in whenever the animal completes a burying task. Before the form is used the user must know what item the animal has buried as well as the location the task took place in']
   },
   details: {
     description: 'A form to track data from whenever an animal is weighed.',
@@ -28,6 +33,11 @@ export default defineInstrument({
     title: 'Mouse Behavioral Experiment Form'
   },
   measures: {
+    roomNumber: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: "roomNumber"
+    },
    
     additionalComments: {
       kind: 'const',
@@ -37,6 +47,7 @@ export default defineInstrument({
 
   },
   validationSchema: z.object({
+    roomNumber: z.string(),
     additionalComments: z.string().optional()
   })
 });
