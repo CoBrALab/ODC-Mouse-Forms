@@ -17,6 +17,15 @@ export default defineInstrument({
       variant: "input",
       label: "Room number"
     },
+    itemBuried: {
+      kind: 'string',
+      variant: "radio",
+      label: "Item buried",
+      options: {
+        "Marbles": "Marbles",
+        "Food": "Food"
+      }
+    },
     additionalComments: {
       kind: "string",
       variant: "textarea",
@@ -38,7 +47,11 @@ export default defineInstrument({
       visibility: 'visible',
       ref: "roomNumber"
     },
-   
+    itemBuried: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: "itemBuried"
+    },
     additionalComments: {
       kind: 'const',
       visibility: 'visible',
@@ -48,6 +61,7 @@ export default defineInstrument({
   },
   validationSchema: z.object({
     roomNumber: z.string(),
+    itemBuried: z.enum(["Marbles","Food"]),
     additionalComments: z.string().optional()
   })
 });
