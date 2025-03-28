@@ -59,8 +59,6 @@ export default defineInstrument({
             }
     },(type) => type === "Marbles"),
 
-
-
     additionalComments: {
       kind: "string",
       variant: "textarea",
@@ -86,6 +84,16 @@ export default defineInstrument({
       kind: 'const',
       visibility: 'visible',
       ref: "itemBuried"
+    },
+    cageNumber: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: "cageNumber"
+    },
+    percentageMarblesBuried: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: "percentageMarblesBuried"
     },
     additionalComments: {
       kind: 'const',
