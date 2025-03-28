@@ -50,14 +50,74 @@ export default defineInstrument({
     }, (type) => type === "Marbles"),
     percentageMarblesBuried: createDependentField({
       kind: 'string',
-            variant: "radio",
-            label: "Percentage range of marbles buried",
-            options: {
-              "100 %": "100 %",
-              "100 - 75%": "100 - 75%",
-              "75% - 0%":"75% - 0%"
-            }
+      variant: "radio",
+      label: "Percentage range of marbles buried",
+      options: {
+        "100 %": "100 %",
+        "100 - 75%": "100 - 75%",
+        "75% - 0%":"75% - 0%"
+      }
     },(type) => type === "Marbles"),
+    foodBuryingTimeCutOff: createDependentField({
+      kind: "boolean",
+      variant: "radio",
+      label: "Did the task have a time cut off"
+    }, (type) => type === "Food"),
+
+    foodBuryingTimeCutOffDuration: {
+      kind: "dynamic",
+      deps: ["foodBuryingTimeCutOff"],
+      render(data) {
+        if (data.foodBuryingTimeCutOff){
+          return {
+                kind: "number",
+                variant: "input",
+                label: "Duration of food burying task (seconds)"
+          }
+        }
+        return null
+      }
+    },
+    foodPosition: createDependentField({
+      kind: "string",
+      variant: "input",
+      label: "Food position"
+    }, (type) => type === "Food"),
+
+    ethoVisionUsed: createDependentField({
+      kind: "boolean",
+      variant: "radio",
+      label: "Was Ethovision used for the task?"
+    }, (type) => type === "Food"),
+
+    ethoVisionDistanceTravelled: {
+      kind: "dynamic",
+      deps: ["ethoVisionUsed"],
+      render(data) {
+        if(data.ethoVisionUsed){
+          return {
+            kind: "number",
+            variant: "input",
+            label: "Distance travelled (cm)"
+          }
+        }
+        return null
+      }
+    },
+    ethoVisionLatency: {
+      kind: "dynamic",
+      deps: ["ethoVisionUsed"],
+      render(data) {
+        if(data.ethoVisionUsed){
+          return {
+            kind: "number",
+            variant: "input",
+            label: "Ethovision latency (ms)"
+          }
+        }
+        return null
+      }
+    },
 
     additionalComments: {
       kind: "string",
@@ -95,6 +155,36 @@ export default defineInstrument({
       visibility: 'visible',
       ref: "percentageMarblesBuried"
     },
+    foodBuryingTimeCutOff: {
+    kind: 'const',
+    visibility: 'visible',
+    ref: "foodBuryingTimeCutOff"
+    },
+    foodBuryingTimeCutOffDuration: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: "foodBuryingTimeCutOffDuration"
+    },
+    foodPosition: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: "foodPosition"
+    },
+    ethoVisionUsed: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: "ethoVisionUsed"
+    },
+    ethoVisionDistanceTravelled: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: "ethoVisionDistanceTravelled"
+    },
+    ethoVisionLatency: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: "ethoVisionLatency"
+    },
     additionalComments: {
       kind: 'const',
       visibility: 'visible',
@@ -107,6 +197,12 @@ export default defineInstrument({
     itemBuried: z.enum(["Marbles","Food"]),
     cageNumber: z.string().optional(),
     percentageMarblesBuried: z.enum(["100 %","100 - 75%","75% - 0%"]).optional(),
+    foodBuryingTimeCutOff: z.boolean(),
+    foodBuryingTimeCutOffDuration: z.number().min(0).int().optional(),
+    foodPosition: z.string().optional(),
+    ethoVisionUsed: z.boolean().optional(),
+    ethoVisionDistanceTravelled: z.number().min(0).optional(),
+    ethoVisionLatency: z.number().min(0).optional(),
     additionalComments: z.string().optional()
   })
 });
