@@ -11,6 +11,7 @@ export default defineInstrument({
     edition: 1,
     name: 'MRI_HABITUATION_FORM'
   },
+  defaultMeasureVisibility: 'visible',
   content: {
     additionalComments: {
       kind: "string",
@@ -28,14 +29,18 @@ export default defineInstrument({
     title: 'Mouse Weight Form'
   },
   measures: {
+    roomNumber: {
+        kind: 'const',
+        ref: "roomNumber"
+    },
     additionalComments: {
       kind: 'const',
-      visibility: 'visible',
       ref: 'additionalComments'
     }
 
   },
   validationSchema: z.object({
+    roomNumber: z.string(),
     additionalComments: z.string().optional()
   })
 });
