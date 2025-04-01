@@ -31,7 +31,7 @@ export default defineInstrument({
     preyerReflexTestSuccessful: {
       kind: "boolean",
       variant: "radio",
-      label: "Animal subject passes the preyer reflex test"
+      label: "Animal passes the preyer reflex test"
     },
     additionalComments: {
       kind: "string",
@@ -41,7 +41,7 @@ export default defineInstrument({
   },
   clientDetails: {
     estimatedDuration: 1,
-    instructions: ['To be filled in whenever and animal completes a MRI habituation session. On must track information on the location of the session, tracking dropping done by the animal, and room position']
+    instructions: ["To be filled in whenever and animal completes a MRI habituation session. On must track information on the location of the session, tracking dropping done by the animal, and room position. The preyer's reflex test must also be completed on the animal before completion of the form."]
   },
   details: {
     description: 'A form to track data from whenever an animal goes through an MRI Habituation session',
@@ -60,6 +60,10 @@ export default defineInstrument({
     weightOfPoop: {
       kind: "const",
       ref: "weightOfPoop"
+    },
+    preyerReflexTestSuccessful: {
+      kind: "const",
+      ref: "preyerReflexTestSuccessful"
     },
     additionalComments: {
       kind: 'const',
