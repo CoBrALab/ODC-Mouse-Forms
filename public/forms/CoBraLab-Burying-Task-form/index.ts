@@ -130,7 +130,7 @@ export default defineInstrument({
     instructions: ['To be filled in whenever the animal completes a burying task. Before the form is used the user must know what item the animal has buried as well as the location the task took place in']
   },
   details: {
-    description: 'A form to track data from whenever an animal is weighed.',
+    description: 'A form to track data from a burying related behavior task given to an animal',
     license: 'Apache-2.0',
     title: 'Mouse Behavioral Experiment Form'
   },
