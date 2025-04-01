@@ -13,6 +13,12 @@ export default defineInstrument({
   },
   defaultMeasureVisibility: 'visible',
   content: {
+    roomNumber: {
+        kind: "string",
+        variant: "input",
+        label: "Room number"
+    },
+    
     additionalComments: {
       kind: "string",
       variant: "textarea",
@@ -26,7 +32,7 @@ export default defineInstrument({
   details: {
     description: 'A form to track data from whenever an animal goes through an MRI Habituation session',
     license: 'Apache-2.0',
-    title: 'Mouse Weight Form'
+    title: 'MRI Habituation Form'
   },
   measures: {
     roomNumber: {
