@@ -18,7 +18,21 @@ export default defineInstrument({
         variant: "input",
         label: "Room number"
     },
-    
+    numberOfPoopPellets: {
+      kind: "number",
+      variant: "input",
+      label: "Number of droppings/poop pellet produced by animal"
+    },
+    weightOfPoop: {
+      kind: "number",
+      variant: "input",
+      label: "Weight of poop/dropping pellets (grams)"
+    },
+    preyerReflexTestSuccessful: {
+      kind: "boolean",
+      variant: "radio",
+      label: "Animal subject passes the preyer reflex test"
+    },
     additionalComments: {
       kind: "string",
       variant: "textarea",
@@ -39,6 +53,14 @@ export default defineInstrument({
         kind: 'const',
         ref: "roomNumber"
     },
+    numberOfPoopPellets: {
+      kind: "const",
+      ref: "numberOfPoopPellets"
+    },
+    weightOfPoop: {
+      kind: "const",
+      ref: "weightOfPoop"
+    },
     additionalComments: {
       kind: 'const',
       ref: 'additionalComments'
@@ -47,6 +69,9 @@ export default defineInstrument({
   },
   validationSchema: z.object({
     roomNumber: z.string(),
+    numberOfPoopPellets: z.number().int().min(0),
+    weightOfPoop: z.number().min(0),
+    preyerReflexTestSuccessful: z.boolean(),
     additionalComments: z.string().optional()
   })
 });
