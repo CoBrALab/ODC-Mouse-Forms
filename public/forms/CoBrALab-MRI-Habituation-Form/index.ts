@@ -6,7 +6,7 @@ const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
-  tags: ['Mouse', 'Weight', 'Scale'],
+  tags: ['Mouse', 'MRI Habituation', 'Sound', 'Preyer reflex'],
   internal: {
     edition: 1,
     name: 'MRI_HABITUATION_FORM'
