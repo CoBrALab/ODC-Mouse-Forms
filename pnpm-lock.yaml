@@ -22,6 +22,7 @@ importers:
         specifier: '>=6.2.4'
         version: 6.2.4
 
+
 packages:
 
   '@esbuild/aix-ppc64@0.25.0':
@@ -499,6 +500,7 @@ packages:
 
   vite@6.2.4:
     resolution: {integrity: sha512-veHMSew8CcRzhL5o8ONjy8gkfmFJAd5Ac16oxBUjlwgX3Gq2Wqr+qNC3TjPIpy7TPV/KporLga5GT9HqdrCizw==}
+
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
     peerDependencies:
@@ -919,8 +921,9 @@ snapshots:
   typescript@5.7.3: {}
 
   universalify@2.0.1: {}
-
+  
   vite@6.2.4:
+
     dependencies:
       esbuild: 0.25.0
       postcss: 8.5.3
