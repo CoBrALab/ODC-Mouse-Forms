@@ -49,7 +49,7 @@ export default defineInstrument({
   clientDetails: {
     estimatedDuration: 1,
     instructions: [
-      "To be filled in whenever and animal completes a MRI habituation session. On must track information on the location of the session, tracking dropping done by the animal, and room position. The preyer's reflex test must also be completed on the animal before completion of the form.",
+      "To be filled in whenever and animal completes a MRI habituation session. On must track information on the location of the session, tracking dropping done by the animal, and room position. The preyer's reflex test must also be completed on the animal before completion of the form. A pre-existing chamber identification system must be referred to when filling out the chamber number section of the form.",
     ],
   },
   details: {
