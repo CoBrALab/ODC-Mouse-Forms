@@ -21,7 +21,7 @@ export default defineInstrument({
     soundFrequencyAdjustedFromSOP: {
         kind: "boolean",
         variant: "radio",
-        label: "Sound frequency of software chagned from SOP"
+        label: "Sound frequency of software changed from SOP"
     },
     adjustedSoundFrequency: {
         kind: "dynamic",
