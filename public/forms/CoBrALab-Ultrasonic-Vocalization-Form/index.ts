@@ -18,24 +18,11 @@ export default defineInstrument({
         variant: "input",
         label: "Number of calls/cries the animal subject made during the session."
     },
-    soundFrequencyAdjustedFromSOP: {
-        kind: "boolean",
-        variant: "radio",
-        label: "Sound frequency of software changed from SOP"
-    },
     adjustedSoundFrequency: {
-        kind: "dynamic",
-        deps: ["soundFrequencyAdjustedFromSOP"],
-        render(data) {
-            if(data.soundFrequencyAdjustedFromSOP){
-                return {
-                    kind: "number",
-                    variant: "input",
-                    label:"Adjusted sound frequency captured by software (kHz)"
-                }
-            }
-            return null
-        }
+      kind: "number",
+      variant: "input",
+      label:"Sound frequency captured by software (kHz)"
+            
     },
     additionalComments: {
       kind: "string",
@@ -46,7 +33,7 @@ export default defineInstrument({
   },
   clientDetails: {
     estimatedDuration: 1,
-    instructions: ['To be filled in whenever the animal goes through an ultrasonic vocalization session. It is expected to know what SOP is being followed as well as the standard frequency used within it. Keep track of the frequency used if adjusted from the SOP.']
+    instructions: ['To be filled in whenever the animal goes through an ultrasonic vocalization session. Please keep track of the frequency used for session']
   },
   details: {
     description: 'A form to track data from whenever an animal goes through an ultrasonic vocalization procedure',
@@ -57,10 +44,6 @@ export default defineInstrument({
     numberOfCrys: {
         kind: 'const',
         ref: 'numberOfCrys'
-    },
-    soundFrequencyAdjustedFromSOP: {
-        kind: 'const',
-        ref: 'soundFrequencyAdjustedFromSOP'
     },
     adjustedSoundFrequency: {
         kind: 'const',
@@ -74,8 +57,7 @@ export default defineInstrument({
   },
   validationSchema: z.object({
     numberOfCrys: z.number().int().min(0),
-    soundFrequencyAdjustedFromSOP: z.boolean(),
-    adjustedSoundFrequency: z.number().min(20).max(100).optional(),
+    adjustedSoundFrequency: z.number().min(20).max(100),
     additionalComments: z.string().optional()
   })
 });
