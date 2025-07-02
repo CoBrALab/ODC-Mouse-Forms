@@ -61,6 +61,14 @@ If it's a bug with the system itself (i.e. website crash or error), an issue can
  - Describe the changes you would to have added to the form in the description section of the issue
  - Click the create button to submit the issue to the repository
 
+ ## Request Changes to ODC entries
+
+ If you would like to delete or update a previous record or subject within your ODC instance please follow these steps:
+
+ 1. Contact your ODC admin
+ 2. State subject Id or record you would like to have updated or deleted
+ 3. If you would like the record entry/subject Id to be updated provide what you would like the content to be updated to
+
  ## Useful links
 
 - [OpenDataCapture Website](https://opendatacapture.org/en/)
