@@ -68,6 +68,7 @@ If it's a bug with the system itself (i.e. website crash or error), an issue can
  1. Contact your ODC admin
  2. State subject Id or record you would like to have updated or deleted
  3. If you would like the record entry/subject Id to be updated provide what you would like the content to be updated to
+ 4. State how you will resolve this issue in the future to reduce reoccurrence
 
  ## Useful links
 
