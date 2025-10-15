@@ -17,7 +17,7 @@ export default defineInstrument({
     "Antibodies"
   ],
   internal: {
-    edition: 2,
+    edition: 3,
     name: "HISTOLOGY_FORM",
   },
   content: {
@@ -255,22 +255,13 @@ export default defineInstrument({
       label: "Antibodies used info",
       visibility: "visible",
       value: (data) => {
-        const antibodyList = data.antibodiesUsedInfo.map((x) => x);
-        let antibodyInfoString = "";
-        if (antibodyList) {
-          for (const antibody of antibodyList) {
-            antibodyInfoString +=
-              "Antibody Type: " +
-              antibody.antibodyType +
-              " Antibody Name: " +
-              antibody.antibodyName +
-              " Antibody Concentration: " +
-              antibody.antibodyConcentration +
-              " μg/mL ";
-          }
-        }
-
-        return antibodyInfoString;
+        const antibodyList = data.antibodiesUsedInfo || []
+        const antiBodyListResults = antibodyList.map(antiBodyInfo => ({
+          "Antibody type": antiBodyInfo.antibodyType,
+          "Antibody name": antiBodyInfo.antibodyName,
+          "Antibody concentration μg/mL": antiBodyInfo.antibodyConcentration
+        }))
+        return antiBodyListResults
       },
     },
     serumUsed: {
