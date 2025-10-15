@@ -23,7 +23,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['End of Life', 'Mouse', 'Euthanasia', 'Termination'],
   internal: {
-    edition: 3,
+    edition: 4,
     name: 'MOUSE_END_OF_LIFE_FORM'
   },
   content: {
@@ -344,16 +344,17 @@ export default defineInstrument({
       label: "Body part extraction info",
       visibility: "visible",
       value: (data) => {
-        const val = data.bodyExtractionInfo?.map((x) => x);
-        let extractInfo = '';
-        if (val) {
-          for (const info of val) {
-            extractInfo += info.bodyPartExtracted + ' ' + info.bodyExtractionComments + ' ' + (info.extractionMotive ?? '') + ' ' + (info.pfaBatch ?? '') + ' ' 
-            + (info.pfaBatchExpiration ?? '') + ' ' + info.bodyExtractionComments + ' ' + info.bodyPartStorageSolution + ' ' + info.bodyPartStorageLocation + ' ' + 
-            + '\n';
-          }
-        }
-        return extractInfo;
+        const bodyExtractionValues = data.bodyExtractionInfo || []
+        const bodyExtractionResults = bodyExtractionValues.map(info => ({
+          "Body part extracted": info.bodyPartExtracted,
+          "Extraction motive": info.extractionMotive,
+          "Extraction reason comments": info.bodyExtractionComments,
+          "PFA batch": info.pfaBatch,
+          "PFA batch expiration": info.pfaBatchExpiration,
+          "Body part storage solution": info.bodyPartStorageSolution,
+          "Body part storage location": info.bodyPartStorageLocation,
+        }))
+        return bodyExtractionResults
       }
     },
     additionalComments: {
