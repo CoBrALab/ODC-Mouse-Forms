@@ -26,7 +26,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Mouse', 'MRI', 'Structural', 'fMRI'],
   internal: {
-    edition: 2,
+    edition: 3,
     name: 'MOUSE_MRI_FORM'
   },
   content: {
@@ -526,17 +526,17 @@ export default defineInstrument({
       kind: "computed",
       label: "Scan record info",
       value: (data) => {
-        const val = data.scanRecordInfo?.map((x) => x)
-        let measureOutput = ''
-        if (val) {
-          for (const info of val) {
-            measureOutput += info.mriScanName + ' ' + (info.breathingStable ? 'breathing stable: ' + info.breathingStable : '') + ' ' +
-              (info.oxygenConcentration ? 'O_2 concentration: ' + info.oxygenConcentration + '%' : '') + ' ' + (info.oxygenSaturation ? 'O_2 saturation: ' + info.oxygenSaturation + '%' : '') +
-              ' ' + (info.respirationRate ? 'respiration rate: ' + info.respirationRate + 'breath/min' : '') + ' ' + (info.formOfMeasurement ? 'form of measurement: ' + info.formOfMeasurement : '') +
-              + (info.otherComments ? 'comments: ' + info.otherComments : '') + '\n';
-          }
-        }
-        return measureOutput
+        const scanResults = data.scanRecordInfo || []
+        const scanRecordResults = scanResults.map(scan => ({
+          "MRI scan name": scan.mriScanName,
+          "Breathing stable": scan.breathingStable,
+          "O_2 concentration %": scan.oxygenConcentration,
+          "O_2 saturation %": scan.oxygenSaturation,
+          "Respiration rate /min": scan.respirationRate,
+          "Form of measurement": scan.formOfMeasurement,
+          "Comments": scan.otherComments
+        }))
+        return scanRecordResults
       }
     }
   },
@@ -557,7 +557,7 @@ export default defineInstrument({
     exVivoCranioStatus: z.enum(['In-cranio', 'Ex-cranio']).optional(),
     exVivoScanningMedium: z.enum(["Dry", "Fluorinert", "Other"]).optional(),
     exVivoScanningMediumOther: z.string().optional(),
-    anestheticUsed: z.boolean(),
+    anestheticUsed: z.boolean().optional(),
     dexUsed: z.boolean().optional(),
     dexSolutionCreationDate: z.date().optional(),
     dexBottleSerialCode: z.string().optional(),
@@ -585,7 +585,7 @@ export default defineInstrument({
         "MGE_MTOff_Tw1_30deg",
         "T2star_FID_EPI_sat_dan_ver_original",
         "exvivoDanFLASH"
-      ]),
+      ]).optional(),
       mouseVitalsTracked: z.boolean().optional(),
       breathingStable: z.boolean().optional(),
       oxygenConcentration: z.number().min(0).max(100).optional(),
