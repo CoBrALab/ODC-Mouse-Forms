@@ -1,7 +1,7 @@
 /* eslint-disable perfectionist/sort-objects */
 
-const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-core/index.js');
-const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
+import { z }from '/runtime/v1/zod@3.23.x/index.js';
+import { defineInstrument } from '/runtime/v1/@opendatacapture/runtime-core';
 
 const interventionTypeList = [ "Blood extraction",
     "Teeth extraction",
@@ -32,7 +32,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Physical intervention','Blood extraction', 'Ear tagging', 'Genotyping', 'Vaginal cytology','Blood glucose','anesthesia'],
   internal: {
-    edition: 2,
+    edition: 3,
     name: 'PHYSICAL_INTERVENTION_FORM'
   },
   content: {
@@ -212,15 +212,11 @@ export default defineInstrument({
       label: "Tattoo Locations",
       visibility: "visible",
       value: (data) => {
-        const val = data.tattooLocationInfo?.map((x) => x)
-        let tattooText = ""
-        if(val){
-          for (const info of val){
-            tattooText += info.tattooLocation + " "
-          }
-          return tattooText
-        }
-        return undefined
+        const val = data.tattooLocationInfo || []
+        const tattooResults = val.map(tattoo => ({
+          "Tattoo Location": tattoo.tattooLocation
+        }))
+        return tattooResults
       }
     },
     teethExtractionNumber: {
