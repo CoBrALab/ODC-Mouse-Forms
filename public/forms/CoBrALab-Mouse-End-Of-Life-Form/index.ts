@@ -3,7 +3,7 @@
 import { defineInstrument } from '/runtime/v1/@opendatacapture/runtime-core'
 import { z } from '/runtime/v1/zod@3.23.x'
 
-type TerminationType =  'Gas induction' | "Perfusion" | "Guillotine" | 'Cardiac puncture' | 'Cervical dislocation'
+type TerminationType =  'Gas induction' | "Perfusion" | "Guillotine" | 'Cardiac puncture' | 'Cervical dislocation' | 'Gas induction + Cervical dislocation'
 
 function createDependentField<const T>(field: T, fn: (terminationType?: TerminationType) => boolean) {
   return {
@@ -69,7 +69,8 @@ export default defineInstrument({
             "Perfusion": 'Perfusion',
             "Guillotine": 'Guillotine',
             'Cardiac puncture': 'Cardiac puncture',
-            'Cervical dislocation': 'Cervical dislocation'
+            'Cervical dislocation': 'Cervical dislocation',
+            'Gas induction + Cervical dislocation': 'Gas induction + Cervical dislocation'
           }
         }
       }
@@ -377,7 +378,8 @@ export default defineInstrument({
     'Perfusion',
     'Guillotine',
     'Cardiac puncture',
-    'Cervical dislocation'
+    'Cervical dislocation',
+    'Gas induction + Cervical dislocation'
   ]).optional(),
     surgeryDeathCause: z.enum([
     'Irregular breathing',
