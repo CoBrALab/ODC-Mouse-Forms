@@ -124,38 +124,6 @@ export default defineInstrument({
       }
 
     },
-
-    // genotypeBodyPartUsed: createDependentField({
-    //   kind: "string",
-    //   variant: "select",
-    //   label: "Part of animal used for genotyping",
-    //   options: {
-    //     "Tail":"Tail",
-    //     "Ear":"Ear",
-    //     "Fecal matter": "Fecal matter"
-    //   }
-    // }, (type) => type === "Genotyping"),
-    // genotypeCompanyUsed: createDependentField({
-    //   kind: "string",
-    //   variant: "select",
-    //   label: "Company used",
-    //   options: {
-    //     "Transnetyx": "Transnetyx",
-    //     "Other": "Other"
-    //   }
-    // }, (type) => type === "Genotyping"),
-    // genotypeCopy: createDependentField({
-    //   kind: "string",
-    //   variant: "select",
-    //   label: "Genotype copy (if available)",
-    //   options: {
-    //     "Homozygous": "Homozygous",
-    //     "Heterozygous": "Heterozygous",
-    //     "Null": "Null",
-    //     "Other": "Other"
-    //   }
-    // },
-    // (type) => type === "Genotyping"),
     earTaggingSystem: createDependentField({
       kind: "string",
       variant: "select",
