@@ -1,14 +1,14 @@
 /* eslint-disable perfectionist/sort-objects */
 
-import { z }from '/runtime/v1/zod@3.23.x/index.js';
-import { defineInstrument } from '/runtime/v1/@opendatacapture/runtime-core';
+const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-core/index.js');
+const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
 const interventionTypeList = [ "Blood extraction",
     "Teeth extraction",
     "Ear tagging",
     "Tattooing",
     "Vaginal cytology",
-    "Genotyping",
+    "Fecal matter collection",
     "Blood glucose",
     "Anesthesia"] as const
 
@@ -30,9 +30,9 @@ function createDependentField<const T>(field: T, fn: (interventionType?: Interve
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
-  tags: ['Physical intervention','Blood extraction', 'Ear tagging', 'Genotyping', 'Vaginal cytology','Blood glucose','anesthesia'],
+  tags: ['Physical intervention','Blood extraction', 'Ear tagging', 'Genotyping', 'Vaginal cytology','Blood glucose','anesthesia', 'Fecal matter collection'],
   internal: {
-    edition: 3,
+    edition: 4,
     name: 'PHYSICAL_INTERVENTION_FORM'
   },
   content: {
@@ -46,7 +46,7 @@ export default defineInstrument({
         "Ear tagging": "Ear tagging",
         "Tattooing": "Tattooing",
         "Vaginal cytology": "Vaginal cytology",
-        "Genotyping": "Genotyping",
+        "Fecal matter collection": "Fecal matter collection",
         "Blood glucose": "Blood glucose",
         "Anesthesia": "Anesthesia"
       }
@@ -75,37 +75,87 @@ export default defineInstrument({
       label: "Cytology solution volume (ml)"
     }, (type) => type === 'Vaginal cytology'),
 
-    genotypeBodyPartUsed: createDependentField({
-      kind: "string",
-      variant: "select",
-      label: "Part of animal used for genotyping",
-      options: {
-        "Tail":"Tail",
-        "Ear":"Ear",
-        "Fecal matter": "Fecal matter"
-      }
-    }, (type) => type === "Genotyping"),
-    genotypeCompanyUsed: createDependentField({
-      kind: "string",
-      variant: "select",
-      label: "Company used",
-      options: {
-        "Transnetyx": "Transnetyx",
-        "Other": "Other"
-      }
-    }, (type) => type === "Genotyping"),
-    genotypeCopy: createDependentField({
-      kind: "string",
-      variant: "select",
-      label: "Genotype copy (if available)",
-      options: {
-        "Homozygous": "Homozygous",
-        "Heterozygous": "Heterozygous",
-        "Null": "Null",
-        "Other": "Other"
-      }
+    wasGenotypingDone: createDependentField({
+      kind: "boolean",
+      variant: "radio",
+      label: "Was genotyping done?"
     },
-    (type) => type === "Genotyping"),
+    (type) => (type === 'Fecal matter collection' || type === 'Ear tagging')),
+    
+    genotypeCompanyUsed: {
+      kind: "dynamic",
+      deps: ["wasGenotypingDone"],
+      render(data) {
+        if(data.wasGenotypingDone){
+          return {
+              kind: "string",
+              variant: "select",
+              label: "Company used",
+              options: {
+                "Transnetyx": "Transnetyx",
+                "Other": "Other"
+              }
+        }
+        
+      }
+      return null
+    }
+    },
+    genotypeCopy: {
+      kind: "dynamic",
+      deps: ["wasGenotypingDone"],
+      render(data) {
+        if(data.wasGenotypingDone){
+          return {
+               kind: "string",
+              variant: "select",
+              label: "Genotype copy (if available)",
+              options: {
+                "Homozygous": "Homozygous",
+                "Heterozygous": "Heterozygous",
+                "Null": "Null",
+                "Other": "Other"
+                }
+                
+              }
+      
+        }
+        return null
+      }
+
+    },
+
+    // genotypeBodyPartUsed: createDependentField({
+    //   kind: "string",
+    //   variant: "select",
+    //   label: "Part of animal used for genotyping",
+    //   options: {
+    //     "Tail":"Tail",
+    //     "Ear":"Ear",
+    //     "Fecal matter": "Fecal matter"
+    //   }
+    // }, (type) => type === "Genotyping"),
+    // genotypeCompanyUsed: createDependentField({
+    //   kind: "string",
+    //   variant: "select",
+    //   label: "Company used",
+    //   options: {
+    //     "Transnetyx": "Transnetyx",
+    //     "Other": "Other"
+    //   }
+    // }, (type) => type === "Genotyping"),
+    // genotypeCopy: createDependentField({
+    //   kind: "string",
+    //   variant: "select",
+    //   label: "Genotype copy (if available)",
+    //   options: {
+    //     "Homozygous": "Homozygous",
+    //     "Heterozygous": "Heterozygous",
+    //     "Null": "Null",
+    //     "Other": "Other"
+    //   }
+    // },
+    // (type) => type === "Genotyping"),
     earTaggingSystem: createDependentField({
       kind: "string",
       variant: "select",
@@ -187,11 +237,6 @@ export default defineInstrument({
       visibility: "visible",
       ref: "vaginalCytologySolutionVolume"
     },
-    genotypeBodyPartUsed: {
-      kind: "const",
-      visibility: "visible",
-      ref: "genotypeBodyPartUsed"
-    },
     genotypeCompanyUsed: {
       kind: "const",
       visibility: "visible",
@@ -242,7 +287,7 @@ export default defineInstrument({
     "Ear tagging",
     "Tattooing",
     "Vaginal cytology",
-    "Genotyping",
+    "Fecal matter collection",
     "Blood glucose",
     "Anesthesia"
   ]),
@@ -250,11 +295,7 @@ export default defineInstrument({
     vaginalSwabNumber: z.number().min(1).int().optional(),
     vaginalCytologyDuration: z.number().min(1).optional(),
     vaginalCytologySolutionVolume: z.number().min(0).optional(),
-     genotypeBodyPartUsed: z.enum([
-    "Tail",
-    "Ear",
-    "Fecal matter"
-  ]).optional(),
+    wasGenotypingDone: z.boolean().optional(),
   genotypeCompanyUsed: z.enum([
     "Transnetyx",
     "Other"
