@@ -135,6 +135,61 @@ export default defineInstrument({
       }
     },
     (type) => type === "Ear tagging"),
+    anesthesiaUsed: createDependentField({
+     kind: 'boolean',
+     variant: 'radio',
+     label: "Anesthesia used"
+    },
+    (type) => type === "Ear tagging"),
+
+    anesthesiaType: {
+      kind: 'dynamic',
+      deps: ['anesthesiaUsed'],
+      render(data) {
+        if(data.anesthesiaUsed) {
+          return {
+            kind: "string",
+            variant: "select",
+            label: 'Anesthesia type',
+            options: {
+              "Isofluorane": "Isofluorane",
+              "Dexmedetomidine": "Dexmedetomidine"
+            }
+            
+          }
+        }
+        return null
+      }
+    },
+      anesthesiaDose: {
+      kind: 'dynamic',
+      deps: ['anesthesiaUsed'],
+      render(data) {
+        if(data.anesthesiaUsed) {
+          return {
+            kind: "number",
+            variant: "input",
+            label: "Anesthesia dose",
+          }
+        }
+        return null
+      }
+    },
+      anesthesiaDuration: {
+      kind: 'dynamic',
+      deps: ['anesthesiaUsed'],
+      render(data) {
+        if(data.anesthesiaUsed) {
+          return {
+            kind: "number",
+            variant: "input",
+            label: "Time under anesthesia (minutes)"
+          }
+        }
+        return null
+      }
+    },
+    
     tattooLocationInfo: createDependentField({
       kind: "record-array",
       label: "Tattooing information",
@@ -279,6 +334,10 @@ export default defineInstrument({
     "1-32 System",
     "Other"
   ]).optional(),
+  anesthesiaUsed: z.boolean().optional(),
+  anesthesiaType: z.string().optional(),
+  anesthesiaDose: z.number().min(0).optional(),
+  anesthesiaDuration: z.number().int().min(0).optional(),
   tattooLocationInfo: z.array(z.object({
     tattooLocation: z.enum([
       "Upper left",
