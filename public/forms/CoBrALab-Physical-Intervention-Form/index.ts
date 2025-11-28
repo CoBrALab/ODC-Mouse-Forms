@@ -260,21 +260,53 @@ export default defineInstrument({
       visibility: "visible",
       ref: "vaginalCytologySolutionVolume"
     },
-    genotypeCompanyUsed: {
-      kind: "const",
-      visibility: "visible",
-      ref: "genotypeCompanyUsed"
-    },
-    genotypeCopy: {
-      kind: "const",
-      visibility: "visible",
-      ref: "genotypeCopy"
-    },
+    wasGenotypingDone: {
+    kind: "const",
+    visibility: "visible",
+    ref: "wasGenotypingDone"
+  },
+
+  genotypeCompanyUsed: {
+    kind: "const",
+    visibility: "visible",
+    ref: "genotypeCompanyUsed"
+  },
+
+  genotypeCopy: {
+    kind: "const",
+    visibility: "visible",
+    ref: "genotypeCopy"
+  },
     earTaggingSystem: {
       kind: "const",
       visibility: "visible",
       ref: "earTaggingSystem"
     },
+    anesthesiaUsed: {
+    kind: "const",
+    visibility: "visible",
+    ref: "anesthesiaUsed"
+  },
+
+  anesthesiaType: {
+    kind: "const",
+    visibility: "visible",
+    ref: "anesthesiaType"
+  },
+
+
+  anesthesiaDose: {
+    kind: "const",
+    visibility: "visible",
+    ref: "anesthesiaDose"
+  },
+
+ 
+  anesthesiaDuration: {
+    kind: "const",
+    visibility: "visible",
+    ref: "anesthesiaDuration"
+  },
     tattooLocationInfo: {
       kind: "computed",
       label: "Tattoo Locations",
