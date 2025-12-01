@@ -152,8 +152,8 @@ export default defineInstrument({
             variant: "select",
             label: 'Anesthesia type',
             options: {
-              "Isofluorane": "Isofluorane",
-              "Dexmedetomidine": "Dexmedetomidine"
+              "Isoflurane": "Isoflurane",
+              "Other": "Other"
             }
             
           }
@@ -161,29 +161,44 @@ export default defineInstrument({
         return null
       }
     },
-      anesthesiaDose: {
+    anesthesiaDose: {
       kind: 'dynamic',
-      deps: ['anesthesiaUsed'],
+      deps: ['anesthesiaUsed', 'anesthesiaType'],
       render(data) {
-        if(data.anesthesiaUsed) {
+        if(data.anesthesiaUsed && data.anesthesiaType === "Other") {
           return {
             kind: "number",
             variant: "input",
-            label: "Anesthesia dose",
+            label: "Dose ammount (ul)",
           }
         }
         return null
       }
     },
-      anesthesiaDuration: {
+    isofluranePercentage: {
       kind: 'dynamic',
-      deps: ['anesthesiaUsed'],
+      deps: ['anesthesiaUsed', 'anesthesiaType'],
       render(data) {
-        if(data.anesthesiaUsed) {
+        if(data.anesthesiaUsed && data.anesthesiaType  === 'Isoflurane') {
           return {
             kind: "number",
             variant: "input",
-            label: "Time under anesthesia (minutes)"
+            label: "Isoflurane percentage"
+          }
+        }
+        return null
+      }
+
+    },
+    anesthesiaInductionTime: {
+      kind: 'dynamic',
+      deps: ['anesthesiaUsed', 'anesthesiaType'],
+      render(data) {
+        if(data.anesthesiaUsed && data.anesthesiaType  === 'Isoflurane') {
+          return {
+            kind: "number",
+            variant: "input",
+            label: "Isoflurane induction time (minutes)"
           }
         }
         return null
@@ -300,12 +315,15 @@ export default defineInstrument({
     visibility: "visible",
     ref: "anesthesiaDose"
   },
-
- 
-  anesthesiaDuration: {
+  isofluranePercentage: {
+    kind: 'const',
+    visibility: 'visible',
+    ref: 'isofluranePercentage'
+  },
+  anesthesiaInductionTime: {
     kind: "const",
     visibility: "visible",
-    ref: "anesthesiaDuration"
+    ref: "anesthesiaInductionTime"
   },
     tattooLocationInfo: {
       kind: "computed",
@@ -369,7 +387,8 @@ export default defineInstrument({
   anesthesiaUsed: z.boolean().optional(),
   anesthesiaType: z.string().optional(),
   anesthesiaDose: z.number().min(0).optional(),
-  anesthesiaDuration: z.number().int().min(0).optional(),
+  isofluranePercentage: z.number().min(0).optional(),
+  anesthesiaInductionTime: z.number().int().min(0).optional(),
   tattooLocationInfo: z.array(z.object({
     tattooLocation: z.enum([
       "Upper left",
