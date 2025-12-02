@@ -387,7 +387,7 @@ export default defineInstrument({
   anesthesiaUsed: z.boolean().optional(),
   anesthesiaType: z.string().optional(),
   anesthesiaDose: z.number().min(0).optional(),
-  isofluranePercentage: z.number().min(0).optional(),
+  isofluranePercentage: z.number().min(0).max(100).optional(),
   anesthesiaInductionTime: z.number().int().min(0).optional(),
   tattooLocationInfo: z.array(z.object({
     tattooLocation: z.enum([
