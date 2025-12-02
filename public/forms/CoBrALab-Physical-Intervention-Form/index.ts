@@ -385,7 +385,7 @@ export default defineInstrument({
     "Other"
   ]).optional(),
   anesthesiaUsed: z.boolean().optional(),
-  anesthesiaType: z.string().optional(),
+  anesthesiaType: z.enum(["Isoflurane", "Other"]).optional(),
   anesthesiaDose: z.number().min(0).optional(),
   isofluranePercentage: z.number().min(0).max(100).optional(),
   anesthesiaInductionTime: z.number().int().min(0).optional(),
