@@ -169,7 +169,7 @@ export default defineInstrument({
           return {
             kind: "number",
             variant: "input",
-            label: "Dose ammount (ul)",
+            label: "Dose ammount (μl)",
           }
         }
         return null
