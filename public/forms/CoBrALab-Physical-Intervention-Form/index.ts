@@ -144,9 +144,9 @@ export default defineInstrument({
 
     anesthesiaType: {
       kind: 'dynamic',
-      deps: ['anesthesiaUsed'],
+      deps: ['anesthesiaUsed','interventionType'],
       render(data) {
-        if(data.anesthesiaUsed) {
+        if(data.anesthesiaUsed || data.interventionType === 'Anesthesia') {
           return {
             kind: "string",
             variant: "select",
@@ -163,9 +163,9 @@ export default defineInstrument({
     },
     anesthesiaDose: {
       kind: 'dynamic',
-      deps: ['anesthesiaUsed', 'anesthesiaType'],
+      deps: ['anesthesiaUsed', 'anesthesiaType', 'interventionType'],
       render(data) {
-        if(data.anesthesiaUsed && data.anesthesiaType === "Other") {
+        if(((data.interventionType === 'Anesthesia' || data.anesthesiaUsed) && data.anesthesiaType === "Other")) {
           return {
             kind: "number",
             variant: "input",
@@ -177,9 +177,9 @@ export default defineInstrument({
     },
     isofluranePercentage: {
       kind: 'dynamic',
-      deps: ['anesthesiaUsed', 'anesthesiaType'],
+      deps: ['anesthesiaUsed', 'anesthesiaType', 'interventionType'],
       render(data) {
-        if(data.anesthesiaUsed && data.anesthesiaType  === 'Isoflurane') {
+        if((data.interventionType === 'Anesthesia' || data.anesthesiaUsed) && data.anesthesiaType  === 'Isoflurane') {
           return {
             kind: "number",
             variant: "input",
@@ -194,7 +194,7 @@ export default defineInstrument({
       kind: 'dynamic',
       deps: ['anesthesiaUsed', 'anesthesiaType'],
       render(data) {
-        if(data.anesthesiaUsed && data.anesthesiaType  === 'Isoflurane') {
+        if((data.interventionType === 'Anesthesia' || data.anesthesiaUsed) && data.anesthesiaType  === 'Isoflurane') {
           return {
             kind: "number",
             variant: "input",
