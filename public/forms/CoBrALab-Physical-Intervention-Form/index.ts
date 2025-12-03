@@ -51,11 +51,6 @@ export default defineInstrument({
         "Anesthesia": "Anesthesia"
       }
     },
-    nameOfVaginalSwabber: createDependentField({
-      kind: "string",
-      variant: 'input',
-      label: "Person swabbing"
-    }, (type) => type === 'Vaginal cytology'),
 
     vaginalSwabNumber: createDependentField({
       kind: 'number',
@@ -129,6 +124,8 @@ export default defineInstrument({
       variant: "select",
       label: "Ear tagging system",
       options: {
+        '1-64':'1-64',
+        'L-R-LL-LR-RR':'L-R-LL-LR-RR',
         "1-99 System": "1-99 System",
         "1-32 System": "1-32 System",
         "Other": "Other"
@@ -255,11 +252,6 @@ export default defineInstrument({
       visibility: "visible",
       ref: "interventionType"
     },
-    nameOfVaginalSwabber: {
-      kind: "const",
-      visibility: "visible",
-      ref: "nameOfVaginalSwabber"
-    },
     vaginalSwabNumber: {
       kind: "const",
       visibility: "visible",
@@ -364,7 +356,6 @@ export default defineInstrument({
     "Blood glucose",
     "Anesthesia"
   ]),
-    nameOfVaginalSwabber: z.string().optional(),
     vaginalSwabNumber: z.number().min(1).int().optional(),
     vaginalCytologyDuration: z.number().min(1).optional(),
     vaginalCytologySolutionVolume: z.number().min(0).optional(),
@@ -380,6 +371,8 @@ export default defineInstrument({
     "Other"
   ]).optional(),
   earTaggingSystem: z.enum([
+    '1-64',
+    'L-R-LL-LR-RR',
     "1-99 System",
     "1-32 System",
     "Other"
