@@ -158,6 +158,20 @@ export default defineInstrument({
         return null
       }
     },
+    otherAnesthesiaType: {
+       kind: 'dynamic',
+      deps: ['anesthesiaUsed', 'anesthesiaType', 'interventionType'],
+      render(data) {
+        if(((data.interventionType === 'Anesthesia' || data.anesthesiaUsed) && data.anesthesiaType === "Other")) {
+          return {
+            kind: "string",
+            variant: "input",
+            label: "Specify anesthesia type"
+          }
+        }
+        return null
+      }
+    },
     anesthesiaDose: {
       kind: 'dynamic',
       deps: ['anesthesiaUsed', 'anesthesiaType', 'interventionType'],
@@ -189,7 +203,7 @@ export default defineInstrument({
     },
     anesthesiaInductionTime: {
       kind: 'dynamic',
-      deps: ['anesthesiaUsed', 'anesthesiaType'],
+      deps: ['anesthesiaUsed', 'anesthesiaType', 'interventionType'],
       render(data) {
         if((data.interventionType === 'Anesthesia' || data.anesthesiaUsed) && data.anesthesiaType  === 'Isoflurane') {
           return {
@@ -301,6 +315,11 @@ export default defineInstrument({
     ref: "anesthesiaType"
   },
 
+  otherAnesthesiaType: {
+    kind: "const",
+    visibility: "visible",
+    ref: "otherAnesthesiaType"
+  },
 
   anesthesiaDose: {
     kind: "const",
@@ -379,6 +398,7 @@ export default defineInstrument({
   ]).optional(),
   anesthesiaUsed: z.boolean().optional(),
   anesthesiaType: z.enum(["Isoflurane", "Other"]).optional(),
+  otherAnesthesiaType: z.string().optional(),
   anesthesiaDose: z.number().min(0).optional(),
   isofluranePercentage: z.number().min(0).max(100).optional(),
   anesthesiaInductionTime: z.number().int().min(0).optional(),
