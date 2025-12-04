@@ -143,6 +143,30 @@ export default defineInstrument({
       variant: 'radio',
       label: 'Anesthesia used'
     },
+
+    gasUsed: createDependentField({
+            kind: "string",
+            variant: "select",
+            label: "Gas used for induction",
+            options: {
+              "CO2": "CO2",
+              "Other": "Other"
+            }
+    }, (type) => type === 'Gas induction' || type === 'Gas induction + Cervical dislocation'),
+    otherGasUsed: {
+      kind: "dynamic",
+      deps: ["gasUsed"],
+      render(data){
+        if(data.gasUsed === 'Other'){
+          return {
+            kind: "string",
+            variant: "input",
+            label: "Other gas used"
+          }
+        }
+        return null
+      }
+    },
     bodyExtractionDone: {
       kind: 'boolean',
       variant: 'radio',
@@ -334,6 +358,18 @@ export default defineInstrument({
       visibility: "visible",
       ref: "anesthesiaUsed"
     },
+    gasUsed: {
+      kind: "const",
+      label: "Gas used",
+      visibility: "visible",
+      ref: "gasUsed"
+    },
+    otherGasUsed: {
+      kind: "const",
+      label: "Other gas used",
+      visibility: "visible",
+      ref: "otherGasUsed"
+    },
     bodyExtractionDone: {
       kind: "const",
       label: "Body part extracted",
@@ -399,6 +435,8 @@ export default defineInstrument({
     '4% Isoflurane'
   ]).optional(),
     anesthesiaUsed: z.boolean(),
+    gasUsed: z.enum(["CO2","Other"]).optional(),
+    otherGasUsed: z.string().optional(),
     bodyExtractionDone: z.boolean(),
     bodyExtractionInfo: z
       .array(
