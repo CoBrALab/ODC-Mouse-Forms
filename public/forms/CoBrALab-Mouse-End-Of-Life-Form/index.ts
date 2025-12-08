@@ -57,7 +57,7 @@ export default defineInstrument({
       kind: 'dynamic',
       deps: ['terminationReason'],
       render(data) {
-        if(data.terminationReason === "Surgical complications" || data.terminationReason === undefined){
+        if(data.terminationReason === "Surgical complications" || data.terminationReason === undefined || data.terminationReason === 'Veterinary Endpoint'){
           return null
         }
         return {
