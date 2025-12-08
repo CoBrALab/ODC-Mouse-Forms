@@ -139,11 +139,19 @@ export default defineInstrument({
     }, (type) => type === 'Perfusion'),
    
     anesthesiaUsed: {
-      kind: 'boolean',
-      variant: 'radio',
-      label: 'Anesthesia used'
+      kind: 'dynamic',
+      deps: ['terminationReason'],
+      render(data){
+        if(data.terminationReason !== 'Veterinary Endpoint' && data.terminationReason !== undefined){
+          return {
+            kind: 'boolean',
+            variant: 'radio',
+            label: 'Anesthesia used'
+          }
+        }
+        return null
+      }
     },
-
     gasUsed: createDependentField({
             kind: "string",
             variant: "select",
@@ -434,7 +442,7 @@ export default defineInstrument({
     'PBS+Heparin',
     '4% Isoflurane'
   ]).optional(),
-    anesthesiaUsed: z.boolean(),
+    anesthesiaUsed: z.boolean().optional(),
     gasUsed: z.enum(["CO2","Other"]).optional(),
     otherGasUsed: z.string().optional(),
     bodyExtractionDone: z.boolean(),
