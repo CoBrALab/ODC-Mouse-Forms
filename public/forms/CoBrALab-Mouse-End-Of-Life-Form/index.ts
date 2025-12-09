@@ -3,7 +3,7 @@
 import { defineInstrument } from '/runtime/v1/@opendatacapture/runtime-core'
 import { z } from '/runtime/v1/zod@3.23.x'
 
-type TerminationType =  'Gas induction' | "Perfusion" | "Guillotine" | 'Cardiac puncture' | 'Cervical dislocation'
+type TerminationType =  'Gas induction' | "Perfusion" | "Guillotine" | 'Cardiac puncture' | 'Cervical dislocation' | 'Gas induction + Cervical dislocation'
 
 function createDependentField<const T>(field: T, fn: (terminationType?: TerminationType) => boolean) {
   return {
@@ -57,7 +57,7 @@ export default defineInstrument({
       kind: 'dynamic',
       deps: ['terminationReason'],
       render(data) {
-        if(data.terminationReason === "Surgical complications" || data.terminationReason === undefined){
+        if(data.terminationReason === "Surgical complications" || data.terminationReason === undefined || data.terminationReason === 'Veterinary Endpoint'){
           return null
         }
         return {
@@ -69,7 +69,8 @@ export default defineInstrument({
             "Perfusion": 'Perfusion',
             "Guillotine": 'Guillotine',
             'Cardiac puncture': 'Cardiac puncture',
-            'Cervical dislocation': 'Cervical dislocation'
+            'Cervical dislocation': 'Cervical dislocation',
+            'Gas induction + Cervical dislocation': 'Gas induction + Cervical dislocation'
           }
         }
       }
@@ -138,9 +139,41 @@ export default defineInstrument({
     }, (type) => type === 'Perfusion'),
    
     anesthesiaUsed: {
-      kind: 'boolean',
-      variant: 'radio',
-      label: 'Anesthesia used'
+      kind: 'dynamic',
+      deps: ['terminationReason'],
+      render(data){
+        if(data.terminationReason !== 'Veterinary Endpoint' && data.terminationReason !== undefined){
+          return {
+            kind: 'boolean',
+            variant: 'radio',
+            label: 'Anesthesia used'
+          }
+        }
+        return null
+      }
+    },
+    gasUsed: createDependentField({
+            kind: "string",
+            variant: "select",
+            label: "Gas used for induction",
+            options: {
+              "CO2": "CO2",
+              "Other": "Other"
+            }
+    }, (type) => type === 'Gas induction' || type === 'Gas induction + Cervical dislocation'),
+    otherGasUsed: {
+      kind: "dynamic",
+      deps: ["gasUsed"],
+      render(data){
+        if(data.gasUsed === 'Other'){
+          return {
+            kind: "string",
+            variant: "input",
+            label: "Other gas used"
+          }
+        }
+        return null
+      }
     },
     bodyExtractionDone: {
       kind: 'boolean',
@@ -333,6 +366,18 @@ export default defineInstrument({
       visibility: "visible",
       ref: "anesthesiaUsed"
     },
+    gasUsed: {
+      kind: "const",
+      label: "Gas used",
+      visibility: "visible",
+      ref: "gasUsed"
+    },
+    otherGasUsed: {
+      kind: "const",
+      label: "Other gas used",
+      visibility: "visible",
+      ref: "otherGasUsed"
+    },
     bodyExtractionDone: {
       kind: "const",
       label: "Body part extracted",
@@ -377,7 +422,8 @@ export default defineInstrument({
     'Perfusion',
     'Guillotine',
     'Cardiac puncture',
-    'Cervical dislocation'
+    'Cervical dislocation',
+    'Gas induction + Cervical dislocation'
   ]).optional(),
     surgeryDeathCause: z.enum([
     'Irregular breathing',
@@ -396,7 +442,9 @@ export default defineInstrument({
     'PBS+Heparin',
     '4% Isoflurane'
   ]).optional(),
-    anesthesiaUsed: z.boolean(),
+    anesthesiaUsed: z.boolean().optional(),
+    gasUsed: z.enum(["CO2","Other"]).optional(),
+    otherGasUsed: z.string().optional(),
     bodyExtractionDone: z.boolean(),
     bodyExtractionInfo: z
       .array(
