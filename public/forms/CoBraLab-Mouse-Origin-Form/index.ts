@@ -8,7 +8,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Birth', 'Mouse','Origin'],
   internal: {
-    edition: 3,
+    edition: 4,
     name: 'MOUSE_ORIGIN_FORM'
   },
   content: {
@@ -28,7 +28,7 @@ export default defineInstrument({
     cohortId: {
       kind: 'string',
       variant: 'input',
-      label: 'Cohort Identification (Optional)'
+      label: 'Cohort Identification (optional)'
     },
     mouseStrain: {
       kind: "string",
@@ -349,7 +349,7 @@ export default defineInstrument({
     generationNumber: {
       kind: 'number',
       variant: 'input',
-      label: 'N-generation of mouse'
+      label: 'N-generation of mouse (optional)'
     },
     additionalComments: {
       kind: "string",
@@ -575,7 +575,7 @@ export default defineInstrument({
   ]).optional(),
   otherBreederOrigin: z.string().optional(),
   roomNumber: z.string().optional(),
-  generationNumber: z.number().min(0).int(),
+  generationNumber: z.number().min(0).int().optional(),
   additionalComments: z.string().optional()
 })
 });
