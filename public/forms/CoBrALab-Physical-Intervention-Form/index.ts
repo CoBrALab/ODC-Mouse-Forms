@@ -1,14 +1,14 @@
 /* eslint-disable perfectionist/sort-objects */
 
-import { z }from '/runtime/v1/zod@3.23.x/index.js';
-import { defineInstrument } from '/runtime/v1/@opendatacapture/runtime-core';
+const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-core/index.js');
+const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
 const interventionTypeList = [ "Blood extraction",
     "Teeth extraction",
     "Ear tagging",
     "Tattooing",
     "Vaginal cytology",
-    "Genotyping",
+    "Fecal matter collection",
     "Blood glucose",
     "Anesthesia"] as const
 
@@ -30,9 +30,9 @@ function createDependentField<const T>(field: T, fn: (interventionType?: Interve
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
-  tags: ['Physical intervention','Blood extraction', 'Ear tagging', 'Genotyping', 'Vaginal cytology','Blood glucose','anesthesia'],
+  tags: ['Physical intervention','Blood extraction', 'Ear tagging', 'Genotyping', 'Vaginal cytology','Blood glucose','anesthesia', 'Fecal matter collection'],
   internal: {
-    edition: 3,
+    edition: 4,
     name: 'PHYSICAL_INTERVENTION_FORM'
   },
   content: {
@@ -46,16 +46,11 @@ export default defineInstrument({
         "Ear tagging": "Ear tagging",
         "Tattooing": "Tattooing",
         "Vaginal cytology": "Vaginal cytology",
-        "Genotyping": "Genotyping",
+        "Fecal matter collection": "Fecal matter collection",
         "Blood glucose": "Blood glucose",
         "Anesthesia": "Anesthesia"
       }
     },
-    nameOfVaginalSwabber: createDependentField({
-      kind: "string",
-      variant: 'input',
-      label: "Person swabbing"
-    }, (type) => type === 'Vaginal cytology'),
 
     vaginalSwabNumber: createDependentField({
       kind: 'number',
@@ -75,48 +70,152 @@ export default defineInstrument({
       label: "Cytology solution volume (ml)"
     }, (type) => type === 'Vaginal cytology'),
 
-    genotypeBodyPartUsed: createDependentField({
-      kind: "string",
-      variant: "select",
-      label: "Part of animal used for genotyping",
-      options: {
-        "Tail":"Tail",
-        "Ear":"Ear",
-        "Fecal matter": "Fecal matter"
-      }
-    }, (type) => type === "Genotyping"),
-    genotypeCompanyUsed: createDependentField({
-      kind: "string",
-      variant: "select",
-      label: "Company used",
-      options: {
-        "Transnetyx": "Transnetyx",
-        "Other": "Other"
-      }
-    }, (type) => type === "Genotyping"),
-    genotypeCopy: createDependentField({
-      kind: "string",
-      variant: "select",
-      label: "Genotype copy (if available)",
-      options: {
-        "Homozygous": "Homozygous",
-        "Heterozygous": "Heterozygous",
-        "Null": "Null",
-        "Other": "Other"
-      }
+    wasGenotypingDone: createDependentField({
+      kind: "boolean",
+      variant: "radio",
+      label: "Was genotyping done?"
     },
-    (type) => type === "Genotyping"),
+    (type) => (type === 'Fecal matter collection' || type === 'Ear tagging')),
+    
+    genotypeCompanyUsed: {
+      kind: "dynamic",
+      deps: ["wasGenotypingDone"],
+      render(data) {
+        if(data.wasGenotypingDone){
+          return {
+              kind: "string",
+              variant: "select",
+              label: "Company used",
+              options: {
+                "Transnetyx": "Transnetyx",
+                "Other": "Other"
+              }
+        }
+        
+      }
+      return null
+    }
+    },
+    genotypeCopy: {
+      kind: "dynamic",
+      deps: ["wasGenotypingDone"],
+      render(data) {
+        if(data.wasGenotypingDone){
+          return {
+               kind: "string",
+              variant: "select",
+              label: "Genotype copy (if available)",
+              options: {
+                "Homozygous": "Homozygous",
+                "Heterozygous": "Heterozygous",
+                "Null": "Null",
+                "Other": "Other"
+                }
+                
+              }
+      
+        }
+        return null
+      }
+
+    },
     earTaggingSystem: createDependentField({
       kind: "string",
       variant: "select",
       label: "Ear tagging system",
       options: {
+        '1-64':'1-64',
+        'L-R-LL-LR-RR':'L-R-LL-LR-RR',
         "1-99 System": "1-99 System",
         "1-32 System": "1-32 System",
         "Other": "Other"
       }
     },
     (type) => type === "Ear tagging"),
+    anesthesiaUsed: createDependentField({
+     kind: 'boolean',
+     variant: 'radio',
+     label: "Anesthesia used"
+    },
+    (type) => type === "Ear tagging"),
+
+    anesthesiaType: {
+      kind: 'dynamic',
+      deps: ['anesthesiaUsed','interventionType'],
+      render(data) {
+        if(data.anesthesiaUsed || data.interventionType === 'Anesthesia') {
+          return {
+            kind: "string",
+            variant: "select",
+            label: 'Anesthesia type',
+            options: {
+              "Isoflurane": "Isoflurane",
+              "Other": "Other"
+            }
+            
+          }
+        }
+        return null
+      }
+    },
+    otherAnesthesiaType: {
+       kind: 'dynamic',
+      deps: ['anesthesiaUsed', 'anesthesiaType', 'interventionType'],
+      render(data) {
+        if(((data.interventionType === 'Anesthesia' || data.anesthesiaUsed) && data.anesthesiaType === "Other")) {
+          return {
+            kind: "string",
+            variant: "input",
+            label: "Specify anesthesia type"
+          }
+        }
+        return null
+      }
+    },
+    anesthesiaDose: {
+      kind: 'dynamic',
+      deps: ['anesthesiaUsed', 'anesthesiaType', 'interventionType'],
+      render(data) {
+        if(((data.interventionType === 'Anesthesia' || data.anesthesiaUsed) && data.anesthesiaType === "Other")) {
+          return {
+            kind: "number",
+            variant: "input",
+            label: "Dose amount (μl)",
+          }
+        }
+        return null
+      }
+    },
+    isofluranePercentage: {
+      kind: 'dynamic',
+      deps: ['anesthesiaUsed', 'anesthesiaType', 'interventionType'],
+      render(data) {
+        if((data.interventionType === 'Anesthesia' || data.anesthesiaUsed) && data.anesthesiaType  === 'Isoflurane') {
+          return {
+            kind: "number",
+            variant: "input",
+            label: "Isoflurane percentage"
+          }
+        }
+        return null
+      }
+
+    },
+    anesthesiaInductionTime: {
+      kind: 'dynamic',
+      deps: ['anesthesiaUsed', 'anesthesiaType', 'interventionType'],
+      render(data) {
+        if((data.interventionType === 'Anesthesia' || data.anesthesiaUsed) && data.anesthesiaType  === 'Isoflurane') {
+          return {
+            kind: "number",
+            variant: "input",
+            label: "Isoflurane induction time (minutes)"
+          }
+        }
+        return null
+      }
+    },
+    
     tattooLocationInfo: createDependentField({
       kind: "record-array",
       label: "Tattooing information",
@@ -167,11 +266,6 @@ export default defineInstrument({
       visibility: "visible",
       ref: "interventionType"
     },
-    nameOfVaginalSwabber: {
-      kind: "const",
-      visibility: "visible",
-      ref: "nameOfVaginalSwabber"
-    },
     vaginalSwabNumber: {
       kind: "const",
       visibility: "visible",
@@ -187,26 +281,61 @@ export default defineInstrument({
       visibility: "visible",
       ref: "vaginalCytologySolutionVolume"
     },
-    genotypeBodyPartUsed: {
-      kind: "const",
-      visibility: "visible",
-      ref: "genotypeBodyPartUsed"
-    },
-    genotypeCompanyUsed: {
-      kind: "const",
-      visibility: "visible",
-      ref: "genotypeCompanyUsed"
-    },
-    genotypeCopy: {
-      kind: "const",
-      visibility: "visible",
-      ref: "genotypeCopy"
-    },
+    wasGenotypingDone: {
+    kind: "const",
+    visibility: "visible",
+    ref: "wasGenotypingDone"
+  },
+
+  genotypeCompanyUsed: {
+    kind: "const",
+    visibility: "visible",
+    ref: "genotypeCompanyUsed"
+  },
+
+  genotypeCopy: {
+    kind: "const",
+    visibility: "visible",
+    ref: "genotypeCopy"
+  },
     earTaggingSystem: {
       kind: "const",
       visibility: "visible",
       ref: "earTaggingSystem"
     },
+    anesthesiaUsed: {
+    kind: "const",
+    visibility: "visible",
+    ref: "anesthesiaUsed"
+  },
+
+  anesthesiaType: {
+    kind: "const",
+    visibility: "visible",
+    ref: "anesthesiaType"
+  },
+
+  otherAnesthesiaType: {
+    kind: "const",
+    visibility: "visible",
+    ref: "otherAnesthesiaType"
+  },
+
+  anesthesiaDose: {
+    kind: "const",
+    visibility: "visible",
+    ref: "anesthesiaDose"
+  },
+  isofluranePercentage: {
+    kind: 'const',
+    visibility: 'visible',
+    ref: 'isofluranePercentage'
+  },
+  anesthesiaInductionTime: {
+    kind: "const",
+    visibility: "visible",
+    ref: "anesthesiaInductionTime"
+  },
     tattooLocationInfo: {
       kind: "computed",
       label: "Tattoo Locations",
@@ -242,19 +371,14 @@ export default defineInstrument({
     "Ear tagging",
     "Tattooing",
     "Vaginal cytology",
-    "Genotyping",
+    "Fecal matter collection",
     "Blood glucose",
     "Anesthesia"
   ]),
-    nameOfVaginalSwabber: z.string().optional(),
     vaginalSwabNumber: z.number().min(1).int().optional(),
     vaginalCytologyDuration: z.number().min(1).optional(),
     vaginalCytologySolutionVolume: z.number().min(0).optional(),
-     genotypeBodyPartUsed: z.enum([
-    "Tail",
-    "Ear",
-    "Fecal matter"
-  ]).optional(),
+    wasGenotypingDone: z.boolean().optional(),
   genotypeCompanyUsed: z.enum([
     "Transnetyx",
     "Other"
@@ -266,10 +390,18 @@ export default defineInstrument({
     "Other"
   ]).optional(),
   earTaggingSystem: z.enum([
+    '1-64',
+    'L-R-LL-LR-RR',
     "1-99 System",
     "1-32 System",
     "Other"
   ]).optional(),
+  anesthesiaUsed: z.boolean().optional(),
+  anesthesiaType: z.enum(["Isoflurane", "Other"]).optional(),
+  otherAnesthesiaType: z.string().optional(),
+  anesthesiaDose: z.number().min(0).optional(),
+  isofluranePercentage: z.number().min(0).max(100).optional(),
+  anesthesiaInductionTime: z.number().int().min(0).optional(),
   tattooLocationInfo: z.array(z.object({
     tattooLocation: z.enum([
       "Upper left",
