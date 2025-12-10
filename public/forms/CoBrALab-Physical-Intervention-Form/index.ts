@@ -5,6 +5,7 @@ const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
 const interventionTypeList = [ "Blood extraction",
     "Teeth extraction",
+    "RFID Chip Insertion",
     "Ear tagging",
     "Tattooing",
     "Vaginal cytology",
@@ -43,6 +44,7 @@ export default defineInstrument({
       options: {
         "Blood extraction": "Blood extraction",
         "Teeth extraction": "Teeth extraction",
+        "RFID Chip Insertion": "RFID Chip Insertion",
         "Ear tagging": "Ear tagging",
         "Tattooing": "Tattooing",
         "Vaginal cytology": "Vaginal cytology",
@@ -137,7 +139,7 @@ export default defineInstrument({
      variant: 'radio',
      label: "Anesthesia used"
     },
-    (type) => type === "Ear tagging"),
+    (type) => type === "Ear tagging" || type === "RFID Chip Insertion"),
 
     anesthesiaType: {
       kind: 'dynamic',
@@ -368,6 +370,7 @@ export default defineInstrument({
   interventionType: z.enum([
     "Blood extraction",
     "Teeth extraction",
+    "RFID Chip Insertion",
     "Ear tagging",
     "Tattooing",
     "Vaginal cytology",
