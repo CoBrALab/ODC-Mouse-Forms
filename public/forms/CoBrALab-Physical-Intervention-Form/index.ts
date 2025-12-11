@@ -259,7 +259,7 @@ rfidReadStatus: createDependentField({
     bloodGlucoseLevel: createDependentField({
       kind: "string",
       variant: 'input',
-      label: "Blood glucose level"
+      label: "Blood glucose level (mg/dL)"
     }, (type) => type === "Blood glucose"),
 
     additionalComments: {
