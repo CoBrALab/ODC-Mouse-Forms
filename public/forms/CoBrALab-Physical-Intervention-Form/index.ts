@@ -134,6 +134,11 @@ export default defineInstrument({
       }
     },
     (type) => type === "Ear tagging"),
+    rfidChipNumber: createDependentField({
+  kind: "number",
+  variant: "input",
+  label: "RFID chip number"
+}, (type) => type === "RFID Chip Insertion"),
     anesthesiaUsed: createDependentField({
      kind: 'boolean',
      variant: 'radio',
@@ -305,6 +310,12 @@ export default defineInstrument({
       visibility: "visible",
       ref: "earTaggingSystem"
     },
+    rfidChipNumber: {
+  kind: "const",
+  visibility: "visible",
+  ref: "rfidChipNumber"
+},
+
     anesthesiaUsed: {
     kind: "const",
     visibility: "visible",
@@ -399,6 +410,7 @@ export default defineInstrument({
     "1-32 System",
     "Other"
   ]).optional(),
+  rfidChipNumber: z.number().int().optional(),
   anesthesiaUsed: z.boolean().optional(),
   anesthesiaType: z.enum(["Isoflurane", "Other"]).optional(),
   otherAnesthesiaType: z.string().optional(),
