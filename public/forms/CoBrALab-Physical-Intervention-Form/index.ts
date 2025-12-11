@@ -139,6 +139,16 @@ export default defineInstrument({
   variant: "input",
   label: "RFID chip number"
 }, (type) => type === "RFID Chip Insertion"),
+rfidReadStatus: createDependentField({
+  kind: "string",
+  variant: "select",
+  label: "RFID chip read status (optional)",
+  options: {
+    "Successful": "Successful",
+    "Unsuccessful": "Unsuccessful"
+  }
+}, (type) => type === "RFID Chip Insertion"),
+
     anesthesiaUsed: createDependentField({
      kind: 'boolean',
      variant: 'radio',
@@ -315,6 +325,12 @@ export default defineInstrument({
   visibility: "visible",
   ref: "rfidChipNumber"
 },
+rfidReadStatus: {
+  kind: "const",
+  visibility: "visible",
+  ref: "rfidReadStatus"
+},
+
 
     anesthesiaUsed: {
     kind: "const",
@@ -411,6 +427,7 @@ export default defineInstrument({
     "Other"
   ]).optional(),
   rfidChipNumber: z.number().int().optional(),
+  rfidReadStatus: z.enum(["Successful", "Unsuccessful"]).optional(),
   anesthesiaUsed: z.boolean().optional(),
   anesthesiaType: z.enum(["Isoflurane", "Other"]).optional(),
   otherAnesthesiaType: z.string().optional(),
