@@ -24,7 +24,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Rotarod', 'Motor tasks', 'Wire Hang', 'Pole test', 'Grip force'],
   internal: {
-    edition: 3,
+    edition: 2,
     name: 'MOUSE_MOTOR_TASK_FORM'
   },
   content: {
@@ -70,6 +70,13 @@ export default defineInstrument({
         "Right most": "Right most"
       }
     }, (type) => type === "Rotarod"),
+
+    rotarodPutbacks: createDependentField({
+      kind: "number",
+      variant: "input",
+      label: "Times put back on rotarod"
+    }, (type) => type === "Rotarod"),
+
    
     
     wirehangDuration:createDependentField({
@@ -168,6 +175,12 @@ export default defineInstrument({
       visibility: "visible",
       ref: "rotarodSlotPosition"
     },
+    rotarodPutbacks: {
+      kind: "const",
+      visibility: "visible",
+      ref: "rotarodPutbacks"
+    },
+
     rotarodWirehangFailure: {
       kind: "const",
       visibility: "visible",
@@ -216,6 +229,7 @@ export default defineInstrument({
     rotarodTotalMiceNumber: z.number().min(1).max(4).optional(),
     rotarodDuration: z.number().min(0).optional(),
     rotarodSlotPosition: z.enum(["Left most", "Middle left", "Middle right", "Right most"]).optional(),
+    rotarodPutbacks: z.number().int().min(0).optional(),
     rotarodWirehangGripForceFailure: z.boolean().optional(),
     wirehangDuration: z.number().min(0).optional(),
     wirehangPutbacks: z.number().min(0).int().optional(),
