@@ -292,6 +292,44 @@ analgesicDose: {
     return null;
   }
 },
+    sideOfInjection: createDependentField({
+      kind: "string",
+      variant: "select",
+      label: "Side of injection",
+      options: {
+        "Left": "Left",
+        "Right": "Right"
+      }
+    }, (type) => type === "RFID Chip Insertion"),
+
+    rfidInjectionLocation: createDependentField({
+      kind: "string",
+      variant: "select",
+      label: "RFID injection location",
+      options: {
+        "Under ear": "Under ear",
+        "Lower body": "Lower body",
+        "Other": "Other"
+      }
+    }, (type) => type === "RFID Chip Insertion"),
+
+    rfidInjectionLocationOther: {
+      kind: "dynamic",
+      deps: ["rfidInjectionLocation", "interventionType"],
+      render(data) {
+        if (
+          data.interventionType === "RFID Chip Insertion" &&
+          data.rfidInjectionLocation === "Other"
+        ) {
+          return {
+            kind: "string",
+            variant: "input",
+            label: "Specify RFID injection location"
+          };
+        }
+        return null;
+      }
+    },
 
     
     tattooLocationInfo: createDependentField({
@@ -449,6 +487,24 @@ analgesicDose: {
     visibility: "visible",
     ref: "analgesicDose"
   },
+  sideOfInjection: {
+    kind: "const",
+    visibility: "visible",
+    ref: "sideOfInjection"
+  },
+
+  rfidInjectionLocation: {
+    kind: "const",
+    visibility: "visible",
+    ref: "rfidInjectionLocation"
+  },
+
+  rfidInjectionLocationOther: {
+    kind: "const",
+    visibility: "visible",
+    ref: "rfidInjectionLocationOther"
+  },
+
 
     tattooLocationInfo: {
       kind: "computed",
@@ -527,6 +583,16 @@ analgesicDose: {
   ]).optional(),
   analgesicOther: z.string().optional(),
   analgesicDose: z.number().min(0).optional(),
+  sideOfInjection: z.enum([
+  "Left",
+  "Right"
+  ]).optional(),
+  rfidInjectionLocation: z.enum([
+    "Under ear",
+    "Lower body",
+    "Other"
+  ]).optional(),
+  rfidInjectionLocationOther: z.string().optional(),
   tattooLocationInfo: z.array(z.object({
     tattooLocation: z.enum([
       "Upper left",
