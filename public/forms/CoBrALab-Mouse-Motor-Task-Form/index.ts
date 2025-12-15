@@ -181,7 +181,7 @@ export default defineInstrument({
       ref: "rotarodPutbacks"
     },
 
-    rotarodWirehangFailure: {
+    rotarodWirehangGripForceFailure: {
       kind: "const",
       visibility: "visible",
       ref: "rotarodWirehangGripForceFailure"
@@ -236,7 +236,7 @@ export default defineInstrument({
     poleTestDuration: z.number().min(0).optional(),
     poleTestResultLevel: z.enum(["Pass", "Marginal failure", "Failure"]).optional(),
     poleTestMarginalFailureReason: z.string().optional(),
-    gripForceAmount: z.number().int().min(1).optional(),
+    gripForceAmount: z.number().min(1).optional(),
     additionalComments: z.string().optional()
   })
 });
