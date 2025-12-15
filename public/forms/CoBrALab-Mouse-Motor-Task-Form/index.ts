@@ -4,7 +4,7 @@ const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-
 const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
 
-type MotorTask =  "Rotarod" | "Wire hang" | "Pole test"
+type MotorTask =  "Rotarod" | "Wire hang" | "Pole test" | "Grip force";
 
 function createDependentField<const T>(field: T, fn: (motorTask?: MotorTask) => boolean) {
   return {
@@ -22,7 +22,7 @@ function createDependentField<const T>(field: T, fn: (motorTask?: MotorTask) => 
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
-  tags: ['Rotarod', 'Motor tasks', 'Wire Hang', 'Pole test'],
+  tags: ['Rotarod', 'Motor tasks', 'Wire Hang', 'Pole test', 'Grip force'],
   internal: {
     edition: 2,
     name: 'MOUSE_MOTOR_TASK_FORM'
@@ -40,8 +40,10 @@ export default defineInstrument({
       options: {
         "Rotarod": "Rotarod",
         "Wire hang": "Wire hang",
-        "Pole test": "Pole test"
+        "Pole test": "Pole test",
+        "Grip force": "Grip force"
       }
+
     },
     rotarodTotalMiceNumber: createDependentField({
       kind: "number",
@@ -68,11 +70,14 @@ export default defineInstrument({
         "Right most": "Right most"
       }
     }, (type) => type === "Rotarod"),
-    rotarodWirehangFailure: createDependentField({
-      kind: "boolean",
-      variant: "radio",
-      label: "Mouse failed session"
-    }, (type) => type === "Rotarod" || type === "Wire hang" ),
+
+    rotarodPutbacks: createDependentField({
+      kind: "number",
+      variant: "input",
+      label: "Times put back on rotarod"
+    }, (type) => type === "Rotarod"),
+
+   
     
     wirehangDuration:createDependentField({
       kind: "number",
@@ -118,6 +123,17 @@ export default defineInstrument({
         return null
       }
     },
+    gripForceAmount: createDependentField({
+  kind: "number",
+  variant: "input",
+  label: "Grip force amount (grams)"
+}, (type) => type === "Grip force"),
+  rotarodWirehangGripForceFailure: createDependentField({
+        kind: "boolean",
+        variant: "radio",
+        label: "Mouse failed session"
+      }, (type) => type === "Rotarod" || type === "Wire hang" || type === "Grip force"),
+
     additionalComments: {
       kind: "string",
       variant: "textarea",
@@ -126,7 +142,7 @@ export default defineInstrument({
   },
   clientDetails: {
     estimatedDuration: 1,
-    instructions: ["To be filled in whenever a mouse completes a motor task. It is expected that the motor task session as well as the tool used (Rotarod, Pole test, wire hang) is known."]
+    instructions: ["To be filled in whenever a mouse completes a motor task. It is expected that the motor task session as well as the tool used (Rotarod, Pole test, wire hang, grip force) is known."]
   },
   details: {
     description: 'Form to describe data gathered in a mouse\'s motor task experiment',
@@ -159,10 +175,16 @@ export default defineInstrument({
       visibility: "visible",
       ref: "rotarodSlotPosition"
     },
-    rotarodWirehangFailure: {
+    rotarodPutbacks: {
       kind: "const",
       visibility: "visible",
-      ref: "rotarodWirehangFailure"
+      ref: "rotarodPutbacks"
+    },
+
+    rotarodWirehangGripForceFailure: {
+      kind: "const",
+      visibility: "visible",
+      ref: "rotarodWirehangGripForceFailure"
     },
     wirehangDuration: {
       kind: "const",
@@ -189,6 +211,12 @@ export default defineInstrument({
       visibility: "visible",
       ref: "poleTestMarginalFailureReason"
     },
+    gripForceAmount: {
+      kind: "const",
+      visibility: "visible",
+      ref: "gripForceAmount"
+    },
+
     additionalComments: {
       kind: "const",
       visibility: "visible",
@@ -197,16 +225,18 @@ export default defineInstrument({
   },
   validationSchema: z.object({
     roomNumber: z.string(),
-    motorTask: z.enum(["Rotarod" , "Wire hang" , "Pole test"]),
+    motorTask: z.enum(["Rotarod" , "Wire hang" , "Pole test", "Grip force"]),
     rotarodTotalMiceNumber: z.number().min(1).max(4).optional(),
     rotarodDuration: z.number().min(0).optional(),
     rotarodSlotPosition: z.enum(["Left most", "Middle left", "Middle right", "Right most"]).optional(),
-    rotarodWirehangFailure: z.boolean().optional(),
+    rotarodPutbacks: z.number().int().min(0).optional(),
+    rotarodWirehangGripForceFailure: z.boolean().optional(),
     wirehangDuration: z.number().min(0).optional(),
     wirehangPutbacks: z.number().min(0).int().optional(),
     poleTestDuration: z.number().min(0).optional(),
     poleTestResultLevel: z.enum(["Pass", "Marginal failure", "Failure"]).optional(),
     poleTestMarginalFailureReason: z.string().optional(),
+    gripForceAmount: z.number().min(1).optional(),
     additionalComments: z.string().optional()
   })
 });
