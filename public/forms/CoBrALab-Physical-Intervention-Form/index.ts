@@ -232,6 +232,67 @@ rfidReadStatus: createDependentField({
         return null
       }
     },
+
+    analgesicUsed: createDependentField({
+  kind: "boolean",
+  variant: "radio",
+  label: "Analgesic used"
+}, (type) => type === "RFID Chip Insertion"),
+
+analgesicType: {
+  kind: "dynamic",
+  deps: ["analgesicUsed", "interventionType"],
+  render(data) {
+    if (data.interventionType === "RFID Chip Insertion" && data.analgesicUsed) {
+      return {
+        kind: "string",
+        variant: "select",
+        label: "Analgesic type",
+        options: {
+          "Carprofen": "Carprofen",
+          "Bupivacaine": "Bupivacaine",
+          "Other": "Other"
+        }
+      };
+    }
+    return null;
+  }
+},
+
+analgesicOther: {
+  kind: "dynamic",
+  deps: ["analgesicUsed", "analgesicType", "interventionType"],
+  render(data) {
+    if (
+      data.interventionType === "RFID Chip Insertion" &&
+      data.analgesicUsed &&
+      data.analgesicType === "Other"
+    ) {
+      return {
+        kind: "string",
+        variant: "input",
+        label: "Specify other analgesic"
+      };
+    }
+    return null;
+  }
+},
+
+analgesicDose: {
+  kind: "dynamic",
+  deps: ["analgesicUsed", "interventionType"],
+  render(data) {
+    if (data.interventionType === "RFID Chip Insertion" && data.analgesicUsed) {
+      return {
+        kind: "number",
+        variant: "input",
+        label: "Analgesic dose (μl)"
+      };
+    }
+    return null;
+  }
+},
+
     
     tattooLocationInfo: createDependentField({
       kind: "record-array",
@@ -321,18 +382,18 @@ rfidReadStatus: createDependentField({
       ref: "earTaggingSystem"
     },
     rfidChipNumber: {
-  kind: "const",
-  visibility: "visible",
-  ref: "rfidChipNumber"
-},
-rfidReadStatus: {
-  kind: "const",
-  visibility: "visible",
-  ref: "rfidReadStatus"
-},
+    kind: "const",
+    visibility: "visible",
+    ref: "rfidChipNumber"
+  },
+  rfidReadStatus: {
+    kind: "const",
+    visibility: "visible",
+    ref: "rfidReadStatus"
+  },
 
 
-    anesthesiaUsed: {
+  anesthesiaUsed: {
     kind: "const",
     visibility: "visible",
     ref: "anesthesiaUsed"
@@ -365,6 +426,30 @@ rfidReadStatus: {
     visibility: "visible",
     ref: "anesthesiaInductionTime"
   },
+  analgesicUsed: {
+  kind: "const",
+  visibility: "visible",
+  ref: "analgesicUsed"
+  },
+
+  analgesicType: {
+    kind: "const",
+    visibility: "visible",
+    ref: "analgesicType"
+  },
+
+  analgesicOther: {
+    kind: "const",
+    visibility: "visible",
+    ref: "analgesicOther"
+  },
+
+  analgesicDose: {
+    kind: "const",
+    visibility: "visible",
+    ref: "analgesicDose"
+  },
+
     tattooLocationInfo: {
       kind: "computed",
       label: "Tattoo Locations",
@@ -434,6 +519,14 @@ rfidReadStatus: {
   anesthesiaDose: z.number().min(0).optional(),
   isofluranePercentage: z.number().min(0).max(100).optional(),
   anesthesiaInductionTime: z.number().int().min(0).optional(),
+  analgesicUsed: z.boolean().optional(),
+  analgesicType: z.enum([
+    "Carprofen",
+    "Bupivacaine",
+    "Other"
+  ]).optional(),
+  analgesicOther: z.string().optional(),
+  analgesicDose: z.number().min(0).optional(),
   tattooLocationInfo: z.array(z.object({
     tattooLocation: z.enum([
       "Upper left",
