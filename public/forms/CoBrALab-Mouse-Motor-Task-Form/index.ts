@@ -74,7 +74,7 @@ export default defineInstrument({
     rotarodPutbacks: createDependentField({
       kind: "number",
       variant: "input",
-      label: "Times put back on rotarod"
+      label: "Additional times put back on rotarod"
     }, (type) => type === "Rotarod"),
 
    
@@ -88,7 +88,7 @@ export default defineInstrument({
     wirehangPutbacks: createDependentField({
       kind: "number",
       variant: "input",
-      label: "Times put back on wire"
+      label: "Additional times put back on wire"
     },(type) => type === "Wire hang"),
 
     poleTestDuration: createDependentField({
