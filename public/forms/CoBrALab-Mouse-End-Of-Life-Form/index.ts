@@ -283,14 +283,28 @@ export default defineInstrument({
                 variant: 'textarea',
                 label: 'Comments for extraction reason'
               },
+              overnightStorageSolution: {
+                kind: 'string',
+                variant: 'select',
+                label: 'Overnight storage solution',
+                options: {
+                  'Ethanol': 'Ethanol 70%',
+                  'Sodium Alzide': 'Sodium Alzide',
+                  'Gadolinium Bath': 'Gadolinium Bath',
+                  'PFA': 'PFA',
+                  'None': 'None'
+                }
+              },
+
               bodyPartStorageSolution: {
                 kind: 'string',
                 variant: 'select',
-                label: 'Storage solution',
+                label: 'Final storage solution',
                 options: {
                   "Ethanol": 'Ethanol 70%',
                   'Sodium Alzide': 'Sodium Alzide',
                   'Gadolinium Bath': 'Gadolinium Bath',
+                  'PFA': 'PFA',
                   "None": 'None'
                 }
               },
@@ -302,7 +316,7 @@ export default defineInstrument({
                   "Fridge": 'Fridge',
                   "-20° Freezer": '-20° Freezer',
                   "-80° Freezer":"-80° Freezer",
-                  'Room temperature': 'Room temperature'
+                  'Room temperature storage': 'Room temperature storage'
                 }
               },
             }
@@ -418,6 +432,7 @@ export default defineInstrument({
           "Extraction reason comments": info.bodyExtractionComments,
           "PFA batch": info.pfaBatch,
           "PFA batch expiration": info.pfaBatchExpiration,
+          "Overnight storage solution": info.overnightStorageSolution,
           "Body part storage solution": info.bodyPartStorageSolution,
           "Body part storage location": info.bodyPartStorageLocation,
         }))
@@ -485,17 +500,25 @@ export default defineInstrument({
           extractionMotive: z.string().optional(),
           pfaBatch: z.string().optional(),
           pfaBatchExpiration: z.date().optional(),
+          overnightStorageSolution: z.enum([
+            'Ethanol',
+            'Sodium Alzide',
+            'Gadolinium Bath',
+            'PFA',
+            'None'
+          ]).optional(),
           bodyPartStorageSolution: z.enum([
           'Ethanol',
           'Sodium Alzide',
           'Gadolinium Bath',
+          'PFA',
           'None'
         ]),
           bodyPartStorageLocation: z.enum([
           'Fridge',
           '-20° Freezer',
           '-80° Freezer',
-          'Room temperature'
+          'Room temperature storage'
         ])
         })
       )
