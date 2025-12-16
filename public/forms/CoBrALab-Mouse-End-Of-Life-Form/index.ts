@@ -103,6 +103,21 @@ export default defineInstrument({
     },
       (type) => type === 'Cardiac puncture'
     ),
+
+    anesthesiaUsed: {
+      kind: 'dynamic',
+      deps: ['terminationReason'],
+      render(data){
+        if(data.terminationReason !== 'Veterinary Endpoint' && data.terminationReason !== undefined){
+          return {
+            kind: 'boolean',
+            variant: 'radio',
+            label: 'Anesthesia used'
+          }
+        }
+        return null
+      }
+    },
     
     perfusionAnestheticType: createDependentField({
       kind: "string",
@@ -147,21 +162,6 @@ export default defineInstrument({
             kind: "string",
             label: "Specify other flushing solution used",
             variant: "input"
-          }
-        }
-        return null
-      }
-    },
-   
-    anesthesiaUsed: {
-      kind: 'dynamic',
-      deps: ['terminationReason'],
-      render(data){
-        if(data.terminationReason !== 'Veterinary Endpoint' && data.terminationReason !== undefined){
-          return {
-            kind: 'boolean',
-            variant: 'radio',
-            label: 'Anesthesia used'
           }
         }
         return null
@@ -372,6 +372,12 @@ export default defineInstrument({
       visibility: "visible",
       ref: "bloodCollected"
     },
+    anesthesiaUsed: {
+      kind: "const",
+      label: "Anesthesia used",
+      visibility: "visible",
+      ref: "anesthesiaUsed"
+    },
     perfusionAnestheticType: {
       kind: "const",
       label: "Type of perfusion",
@@ -395,12 +401,6 @@ export default defineInstrument({
       label: "Other perfusion flushing solution",
       visibility: "visible",
       ref: "perfusionFlushingSolutionOther"
-    },
-    anesthesiaUsed: {
-      kind: "const",
-      label: "Anesthesia used",
-      visibility: "visible",
-      ref: "anesthesiaUsed"
     },
     gasUsed: {
       kind: "const",
@@ -470,6 +470,7 @@ export default defineInstrument({
     'Other'
   ]).optional(),
     bloodCollected: z.number().optional(),
+    anesthesiaUsed: z.boolean().optional(),
     perfusionAnestheticType: z.enum([
     'Ip Injection',
     'Gas'
@@ -480,7 +481,6 @@ export default defineInstrument({
     'Other'
   ]).optional(),
     perfusionFlushingSolutionOther: z.string().optional(),
-    anesthesiaUsed: z.boolean().optional(),
     gasUsed: z.enum(["CO2","Other"]).optional(),
     otherGasUsed: z.string().optional(),
     bodyExtractionDone: z.boolean(),
