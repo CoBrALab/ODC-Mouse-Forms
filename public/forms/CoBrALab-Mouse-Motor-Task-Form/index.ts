@@ -73,8 +73,15 @@ export default defineInstrument({
 
     rotarodPutbacks: createDependentField({
       kind: "number",
-      variant: "input",
-      label: "Additional times put back on rotarod"
+      variant: "select",
+      label: "Additional times put back on rotarod",
+      options: {
+        0: 'None',
+        1: 'One time',
+        2: 'Two times',
+        3: 'Three times'
+      }
+      
     }, (type) => type === "Rotarod"),
 
    
@@ -87,8 +94,14 @@ export default defineInstrument({
 
     wirehangPutbacks: createDependentField({
       kind: "number",
-      variant: "input",
-      label: "Additional times put back on wire"
+      variant: "select",
+      label: "Additional times put back on wire",
+      options: {
+        0: 'None',
+        1: 'One time',
+        2: 'Two times',
+        3: 'Three times'
+      }
     },(type) => type === "Wire hang"),
 
     poleTestDuration: createDependentField({
@@ -229,10 +242,10 @@ export default defineInstrument({
     rotarodTotalMiceNumber: z.number().min(1).max(4).optional(),
     rotarodDuration: z.number().min(0).optional(),
     rotarodSlotPosition: z.enum(["Left most", "Middle left", "Middle right", "Right most"]).optional(),
-    rotarodPutbacks: z.number().int().min(0).optional(),
+    rotarodPutbacks: z.union([z.literal(0),z.literal(1), z.literal(2), z.literal(3)]).optional(),
     rotarodWirehangGripForceFailure: z.boolean().optional(),
     wirehangDuration: z.number().min(0).optional(),
-    wirehangPutbacks: z.number().min(0).int().optional(),
+    wirehangPutbacks: z.union([z.literal(0),z.literal(1), z.literal(2), z.literal(3)]).optional(),
     poleTestDuration: z.number().min(0).optional(),
     poleTestResultLevel: z.enum(["Pass", "Marginal failure", "Failure"]).optional(),
     poleTestMarginalFailureReason: z.string().optional(),
