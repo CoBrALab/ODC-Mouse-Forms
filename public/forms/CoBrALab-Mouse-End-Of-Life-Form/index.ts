@@ -99,7 +99,7 @@ export default defineInstrument({
     bloodCollected: createDependentField({
       kind: 'number',
       variant: "input",
-      label: "Blood collected (ml)"
+      label: "Blood collected (µL)"
     },
       (type) => type === 'Cardiac puncture'
     ),
@@ -121,7 +121,7 @@ export default defineInstrument({
           return {
             kind: 'number',
             variant: "input",
-            label: 'Injection dose (ml)'
+            label: 'Injection dose (µL)'
           }
         }
         return null
@@ -134,9 +134,24 @@ export default defineInstrument({
             label: "Perfusion flushing solution",
             options: {
               "PBS+Heparin":"PBS and Heparin",
-              "4% Isoflurane": "4% Isoflurane"
+              "Other": "Other"
             }
     }, (type) => type === 'Perfusion'),
+
+    perfusionFlushingSolutionOther: {
+      kind: "dynamic",
+      deps: ['perfusionFlushingSolution'],
+      render(data) {
+        if(data.perfusionFlushingSolution === "Other"){
+          return {
+            kind: "string",
+            label: "Specify other flushing solution used",
+            variant: "input"
+          }
+        }
+        return null
+      }
+    },
    
     anesthesiaUsed: {
       kind: 'dynamic',
@@ -152,6 +167,7 @@ export default defineInstrument({
         return null
       }
     },
+    
     gasUsed: createDependentField({
             kind: "string",
             variant: "select",
@@ -338,7 +354,7 @@ export default defineInstrument({
     },
     bloodCollected: {
       kind: "const",
-      label: "Blood collected (ml)",
+      label: "Blood collected (µL)",
       visibility: "visible",
       ref: "bloodCollected"
     },
@@ -350,7 +366,7 @@ export default defineInstrument({
     },
     ipAnestheticDose: {
       kind: "const",
-      label: "Injection dose (ml)",
+      label: "Injection dose (µL)",
       visibility: "visible",
       ref: "ipAnestheticDose"
     },
@@ -359,6 +375,12 @@ export default defineInstrument({
       label: "Perfusion flushing solution",
       visibility: "visible",
       ref: "perfusionFlushingSolution"
+    },
+    perfusionFlushingSolutionOther: {
+      kind: "const",
+      label: "Other perfusion flushing solution",
+      visibility: "visible",
+      ref: "perfusionFlushingSolutionOther"
     },
     anesthesiaUsed: {
       kind: "const",
@@ -440,8 +462,9 @@ export default defineInstrument({
     ipAnestheticDose: z.number().optional(),
     perfusionFlushingSolution:  z.enum([
     'PBS+Heparin',
-    '4% Isoflurane'
+    'Other'
   ]).optional(),
+    perfusionFlushingSolutionOther: z.string().optional(),
     anesthesiaUsed: z.boolean().optional(),
     gasUsed: z.enum(["CO2","Other"]).optional(),
     otherGasUsed: z.string().optional(),
