@@ -108,7 +108,7 @@ export default defineInstrument({
       kind: 'dynamic',
       deps: ['terminationReason', 'terminationType'],
       render(data){
-        if(data.terminationReason !== 'Veterinary Endpoint' && data.terminationReason !== undefined && data.terminationType !== 'Perfusion'){
+        if(data.terminationReason !== 'Veterinary Endpoint' && data.terminationReason !== undefined && data.terminationType !== 'Perfusion' && data.terminationType !== undefined){
           return {
             kind: 'boolean',
             variant: 'radio',
@@ -456,33 +456,38 @@ export default defineInstrument({
       visibility: "visible",
       ref: "anesthesiaUsed"
     },
-      anesthesiaType: {
+    anesthesiaType: {
     kind: "const",
     visibility: "visible",
+    label: "Anesthesia type",
     ref: "anesthesiaType"
-  },
+    },
 
-  otherAnesthesiaType: {
-    kind: "const",
-    visibility: "visible",
-    ref: "otherAnesthesiaType"
-  },
+    otherAnesthesiaType: {
+      kind: "const",
+      visibility: "visible",
+      label: "Other anesthesia type",
+      ref: "otherAnesthesiaType"
+    },
 
-  anesthesiaDose: {
-    kind: "const",
-    visibility: "visible",
-    ref: "anesthesiaDose"
-  },
-  isofluranePercentage: {
-    kind: 'const',
-    visibility: 'visible',
-    ref: 'isofluranePercentage'
-  },
-  anesthesiaInductionTime: {
-    kind: "const",
-    visibility: "visible",
-    ref: "anesthesiaInductionTime"
-  },
+    anesthesiaDose: {
+      kind: "const",
+      visibility: "visible",
+      label: "Anethesia Dose (µL)",
+      ref: "anesthesiaDose"
+    },
+    isofluranePercentage: {
+      kind: 'const',
+      visibility: 'visible',
+      label: "Isoflurane percentage",
+      ref: 'isofluranePercentage'
+    },
+    anesthesiaInductionTime: {
+      kind: "const",
+      visibility: "visible",
+      label: "Anesthesia induction time (minutes)",
+      ref: "anesthesiaInductionTime"
+    },
     perfusionAnestheticType: {
       kind: "const",
       label: "Type of perfusion",
