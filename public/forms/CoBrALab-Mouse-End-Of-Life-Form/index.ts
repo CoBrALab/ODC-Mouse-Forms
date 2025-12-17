@@ -473,7 +473,7 @@ export default defineInstrument({
     anesthesiaDose: {
       kind: "const",
       visibility: "visible",
-      label: "Anethesia Dose (µL)",
+      label: "Dose amount (µL)",
       ref: "anesthesiaDose"
     },
     isofluranePercentage: {
@@ -485,7 +485,7 @@ export default defineInstrument({
     anesthesiaInductionTime: {
       kind: "const",
       visibility: "visible",
-      label: "Anesthesia induction time (minutes)",
+      label: "Isoflurane induction time (minutes)",
       ref: "anesthesiaInductionTime"
     },
     perfusionAnestheticType: {
