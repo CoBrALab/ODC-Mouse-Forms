@@ -99,10 +99,103 @@ export default defineInstrument({
     bloodCollected: createDependentField({
       kind: 'number',
       variant: "input",
-      label: "Blood collected (ml)"
+      label: "Blood collected (µL)"
     },
       (type) => type === 'Cardiac puncture'
     ),
+
+    anesthesiaUsed: {
+      kind: 'dynamic',
+      deps: ['terminationReason', 'terminationType'],
+      render(data){
+        if(data.terminationReason !== 'Veterinary Endpoint' && data.terminationReason !== undefined && data.terminationType !== 'Perfusion' && data.terminationType !== undefined){
+          return {
+            kind: 'boolean',
+            variant: 'radio',
+            label: 'Anesthesia used'
+          }
+        }
+        return null
+      }
+    },
+
+      anesthesiaType: {
+      kind: 'dynamic',
+      deps: ['anesthesiaUsed'],
+      render(data) {
+        if(data.anesthesiaUsed) {
+          return {
+            kind: "string",
+            variant: "select",
+            label: 'Anesthesia type',
+            options: {
+              "Isoflurane": "Isoflurane",
+              "Other": "Other"
+            }
+            
+          }
+        }
+        return null
+      }
+    },
+    otherAnesthesiaType: {
+       kind: 'dynamic',
+      deps: ['anesthesiaUsed', 'anesthesiaType'],
+      render(data) {
+        if(data.anesthesiaUsed && data.anesthesiaType === "Other") {
+          return {
+            kind: "string",
+            variant: "input",
+            label: "Specify anesthesia type"
+          }
+        }
+        return null
+      }
+    },
+    anesthesiaDose: {
+      kind: 'dynamic',
+      deps: ['anesthesiaUsed', 'anesthesiaType'],
+      render(data) {
+        if( data.anesthesiaUsed && data.anesthesiaType === "Other") {
+          return {
+            kind: "number",
+            variant: "input",
+            label: "Dose amount (µL)",
+          }
+        }
+        return null
+      }
+    },
+    isofluranePercentage: {
+      kind: 'dynamic',
+      deps: ['anesthesiaUsed', 'anesthesiaType'],
+      render(data) {
+        if(data.anesthesiaUsed && data.anesthesiaType  === 'Isoflurane') {
+          return {
+            kind: "number",
+            variant: "input",
+            label: "Isoflurane percentage"
+          }
+        }
+        return null
+      }
+
+    },
+
+    anesthesiaInductionTime: {
+      kind: 'dynamic',
+      deps: ['anesthesiaUsed', 'anesthesiaType'],
+      render(data) {
+        if( data.anesthesiaUsed && data.anesthesiaType  === 'Isoflurane') {
+          return {
+            kind: "number",
+            variant: "input",
+            label: "Isoflurane induction time (minutes)"
+          }
+        }
+        return null
+      }
+    },
     
     perfusionAnestheticType: createDependentField({
       kind: "string",
@@ -121,7 +214,7 @@ export default defineInstrument({
           return {
             kind: 'number',
             variant: "input",
-            label: 'Injection dose (ml)'
+            label: 'Injection dose (µL)'
           }
         }
         return null
@@ -134,24 +227,25 @@ export default defineInstrument({
             label: "Perfusion flushing solution",
             options: {
               "PBS+Heparin":"PBS and Heparin",
-              "4% Isoflurane": "4% Isoflurane"
+              "Other": "Other"
             }
     }, (type) => type === 'Perfusion'),
-   
-    anesthesiaUsed: {
-      kind: 'dynamic',
-      deps: ['terminationReason'],
-      render(data){
-        if(data.terminationReason !== 'Veterinary Endpoint' && data.terminationReason !== undefined){
+
+    perfusionFlushingSolutionOther: {
+      kind: "dynamic",
+      deps: ['perfusionFlushingSolution'],
+      render(data) {
+        if(data.perfusionFlushingSolution === "Other"){
           return {
-            kind: 'boolean',
-            variant: 'radio',
-            label: 'Anesthesia used'
+            kind: "string",
+            label: "Specify other flushing solution used",
+            variant: "input"
           }
         }
         return null
       }
     },
+    
     gasUsed: createDependentField({
             kind: "string",
             variant: "select",
@@ -267,14 +361,28 @@ export default defineInstrument({
                 variant: 'textarea',
                 label: 'Comments for extraction reason'
               },
+              overnightStorageSolution: {
+                kind: 'string',
+                variant: 'select',
+                label: 'Overnight storage solution',
+                options: {
+                  'Ethanol': 'Ethanol 70%',
+                  'Sodium Azide': 'Sodium Azide',
+                  'Gadolinium Bath': 'Gadolinium Bath',
+                  'PFA': 'PFA',
+                  'None': 'None'
+                }
+              },
+
               bodyPartStorageSolution: {
                 kind: 'string',
                 variant: 'select',
-                label: 'Storage solution',
+                label: 'Final storage solution',
                 options: {
                   "Ethanol": 'Ethanol 70%',
-                  'Sodium Alzide': 'Sodium Alzide',
+                  'Sodium Azide': 'Sodium Azide',
                   'Gadolinium Bath': 'Gadolinium Bath',
+                  'PFA': 'PFA',
                   "None": 'None'
                 }
               },
@@ -286,7 +394,7 @@ export default defineInstrument({
                   "Fridge": 'Fridge',
                   "-20° Freezer": '-20° Freezer',
                   "-80° Freezer":"-80° Freezer",
-                  'Room temperature': 'Room temperature'
+                  'Room temperature storage': 'Room temperature storage'
                 }
               },
             }
@@ -338,9 +446,47 @@ export default defineInstrument({
     },
     bloodCollected: {
       kind: "const",
-      label: "Blood collected (ml)",
+      label: "Blood collected (µL)",
       visibility: "visible",
       ref: "bloodCollected"
+    },
+    anesthesiaUsed: {
+      kind: "const",
+      label: "Anesthesia used",
+      visibility: "visible",
+      ref: "anesthesiaUsed"
+    },
+    anesthesiaType: {
+    kind: "const",
+    visibility: "visible",
+    label: "Anesthesia type",
+    ref: "anesthesiaType"
+    },
+
+    otherAnesthesiaType: {
+      kind: "const",
+      visibility: "visible",
+      label: "Other anesthesia type",
+      ref: "otherAnesthesiaType"
+    },
+
+    anesthesiaDose: {
+      kind: "const",
+      visibility: "visible",
+      label: "Dose amount (µL)",
+      ref: "anesthesiaDose"
+    },
+    isofluranePercentage: {
+      kind: 'const',
+      visibility: 'visible',
+      label: "Isoflurane percentage",
+      ref: 'isofluranePercentage'
+    },
+    anesthesiaInductionTime: {
+      kind: "const",
+      visibility: "visible",
+      label: "Isoflurane induction time (minutes)",
+      ref: "anesthesiaInductionTime"
     },
     perfusionAnestheticType: {
       kind: "const",
@@ -350,7 +496,7 @@ export default defineInstrument({
     },
     ipAnestheticDose: {
       kind: "const",
-      label: "Injection dose (ml)",
+      label: "Injection dose (µL)",
       visibility: "visible",
       ref: "ipAnestheticDose"
     },
@@ -360,11 +506,11 @@ export default defineInstrument({
       visibility: "visible",
       ref: "perfusionFlushingSolution"
     },
-    anesthesiaUsed: {
+    perfusionFlushingSolutionOther: {
       kind: "const",
-      label: "Anesthesia used",
+      label: "Other perfusion flushing solution",
       visibility: "visible",
-      ref: "anesthesiaUsed"
+      ref: "perfusionFlushingSolutionOther"
     },
     gasUsed: {
       kind: "const",
@@ -396,6 +542,7 @@ export default defineInstrument({
           "Extraction reason comments": info.bodyExtractionComments,
           "PFA batch": info.pfaBatch,
           "PFA batch expiration": info.pfaBatchExpiration,
+          "Overnight storage solution": info.overnightStorageSolution,
           "Body part storage solution": info.bodyPartStorageSolution,
           "Body part storage location": info.bodyPartStorageLocation,
         }))
@@ -433,6 +580,12 @@ export default defineInstrument({
     'Other'
   ]).optional(),
     bloodCollected: z.number().optional(),
+    anesthesiaUsed: z.boolean().optional(),
+    anesthesiaType: z.enum(["Isoflurane", "Other"]).optional(),
+    otherAnesthesiaType: z.string().optional(),
+    anesthesiaDose: z.number().min(0).optional(),
+    isofluranePercentage: z.number().min(0).max(100).optional(),
+    anesthesiaInductionTime: z.number().int().min(0).optional(),
     perfusionAnestheticType: z.enum([
     'Ip Injection',
     'Gas'
@@ -440,9 +593,9 @@ export default defineInstrument({
     ipAnestheticDose: z.number().optional(),
     perfusionFlushingSolution:  z.enum([
     'PBS+Heparin',
-    '4% Isoflurane'
+    'Other'
   ]).optional(),
-    anesthesiaUsed: z.boolean().optional(),
+    perfusionFlushingSolutionOther: z.string().optional(),
     gasUsed: z.enum(["CO2","Other"]).optional(),
     otherGasUsed: z.string().optional(),
     bodyExtractionDone: z.boolean(),
@@ -462,17 +615,25 @@ export default defineInstrument({
           extractionMotive: z.string().optional(),
           pfaBatch: z.string().optional(),
           pfaBatchExpiration: z.date().optional(),
+          overnightStorageSolution: z.enum([
+            'Ethanol',
+            'Sodium Azide',
+            'Gadolinium Bath',
+            'PFA',
+            'None'
+          ]).optional(),
           bodyPartStorageSolution: z.enum([
           'Ethanol',
-          'Sodium Alzide',
+          'Sodium Azide',
           'Gadolinium Bath',
+          'PFA',
           'None'
         ]),
           bodyPartStorageLocation: z.enum([
           'Fridge',
           '-20° Freezer',
           '-80° Freezer',
-          'Room temperature'
+          'Room temperature storage'
         ])
         })
       )
