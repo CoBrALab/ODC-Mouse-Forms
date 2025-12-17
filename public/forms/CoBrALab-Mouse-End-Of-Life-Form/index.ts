@@ -367,7 +367,7 @@ export default defineInstrument({
                 label: 'Overnight storage solution',
                 options: {
                   'Ethanol': 'Ethanol 70%',
-                  'Sodium Alzide': 'Sodium Alzide',
+                  'Sodium Azide': 'Sodium Azide',
                   'Gadolinium Bath': 'Gadolinium Bath',
                   'PFA': 'PFA',
                   'None': 'None'
@@ -380,7 +380,7 @@ export default defineInstrument({
                 label: 'Final storage solution',
                 options: {
                   "Ethanol": 'Ethanol 70%',
-                  'Sodium Alzide': 'Sodium Alzide',
+                  'Sodium Azide': 'Sodium Azide',
                   'Gadolinium Bath': 'Gadolinium Bath',
                   'PFA': 'PFA',
                   "None": 'None'
@@ -612,14 +612,14 @@ export default defineInstrument({
           pfaBatchExpiration: z.date().optional(),
           overnightStorageSolution: z.enum([
             'Ethanol',
-            'Sodium Alzide',
+            'Sodium Azide',
             'Gadolinium Bath',
             'PFA',
             'None'
           ]).optional(),
           bodyPartStorageSolution: z.enum([
           'Ethanol',
-          'Sodium Alzide',
+          'Sodium Azide',
           'Gadolinium Bath',
           'PFA',
           'None'
