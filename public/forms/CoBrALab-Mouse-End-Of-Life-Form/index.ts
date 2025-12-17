@@ -160,7 +160,7 @@ export default defineInstrument({
           return {
             kind: "number",
             variant: "input",
-            label: "Dose amount (μl)",
+            label: "Dose amount (µL)",
           }
         }
         return null
