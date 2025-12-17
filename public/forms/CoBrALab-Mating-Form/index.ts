@@ -27,6 +27,15 @@ export default defineInstrument({
       variant: "input",
       label: "Id of mouse's mating partner"
     },
+    partnerSex: {
+      kind: "string",
+      variant: "select",
+      label: "Mating partner's sex",
+      options: {
+        "Male": "Male",
+        "Female": "Female"
+      }
+    },
     partnerMouseStrain: {
     
       kind: 'string',
@@ -113,6 +122,11 @@ export default defineInstrument({
       visibility: 'visible',
       ref: 'partnerMouse'
     },
+     partnerSex: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'partnerSex'
+    },
     partnerMouseStrain: {
       kind: 'const',
       visibility: 'visible',
@@ -141,7 +155,8 @@ export default defineInstrument({
   },
   validationSchema: z.object({
   breedingCageId: z.string().optional(),
-  partnerMouse: z.string().optional(),
+  partnerMouse: z.string(),
+  partnerSex: z.enum(['Male','Female']),
   partnerMouseStrain: z.enum([
     'M83',
     'C57BL/6J',
