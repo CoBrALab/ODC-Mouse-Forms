@@ -95,6 +95,11 @@ export default defineInstrument({
       variant: "input",
       label: "Reason for Mating"
     },
+    numberOfMice: {
+      kind: "number",
+      variant: "input",
+      label: "Total number of mice in mating cage"
+    },
     additionalComments: {
       kind: "string",
       variant: "textarea",
@@ -147,6 +152,11 @@ export default defineInstrument({
       visibility: 'visible',
       ref: 'partnerMouseGenotypeOther'
     },
+    numberOfMice: {
+      kind: "const",
+      visibility: 'visible',
+      ref: "numberOfMice"
+    },
     additionalComments: {
       kind: 'const',
       visibility: 'visible',
@@ -154,7 +164,7 @@ export default defineInstrument({
     }
   },
   validationSchema: z.object({
-  breedingCageId: z.string().optional(),
+  breedingCageId: z.string(),
   partnerMouse: z.string(),
   partnerSex: z.enum(['Male','Female']),
   partnerMouseStrain: z.enum([
@@ -173,7 +183,8 @@ export default defineInstrument({
     'Other'
   ]).optional(),
   partnerMouseGenotypeOther: z.string().optional(),
-  roomNumber: z.string().optional(),
+  roomNumber: z.string(),
+  numberOfMice: z.number().int().min(0),
   reasonForMating: z.string(),
   additionalComments: z.string().optional()
 })
