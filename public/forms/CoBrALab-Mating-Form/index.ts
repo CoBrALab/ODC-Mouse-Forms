@@ -194,7 +194,7 @@ export default defineInstrument({
   ]).optional(),
   partnerMouseGenotypeOther: z.string().optional(),
   roomNumber: z.string(),
-  numberOfMice: z.number().int().min(0),
+  numberOfMice: z.number().int().min(2),
   reasonForMating: z.string(),
   additionalComments: z.string().optional()
 })
