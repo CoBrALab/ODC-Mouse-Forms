@@ -157,6 +157,16 @@ export default defineInstrument({
       visibility: 'visible',
       ref: "numberOfMice"
     },
+     roomNumber: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'roomNumber'
+    },
+    reasonForMating: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'reasonForMating'
+    },
     additionalComments: {
       kind: 'const',
       visibility: 'visible',
