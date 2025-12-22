@@ -12,7 +12,7 @@ export default defineInstrument({
     name: 'MOUSE_MATING_FORM'
   },
   content: {
-     breedingCageId: {
+     matingCageId: {
       kind: 'string',
       variant: 'input',
       label: "Mating Cage ID" 
@@ -117,10 +117,10 @@ export default defineInstrument({
   },
   measures: {
    
-    breedingCageId: {
+    matingCageId: {
       kind: "const",
       visibility: 'visible',
-      ref: 'breedingCageId'
+      ref: 'matingCageId'
     },
     partnerMouse: {
       kind: 'const',
@@ -174,7 +174,7 @@ export default defineInstrument({
     }
   },
   validationSchema: z.object({
-  breedingCageId: z.string(),
+  matingCageId: z.string(),
   partnerMouse: z.string(),
   partnerSex: z.enum(['Male','Female']),
   partnerMouseStrain: z.enum([
