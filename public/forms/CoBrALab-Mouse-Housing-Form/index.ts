@@ -119,6 +119,23 @@ export default defineInstrument({
         return null
       }
     },
+    motionTrackerId: {
+      kind: "dynamic",
+      deps: ["cageEnrichment"],
+      render(data) {
+        console.log(data.cageEnrichment)
+        console.log(typeof data.cageEnrichment)
+        if(data.cageEnrichment && data.cageEnrichment.has("Motion Tracker")){
+          return {
+            kind: "string",
+            variant: "input",
+            label: "Motion tracker ID"
+          }
+
+        }
+        return null
+      }
+    },
     additionalComments: {
       kind: "string",
       variant: "textarea",
@@ -197,6 +214,11 @@ export default defineInstrument({
         return data.cageEnrichment ? Array.from(data.cageEnrichment).join(" ") : ""
       }
     },
+    motionTrackerId: {
+      kind: "const",
+      label: "Motion tracker ID",
+      ref: "motionTrackerId"
+    },
     additionalComments: {
       kind: "const",
       visibility: "visible",
@@ -222,6 +244,7 @@ export default defineInstrument({
     bottleType: z.enum(['Auto Bottle', 'Standard']),
     cageType: z.enum(['Enriched', 'Standard']),
     cageEnrichment: z.set(z.enum(['Wheel',"Cover","Tube","Enlarged Cage","Motion Tracker"])).optional(),
+    motionTrackerId: z.string().optional(),
     additionalComments: z.string().optional()
 
   })
