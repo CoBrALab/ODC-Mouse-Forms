@@ -123,8 +123,6 @@ export default defineInstrument({
       kind: "dynamic",
       deps: ["cageEnrichment"],
       render(data) {
-        console.log(data.cageEnrichment)
-        console.log(typeof data.cageEnrichment)
         if(data.cageEnrichment && data.cageEnrichment.has("Motion Tracker")){
           return {
             kind: "string",
