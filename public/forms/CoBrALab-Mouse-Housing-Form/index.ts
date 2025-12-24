@@ -215,6 +215,7 @@ export default defineInstrument({
     motionTrackerId: {
       kind: "const",
       label: "Motion tracker ID",
+      visibility: "visible",
       ref: "motionTrackerId"
     },
     additionalComments: {
