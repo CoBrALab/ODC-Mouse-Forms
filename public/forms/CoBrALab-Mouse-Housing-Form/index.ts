@@ -8,7 +8,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Housing','Cage Enrichment','Room Change','Cage Change', 'Cage'],
   internal: {
-    edition: 3,
+    edition: 4,
     name: 'MOUSE_HOUSING_FORM'
   },
   content: {
@@ -111,9 +111,25 @@ export default defineInstrument({
               "Wheel":"Wheel",
               "Cover": "Cover",
               "Tube": "Tube",
-              "Enlarged Cage": "Enlarged Cage"
+              "Enlarged Cage": "Enlarged Cage",
+              "Motion Tracker": "Motion Tracker"
             }
            }
+        }
+        return null
+      }
+    },
+    motionTrackerId: {
+      kind: "dynamic",
+      deps: ["cageEnrichment"],
+      render(data) {
+        if(data.cageEnrichment && data.cageEnrichment.has("Motion Tracker")){
+          return {
+            kind: "string",
+            variant: "input",
+            label: "Motion tracker ID"
+          }
+
         }
         return null
       }
@@ -196,6 +212,12 @@ export default defineInstrument({
         return data.cageEnrichment ? Array.from(data.cageEnrichment).join(" ") : ""
       }
     },
+    motionTrackerId: {
+      kind: "const",
+      label: "Motion tracker ID",
+      visibility: "visible",
+      ref: "motionTrackerId"
+    },
     additionalComments: {
       kind: "const",
       visibility: "visible",
@@ -220,7 +242,8 @@ export default defineInstrument({
     ]),
     bottleType: z.enum(['Auto Bottle', 'Standard']),
     cageType: z.enum(['Enriched', 'Standard']),
-    cageEnrichment: z.set(z.enum(['Wheel',"Cover","Tube","Enlarged Cage"])).optional(),
+    cageEnrichment: z.set(z.enum(['Wheel',"Cover","Tube","Enlarged Cage","Motion Tracker"])).optional(),
+    motionTrackerId: z.string().optional(),
     additionalComments: z.string().optional()
 
   })
