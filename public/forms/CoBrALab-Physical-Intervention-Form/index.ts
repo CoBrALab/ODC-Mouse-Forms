@@ -5,6 +5,7 @@ const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
 const interventionTypeList = [ "Blood extraction",
     "Teeth extraction",
+    "RFID Chip Insertion",
     "Ear tagging",
     "Tattooing",
     "Vaginal cytology",
@@ -43,6 +44,7 @@ export default defineInstrument({
       options: {
         "Blood extraction": "Blood extraction",
         "Teeth extraction": "Teeth extraction",
+        "RFID Chip Insertion": "RFID Chip Insertion",
         "Ear tagging": "Ear tagging",
         "Tattooing": "Tattooing",
         "Vaginal cytology": "Vaginal cytology",
@@ -132,12 +134,27 @@ export default defineInstrument({
       }
     },
     (type) => type === "Ear tagging"),
+    rfidChipNumber: createDependentField({
+  kind: "number",
+  variant: "input",
+  label: "RFID chip number"
+}, (type) => type === "RFID Chip Insertion"),
+rfidReadStatus: createDependentField({
+  kind: "string",
+  variant: "select",
+  label: "RFID chip read status (optional)",
+  options: {
+    "Successful": "Successful",
+    "Unsuccessful": "Unsuccessful"
+  }
+}, (type) => type === "RFID Chip Insertion"),
+
     anesthesiaUsed: createDependentField({
      kind: 'boolean',
      variant: 'radio',
      label: "Anesthesia used"
     },
-    (type) => type === "Ear tagging"),
+    (type) => type === "Ear tagging" || type === "RFID Chip Insertion"),
 
     anesthesiaType: {
       kind: 'dynamic',
@@ -215,6 +232,105 @@ export default defineInstrument({
         return null
       }
     },
+
+    analgesicUsed: createDependentField({
+  kind: "boolean",
+  variant: "radio",
+  label: "Analgesic used"
+}, (type) => type === "RFID Chip Insertion"),
+
+analgesicType: {
+  kind: "dynamic",
+  deps: ["analgesicUsed", "interventionType"],
+  render(data) {
+    if (data.interventionType === "RFID Chip Insertion" && data.analgesicUsed) {
+      return {
+        kind: "string",
+        variant: "select",
+        label: "Analgesic type",
+        options: {
+          "Carprofen": "Carprofen",
+          "Bupivacaine": "Bupivacaine",
+          "Other": "Other"
+        }
+      };
+    }
+    return null;
+  }
+},
+
+analgesicOther: {
+  kind: "dynamic",
+  deps: ["analgesicUsed", "analgesicType", "interventionType"],
+  render(data) {
+    if (
+      data.interventionType === "RFID Chip Insertion" &&
+      data.analgesicUsed &&
+      data.analgesicType === "Other"
+    ) {
+      return {
+        kind: "string",
+        variant: "input",
+        label: "Specify other analgesic"
+      };
+    }
+    return null;
+  }
+},
+
+analgesicDose: {
+  kind: "dynamic",
+  deps: ["analgesicUsed", "interventionType"],
+  render(data) {
+    if (data.interventionType === "RFID Chip Insertion" && data.analgesicUsed) {
+      return {
+        kind: "number",
+        variant: "input",
+        label: "Analgesic dose (μl)"
+      };
+    }
+    return null;
+  }
+},
+    sideOfInjection: createDependentField({
+      kind: "string",
+      variant: "select",
+      label: "Side of injection",
+      options: {
+        "Left": "Left",
+        "Right": "Right"
+      }
+    }, (type) => type === "RFID Chip Insertion"),
+
+    rfidInjectionLocation: createDependentField({
+      kind: "string",
+      variant: "select",
+      label: "RFID injection location",
+      options: {
+        "Under ear": "Under ear",
+        "Lower body": "Lower body",
+        "Other": "Other"
+      }
+    }, (type) => type === "RFID Chip Insertion"),
+
+    rfidInjectionLocationOther: {
+      kind: "dynamic",
+      deps: ["rfidInjectionLocation", "interventionType"],
+      render(data) {
+        if (
+          data.interventionType === "RFID Chip Insertion" &&
+          data.rfidInjectionLocation === "Other"
+        ) {
+          return {
+            kind: "string",
+            variant: "input",
+            label: "Specify RFID injection location"
+          };
+        }
+        return null;
+      }
+    },
+
     
     tattooLocationInfo: createDependentField({
       kind: "record-array",
@@ -242,7 +358,7 @@ export default defineInstrument({
     bloodGlucoseLevel: createDependentField({
       kind: "string",
       variant: 'input',
-      label: "Blood glucose level"
+      label: "Blood glucose level (mg/dL)"
     }, (type) => type === "Blood glucose"),
 
     additionalComments: {
@@ -303,7 +419,19 @@ export default defineInstrument({
       visibility: "visible",
       ref: "earTaggingSystem"
     },
-    anesthesiaUsed: {
+    rfidChipNumber: {
+    kind: "const",
+    visibility: "visible",
+    ref: "rfidChipNumber"
+  },
+  rfidReadStatus: {
+    kind: "const",
+    visibility: "visible",
+    ref: "rfidReadStatus"
+  },
+
+
+  anesthesiaUsed: {
     kind: "const",
     visibility: "visible",
     ref: "anesthesiaUsed"
@@ -336,6 +464,48 @@ export default defineInstrument({
     visibility: "visible",
     ref: "anesthesiaInductionTime"
   },
+  analgesicUsed: {
+  kind: "const",
+  visibility: "visible",
+  ref: "analgesicUsed"
+  },
+
+  analgesicType: {
+    kind: "const",
+    visibility: "visible",
+    ref: "analgesicType"
+  },
+
+  analgesicOther: {
+    kind: "const",
+    visibility: "visible",
+    ref: "analgesicOther"
+  },
+
+  analgesicDose: {
+    kind: "const",
+    visibility: "visible",
+    ref: "analgesicDose"
+  },
+  sideOfInjection: {
+    kind: "const",
+    visibility: "visible",
+    ref: "sideOfInjection"
+  },
+
+  rfidInjectionLocation: {
+    kind: "const",
+    visibility: "visible",
+    ref: "rfidInjectionLocation"
+  },
+
+  rfidInjectionLocationOther: {
+    kind: "const",
+    visibility: "visible",
+    ref: "rfidInjectionLocationOther"
+  },
+
+
     tattooLocationInfo: {
       kind: "computed",
       label: "Tattoo Locations",
@@ -368,6 +538,7 @@ export default defineInstrument({
   interventionType: z.enum([
     "Blood extraction",
     "Teeth extraction",
+    "RFID Chip Insertion",
     "Ear tagging",
     "Tattooing",
     "Vaginal cytology",
@@ -396,12 +567,32 @@ export default defineInstrument({
     "1-32 System",
     "Other"
   ]).optional(),
+  rfidChipNumber: z.number().int().optional(),
+  rfidReadStatus: z.enum(["Successful", "Unsuccessful"]).optional(),
   anesthesiaUsed: z.boolean().optional(),
   anesthesiaType: z.enum(["Isoflurane", "Other"]).optional(),
   otherAnesthesiaType: z.string().optional(),
   anesthesiaDose: z.number().min(0).optional(),
   isofluranePercentage: z.number().min(0).max(100).optional(),
   anesthesiaInductionTime: z.number().int().min(0).optional(),
+  analgesicUsed: z.boolean().optional(),
+  analgesicType: z.enum([
+    "Carprofen",
+    "Bupivacaine",
+    "Other"
+  ]).optional(),
+  analgesicOther: z.string().optional(),
+  analgesicDose: z.number().min(0).optional(),
+  sideOfInjection: z.enum([
+  "Left",
+  "Right"
+  ]).optional(),
+  rfidInjectionLocation: z.enum([
+    "Under ear",
+    "Lower body",
+    "Other"
+  ]).optional(),
+  rfidInjectionLocationOther: z.string().optional(),
   tattooLocationInfo: z.array(z.object({
     tattooLocation: z.enum([
       "Upper left",
