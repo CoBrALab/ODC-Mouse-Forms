@@ -12,7 +12,16 @@ export default defineInstrument({
     name: 'PREGNANCY_PLUG_CHECK_FORM'
   },
   content: {
-
+    damId: {
+      kind: "string",
+      variant: "input",
+      label: "Dam ID"
+    },
+    damWeight: {
+      kind: 'number',
+      variant: "input",
+      label: "Dam weight (grams)"
+    },
     additionalComments: {
       kind: "string",
       variant: "textarea",
@@ -37,6 +46,8 @@ export default defineInstrument({
 
   },
   validationSchema: z.object({
+    damId: z.string(),
+    damWeight: z.number().min(0),
     additionalComments: z.string().optional()
   })
 });
