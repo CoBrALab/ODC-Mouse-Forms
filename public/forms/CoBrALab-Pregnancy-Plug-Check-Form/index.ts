@@ -49,7 +49,7 @@ export default defineInstrument({
   },
   clientDetails: {
     estimatedDuration: 1,
-    instructions: ["To be filled whenever the animal is checked for a pregnany plug, please keep in mind the days since the mouse's last mating session and the ID of the mating partner."]
+    instructions: ["To be filled whenever the animal is checked for a pregnancy plug, please keep in mind the days since the mouse's last mating session and the ID of the mating partner."]
   },
   details: {
     description: 'A form to track data from whenever an animal is checked for a pregnancy.',
@@ -57,7 +57,36 @@ export default defineInstrument({
     title: 'Pregnancy Plug Check Form'
   },
   measures: {
-    
+    plugPresent: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'plugPresent'
+    },
+    damId: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'damId'
+    },
+    damWeight: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'damWeight'
+    },
+    daysSinceMating: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'daysSinceMating'
+    },
+    malePartnerId: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'malePartnerId'
+    },
+    predictedDob: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'predictedDob'
+    },
     additionalComments: {
       kind: 'const',
       visibility: 'visible',
