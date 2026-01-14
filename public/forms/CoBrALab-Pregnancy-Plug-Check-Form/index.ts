@@ -12,6 +12,11 @@ export default defineInstrument({
     name: 'PREGNANCY_PLUG_CHECK_FORM'
   },
   content: {
+    plugPresent: {
+      kind: "boolean",
+      variant: "checkbox",
+      label: "Is there a plug present?"
+    },
     damId: {
       kind: "string",
       variant: "input",
@@ -21,6 +26,20 @@ export default defineInstrument({
       kind: 'number',
       variant: "input",
       label: "Dam weight (grams)"
+    },
+    daysSinceMating: {
+      kind: "number",
+      variant: "input",
+      label: "Days since mating session"
+    },
+    malePartnerId: {
+      kind: "string",
+      variant: "input",
+      label: "Male partner ID"
+    },
+    predictedDob: {
+      kind: "date",
+      label: "Predicted date of birth"
     },
     additionalComments: {
       kind: "string",
@@ -38,6 +57,7 @@ export default defineInstrument({
     title: 'Pregnancy Plug Check Form'
   },
   measures: {
+    
     additionalComments: {
       kind: 'const',
       visibility: 'visible',
@@ -46,8 +66,12 @@ export default defineInstrument({
 
   },
   validationSchema: z.object({
+    plugPresent: z.boolean(),
     damId: z.string(),
     damWeight: z.number().min(0),
+    daysSinceMating: z.number().positive("Must be greater than 0"),
+    malePartnerId: z.string().min(1, "Male partner ID is required"),
+    predictedDob: z.date().optional(),
     additionalComments: z.string().optional()
   })
 });
