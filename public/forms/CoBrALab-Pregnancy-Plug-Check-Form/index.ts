@@ -96,9 +96,9 @@ export default defineInstrument({
   },
   validationSchema: z.object({
     plugPresent: z.boolean(),
-    damId: z.string(),
-    damWeight: z.number().min(0),
-    daysSinceMating: z.number().positive("Must be greater than 0"),
+    damId: z.string().min(1, "Dam ID is required"),
+    damWeight: z.number().positive("Weight must be greater than 0"),
+    daysSinceMating: z.number().nonnegative("Must be 0 or greater"),
     malePartnerId: z.string().min(1, "Male partner ID is required"),
     predictedDob: z.date().optional(),
     additionalComments: z.string().optional()
