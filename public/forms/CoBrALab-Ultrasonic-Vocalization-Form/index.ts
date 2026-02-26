@@ -18,6 +18,11 @@ export default defineInstrument({
         variant: "input",
         label: "Number of calls/cries the animal subject made during the session."
     },
+    minutesSeparatedFromMother: {
+      kind: "number",
+      variant: "input",
+      label: "Duration the animal is separated from the mother (minutes)"
+    },
     adjustedSoundFrequency: {
       kind: "number",
       variant: "input",
@@ -49,6 +54,10 @@ export default defineInstrument({
         kind: 'const',
         ref: 'adjustedSoundFrequency'
     },
+    minutesSeparatedFromMother: {
+      kind: 'const',
+      ref: 'minutesSeparatedFromMother'
+    },
     additionalComments: {
       kind: 'const',
       ref: 'additionalComments'
@@ -58,6 +67,7 @@ export default defineInstrument({
   validationSchema: z.object({
     numberOfCrys: z.number().int().min(0),
     adjustedSoundFrequency: z.number().min(20).max(100),
+    minutesSeparatedFromMother: z.number().min(0).int(),
     additionalComments: z.string().optional()
   })
 });
