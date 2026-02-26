@@ -27,7 +27,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Mouse', 'MRI', 'Structural', 'fMRI'],
   internal: {
-    edition: 3,
+    edition: 4,
     name: 'MOUSE_MRI_FORM'
   },
   content: {
