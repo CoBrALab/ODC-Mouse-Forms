@@ -17,7 +17,8 @@ const scanNameOptions = {
   "MGE_MTOn": "MGE_MTOn",
   "MGE_MTOff_Tw1_30deg": "MGE_MTOff_Tw1_30deg",
   "T2star_FID_EPI_sat_dan_ver_original": "T2star_FID_EPI_sat_dan_ver_original",
-  "exvivoDanFLASH": "exvivoDanFLASH"
+  "exvivoDanFLASH": "exvivoDanFLASH",
+  "Neo_Struct_FISP": "Neo_Struct_FISP"
 
 }
 
@@ -26,7 +27,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Mouse', 'MRI', 'Structural', 'fMRI'],
   internal: {
-    edition: 3,
+    edition: 4,
     name: 'MOUSE_MRI_FORM'
   },
   content: {
@@ -584,7 +585,8 @@ export default defineInstrument({
         "MGE_MTOn",
         "MGE_MTOff_Tw1_30deg",
         "T2star_FID_EPI_sat_dan_ver_original",
-        "exvivoDanFLASH"
+        "exvivoDanFLASH",
+        "Neo_Struct_FISP"
       ]).optional(),
       mouseVitalsTracked: z.boolean().optional(),
       breathingStable: z.boolean().optional(),
