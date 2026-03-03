@@ -18,7 +18,7 @@ const scanNameOptions = {
   "MGE_MTOff_Tw1_30deg": "MGE_MTOff_Tw1_30deg",
   "T2star_FID_EPI_sat_dan_ver_original": "T2star_FID_EPI_sat_dan_ver_original",
   "exvivoDanFLASH": "exvivoDanFLASH",
-  "Neo_Struct_FISP":"Neo_Struct_FISP"
+  "Neo_Struct_FISP": "Neo_Struct_FISP"
 
 }
 
