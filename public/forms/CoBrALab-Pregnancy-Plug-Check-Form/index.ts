@@ -14,8 +14,8 @@ export default defineInstrument({
   content: {
     plugPresent: {
       kind: "boolean",
-      variant: "checkbox",
-      label: "Is there a plug present?"
+      variant: "radio",
+      label: "Pregnancy plug present"
     },
     damId: {
       kind: "string",
