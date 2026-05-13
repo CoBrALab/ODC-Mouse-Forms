@@ -60,8 +60,8 @@ export default defineInstrument({
               variant: 'radio',
               label: 'Uterine Horn',
               options: {
-                Left: 'Left',
-                Right: 'Right'
+                'Left': 'Left',
+                'Right': 'Right'
               }
             },
             positionInUterineHorn: {
@@ -148,7 +148,7 @@ export default defineInstrument({
       if (data.embryos.length !== data.numberOfEmbryos) {
         ctx.addIssue({
           code: 'custom',
-          path: ['embryos'],
+          path: ['numberOfEmbryos'],
           message: `Number of embryo entries (${data.embryos.length}) must match the stated number of embryos (${data.numberOfEmbryos}).`
         });
       }
