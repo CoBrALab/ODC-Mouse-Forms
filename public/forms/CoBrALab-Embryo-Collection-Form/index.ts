@@ -29,17 +29,11 @@ export default defineInstrument({
           kind: 'number',
           variant: 'input',
           label: 'Gestational Day'
-        },
-        numberOfEmbryos: {
-          kind: 'number',
-          variant: 'input',
-          label: 'Number of Embryos'
         }
       }
     },
     {
       title: 'Embryo Data',
-      description: 'Add one entry per embryo collected. The total number of entries must match the number of embryos entered above.',
       fields: {
         embryos: {
           kind: 'record-array',
@@ -83,8 +77,7 @@ export default defineInstrument({
     estimatedDuration: 5,
     instructions: [
       'Fill out the Collection Details section first.',
-      'Then add one row per embryo in the Embryo Data table using the add button.',
-      'The number of embryo rows must equal the number entered in "Number of Embryos".'
+      'Then add one row per embryo in the Embryo Data table using the add button.'
     ]
   },
   details: {
@@ -109,9 +102,10 @@ export default defineInstrument({
       ref: 'gestationalDay'
     },
     numberOfEmbryos: {
-      kind: 'const',
+      kind: 'computed',
+      label: 'Number of Embryos',
       visibility: 'visible',
-      ref: 'numberOfEmbryos'
+      value: (data) => data.embryos?.length ?? 0
     },
     embryos: {
       kind: 'computed',
@@ -128,29 +122,18 @@ export default defineInstrument({
       }
     }
   },
-  validationSchema: z
-    .object({
-      damId: z.string().min(1, 'Dam ID is required'),
-      sireId: z.string().optional(),
-      gestationalDay: z.number().min(0, 'Gestational day must be 0 or greater'),
-      numberOfEmbryos: z.number().int().min(1, 'Number of embryos must be at least 1'),
-      embryos: z.array(
-        z.object({
-          embryoId: z.string().min(1, 'Embryo ID is required'),
-          yolkSacCollected: z.boolean(),
-          uterineHorn: z.enum(['Left', 'Right']).optional(),
-          positionInUterineHorn: z.number().int().min(1).optional(),
-          weightGrams: z.number().min(0).optional()
-        })
-      )
-    })
-    .superRefine((data, ctx) => {
-      if (data.embryos.length !== data.numberOfEmbryos) {
-        ctx.addIssue({
-          code: 'custom',
-          path: ['numberOfEmbryos'],
-          message: `Number of embryo entries (${data.embryos.length}) must match the stated number of embryos (${data.numberOfEmbryos}).`
-        });
-      }
-    })
+  validationSchema: z.object({
+    damId: z.string().min(1, 'Dam ID is required'),
+    sireId: z.string().optional(),
+    gestationalDay: z.number().min(0, 'Gestational day must be 0 or greater'),
+    embryos: z.array(
+      z.object({
+        embryoId: z.string().min(1, 'Embryo ID is required'),
+        yolkSacCollected: z.boolean(),
+        uterineHorn: z.enum(['Left', 'Right']).optional(),
+        positionInUterineHorn: z.number().int().min(1).optional(),
+        weightGrams: z.number().min(0).optional()
+      })
+    )
+  })
 });
