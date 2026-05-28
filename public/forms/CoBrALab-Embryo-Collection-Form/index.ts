@@ -134,6 +134,6 @@ export default defineInstrument({
         positionInUterineHorn: z.number().int().min(1).optional(),
         weightGrams: z.number().min(0).optional()
       })
-    )
+    ).min(1)
   })
 });
