@@ -23,7 +23,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Surgery', 'Vet Care', 'Wound Treatment', 'Ovariectomy','Intracerebral injection'],
   internal: {
-    edition: 3,
+    edition: 4,
     name: 'MOUSE_SURGERY_FORM'
   },
   content: {
@@ -289,6 +289,74 @@ export default defineInstrument({
       }
     },
 
+    hormoneCapsuleImplant: {
+      kind: "dynamic",
+      deps: ["surgeryType"],
+      render(data) {
+        if(data.surgeryType === "Ovariectomy"){
+          return {
+            kind: "boolean",
+            variant: "radio",
+            label: "Hormone capsule implant"
+          }
+        }
+        return null
+      }
+    },
+
+    hormoneCapsuleImplantType: {
+      kind: "dynamic",
+      deps: ["hormoneCapsuleImplant"],
+      render(data) {
+        if(data.hormoneCapsuleImplant){
+          return {
+            kind: "string",
+            variant: "select",
+            label: "Hormone capsule implant type",
+            options: {
+              "Vehicle": "Vehicle",
+              "Estradiol": "Estradiol"
+            }
+          }
+        }
+        return null
+      }
+    },
+
+    hormoneCapsuleImplantConcentration: {
+      kind: "dynamic",
+      deps: ["hormoneCapsuleImplantType"],
+      render(data) {
+        if(data.hormoneCapsuleImplantType === "Estradiol"){
+          return {
+            kind: "number",
+            variant: "input",
+            label: "Estradiol concentration (ug/mL)"
+          }
+        }
+        return null
+      }
+    },
+
+    hormoneCapsuleImplantSide: {
+      kind: "dynamic",
+      deps: ["hormoneCapsuleImplant"],
+      render(data) {
+        if(data.hormoneCapsuleImplant){
+          return {
+            kind: "string",
+            variant: "select",
+            label: "Hormone capsule implant side",
+            options: {
+              "Right": "Right",
+              "Left": "Left"
+            }
+          }
+        }
+        return null
+      }
+    },
+
     brainSurgeryPaxinosMLCoords: {
       kind: "dynamic",
       deps: ["stereotaxUsed", "surgeryType"],
@@ -481,6 +549,26 @@ export default defineInstrument({
       visibility: "visible",
       ref: "ovariectomyMouseGroup"
     },
+    hormoneCapsuleImplant: {
+      kind: "const",
+      visibility: "visible",
+      ref: "hormoneCapsuleImplant"
+    },
+    hormoneCapsuleImplantType: {
+      kind: "const",
+      visibility: "visible",
+      ref: "hormoneCapsuleImplantType"
+    },
+    hormoneCapsuleImplantConcentration: {
+      kind: "const",
+      visibility: "visible",
+      ref: "hormoneCapsuleImplantConcentration"
+    },
+    hormoneCapsuleImplantSide: {
+      kind: "const",
+      visibility: "visible",
+      ref: "hormoneCapsuleImplantSide"
+    },
     brainSurgeryPaxinosMLCoords:{
       kind: "const",
       visibility: "visible",
@@ -548,6 +636,10 @@ export default defineInstrument({
       ovariectomyType: z.enum(["Unilateral", "Bilateral"]).optional(),
       ovariectomyMouseGroup: z.enum(["Control", "Experiment"]).optional(),
       ovariectomySide: z.enum(["Right", "Left"]).optional(),
+      hormoneCapsuleImplant: z.boolean().optional(),
+      hormoneCapsuleImplantType: z.enum(["Vehicle", "Estradiol"]).optional(),
+      hormoneCapsuleImplantConcentration: z.number().min(0).optional(),
+      hormoneCapsuleImplantSide: z.enum(["Right", "Left"]).optional(),
       brainSurgeryPaxinosMLCoords: z.number().min(-5).max(5).optional(),
       brainSurgeryPaxinosAPCoords: z.number().min(-8.8).max(6).optional(),
       brainSurgeryPaxinosDVCoords: z.number().min(0).max(6.4).optional(),
