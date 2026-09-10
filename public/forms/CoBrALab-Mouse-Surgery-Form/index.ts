@@ -650,5 +650,41 @@ export default defineInstrument({
       surgeryDuration: z.number().min(0).optional(),
       additionalComments: z.string().optional(),
 
+  }).superRefine((data, ctx) => {
+    if (data.surgeryType === "Ovariectomy" && data.ovariectomyType === undefined) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["ovariectomyType"],
+        message: "This field is required when the surgery type is Ovariectomy."
+      });
+    }
+    if (data.surgeryType === "Ovariectomy" && data.ovariectomyMouseGroup === undefined) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["ovariectomyMouseGroup"],
+        message: "This field is required when the surgery type is Ovariectomy."
+      });
+    }
+    if (data.ovariectomyType === "Unilateral" && data.ovariectomySide === undefined) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["ovariectomySide"],
+        message: "This field is required when the ovariectomy is Unilateral."
+      });
+    }
+    if (data.hormoneCapsuleImplantType === "Estradiol" && data.hormoneCapsuleImplantConcentration === undefined) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["hormoneCapsuleImplantConcentration"],
+        message: "This field is required when the implant type is Estradiol."
+      });
+    }
+    if (data.hormoneCapsuleImplant && data.hormoneCapsuleImplantSide === undefined) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["hormoneCapsuleImplantSide"],
+        message: "This field is required when a hormone capsule implant is used."
+      });
+    }
   })
 });
