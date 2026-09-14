@@ -671,6 +671,13 @@ export default defineInstrument({
         message: "This field is required when the ovariectomy is Unilateral."
       });
     }
+    if (data.surgeryType === "Ovariectomy" && data.hormoneCapsuleImplanted === undefined) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["hormoneCapsuleImplanted"],
+        message: "This field is required when the surgery type is Ovariectomy."
+      });
+    }
     if (data.hormoneCapsuleImplanted && data.hormoneCapsuleImplantType === undefined) {
       ctx.addIssue({
         code: "custom",
