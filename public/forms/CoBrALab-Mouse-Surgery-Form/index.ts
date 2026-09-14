@@ -5,6 +5,11 @@ import { z } from '/runtime/v1/zod@3.23.x'
 
 type TreatmentType =  "Surgery" | "Wound treatment" | "Re-stitching" | "Intracerebral injection"
 
+const mouseSides = {
+             "Right":"Right",
+             "Left": "Left"
+             }  as const
+
 function createDependentField<const T>(field: T, fn: (treatmentType?: TreatmentType) => boolean) {
   return {
     kind: 'dynamic' as const,
@@ -261,10 +266,7 @@ export default defineInstrument({
              kind: "string",
              variant: "select",
              label: "Ovariectomy side",
-             options: {
-             "Right":"Right",
-             "Left": "Left"
-             }
+             options: mouseSides
           }
         }
         return null
@@ -347,10 +349,7 @@ export default defineInstrument({
             kind: "string",
             variant: "select",
             label: "Hormone capsule implant side",
-            options: {
-              "Right": "Right",
-              "Left": "Left"
-            }
+            options: mouseSides
           }
         }
         return null
