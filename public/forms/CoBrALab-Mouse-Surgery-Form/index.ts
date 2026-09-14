@@ -6,7 +6,7 @@ import { z } from '/runtime/v1/zod@3.23.x'
 type TreatmentType =  "Surgery" | "Wound treatment" | "Re-stitching" | "Intracerebral injection"
 
 const mouseSides = {
-             "Right":"Right",
+             "Right": "Right",
              "Left": "Left"
              }  as const
 
@@ -634,11 +634,11 @@ export default defineInstrument({
       surgeryType: z.enum(["Ovariectomy", "Electrode implant", "Fiber optic implant"]).optional(),
       ovariectomyType: z.enum(["Unilateral", "Bilateral"]).optional(),
       ovariectomyMouseGroup: z.enum(["Control", "Experiment"]).optional(),
-      ovariectomySide: z.enum(["Right", "Left"]).optional(),
+      ovariectomySide: z.nativeEnum(mouseSides).optional(),
       hormoneCapsuleImplanted: z.boolean().optional(),
       hormoneCapsuleImplantType: z.enum(["Vehicle", "Estradiol"]).optional(),
       hormoneCapsuleImplantConcentration: z.number().positive().optional(),
-      hormoneCapsuleImplantSide: z.enum(["Right", "Left"]).optional(),
+      hormoneCapsuleImplantSide: z.nativeEnum(mouseSides).optional(),
       brainSurgeryPaxinosMLCoords: z.number().min(-5).max(5).optional(),
       brainSurgeryPaxinosAPCoords: z.number().min(-8.8).max(6).optional(),
       brainSurgeryPaxinosDVCoords: z.number().min(0).max(6.4).optional(),
