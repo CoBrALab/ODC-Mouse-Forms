@@ -299,7 +299,7 @@ export default defineInstrument({
           return {
             kind: "boolean",
             variant: "radio",
-            label: "Hormone capsule implant"
+            label: "Hormone capsule implanted"
           }
         }
         return null
