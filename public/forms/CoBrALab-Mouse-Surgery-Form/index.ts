@@ -671,6 +671,13 @@ export default defineInstrument({
         message: "This field is required when the ovariectomy is Unilateral."
       });
     }
+    if (data.hormoneCapsuleImplanted && data.hormoneCapsuleImplantType === undefined) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["hormoneCapsuleImplantType"],
+        message: "This field is required when a hormone capsule implant is used."
+      });
+    }
     if (data.hormoneCapsuleImplantType === "Estradiol" && data.hormoneCapsuleImplantConcentration === undefined) {
       ctx.addIssue({
         code: "custom",
