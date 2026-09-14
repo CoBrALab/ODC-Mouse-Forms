@@ -331,7 +331,7 @@ export default defineInstrument({
           return {
             kind: "number",
             variant: "input",
-            label: "Estradiol concentration (ug/mL)"
+            label: "Estradiol concentration (µg/mL)"
           }
         }
         return null
@@ -638,7 +638,7 @@ export default defineInstrument({
       ovariectomySide: z.enum(["Right", "Left"]).optional(),
       hormoneCapsuleImplant: z.boolean().optional(),
       hormoneCapsuleImplantType: z.enum(["Vehicle", "Estradiol"]).optional(),
-      hormoneCapsuleImplantConcentration: z.number().min(0).optional(),
+      hormoneCapsuleImplantConcentration: z.number().positive().optional(),
       hormoneCapsuleImplantSide: z.enum(["Right", "Left"]).optional(),
       brainSurgeryPaxinosMLCoords: z.number().min(-5).max(5).optional(),
       brainSurgeryPaxinosAPCoords: z.number().min(-8.8).max(6).optional(),
