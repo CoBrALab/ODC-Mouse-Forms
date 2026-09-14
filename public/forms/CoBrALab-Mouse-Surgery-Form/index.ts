@@ -291,7 +291,7 @@ export default defineInstrument({
       }
     },
 
-    hormoneCapsuleImplant: {
+    hormoneCapsuleImplanted: {
       kind: "dynamic",
       deps: ["surgeryType"],
       render(data) {
@@ -308,9 +308,9 @@ export default defineInstrument({
 
     hormoneCapsuleImplantType: {
       kind: "dynamic",
-      deps: ["hormoneCapsuleImplant"],
+      deps: ["hormoneCapsuleImplanted"],
       render(data) {
-        if(data.hormoneCapsuleImplant){
+        if(data.hormoneCapsuleImplanted){
           return {
             kind: "string",
             variant: "select",
@@ -342,9 +342,9 @@ export default defineInstrument({
 
     hormoneCapsuleImplantSide: {
       kind: "dynamic",
-      deps: ["hormoneCapsuleImplant"],
+      deps: ["hormoneCapsuleImplanted"],
       render(data) {
-        if(data.hormoneCapsuleImplant){
+        if(data.hormoneCapsuleImplanted){
           return {
             kind: "string",
             variant: "select",
@@ -548,10 +548,10 @@ export default defineInstrument({
       visibility: "visible",
       ref: "ovariectomyMouseGroup"
     },
-    hormoneCapsuleImplant: {
+    hormoneCapsuleImplanted: {
       kind: "const",
       visibility: "visible",
-      ref: "hormoneCapsuleImplant"
+      ref: "hormoneCapsuleImplanted"
     },
     hormoneCapsuleImplantType: {
       kind: "const",
@@ -635,7 +635,7 @@ export default defineInstrument({
       ovariectomyType: z.enum(["Unilateral", "Bilateral"]).optional(),
       ovariectomyMouseGroup: z.enum(["Control", "Experiment"]).optional(),
       ovariectomySide: z.enum(["Right", "Left"]).optional(),
-      hormoneCapsuleImplant: z.boolean().optional(),
+      hormoneCapsuleImplanted: z.boolean().optional(),
       hormoneCapsuleImplantType: z.enum(["Vehicle", "Estradiol"]).optional(),
       hormoneCapsuleImplantConcentration: z.number().positive().optional(),
       hormoneCapsuleImplantSide: z.enum(["Right", "Left"]).optional(),
@@ -678,7 +678,7 @@ export default defineInstrument({
         message: "This field is required when the implant type is Estradiol."
       });
     }
-    if (data.hormoneCapsuleImplant && data.hormoneCapsuleImplantSide === undefined) {
+    if (data.hormoneCapsuleImplanted && data.hormoneCapsuleImplantSide === undefined) {
       ctx.addIssue({
         code: "custom",
         path: ["hormoneCapsuleImplantSide"],
