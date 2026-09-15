@@ -283,7 +283,7 @@ export default defineInstrument({
              variant: "select",
              label: "Ovariectomy group",
              options: {
-             "Control":"Control",
+             "Sham":"Sham",
              "Experiment": "Experiment"
              }
           }
@@ -615,7 +615,7 @@ export default defineInstrument({
       stereotaxId: z.string().optional(),
       surgeryType: z.set(z.enum(["Ovariectomy", "Hormone capsule implant", "Electrode implant", "Fiber optic implant"])).optional(),
       ovariectomyType: z.enum(["Unilateral", "Bilateral"]).optional(),
-      ovariectomyMouseGroup: z.enum(["Control", "Experiment"]).optional(),
+      ovariectomyMouseGroup: z.enum(["Sham", "Experiment"]).optional(),
       ovariectomySide: z.nativeEnum(mouseSides).optional(),
       hormoneCapsuleImplantType: z.enum(["Vehicle", "Estradiol"]).optional(),
       hormoneCapsuleImplantConcentration: z.number().positive().optional(),
