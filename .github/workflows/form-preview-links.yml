@@ -1,0 +1,63 @@
+name: Form Preview Links
+
+# pull_request_target (rather than pull_request) gives the token write access for
+# PRs opened from forks. The workflow and script always come from the base branch,
+# and the PR's files are only read as data via git, never installed or executed.
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize]
+    paths:
+      - 'public/forms/**'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: form-preview-links-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  preview-links:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out base branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Fetch pull request commits
+        run: git fetch --no-tags origin "+refs/pull/${{ github.event.pull_request.number }}/head"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+      - name: Enable Corepack
+        run: corepack enable
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Generate preview links
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: node .github/scripts/form-preview-links.js "$BASE_SHA" "$HEAD_SHA" "$RUNNER_TEMP/comment.md"
+
+      - name: Post or update comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('node:fs');
+            const body = fs.readFileSync(`${process.env.RUNNER_TEMP}/comment.md`, 'utf8');
+            const marker = body.split('\n')[0];
+            const { owner, repo } = context.repo;
+            const issue_number = context.payload.pull_request.number;
+            const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number });
+            const existing = comments.find((c) => c.user.type === 'Bot' && c.body.startsWith(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body });
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number, body });
+            }
