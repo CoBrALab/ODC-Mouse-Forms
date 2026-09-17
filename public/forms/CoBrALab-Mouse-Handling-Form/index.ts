@@ -8,19 +8,19 @@ export default defineInstrument({
   language: 'en',
   tags: ['Handling','Cupping','Training'],
   internal: {
-    edition: 2,
+    edition: 3,
     name: 'MOUSE_HANDLING_FORM'
   },
   clientDetails: {
     estimatedDuration: 1,
-    instructions: ['Please fill out this form once a mouse finishes a handling session. During a handling session day this form is expected to done a total of three times for each individual session completed. All forms of handling used by the handler are all expected to be within the SOP'],
+    instructions: ['Testing this form Please fill out this form once a mouse finishes a handling session. During a handling session day this form is expected to done a total of three times for each individual session completed. All forms of handling used by the handler are all expected to be within the SOP'],
     
   },
   content: {
     roomNumber: {
       kind: 'string',
       variant: "input",
-      label: "Room number"
+      label: "Testing Room number"
     },
     handlingType: {
       kind: 'string',
