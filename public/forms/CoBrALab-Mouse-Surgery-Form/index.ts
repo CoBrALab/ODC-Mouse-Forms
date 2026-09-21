@@ -5,6 +5,11 @@ import { z } from '/runtime/v1/zod@3.23.x'
 
 type TreatmentType =  "Surgery" | "Wound treatment" | "Re-stitching" | "Intracerebral injection"
 
+const mouseSides = {
+             "Right": "Right",
+             "Left": "Left"
+             }  as const
+
 function createDependentField<const T>(field: T, fn: (treatmentType?: TreatmentType) => boolean) {
   return {
     kind: 'dynamic' as const,
@@ -23,7 +28,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Surgery', 'Vet Care', 'Wound Treatment', 'Ovariectomy','Intracerebral injection'],
   internal: {
-    edition: 3,
+    edition: 4,
     name: 'MOUSE_SURGERY_FORM'
   },
   content: {
@@ -224,11 +229,12 @@ export default defineInstrument({
     },
 
     surgeryType: createDependentField({
-      kind: "string",
-      variant: "select",
+      kind: "set",
+      variant: "listbox",
       label: "Type of surgery",
       options: {
         "Ovariectomy": "Ovariectomy",
+        "Hormone capsule implant": "Hormone capsule implant",
         "Electrode implant": "Electrode implant",
         "Fiber optic implant": "Fiber optic implant"
       }
@@ -238,7 +244,7 @@ export default defineInstrument({
       kind: "dynamic",
       deps: ["surgeryType"],
       render(data) {
-        if(data.surgeryType === "Ovariectomy"){
+        if(data.surgeryType?.has("Ovariectomy")){
           return {
              kind: "string",
              variant: "select",
@@ -261,10 +267,7 @@ export default defineInstrument({
              kind: "string",
              variant: "select",
              label: "Ovariectomy side",
-             options: {
-             "Right":"Right",
-             "Left": "Left"
-             }
+             options: mouseSides
           }
         }
         return null
@@ -274,15 +277,65 @@ export default defineInstrument({
       kind: "dynamic",
       deps: ["surgeryType"],
       render(data) {
-        if(data.surgeryType === "Ovariectomy"){
+        if(data.surgeryType?.has("Ovariectomy")){
           return {
              kind: "string",
              variant: "select",
-             label: "Ovariectomy group (control/experiment)",
+             label: "Ovariectomy group",
              options: {
-             "Control":"Control",
+             "Sham":"Sham",
              "Experiment": "Experiment"
              }
+          }
+        }
+        return null
+      }
+    },
+
+    hormoneCapsuleImplantType: {
+      kind: "dynamic",
+      deps: ["surgeryType"],
+      render(data) {
+        if(data.surgeryType?.has("Hormone capsule implant")){
+          return {
+            kind: "string",
+            variant: "select",
+            label: "Hormone capsule implant type",
+            options: {
+              "Vehicle": "Vehicle",
+              "Estradiol": "Estradiol"
+            }
+          }
+        }
+        return null
+      }
+    },
+
+    hormoneCapsuleImplantConcentration: {
+      kind: "dynamic",
+      deps: ["hormoneCapsuleImplantType"],
+      render(data) {
+        if(data.hormoneCapsuleImplantType === "Estradiol"){
+          return {
+            kind: "number",
+            variant: "input",
+            label: "Estradiol concentration (µg/mL)"
+          }
+        }
+        return null
+      }
+    },
+
+    hormoneCapsuleImplantSide: {
+      kind: "dynamic",
+      deps: ["surgeryType"],
+      render(data) {
+        if(data.surgeryType?.has("Hormone capsule implant")){
+          return {
+            kind: "string",
+            variant: "select",
+            label: "Hormone capsule implant side",
+            options: mouseSides
           }
         }
         return null
@@ -293,7 +346,7 @@ export default defineInstrument({
       kind: "dynamic",
       deps: ["stereotaxUsed", "surgeryType"],
       render(data) {
-        if( data.stereotaxUsed && (data.surgeryType !== 'Ovariectomy' && data.surgeryType !== undefined)){
+        if( data.stereotaxUsed && (data.surgeryType?.has('Electrode implant') || data.surgeryType?.has('Fiber optic implant'))){
           return {
             kind: "number",
             variant: "input",
@@ -307,7 +360,7 @@ export default defineInstrument({
       kind: "dynamic",
       deps: ["stereotaxUsed","surgeryType"],
       render(data) {
-        if( data.stereotaxUsed && (data.surgeryType !== 'Ovariectomy' && data.surgeryType !== undefined)){
+        if( data.stereotaxUsed && (data.surgeryType?.has('Electrode implant') || data.surgeryType?.has('Fiber optic implant'))){
           return {
             kind: "number",
             variant: "input",
@@ -322,7 +375,7 @@ export default defineInstrument({
       kind: "dynamic",
       deps: ["stereotaxUsed","surgeryType"],
       render(data) {
-        if( data.stereotaxUsed && (data.surgeryType !== 'Ovariectomy' && data.surgeryType !== undefined)){
+        if( data.stereotaxUsed && (data.surgeryType?.has('Electrode implant') || data.surgeryType?.has('Fiber optic implant'))){
           return {
             kind: "number",
             variant: "input",
@@ -462,9 +515,10 @@ export default defineInstrument({
       ref: "stereotaxId"
     },
     surgeryType: {
-      kind: "const",
+      kind: "computed",
+      label: "Type of surgery",
       visibility: "visible",
-      ref: "surgeryType"
+      value: (data) => data.surgeryType ? Array.from(data.surgeryType).join(" ") : ""
     },
     ovariectomyType: {
       kind: "const",
@@ -480,6 +534,21 @@ export default defineInstrument({
       kind: "const",
       visibility: "visible",
       ref: "ovariectomyMouseGroup"
+    },
+    hormoneCapsuleImplantType: {
+      kind: "const",
+      visibility: "visible",
+      ref: "hormoneCapsuleImplantType"
+    },
+    hormoneCapsuleImplantConcentration: {
+      kind: "const",
+      visibility: "visible",
+      ref: "hormoneCapsuleImplantConcentration"
+    },
+    hormoneCapsuleImplantSide: {
+      kind: "const",
+      visibility: "visible",
+      ref: "hormoneCapsuleImplantSide"
     },
     brainSurgeryPaxinosMLCoords:{
       kind: "const",
@@ -544,10 +613,13 @@ export default defineInstrument({
       intracerebralInjectionBatchType: z.string().optional(),
       stereotaxUsed: z.boolean().optional(),
       stereotaxId: z.string().optional(),
-      surgeryType: z.enum(["Ovariectomy", "Electrode implant", "Fiber optic implant"]).optional(),
+      surgeryType: z.set(z.enum(["Ovariectomy", "Hormone capsule implant", "Electrode implant", "Fiber optic implant"])).optional(),
       ovariectomyType: z.enum(["Unilateral", "Bilateral"]).optional(),
-      ovariectomyMouseGroup: z.enum(["Control", "Experiment"]).optional(),
-      ovariectomySide: z.enum(["Right", "Left"]).optional(),
+      ovariectomyMouseGroup: z.enum(["Sham", "Experiment"]).optional(),
+      ovariectomySide: z.nativeEnum(mouseSides).optional(),
+      hormoneCapsuleImplantType: z.enum(["Vehicle", "Estradiol"]).optional(),
+      hormoneCapsuleImplantConcentration: z.number().positive().optional(),
+      hormoneCapsuleImplantSide: z.nativeEnum(mouseSides).optional(),
       brainSurgeryPaxinosMLCoords: z.number().min(-5).max(5).optional(),
       brainSurgeryPaxinosAPCoords: z.number().min(-8.8).max(6).optional(),
       brainSurgeryPaxinosDVCoords: z.number().min(0).max(6.4).optional(),
@@ -558,5 +630,48 @@ export default defineInstrument({
       surgeryDuration: z.number().min(0).optional(),
       additionalComments: z.string().optional(),
 
+  }).superRefine((data, ctx) => {
+    if (data.surgeryType?.has("Ovariectomy") && data.ovariectomyType === undefined) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["ovariectomyType"],
+        message: "This field is required when the surgery type is Ovariectomy."
+      });
+    }
+    if (data.surgeryType?.has("Ovariectomy") && data.ovariectomyMouseGroup === undefined) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["ovariectomyMouseGroup"],
+        message: "This field is required when the surgery type is Ovariectomy."
+      });
+    }
+    if (data.ovariectomyType === "Unilateral" && data.ovariectomySide === undefined) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["ovariectomySide"],
+        message: "This field is required when the ovariectomy is Unilateral."
+      });
+    }
+    if (data.surgeryType?.has("Hormone capsule implant") && data.hormoneCapsuleImplantType === undefined) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["hormoneCapsuleImplantType"],
+        message: "This field is required when the surgery type is Hormone capsule implant."
+      });
+    }
+    if (data.hormoneCapsuleImplantType === "Estradiol" && data.hormoneCapsuleImplantConcentration === undefined) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["hormoneCapsuleImplantConcentration"],
+        message: "This field is required when the implant type is Estradiol."
+      });
+    }
+    if (data.surgeryType?.has("Hormone capsule implant") && data.hormoneCapsuleImplantSide === undefined) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["hormoneCapsuleImplantSide"],
+        message: "This field is required when the surgery type is Hormone capsule implant."
+      });
+    }
   })
 });
