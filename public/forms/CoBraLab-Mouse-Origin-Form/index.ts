@@ -332,7 +332,7 @@ export default defineInstrument({
       }
     },
 
-    roomNumber: {
+    breedingRoomNumber: {
       kind: 'dynamic',
       deps: ['boxMouse'],
       render(data){
@@ -500,6 +500,11 @@ export default defineInstrument({
     visibility: 'visible',
     ref: 'generationNumber'
   },
+  breedingRoomNumber: {
+    kind: 'const',
+    visibility: 'visible',
+    ref: 'breedingRoomNumber'
+  },
   additionalComments: {
     kind: 'const',
     visibility: 'visible',
@@ -574,7 +579,7 @@ export default defineInstrument({
     'Other'
   ]).optional(),
   otherBreederOrigin: z.string().optional(),
-  roomNumber: z.string().optional(),
+  breedingRoomNumber: z.string().optional(),
   generationNumber: z.number().min(0).int().optional(),
   additionalComments: z.string().optional()
 })
