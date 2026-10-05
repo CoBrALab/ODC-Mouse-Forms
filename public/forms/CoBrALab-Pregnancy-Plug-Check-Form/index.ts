@@ -75,7 +75,7 @@ export default defineInstrument({
 
   },
   validationSchema: z.object({
-    plugPresent: z.boolean().optional(),
+    plugPresent: z.boolean(),
     daysSinceMating: z.number().nonnegative("Must be 0 or greater"),
     malePartnerId: z.string().min(1, "Male partner ID is required"),
     predictedDob: z.date().optional(),
