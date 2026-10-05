@@ -13,9 +13,14 @@ export default defineInstrument({
   },
   content: {
     plugPresent: {
-      kind: "boolean",
+      kind: "string",
       variant: "radio",
-      label: "Pregnancy plug present"
+      label: "Pregnancy plug status",
+      options: {
+        "With plug": "With plug",
+        "Without plug": "Without plug",
+        "Open without plug": "Open without plug"
+      }
     },
     daysSinceMating: {
       kind: "number",
@@ -75,7 +80,11 @@ export default defineInstrument({
 
   },
   validationSchema: z.object({
-    plugPresent: z.boolean(),
+    plugPresent: z.enum([
+      "With plug",
+      "Without plug",
+      "Open without plug"
+    ]),
     daysSinceMating: z.number().nonnegative("Must be 0 or greater"),
     malePartnerId: z.string().min(1, "Male partner ID is required"),
     predictedDob: z.date().optional(),
