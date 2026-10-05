@@ -8,7 +8,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Mouse', 'Dam', 'Pregnancy', 'Plug'],
   internal: {
-    edition: 2,
+    edition: 3,
     name: 'PREGNANCY_PLUG_CHECK_FORM'
   },
   content: {
@@ -16,11 +16,6 @@ export default defineInstrument({
       kind: "boolean",
       variant: "radio",
       label: "Pregnancy plug present"
-    },
-    damId: {
-      kind: "string",
-      variant: "input",
-      label: "Dam ID"
     },
     daysSinceMating: {
       kind: "number",
@@ -57,11 +52,6 @@ export default defineInstrument({
       visibility: 'visible',
       ref: 'plugPresent'
     },
-    damId: {
-      kind: 'const',
-      visibility: 'visible',
-      ref: 'damId'
-    },
     daysSinceMating: {
       kind: 'const',
       visibility: 'visible',
@@ -85,8 +75,7 @@ export default defineInstrument({
 
   },
   validationSchema: z.object({
-    plugPresent: z.boolean(),
-    damId: z.string().min(1, "Dam ID is required"),
+    plugPresent: z.boolean().optional(),
     daysSinceMating: z.number().nonnegative("Must be 0 or greater"),
     malePartnerId: z.string().min(1, "Male partner ID is required"),
     predictedDob: z.date().optional(),
