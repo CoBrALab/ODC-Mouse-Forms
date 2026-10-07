@@ -12,6 +12,8 @@
   },
   "devDependencies": {
     "@opendatacapture/playground-url": "^2.4.0",
+    "@opendatacapture/runtime-v1": "2.5.2",
+    "@opendatacapture/serve-instrument": "^2.5.2",
     "typescript": "~5.7.2",
     "vite": "^6.4.3"
   },
