@@ -15,6 +15,18 @@ const interventionTypeList = [ "Blood extraction",
 
 type InterventionType = typeof interventionTypeList[number];
 
+const earTagSystemMaximums = {
+  "1-32 System": 32,
+  "1-64": 64,
+  "1-99 System": 99
+} as const
+
+type NumericEarTagSystem = keyof typeof earTagSystemMaximums;
+
+const isNumericEarTagSystem = (system?: string): system is NumericEarTagSystem => {
+  return system === "1-32 System" || system === "1-64" || system === "1-99 System"
+}
+
 function createDependentField<const T>(field: T, fn: (interventionType?: InterventionType) => boolean) {
   return {
     kind: 'dynamic' as const,
@@ -33,7 +45,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Physical intervention','Blood extraction', 'Ear tagging', 'Genotyping', 'Vaginal cytology','Blood glucose','anesthesia', 'Fecal matter collection'],
   internal: {
-    edition: 4,
+    edition: 5,
     name: 'PHYSICAL_INTERVENTION_FORM'
   },
   content: {
@@ -134,6 +146,61 @@ export default defineInstrument({
       }
     },
     (type) => type === "Ear tagging"),
+
+    earTagNumber: {
+      kind: "dynamic",
+      deps: ["earTaggingSystem"],
+      render(data) {
+        const system = data.earTaggingSystem
+        if(isNumericEarTagSystem(system)){
+          return {
+            kind: "number",
+            variant: "input",
+            label: "Ear tag identification number",
+            description: `Must be a whole number between 1 and ${earTagSystemMaximums[system]}`
+          }
+        }
+        return null
+      }
+    },
+
+    earTagPosition: {
+      kind: "dynamic",
+      deps: ["earTaggingSystem"],
+      render(data) {
+        if(data.earTaggingSystem === "L-R-LL-LR-RR"){
+          return {
+            kind: "string",
+            variant: "radio",
+            label: "Ear tag identification",
+            options: {
+              "L": "L",
+              "R": "R",
+              "LL": "LL",
+              "LR": "LR",
+              "RR": "RR"
+            }
+          }
+        }
+        return null
+      }
+    },
+
+    earTagOtherId: {
+      kind: "dynamic",
+      deps: ["earTaggingSystem"],
+      render(data) {
+        if(data.earTaggingSystem === "Other"){
+          return {
+            kind: "string",
+            variant: "input",
+            label: "Ear tag identification"
+          }
+        }
+        return null
+      }
+    },
+
     rfidChipNumber: createDependentField({
   kind: "number",
   variant: "input",
@@ -203,7 +270,7 @@ rfidReadStatus: createDependentField({
         return null
       }
     },
-    isofluranePercentage: {
+    isofluranePercentageInduction: {
       kind: 'dynamic',
       deps: ['anesthesiaUsed', 'anesthesiaType', 'interventionType'],
       render(data) {
@@ -211,7 +278,7 @@ rfidReadStatus: createDependentField({
           return {
             kind: "number",
             variant: "input",
-            label: "Isoflurane percentage"
+            label: "Isoflurane percentage during induction"
           }
         }
         return null
@@ -227,6 +294,20 @@ rfidReadStatus: createDependentField({
             kind: "number",
             variant: "input",
             label: "Isoflurane induction time (minutes)"
+          }
+        }
+        return null
+      }
+    },
+    isofluranePercentageProcedure: {
+      kind: 'dynamic',
+      deps: ['anesthesiaUsed', 'anesthesiaType', 'interventionType'],
+      render(data) {
+        if((data.interventionType === 'Anesthesia' || data.anesthesiaUsed) && data.anesthesiaType  === 'Isoflurane') {
+          return {
+            kind: "number",
+            variant: "input",
+            label: "Isoflurane percentage during procedure"
           }
         }
         return null
@@ -419,6 +500,21 @@ analgesicDose: {
       visibility: "visible",
       ref: "earTaggingSystem"
     },
+    earTagNumber: {
+      kind: "const",
+      visibility: "visible",
+      ref: "earTagNumber"
+    },
+    earTagPosition: {
+      kind: "const",
+      visibility: "visible",
+      ref: "earTagPosition"
+    },
+    earTagOtherId: {
+      kind: "const",
+      visibility: "visible",
+      ref: "earTagOtherId"
+    },
     rfidChipNumber: {
     kind: "const",
     visibility: "visible",
@@ -454,10 +550,15 @@ analgesicDose: {
     visibility: "visible",
     ref: "anesthesiaDose"
   },
-  isofluranePercentage: {
+  isofluranePercentageInduction: {
     kind: 'const',
     visibility: 'visible',
-    ref: 'isofluranePercentage'
+    ref: 'isofluranePercentageInduction'
+  },
+  isofluranePercentageProcedure: {
+    kind: 'const',
+    visibility: 'visible',
+    ref: 'isofluranePercentageProcedure'
   },
   anesthesiaInductionTime: {
     kind: "const",
@@ -567,14 +668,24 @@ analgesicDose: {
     "1-32 System",
     "Other"
   ]).optional(),
+  earTagNumber: z.number().int().positive().optional(),
+  earTagPosition: z.enum([
+    "L",
+    "R",
+    "LL",
+    "LR",
+    "RR"
+  ]).optional(),
+  earTagOtherId: z.string().optional(),
   rfidChipNumber: z.number().int().optional(),
   rfidReadStatus: z.enum(["Successful", "Unsuccessful"]).optional(),
   anesthesiaUsed: z.boolean().optional(),
   anesthesiaType: z.enum(["Isoflurane", "Other"]).optional(),
   otherAnesthesiaType: z.string().optional(),
   anesthesiaDose: z.number().min(0).optional(),
-  isofluranePercentage: z.number().min(0).max(100).optional(),
+  isofluranePercentageInduction: z.number().min(0).max(100).optional(),
   anesthesiaInductionTime: z.number().int().min(0).optional(),
+  isofluranePercentageProcedure: z.number().min(0).max(100).optional(),
   analgesicUsed: z.boolean().optional(),
   analgesicType: z.enum([
     "Carprofen",
@@ -604,5 +715,37 @@ analgesicDose: {
     teethExtractionNumber: z.number().int().min(0).max(16).optional(),
     bloodGlucoseLevel: z.string().optional(),
     additionalComments: z.string().optional()
+  }).superRefine((data, ctx) => {
+    const system = data.earTaggingSystem
+    if (isNumericEarTagSystem(system)) {
+      const maximum = earTagSystemMaximums[system]
+      if (data.earTagNumber === undefined) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["earTagNumber"],
+          message: `This field is required when the ear tagging system is ${system}.`
+        });
+      } else if (data.earTagNumber > maximum) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["earTagNumber"],
+          message: `The ${system} only allows numbers from 1 to ${maximum}.`
+        });
+      }
+    }
+    if (system === "L-R-LL-LR-RR" && data.earTagPosition === undefined) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["earTagPosition"],
+        message: "This field is required when the ear tagging system is L-R-LL-LR-RR."
+      });
+    }
+    if (system === "Other" && !data.earTagOtherId) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["earTagOtherId"],
+        message: "This field is required when the ear tagging system is Other."
+      });
+    }
   })
 });
