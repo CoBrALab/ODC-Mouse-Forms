@@ -270,7 +270,7 @@ rfidReadStatus: createDependentField({
         return null
       }
     },
-    isofluranePercentage: {
+    isofluranePercentageInduction: {
       kind: 'dynamic',
       deps: ['anesthesiaUsed', 'anesthesiaType', 'interventionType'],
       render(data) {
@@ -278,7 +278,7 @@ rfidReadStatus: createDependentField({
           return {
             kind: "number",
             variant: "input",
-            label: "Isoflurane percentage"
+            label: "Isoflurane percentage during induction"
           }
         }
         return null
@@ -294,6 +294,20 @@ rfidReadStatus: createDependentField({
             kind: "number",
             variant: "input",
             label: "Isoflurane induction time (minutes)"
+          }
+        }
+        return null
+      }
+    },
+    isofluranePercentageProcedure: {
+      kind: 'dynamic',
+      deps: ['anesthesiaUsed', 'anesthesiaType', 'interventionType'],
+      render(data) {
+        if((data.interventionType === 'Anesthesia' || data.anesthesiaUsed) && data.anesthesiaType  === 'Isoflurane') {
+          return {
+            kind: "number",
+            variant: "input",
+            label: "Isoflurane percentage during procedure"
           }
         }
         return null
@@ -536,10 +550,15 @@ analgesicDose: {
     visibility: "visible",
     ref: "anesthesiaDose"
   },
-  isofluranePercentage: {
+  isofluranePercentageInduction: {
     kind: 'const',
     visibility: 'visible',
-    ref: 'isofluranePercentage'
+    ref: 'isofluranePercentageInduction'
+  },
+  isofluranePercentageProcedure: {
+    kind: 'const',
+    visibility: 'visible',
+    ref: 'isofluranePercentageProcedure'
   },
   anesthesiaInductionTime: {
     kind: "const",
@@ -664,8 +683,9 @@ analgesicDose: {
   anesthesiaType: z.enum(["Isoflurane", "Other"]).optional(),
   otherAnesthesiaType: z.string().optional(),
   anesthesiaDose: z.number().min(0).optional(),
-  isofluranePercentage: z.number().min(0).max(100).optional(),
+  isofluranePercentageInduction: z.number().min(0).max(100).optional(),
   anesthesiaInductionTime: z.number().int().min(0).optional(),
+  isofluranePercentageProcedure: z.number().min(0).max(100).optional(),
   analgesicUsed: z.boolean().optional(),
   analgesicType: z.enum([
     "Carprofen",
