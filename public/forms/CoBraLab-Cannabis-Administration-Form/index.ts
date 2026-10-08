@@ -141,7 +141,7 @@ export default defineInstrument({
     temperatureSetting: {
       kind: 'number',
       variant: 'slider',
-      label: 'Temperature setting',
+      label: 'Temperature setting (1-9)',
       min: 1,
       max: 9
     },
@@ -159,7 +159,7 @@ export default defineInstrument({
   details: {
     description: 'Records a vaporized cannabis administration session, including the substance administered (cannabis, a hot air or oregano control, or another substance), the vaporizer temperature setting and air timing.',
     license: 'Apache-2.0',
-    title: 'Vaporized Cannabis Administration Form'
+    title: 'Cannabis Administration Form'
   },
   clientDetails: {
     instructions: ['This is to be filled after a mouse has finished a vaporized cannabis administration session.'],
