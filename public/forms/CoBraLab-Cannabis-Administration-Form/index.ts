@@ -148,12 +148,14 @@ export default defineInstrument({
     timeAirOn: {
       kind: 'number',
       variant: 'input',
-      label: 'Time air on (minutes)'
+      label: 'Time air on (minutes)',
+      description: 'Whole minutes, range: 0 - 60'
     },
     timeAfterAirOff: {
       kind: 'number',
       variant: 'input',
-      label: 'Time after air off (minutes)'
+      label: 'Time after air off (minutes)',
+      description: 'Whole minutes, range: 0 - 60'
     }
   },
   details: {
