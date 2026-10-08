@@ -86,7 +86,8 @@ export default defineInstrument({
           return {
             kind: 'number',
             variant: 'input',
-            label: 'Amount of ground cannabis (mg)'
+            label: 'Amount of ground cannabis (mg)',
+            description: 'Range: 0 - 1000 mg'
           }
         }
         return null
@@ -132,7 +133,8 @@ export default defineInstrument({
           return {
             kind: 'number',
             variant: 'input',
-            label: 'Amount of oregano (mg)'
+            label: 'Amount of oregano (mg)',
+            description: 'Range: 0 - 1000 mg'
           }
         }
         return null
