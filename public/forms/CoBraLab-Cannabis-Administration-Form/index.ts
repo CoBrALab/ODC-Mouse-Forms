@@ -9,7 +9,7 @@ export default defineInstrument({
   tags: ['Cannabis', 'Vaporization', 'Inhalation', 'CBD', 'THC'],
   internal: {
     edition: 1,
-    name: 'CANNABIS_ADMINISTRATION_FORM'
+    name: 'VAPORIZED_CANNABIS_ADMINISTRATION_FORM'
   },
   content: {
     substance: {
@@ -163,7 +163,7 @@ export default defineInstrument({
   details: {
     description: 'Records a vaporized cannabis administration session, including the substance administered (cannabis, a hot air or oregano control, or another substance), the vaporizer temperature setting and air timing.',
     license: 'Apache-2.0',
-    title: 'Cannabis Administration Form'
+    title: 'Vaporized Cannabis Administration Form'
   },
   clientDetails: {
     instructions: ['This is to be filled after a mouse has finished a vaporized cannabis administration session.'],
