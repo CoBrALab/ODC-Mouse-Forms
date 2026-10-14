@@ -101,12 +101,6 @@ export default defineInstrument({
         return null
       }
     },
-    testStartTime: {
-      kind: 'string',
-      variant: 'input',
-      label: 'Time test was started (HH:MM, 24-hour)',
-      description: 'The exact time the mouse was placed inside the arena'
-    },
     videoName: {
       kind: 'string',
       variant: 'input',
@@ -173,11 +167,6 @@ export default defineInstrument({
       visibility: 'visible',
       ref: 'visualCuesType'
     },
-    testStartTime: {
-      kind: 'const',
-      visibility: 'visible',
-      ref: 'testStartTime'
-    },
     videoName: {
       kind: 'const',
       visibility: 'visible',
@@ -199,7 +188,6 @@ export default defineInstrument({
     mouseEntryCorner: z.enum(["Top left", "Top right", "Bottom left", "Bottom right"]),
     visualCuesUsed: z.boolean().optional(),
     visualCuesType: z.set(z.enum(["External", "Internal"])).optional(),
-    testStartTime: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, "Please enter a 24-hour time in the format HH:MM (e.g. 14:35)"),
     videoName: z.string(),
     additionalComments: z.string().optional()
   }).superRefine((data, ctx) => {
