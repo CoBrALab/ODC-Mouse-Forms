@@ -77,7 +77,11 @@ export default defineInstrument({
     visualCuesUsed: {
       kind: 'boolean',
       variant: 'radio',
-      label: 'Were visual cues used? (optional)'
+      label: 'Were visual cues used? (optional)',
+      options: {
+        true: 'Yes',
+        false: 'No'
+      }
     },
     visualCuesType: {
       kind: 'dynamic',
