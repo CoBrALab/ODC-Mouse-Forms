@@ -12,14 +12,16 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  # write is needed to push form edition bumps to main
+  contents: write
   pages: write
   id-token: write
 
-# Allow one concurrent deployment
+# Allow one concurrent deployment. Runs are queued rather than cancelled so every
+# merge gets its form editions bumped.
 concurrency:
   group: "pages"
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build-and-deploy:
@@ -31,11 +33,37 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22.x
+
+      # Bump the edition of every form changed by this push whose edition was not
+      # already changed, before building so the deployed site has the new editions.
+      # Skipped for manual runs and for the first push to a branch (no previous commit).
+      - name: Bump form editions
+        if: github.event_name == 'push' && github.event.before != '0000000000000000000000000000000000000000'
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+        run: node .github/scripts/bump-form-editions.js "$BEFORE_SHA" "$GITHUB_SHA"
+
+      # Pushes made with GITHUB_TOKEN do not trigger workflows, so this does not start another deployment
+      - name: Commit form edition bumps
+        if: github.event_name == 'push'
+        run: |
+          if git diff --quiet -- public/forms; then
+            echo "No form editions to bump"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Bump edition of changed forms" -- public/forms
+          git pull --rebase origin "$GITHUB_REF_NAME"
+          git push origin "HEAD:$GITHUB_REF_NAME"
+
       - name: Enable Corepack
         run: corepack enable
       - run: pnpm install --frozen-lockfile
