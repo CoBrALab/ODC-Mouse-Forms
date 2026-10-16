@@ -62,16 +62,17 @@ export default defineInstrument({
       variant: 'input',
       label: 'Arena number'
     },
-    mouseEntryCorner: {
+    mouseEntryPlacement: {
       kind: 'string',
       variant: 'radio',
-      label: 'Mouse entry corner',
+      label: 'Mouse entry placement',
       description: 'As defined in the project setup documentation',
       options: {
         "Top left": "Top left",
         "Top right": "Top right",
         "Bottom left": "Bottom left",
-        "Bottom right": "Bottom right"
+        "Bottom right": "Bottom right",
+        "Center": "Center"
       }
     },
     visualCuesUsed: {
@@ -152,10 +153,10 @@ export default defineInstrument({
       visibility: 'visible',
       ref: 'arenaNumber'
     },
-    mouseEntryCorner: {
+    mouseEntryPlacement: {
       kind: 'const',
       visibility: 'visible',
-      ref: 'mouseEntryCorner'
+      ref: 'mouseEntryPlacement'
     },
     visualCuesUsed: {
       kind: 'const',
@@ -185,7 +186,7 @@ export default defineInstrument({
     arenaPlacement: z.enum(["Floor", "Platform", "Table", "Other"]),
     arenaPlacementOther: z.string().optional(),
     arenaNumber: z.string(),
-    mouseEntryCorner: z.enum(["Top left", "Top right", "Bottom left", "Bottom right"]),
+    mouseEntryPlacement: z.enum(["Top left", "Top right", "Bottom left", "Bottom right", "Center"]),
     visualCuesUsed: z.boolean().optional(),
     visualCuesType: z.set(z.enum(["External", "Internal"])).optional(),
     videoName: z.string(),
