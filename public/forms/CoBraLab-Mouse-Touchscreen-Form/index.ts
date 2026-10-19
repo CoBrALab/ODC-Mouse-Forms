@@ -119,11 +119,6 @@ export default defineInstrument({
       kind: "date",
       label: "Milkshake batch expiration date",
     },
-    foodGiven: {
-      kind: "number",
-      variant: "input",
-      label: "Amount of food given (in grams)",
-    },
     trialFailed: {
       kind: "boolean",
       variant: "radio",
@@ -207,11 +202,6 @@ export default defineInstrument({
       label: "Other brand",
       ref: "milkshakeBrandOther",
     },
-    foodGiven: {
-      kind: "const",
-      label: "Food given",
-      ref: "foodGiven",
-    },
     trialFailed: {
       kind: "const",
       label: "Trial failed",
@@ -249,7 +239,6 @@ export default defineInstrument({
     milkshakeExpiration: z.date(),
     milkshakeBrand: z.enum(["Neilson Strawberry Milkshake", "Other"]),
     milkshakeBrandOther: z.string().optional(),
-    foodGiven: z.number().min(0).max(100),
     trialFailed: z.boolean(),
     failureReason: z.string().optional(),
     additionalComments: z.string().optional(),
