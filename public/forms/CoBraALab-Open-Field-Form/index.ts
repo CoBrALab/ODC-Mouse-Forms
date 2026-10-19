@@ -105,7 +105,8 @@ export default defineInstrument({
     videoName: {
       kind: 'string',
       variant: 'input',
-      label: 'Video name'
+      label: 'Video name (Optional)',
+      description: 'The name of the video file recorded for this test. This is optional, but recommended for tracking purposes.'
     },
     additionalComments: {
       kind: 'string',
@@ -189,7 +190,7 @@ export default defineInstrument({
     mouseEntryPlacement: z.enum(["Top left", "Top right", "Bottom left", "Bottom right", "Center"]),
     visualCuesUsed: z.boolean().optional(),
     visualCuesType: z.set(z.enum(["External", "Internal"])).optional(),
-    videoName: z.string(),
+    videoName: z.string().optional(),
     additionalComments: z.string().optional()
   }).superRefine((data, ctx) => {
     if (data.arenaPlacement === "Other" && !data.arenaPlacementOther) {
