@@ -102,12 +102,6 @@ export default defineInstrument({
         return null
       }
     },
-    videoName: {
-      kind: 'string',
-      variant: 'input',
-      label: 'Video name (Optional)',
-      description: 'The name of the video file recorded for this test. This is optional, but recommended for tracking purposes.'
-    },
     additionalComments: {
       kind: 'string',
       variant: 'textarea',
@@ -169,11 +163,6 @@ export default defineInstrument({
       visibility: 'visible',
       ref: 'visualCuesType'
     },
-    videoName: {
-      kind: 'const',
-      visibility: 'visible',
-      ref: 'videoName'
-    },
     additionalComments: {
       kind: 'const',
       visibility: 'visible',
@@ -190,7 +179,6 @@ export default defineInstrument({
     mouseEntryPlacement: z.enum(["Top left", "Top right", "Bottom left", "Bottom right", "Center"]),
     visualCuesUsed: z.boolean().optional(),
     visualCuesType: z.set(z.enum(["External", "Internal"])).optional(),
-    videoName: z.string().optional(),
     additionalComments: z.string().optional()
   }).superRefine((data, ctx) => {
     if (data.arenaPlacement === "Other" && !data.arenaPlacementOther) {
