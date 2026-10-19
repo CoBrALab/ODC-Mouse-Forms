@@ -10,7 +10,7 @@ export default defineInstrument({
   language: "en",
   tags: ["Mouse, Touchscreen", "PVD", "5-choice"],
   internal: {
-    edition: 3,
+    edition: 4,
     name: "MOUSE_TOUCHSCREEN_FORM",
   },
   content: {
