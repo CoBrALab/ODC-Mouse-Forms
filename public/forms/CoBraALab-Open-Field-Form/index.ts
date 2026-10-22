@@ -36,6 +36,7 @@ export default defineInstrument({
       kind: 'number',
       variant: 'select',
       label: 'Arena number',
+      disableAutoPrefix: true,
       options: {
         1: '1',
         2: '2',
