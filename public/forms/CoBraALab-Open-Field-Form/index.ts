@@ -32,41 +32,22 @@ export default defineInstrument({
       variant: 'input',
       label: 'Time of habituation to the room (minutes)'
     },
-    arenaPlacement: {
-      kind: 'string',
-      variant: 'radio',
-      label: 'Arena placement',
-      options: {
-        "Floor": "Floor",
-        "Platform": "Platform",
-        "Table": "Table",
-        "Other": "Other"
-      }
-    },
-    arenaPlacementOther: {
-      kind: 'dynamic',
-      deps: ['arenaPlacement'],
-      render(data) {
-        if (data.arenaPlacement === 'Other') {
-          return {
-            kind: 'string',
-            variant: 'input',
-            label: 'Other arena placement'
-          }
-        }
-        return null
-      }
-    },
     arenaNumber: {
-      kind: 'string',
-      variant: 'input',
-      label: 'Arena number'
+      kind: 'number',
+      variant: 'select',
+      label: 'Arena number',
+      options: {
+        1: '1',
+        2: '2',
+        3: '3',
+        4: '4'
+      }
     },
     mouseEntryPlacement: {
       kind: 'string',
       variant: 'radio',
       label: 'Mouse entry placement',
-      description: 'As defined in the project setup documentation',
+      description: 'As defined in the project standard operating procedure',
       options: {
         "Top left": "Top left",
         "Top right": "Top right",
@@ -110,7 +91,7 @@ export default defineInstrument({
   },
   clientDetails: {
     estimatedDuration: 2,
-    instructions: ['To be filled in whenever a mouse completes an open field test. Arena placement, entry corner and visual cues should follow the project specific setup documentation.']
+    instructions: ['To be filled in whenever a mouse completes an open field test. Entry corner and visual cues should follow the project specific standard operating procedure.']
   },
   details: {
     description: 'A form to track the setup and recording of an open field test given to a mouse',
@@ -132,16 +113,6 @@ export default defineInstrument({
       kind: 'const',
       visibility: 'visible',
       ref: 'habituationTime'
-    },
-    arenaPlacement: {
-      kind: 'const',
-      visibility: 'visible',
-      ref: 'arenaPlacement'
-    },
-    arenaPlacementOther: {
-      kind: 'const',
-      visibility: 'visible',
-      ref: 'arenaPlacementOther'
     },
     arenaNumber: {
       kind: 'const',
@@ -173,21 +144,12 @@ export default defineInstrument({
     roomNumber: z.string(),
     lightCondition: z.enum(["Red light", "Lights on", "Lights off"]),
     habituationTime: z.number().int().min(0),
-    arenaPlacement: z.enum(["Floor", "Platform", "Table", "Other"]),
-    arenaPlacementOther: z.string().optional(),
-    arenaNumber: z.string(),
+    arenaNumber: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
     mouseEntryPlacement: z.enum(["Top left", "Top right", "Bottom left", "Bottom right", "Center"]),
     visualCuesUsed: z.boolean().optional(),
     visualCuesType: z.set(z.enum(["External", "Internal"])).optional(),
     additionalComments: z.string().optional()
   }).superRefine((data, ctx) => {
-    if (data.arenaPlacement === "Other" && !data.arenaPlacementOther) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["arenaPlacementOther"],
-        message: "This field is required when the arena placement is Other."
-      });
-    }
     if (data.visualCuesUsed && (!data.visualCuesType || data.visualCuesType.size === 0)) {
       ctx.addIssue({
         code: "custom",
