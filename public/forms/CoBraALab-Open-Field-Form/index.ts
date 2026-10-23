@@ -8,7 +8,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Behaviour', 'Open Field', 'Video'],
   internal: {
-    edition: 1,
+    edition: 2,
     name: 'MOUSE_OPEN_FIELD_TEST_FORM'
   },
   content: {
