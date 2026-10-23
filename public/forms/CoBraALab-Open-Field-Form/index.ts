@@ -131,7 +131,8 @@ export default defineInstrument({
       ref: 'visualCuesUsed'
     },
     visualCuesType: {
-      kind: 'conputed',
+      kind: 'computed',
+      label: 'Visual cues used',
       visibility: 'visible',
       value: (data) => data.visualCuesType ? Array.from(data.visualCuesType).join(" ") : ""
     },
