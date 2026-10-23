@@ -131,9 +131,10 @@ export default defineInstrument({
       ref: 'visualCuesUsed'
     },
     visualCuesType: {
-      kind: 'const',
+      kind: 'computed',
+      label: 'Visual cues used',
       visibility: 'visible',
-      ref: 'visualCuesType'
+      value: (data) => data.visualCuesType ? Array.from(data.visualCuesType).join(" ") : ""
     },
     additionalComments: {
       kind: 'const',
