@@ -8,7 +8,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Behaviour', 'Open Field', 'Video'],
   internal: {
-    edition: 1,
+    edition: 2,
     name: 'MOUSE_OPEN_FIELD_TEST_FORM'
   },
   content: {
@@ -131,9 +131,9 @@ export default defineInstrument({
       ref: 'visualCuesUsed'
     },
     visualCuesType: {
-      kind: 'const',
+      kind: 'conputed',
       visibility: 'visible',
-      ref: 'visualCuesType'
+      value: (data) => data.visualCuesType ? Array.from(data.visualCuesType).join(" ") : ""
     },
     additionalComments: {
       kind: 'const',
