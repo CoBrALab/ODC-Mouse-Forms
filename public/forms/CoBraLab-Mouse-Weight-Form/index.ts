@@ -8,7 +8,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Mouse', 'Weight', 'Scale'],
   internal: {
-    edition: 2,
+    edition: 3,
     name: 'MOUSE_WEIGHT_FORM'
   },
   content: {
@@ -17,12 +17,23 @@ export default defineInstrument({
       variant: 'input',
       label: 'Weight of mouse (in grams)'
     },
+    scaleKind: {
+      kind: 'string',
+      variant: 'select',
+      label: "Kind of scale",
+      options: {
+        "Portable": "Small portable",
+        "Regular": "Regular (Scout Pro SP401)",
+        "MRIRoomPlugIn": "MRI room plug-in scale"
+      }
+    },
     scaleSerialCode: {
       kind: 'string',
       variant: 'select',
       label: "Scale serial code",
       options: {
         "8334378068":"8334378068",
+        "MR12090098":"MR12090098",
         "Other": "Other"
       }
     },
@@ -40,15 +51,6 @@ export default defineInstrument({
         return null
       }
       
-    },
-    scaleKind: {
-      kind: 'string',
-      variant: 'select',
-      label: "Kind of scale",
-      options: {
-        "Portable": "Small portable",
-        "Regular": "Regular (Scout Pro SP401)"
-      }
     },
     additionalComments: {
       kind: "string",
@@ -82,7 +84,7 @@ export default defineInstrument({
       kind: 'const',
       label: "Other Scale serial code provided",
       visibility: 'visible',
-      ref: "scaleSerialCode"
+      ref: "scaleSerialCodeOther"
     },
     scaleKind: {
       kind: "const",
@@ -98,9 +100,9 @@ export default defineInstrument({
   },
   validationSchema: z.object({
     mouseWeight: z.number().min(1).max(100),
-    scaleSerialCode: z.enum(["8334378068","Other"]),
+    scaleKind: z.enum(["Portable","Regular","MRIRoomPlugIn"]),
+    scaleSerialCode: z.enum(["8334378068","MR12090098","Other"]),
     scaleSerialCodeOther: z.string().optional(),
-    scaleKind: z.enum(["Portable","Regular"]),
     additionalComments: z.string().optional()
   })
 });
