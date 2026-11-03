@@ -5,12 +5,40 @@ const { defineInstrument } = await import(
 );
 const { z } = await import("/runtime/v1/zod@3.23.x/index.js");
 
+// Stages that have pass/fail criteria (see Touchscreen SOP)
+const STAGES_WITH_CRITERIA = [
+  "habituation2a",
+  "habituation2b",
+  "initial touch",
+  "must touch",
+  "must initiate",
+  "punish incorrect",
+];
+
+function hasPassFailCriteria(data: {
+  experimentType?: string;
+  experimentStage?: string;
+  pvdStage?: string;
+}): boolean {
+  if (!data.experimentStage) {
+    return false;
+  }
+  if (STAGES_WITH_CRITERIA.includes(data.experimentStage)) {
+    return true;
+  }
+  return (
+    data.experimentType === "PVD" &&
+    data.experimentStage === "full session" &&
+    data.pvdStage === "acquisition"
+  );
+}
+
 export default defineInstrument({
   kind: "FORM",
   language: "en",
   tags: ["Mouse, Touchscreen", "PVD", "5-choice"],
   internal: {
-    edition: 4,
+    edition: 5,
     name: "MOUSE_TOUCHSCREEN_FORM",
   },
   content: {
@@ -120,9 +148,20 @@ export default defineInstrument({
       label: "Milkshake batch expiration date",
     },
     trialFailed: {
-      kind: "boolean",
-      variant: "radio",
-      label: "Did the mouse fail the session?",
+      kind: "dynamic",
+      deps: ["experimentType", "experimentStage", "pvdStage"],
+      render(data) {
+        if (hasPassFailCriteria(data)) {
+          return {
+            kind: "boolean",
+            variant: "radio",
+            label: "Did the mouse fail the session?",
+            description:
+              "The pass/fail criteria for each stage can be found in the Touchscreen SOP.",
+          };
+        }
+        return null;
+      },
     },
     failureReason: {
       kind: "dynamic",
@@ -239,8 +278,17 @@ export default defineInstrument({
     milkshakeExpiration: z.date(),
     milkshakeBrand: z.enum(["Neilson Strawberry Milkshake", "Other"]),
     milkshakeBrandOther: z.string().optional(),
-    trialFailed: z.boolean(),
+    trialFailed: z.boolean().optional(),
     failureReason: z.string().optional(),
     additionalComments: z.string().optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (hasPassFailCriteria(data) && data.trialFailed === undefined) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["trialFailed"],
+        message: "Please indicate whether the mouse failed the session",
+      });
+    }
   }),
 });
