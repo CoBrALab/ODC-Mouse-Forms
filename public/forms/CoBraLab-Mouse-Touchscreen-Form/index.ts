@@ -38,7 +38,7 @@ export default defineInstrument({
   language: "en",
   tags: ["Mouse, Touchscreen", "PVD", "5-choice"],
   internal: {
-    edition: 5,
+    edition: 4,
     name: "MOUSE_TOUCHSCREEN_FORM",
   },
   content: {
@@ -157,7 +157,7 @@ export default defineInstrument({
             variant: "radio",
             label: "Did the mouse fail the session?",
             description:
-              "The pass/fail criteria for each stage can be found in the Touchscreen SOP.",
+              "The pass/fail criteria for each stage should be found in the Touchscreen SOP.",
           };
         }
         return null;
