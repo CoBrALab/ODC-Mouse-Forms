@@ -84,7 +84,7 @@ export default defineInstrument({
       kind: 'const',
       label: "Other Scale serial code provided",
       visibility: 'visible',
-      ref: "scaleSerialCode"
+      ref: "scaleSerialCodeOther"
     },
     scaleKind: {
       kind: "const",
