@@ -146,7 +146,7 @@ export default defineInstrument({
     roomNumber: z.string(),
     lightCondition: z.enum(["Red light", "Lights on", "Lights off"]),
     habituationTime: z.number().int().min(0),
-    arenaNumber: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+    arenaNumber: z.number().int().min(1).max(4),
     mouseEntryPlacement: z.enum(["Top left", "Top right", "Bottom left", "Bottom right", "Center"]),
     visualCuesUsed: z.boolean().optional(),
     visualCuesType: z.set(z.enum(["External", "Internal"])).optional(),
