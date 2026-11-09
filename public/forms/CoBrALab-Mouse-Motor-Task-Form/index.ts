@@ -24,7 +24,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Rotarod', 'Motor tasks', 'Wire Hang', 'Pole test', 'Grip force'],
   internal: {
-    edition: 3,
+    edition: 4,
     name: 'MOUSE_MOTOR_TASK_FORM'
   },
   content: {

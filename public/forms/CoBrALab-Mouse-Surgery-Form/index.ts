@@ -28,7 +28,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Surgery', 'Vet Care', 'Wound Treatment', 'Ovariectomy','Intracerebral injection'],
   internal: {
-    edition: 4,
+    edition: 5,
     name: 'MOUSE_SURGERY_FORM'
   },
   content: {
