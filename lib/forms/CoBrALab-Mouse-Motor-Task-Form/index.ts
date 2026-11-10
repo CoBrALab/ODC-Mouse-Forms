@@ -24,7 +24,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Rotarod', 'Motor tasks', 'Wire Hang', 'Pole test', 'Grip force'],
   internal: {
-    edition: 4,
+    edition: 5,
     name: 'MOUSE_MOTOR_TASK_FORM'
   },
   content: {
@@ -44,6 +44,11 @@ export default defineInstrument({
         "Grip force": "Grip force"
       }
 
+    },
+    trialNumber: {
+      kind: "number",
+      variant: "input",
+      label: "Trial number (optional)"
     },
     rotarodTotalMiceNumber: createDependentField({
       kind: "number",
@@ -155,7 +160,7 @@ export default defineInstrument({
   },
   clientDetails: {
     estimatedDuration: 1,
-    instructions: ["To be filled in whenever a mouse completes a motor task. It is expected that the motor task session as well as the tool used (Rotarod, Pole test, wire hang, grip force) is known."]
+    instructions: ["To be filled in whenever a mouse completes a motor task. It is expected that the motor task session as well as the tool used (Rotarod, Pole test, wire hang, grip force) is known. Fill out the form once for each trial and enter the trial number."]
   },
   details: {
     description: 'Form to describe data gathered in a mouse\'s motor task experiment',
@@ -172,6 +177,11 @@ export default defineInstrument({
       kind: "const",
       visibility: "visible",
       ref: "motorTask"
+    },
+    trialNumber: {
+      kind: "const",
+      visibility: "visible",
+      ref: "trialNumber"
     },
     rotarodTotalMiceNumber: {
       kind: "const",
@@ -239,6 +249,7 @@ export default defineInstrument({
   validationSchema: z.object({
     roomNumber: z.string(),
     motorTask: z.enum(["Rotarod" , "Wire hang" , "Pole test", "Grip force"]),
+    trialNumber: z.number().int().min(1).optional(),
     rotarodTotalMiceNumber: z.number().min(1).max(4).optional(),
     rotarodDuration: z.number().min(0).optional(),
     rotarodSlotPosition: z.enum(["Left most", "Middle left", "Middle right", "Right most"]).optional(),
