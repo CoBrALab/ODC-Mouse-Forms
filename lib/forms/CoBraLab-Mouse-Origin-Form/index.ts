@@ -22,7 +22,8 @@ export default defineInstrument({
       label: 'Sex',
       options: {
         "Male": "Male",
-        "Female": "Female"
+        "Female": "Female",
+        "Unknown": "Unknown"
       }
     },
     cohortId: {
@@ -513,7 +514,7 @@ export default defineInstrument({
   },
   validationSchema: z.object({
   dateOfBirth: z.date(),
-  mouseSex: z.enum(['Male', 'Female']),
+  mouseSex: z.enum(['Male', 'Female', 'Unknown']),
   cohortId: z.string().optional(),
   boxMouse: z.boolean(),
   mouseStrain: z.enum([
