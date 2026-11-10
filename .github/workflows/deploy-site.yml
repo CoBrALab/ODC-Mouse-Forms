@@ -54,13 +54,13 @@ jobs:
       - name: Commit form edition bumps
         if: github.event_name == 'push'
         run: |
-          if git diff --quiet -- public/forms; then
+          if git diff --quiet -- lib/forms; then
             echo "No form editions to bump"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Bump edition of changed forms" -- public/forms
+          git commit -m "Bump edition of changed forms" -- lib/forms
           git pull --rebase origin "$GITHUB_REF_NAME"
           git push origin "HEAD:$GITHUB_REF_NAME"
 
