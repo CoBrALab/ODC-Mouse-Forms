@@ -106,6 +106,12 @@ export default defineInstrument({
       }
     },
 
+    subcutaneousDoseVolume: createDependentField({
+      kind: "number",
+      variant: "input",
+      label: "Subcutaneous dose volume (ml)"
+    }, (type) => type === "Subcutaneous"),
+
     ipInoculumAdministered: createDependentField({
       kind: "string",
       variant: "select",
@@ -211,6 +217,11 @@ export default defineInstrument({
       visibility: "visible",
       ref: "analgesicType"
     },
+    subcutaneousDoseVolume: {
+      kind: "const",
+      visibility: "visible",
+      ref: "subcutaneousDoseVolume"
+    },
     ipDoseVolume: {
       kind: "const",
       visibility: "visible",
@@ -251,6 +262,7 @@ export default defineInstrument({
     subcutaneousInjectionPostOperation: z.boolean().optional(),
     postOperationDay: z.date().optional(),
     analgesicType: z.enum(["Carprofen", "Bupivacaine"]).optional(),
+    subcutaneousDoseVolume: z.number().min(0).optional(),
     ipDoseVolume: z.number().min(0).optional(),
     ipInoculumAdministered: z.enum(["PU-AD", "PU-AD Vehicle", "IP Tamoxifen", "STZ","Dexmedetomidine"]).optional(),
     ipInoculumBatchNumber: z.string().optional(),
