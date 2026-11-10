@@ -20,7 +20,7 @@ const PLAYGROUND_URL_CLI = path.resolve(
   '../dist/cli.js'
 );
 
-const FORMS_DIR = 'public/forms';
+const FORMS_DIR = 'lib/forms';
 const TEXT_EXTENSIONS = new Set(['.css', '.html', '.js', '.json', '.jsx', '.ts', '.tsx']);
 
 // GitHub rejects comments longer than 65536 characters

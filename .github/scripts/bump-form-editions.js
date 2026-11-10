@@ -9,7 +9,7 @@
 import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
 
-const FORMS_DIR = 'public/forms';
+const FORMS_DIR = 'lib/forms';
 const ENTRYPOINTS = ['index.tsx', 'index.jsx', 'index.ts', 'index.js'];
 const EDITION_PATTERN = /(\bedition\s*:\s*)(\d+)/g;
 

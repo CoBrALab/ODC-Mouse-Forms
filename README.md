@@ -12,6 +12,16 @@ If you would like to try out the features of MouseODC with test data, login to o
 ## ODC-Mouse-Forms
 A repo containing OpenDataCapture forms for tracking mouse data gathered from experiments within the CoBra Lab
 
+## Repository Layout
+
+Each form is a directory under `lib/forms/<Form-Name>/` containing an `index.ts` entrypoint. This
+is the layout Open Data Capture's instrument repository sync expects: it scans `lib/forms`,
+`lib/interactive`, `lib/file` and `lib/series` at the repository root and ignores everything else,
+so a form placed anywhere else is not imported. Interactive tasks go in `lib/interactive`.
+
+`lib` is also the Vite public directory, so the form sources stay published by the Form Viewer site
+at `/forms/<Form-Name>/index.ts`.
+
 ## Form Viewer Website
 
 If you would like to review the most up-to-date forms, visit the Form Viewer Website here: [https://cobralab.github.io/ODC-Mouse-Forms/](https://cobralab.github.io/ODC-Mouse-Forms/)

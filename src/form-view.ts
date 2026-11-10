@@ -24,7 +24,7 @@ function encodeShareURL({ files, label }: EncodedInstrument): URL {
 export default function formViewer() {
   // if instrument contain more than just an index file, handle this case
   const textFiles: { [filepath: string]: string } = import.meta.glob(
-    "../public/forms/**/index.{js,jsx,ts,tsx}",
+    "../lib/forms/**/index.{js,jsx,ts,tsx}",
     {
       eager: true,
       import: "default",
