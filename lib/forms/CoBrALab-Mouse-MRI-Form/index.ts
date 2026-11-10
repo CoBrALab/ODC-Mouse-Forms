@@ -18,7 +18,8 @@ const scanNameOptions = {
   "MGE_MTOff_Tw1_30deg": "MGE_MTOff_Tw1_30deg",
   "T2star_FID_EPI_sat_dan_ver_original": "T2star_FID_EPI_sat_dan_ver_original",
   "exvivoDanFLASH": "exvivoDanFLASH",
-  "Neo_Struct_FISP": "Neo_Struct_FISP"
+  "Neo_Struct_FISP": "Neo_Struct_FISP",
+  "MCH_Stand_Neonate_Struct_no_mncl": "MCH_Stand_Neonate_Struct_no_mncl"
 
 }
 
@@ -586,7 +587,8 @@ export default defineInstrument({
         "MGE_MTOff_Tw1_30deg",
         "T2star_FID_EPI_sat_dan_ver_original",
         "exvivoDanFLASH",
-        "Neo_Struct_FISP"
+        "Neo_Struct_FISP",
+        "MCH_Stand_Neonate_Struct_no_mncl"
       ]).optional(),
       mouseVitalsTracked: z.boolean().optional(),
       breathingStable: z.boolean().optional(),
