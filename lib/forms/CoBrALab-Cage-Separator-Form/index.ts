@@ -15,15 +15,16 @@ export default defineInstrument({
   },
   defaultMeasureVisibility: "visible",
   content: {
-    daysBeforePredictedBirth: {
+    gestationalDay: {
       kind: "number",
       variant: "input",
-      label: "Number of days before predicted birth",
+      label: "Gestational day (optional)",
     },
-    halfCageMates: {
-      kind: "number",
+    halfCageMateIds: {
+      kind: "string",
       variant: "input",
-      label: "Number of cage mates in the same half of the cage",
+      label: "IDs of the mice in the same half of the cage",
+      description: "Separate the IDs with a comma",
     },
     separatorLocation: {
       kind: "string",
@@ -53,13 +54,13 @@ export default defineInstrument({
     title: "Mouse Cage Separator Form",
   },
   measures: {
-    daysBeforePredictedBirth: {
+    gestationalDay: {
       kind: "const",
-      ref: "daysBeforePredictedBirth",
+      ref: "gestationalDay",
     },
-    halfCageMates: {
+    halfCageMateIds: {
       kind: "const",
-      ref: "halfCageMates",
+      ref: "halfCageMateIds",
     },
     separatorLocation: {
       kind: "const",
@@ -71,8 +72,8 @@ export default defineInstrument({
     },
   },
   validationSchema: z.object({
-    daysBeforePredictedBirth: z.number().int().min(0),
-    halfCageMates: z.number().int().min(0),
+    gestationalDay: z.number().int().min(0).optional(),
+    halfCageMateIds: z.string().min(1),
     separatorLocation: z.enum(["Bottom half", "Top half"]),
     additionalComments: z.string().optional(),
   }),
