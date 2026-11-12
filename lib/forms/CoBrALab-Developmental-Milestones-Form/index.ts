@@ -75,6 +75,20 @@ export default defineInstrument({
       variant: "input",
       label: "Nipple visibility (female pups) notes (optional)",
     },
+    rightingReflex: {
+      kind: "number",
+      variant: "input",
+      label: "Righting reflex (seconds) (optional)",
+    },
+    gripReflex: {
+      kind: "boolean",
+      variant: "radio",
+      label: "Grip reflex (optional)",
+      options: {
+        true: "Yes",
+        false: "No",
+      },
+    },
     sexDetermined: {
       kind: "string",
       variant: "radio",
@@ -137,6 +151,14 @@ export default defineInstrument({
       kind: "const",
       ref: "nippleVisibilityNotes",
     },
+    rightingReflex: {
+      kind: "const",
+      ref: "rightingReflex",
+    },
+    gripReflex: {
+      kind: "const",
+      ref: "gripReflex",
+    },
     sexDetermined: {
       kind: "const",
       ref: "sexDetermined",
@@ -155,6 +177,8 @@ export default defineInstrument({
     furCoatFullNotes: z.string().optional(),
     nippleVisibility: z.boolean().optional(),
     nippleVisibilityNotes: z.string().optional(),
+    rightingReflex: z.number().int().min(0).optional(),
+    gripReflex: z.boolean().optional(),
     sexDetermined: z.enum(["Male", "Female"]).optional(),
     additionalComments: z.string().optional(),
   }),
