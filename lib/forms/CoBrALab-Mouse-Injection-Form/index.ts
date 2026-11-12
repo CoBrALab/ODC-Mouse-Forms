@@ -23,7 +23,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Injections', 'Drug', 'Physical Intervention','Anesthesia'],
   internal: {
-    edition: 3,
+    edition: 4,
     name: 'MOUSE_INJECTIONS_FORM'
   },
   content: {
