@@ -110,7 +110,6 @@ export default defineInstrument({
             options: {
               "Wheel":"Wheel",
               "Cover": "Cover",
-              "Tube": "Tube",
               "Enlarged Cage": "Enlarged Cage",
               "Motion Tracker": "Motion Tracker",
               "Nest hut": "Nest hut",
@@ -260,7 +259,7 @@ export default defineInstrument({
     ]),
     bottleType: z.enum(['Auto Bottle', 'Standard']),
     cageType: z.enum(['Enriched', 'Standard']),
-    cageEnrichment: z.set(z.enum(['Wheel',"Cover","Tube","Enlarged Cage","Motion Tracker","Nest hut","Big square area","Small triangle hut","Arch","Square tunnel","Circle tunnel","Big circle tunnel"])).optional(),
+    cageEnrichment: z.set(z.enum(['Wheel',"Cover","Enlarged Cage","Motion Tracker","Nest hut","Big square area","Small triangle hut","Arch","Square tunnel","Circle tunnel","Big circle tunnel"])).optional(),
     motionTrackerId: z.string().optional(),
     fosterDamId: z.string().optional(),
     additionalComments: z.string().optional()
