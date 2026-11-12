@@ -22,6 +22,7 @@ export default defineInstrument({
       options: {
         "Standard chow": "Standard chow",
         "High fat": "High fat",
+        Cuprizone: "Cuprizone",
         Other: "Other",
       },
     },
@@ -126,7 +127,7 @@ export default defineInstrument({
   },
   validationSchema: z
     .object({
-      dietType: z.enum(["Standard chow", "High fat", "Other"]),
+      dietType: z.enum(["Standard chow", "High fat", "Cuprizone", "Other"]),
       dietTypeOther: z.string().optional(),
       feedingRegime: z.enum(["Ad libitum", "Restricted"]),
       foodGiven: z.number().min(0).optional(),
