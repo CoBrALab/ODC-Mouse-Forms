@@ -20,15 +20,6 @@ export default defineInstrument({
       variant: "input",
       label: "ID of the mating partner the bedding came from",
     },
-    transferDate: {
-      kind: "date",
-      label: "Date of bedding transfer",
-    },
-    transferTime: {
-      kind: "string",
-      variant: "input",
-      label: "Time of bedding transfer (24-hour clock, HH:MM)",
-    },
     additionalComments: {
       kind: "string",
       variant: "textarea",
@@ -38,7 +29,7 @@ export default defineInstrument({
   clientDetails: {
     estimatedDuration: 1,
     instructions: [
-      "To be filled in whenever bedding from the nest of a mating partner is added to the cage of the mouse before a timed mating session.",
+      "To be filled in at the time that bedding from the nest of a mating partner is added to the cage of the mouse before a timed mating session.",
     ],
   },
   details: {
@@ -52,14 +43,6 @@ export default defineInstrument({
       kind: "const",
       ref: "partnerMouse",
     },
-    transferDate: {
-      kind: "const",
-      ref: "transferDate",
-    },
-    transferTime: {
-      kind: "const",
-      ref: "transferTime",
-    },
     additionalComments: {
       kind: "const",
       ref: "additionalComments",
@@ -67,10 +50,6 @@ export default defineInstrument({
   },
   validationSchema: z.object({
     partnerMouse: z.string().min(1),
-    transferDate: z.date(),
-    transferTime: z
-      .string()
-      .regex(/^([01]\d|2[0-3]):[0-5]\d$/, "Time must be in the format HH:MM"),
     additionalComments: z.string().optional(),
   }),
 });
