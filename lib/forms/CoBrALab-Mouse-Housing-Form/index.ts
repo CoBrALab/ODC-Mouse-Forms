@@ -112,7 +112,14 @@ export default defineInstrument({
               "Cover": "Cover",
               "Tube": "Tube",
               "Enlarged Cage": "Enlarged Cage",
-              "Motion Tracker": "Motion Tracker"
+              "Motion Tracker": "Motion Tracker",
+              "Nest hut": "Nest hut",
+              "Big square area": "Big square area",
+              "Small triangle hut": "Small triangle hut",
+              "Arch": "Arch",
+              "Square tunnel": "Square tunnel",
+              "Circle tunnel": "Circle tunnel",
+              "Big circle tunnel": "Big circle tunnel"
             }
            }
         }
@@ -133,6 +140,11 @@ export default defineInstrument({
         }
         return null
       }
+    },
+    fosterDamId: {
+      kind: "string",
+      variant: "input",
+      label: "Babysitter / foster dam ID (optional)"
     },
     additionalComments: {
       kind: "string",
@@ -218,6 +230,12 @@ export default defineInstrument({
       visibility: "visible",
       ref: "motionTrackerId"
     },
+    fosterDamId: {
+      kind: "const",
+      label: "Babysitter / foster dam ID",
+      visibility: "visible",
+      ref: "fosterDamId"
+    },
     additionalComments: {
       kind: "const",
       visibility: "visible",
@@ -242,8 +260,9 @@ export default defineInstrument({
     ]),
     bottleType: z.enum(['Auto Bottle', 'Standard']),
     cageType: z.enum(['Enriched', 'Standard']),
-    cageEnrichment: z.set(z.enum(['Wheel',"Cover","Tube","Enlarged Cage","Motion Tracker"])).optional(),
+    cageEnrichment: z.set(z.enum(['Wheel',"Cover","Tube","Enlarged Cage","Motion Tracker","Nest hut","Big square area","Small triangle hut","Arch","Square tunnel","Circle tunnel","Big circle tunnel"])).optional(),
     motionTrackerId: z.string().optional(),
+    fosterDamId: z.string().optional(),
     additionalComments: z.string().optional()
 
   })
