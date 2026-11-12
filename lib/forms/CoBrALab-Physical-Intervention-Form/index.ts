@@ -11,7 +11,8 @@ const interventionTypeList = [ "Blood extraction",
     "Vaginal cytology",
     "Fecal matter collection",
     "Blood glucose",
-    "Anesthesia"] as const
+    "Anesthesia",
+    "Re-stitching"] as const
 
 type InterventionType = typeof interventionTypeList[number];
 
@@ -43,7 +44,7 @@ function createDependentField<const T>(field: T, fn: (interventionType?: Interve
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
-  tags: ['Physical intervention','Blood extraction', 'Ear tagging', 'Genotyping', 'Vaginal cytology','Blood glucose','anesthesia', 'Fecal matter collection'],
+  tags: ['Physical intervention','Blood extraction', 'Ear tagging', 'Genotyping', 'Vaginal cytology','Blood glucose','anesthesia', 'Fecal matter collection', 'Re-stitching'],
   internal: {
     edition: 5,
     name: 'PHYSICAL_INTERVENTION_FORM'
@@ -62,7 +63,8 @@ export default defineInstrument({
         "Vaginal cytology": "Vaginal cytology",
         "Fecal matter collection": "Fecal matter collection",
         "Blood glucose": "Blood glucose",
-        "Anesthesia": "Anesthesia"
+        "Anesthesia": "Anesthesia",
+        "Re-stitching": "Re-stitching"
       }
     },
 
@@ -221,7 +223,7 @@ rfidReadStatus: createDependentField({
      variant: 'radio',
      label: "Anesthesia used"
     },
-    (type) => type === "Ear tagging" || type === "RFID Chip Insertion"),
+    (type) => type === "Ear tagging" || type === "RFID Chip Insertion" || type === "Re-stitching"),
 
     anesthesiaType: {
       kind: 'dynamic',
@@ -318,13 +320,13 @@ rfidReadStatus: createDependentField({
   kind: "boolean",
   variant: "radio",
   label: "Analgesic used"
-}, (type) => type === "RFID Chip Insertion"),
+}, (type) => type === "RFID Chip Insertion" || type === "Re-stitching"),
 
 analgesicType: {
   kind: "dynamic",
   deps: ["analgesicUsed", "interventionType"],
   render(data) {
-    if (data.interventionType === "RFID Chip Insertion" && data.analgesicUsed) {
+    if ((data.interventionType === "RFID Chip Insertion" || data.interventionType === "Re-stitching") && data.analgesicUsed) {
       return {
         kind: "string",
         variant: "select",
@@ -345,7 +347,7 @@ analgesicOther: {
   deps: ["analgesicUsed", "analgesicType", "interventionType"],
   render(data) {
     if (
-      data.interventionType === "RFID Chip Insertion" &&
+      (data.interventionType === "RFID Chip Insertion" || data.interventionType === "Re-stitching") &&
       data.analgesicUsed &&
       data.analgesicType === "Other"
     ) {
@@ -363,7 +365,7 @@ analgesicDose: {
   kind: "dynamic",
   deps: ["analgesicUsed", "interventionType"],
   render(data) {
-    if (data.interventionType === "RFID Chip Insertion" && data.analgesicUsed) {
+    if ((data.interventionType === "RFID Chip Insertion" || data.interventionType === "Re-stitching") && data.analgesicUsed) {
       return {
         kind: "number",
         variant: "input",
@@ -645,7 +647,8 @@ analgesicDose: {
     "Vaginal cytology",
     "Fecal matter collection",
     "Blood glucose",
-    "Anesthesia"
+    "Anesthesia",
+    "Re-stitching"
   ]),
     vaginalSwabNumber: z.number().min(1).int().optional(),
     vaginalCytologyDuration: z.number().min(1).optional(),
