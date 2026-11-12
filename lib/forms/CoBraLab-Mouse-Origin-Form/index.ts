@@ -22,7 +22,8 @@ export default defineInstrument({
       label: 'Sex',
       options: {
         "Male": "Male",
-        "Female": "Female"
+        "Female": "Female",
+        "Unknown": "Unknown"
       }
     },
     cohortId: {
@@ -513,7 +514,7 @@ export default defineInstrument({
   },
   validationSchema: z.object({
   dateOfBirth: z.date(),
-  mouseSex: z.enum(['Male', 'Female']),
+  mouseSex: z.enum(['Male', 'Female', 'Unknown']),
   cohortId: z.string().optional(),
   boxMouse: z.boolean(),
   mouseStrain: z.enum([
@@ -583,6 +584,14 @@ export default defineInstrument({
   generationNumber: z.number().min(0).int().optional(),
   additionalComments: z.string().optional()
 }).superRefine((data, ctx) => {
+  // A typed date is stored as midnight UTC, so one day of tolerance is given for time zones east of UTC
+  if (data.dateOfBirth.getTime() > Date.now() + 24 * 60 * 60 * 1000) {
+    ctx.addIssue({
+      code: "custom",
+      path: ["dateOfBirth"],
+      message: "The date of birth cannot be in the future."
+    });
+  }
   if (data.boxMouse === false) {
     if (!data.breedingCageId) {
       ctx.addIssue({
