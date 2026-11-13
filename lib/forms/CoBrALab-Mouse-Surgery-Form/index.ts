@@ -3,69 +3,73 @@
 import { defineInstrument } from '/runtime/v1/@opendatacapture/runtime-core'
 import { z } from '/runtime/v1/zod@3.23.x'
 
-type TreatmentType =  "Surgery" | "Wound treatment" | "Re-stitching" | "Intracerebral injection"
-
 const mouseSides = {
              "Right": "Right",
              "Left": "Left"
              }  as const
 
-function createDependentField<const T>(field: T, fn: (treatmentType?: TreatmentType) => boolean) {
-  return {
-    kind: 'dynamic' as const,
-    deps: ['treatmentType'] as const,
-    render: (data: { treatmentType?: TreatmentType }) => {
-      if (fn(data.treatmentType)) {
-        return field;
-      }
-      return null;
-    }
-  };
-}
-
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
-  tags: ['Surgery', 'Vet Care', 'Wound Treatment', 'Ovariectomy','Intracerebral injection'],
+  tags: ['Surgery', 'Ovariectomy','Intracerebral injection'],
   internal: {
     edition: 5,
     name: 'MOUSE_SURGERY_FORM'
   },
   content: {
-    treatmentType: {
-      kind: "string",
-      variant: "select",
-      label: "Select physical intervention",
+    surgeryType: {
+      kind: "set",
+      variant: "listbox",
+      label: "Type of surgery",
       options: {
-        "Surgery": "Surgery",
-        "Wound treatment": "Wound treatment",
-        "Re-stitching": "Re-stitching",
+        "Ovariectomy": "Ovariectomy",
+        "Hormone capsule implant": "Hormone capsule implant",
+        "Electrode implant": "Electrode implant",
+        "Fiber optic implant": "Fiber optic implant",
         "Intracerebral injection": "Intracerebral injection"
       }
     },
 
-    intracerebralInjectionType: createDependentField({
-      kind: "string",
-      variant: "select",
-      label: "Intracerebral injection type",
-      options: {
-        "PBS": "PBS",
-        "Ms-PFF": "Ms-PFF",
-        "Hu-PFF": "Hu-PFF"
+    intracerebralInjectionType: {
+      kind: "dynamic",
+      deps: ["surgeryType"],
+      render(data) {
+        if(data.surgeryType?.has("Intracerebral injection")){
+          return {
+          kind: "string",
+          variant: "select",
+          label: "Intracerebral injection type",
+          options: {
+            "PBS": "PBS",
+            "Ms-PFF": "Ms-PFF",
+            "Hu-PFF": "Hu-PFF"
+          }
+          }
+        }
+        return null
       }
-    }, (type) => type === 'Intracerebral injection'),
+    },
 
-    intracerebralInjectionBatchType: createDependentField({
-      kind: "string",
-      variant: "input",
-      label: "Intracerebral injection batch type"
-    }, (type) => type === 'Intracerebral injection'),
+    intracerebralInjectionBatchType: {
+      kind: "dynamic",
+      deps: ["surgeryType"],
+      render(data) {
+        if(data.surgeryType?.has("Intracerebral injection")){
+          return {
+          kind: "string",
+          variant: "input",
+          label: "Intracerebral injection batch type"
+          }
+        }
+        return null
+      }
+    },
     
-    analgesiaUsed: createDependentField({
+    analgesiaUsed: {
       kind: "boolean",
       variant: "radio",
       label: "Analgesia used"
-    }, (type) => type === "Surgery" || type === "Re-stitching" || type === "Intracerebral injection"),
+    },
 
     analgesiaChemicalName: {
       kind: "dynamic",
@@ -97,11 +101,11 @@ export default defineInstrument({
       
     },
 
-    anesthesiaUsed: createDependentField({
+    anesthesiaUsed: {
       kind: "boolean",
       variant: "radio",
       label: "Anesthesia used"
-    }, (type) => type === "Surgery" || type === "Re-stitching" || type === "Intracerebral injection"),
+    },
 
     anesthesiaAdministrationType: {
       kind: "dynamic",
@@ -184,11 +188,11 @@ export default defineInstrument({
       }
     },
 
-    stereotaxUsed: createDependentField({
+    stereotaxUsed: {
       kind: "boolean",
       variant: "radio",
       label: "Stereotax used"
-    },(type) => type === "Surgery" || type === "Re-stitching" || type === "Intracerebral injection"),
+    },
 
     stereotaxId:{
       kind: "dynamic",
@@ -206,11 +210,11 @@ export default defineInstrument({
 
     },
 
-    hydrationProvided: createDependentField({
+    hydrationProvided: {
       kind: "boolean",
       variant: "radio",
       label: "Was hydration provided"
-    }, (type) => type === "Surgery" || type === "Intracerebral injection"),
+    },
 
     hydrationVolume: {
       kind: "dynamic",
@@ -227,18 +231,6 @@ export default defineInstrument({
      }
      
     },
-
-    surgeryType: createDependentField({
-      kind: "set",
-      variant: "listbox",
-      label: "Type of surgery",
-      options: {
-        "Ovariectomy": "Ovariectomy",
-        "Hormone capsule implant": "Hormone capsule implant",
-        "Electrode implant": "Electrode implant",
-        "Fiber optic implant": "Fiber optic implant"
-      }
-    },(type) => type === "Surgery"),
 
     ovariectomyType: {
       kind: "dynamic",
@@ -346,7 +338,7 @@ export default defineInstrument({
       kind: "dynamic",
       deps: ["stereotaxUsed", "surgeryType"],
       render(data) {
-        if( data.stereotaxUsed && (data.surgeryType?.has('Electrode implant') || data.surgeryType?.has('Fiber optic implant'))){
+        if( data.stereotaxUsed && (data.surgeryType?.has('Electrode implant') || data.surgeryType?.has('Fiber optic implant') || data.surgeryType?.has('Intracerebral injection'))){
           return {
             kind: "number",
             variant: "input",
@@ -360,7 +352,7 @@ export default defineInstrument({
       kind: "dynamic",
       deps: ["stereotaxUsed","surgeryType"],
       render(data) {
-        if( data.stereotaxUsed && (data.surgeryType?.has('Electrode implant') || data.surgeryType?.has('Fiber optic implant'))){
+        if( data.stereotaxUsed && (data.surgeryType?.has('Electrode implant') || data.surgeryType?.has('Fiber optic implant') || data.surgeryType?.has('Intracerebral injection'))){
           return {
             kind: "number",
             variant: "input",
@@ -375,7 +367,7 @@ export default defineInstrument({
       kind: "dynamic",
       deps: ["stereotaxUsed","surgeryType"],
       render(data) {
-        if( data.stereotaxUsed && (data.surgeryType?.has('Electrode implant') || data.surgeryType?.has('Fiber optic implant'))){
+        if( data.stereotaxUsed && (data.surgeryType?.has('Electrode implant') || data.surgeryType?.has('Fiber optic implant') || data.surgeryType?.has('Intracerebral injection'))){
           return {
             kind: "number",
             variant: "input",
@@ -386,33 +378,11 @@ export default defineInstrument({
       }
     },
 
-    woundDateReported: createDependentField({
-      kind: "date",
-      label: "Wound reported date"
-    }, (type) => type === "Wound treatment"),
-
-    clinicalCondition: createDependentField({
-      kind: "string",
-      variant: "input",
-      label: "Clincal condition"
-    }, (type) => type === "Wound treatment"),
-    
-    treatmentProvided: createDependentField({
-      kind: "string",
-      variant: "input",
-      label: "Treatment provided"
-    }, (type) => type === "Wound treatment"),
-
-    treatmentStartDate: createDependentField({
-      kind: "date",
-      label: "Treatment start date"
-    }, (type) => type === "Wound treatment"),
-
-    surgeryDuration: createDependentField({
+    surgeryDuration: {
       kind: "number",
       variant: "input",
       label: "Surgery duration (minutes)"
-    }, (type) => type === "Surgery" || type === "Intracerebral injection"),
+    },
 
 
     additionalComments: {
@@ -425,20 +395,14 @@ export default defineInstrument({
   },
   clientDetails: {
     estimatedDuration: 3,
-    instructions: ['Please fill this form whenever a mouse has to through a surgery or has gone through veterinary care. If the wound treatment section is selected to be filled in, please use the information written on the card provided by the veterinary team']
+    instructions: ['Please fill this form whenever a mouse goes through a surgery.']
   },
   details: {
-    description: 'Describes the information about a physical intervention done upon a Mouse, either in the form of as surgery or as a wound treatment done by the veterinary team.',
+    description: 'Describes the information about a surgery done upon a Mouse.',
     license: 'Apache-2.0',
-    title: 'Mouse Surgery and Wound Treatment Form'
+    title: 'Mouse Surgery Form'
   },
   measures: {
-    treatmentType: {
-      kind: "const",
-      label: "Selected physical intervention",
-      visibility: "visible",
-      ref: "treatmentType"
-    },
     analgesiaUsed: {
       kind: "const",
       visibility: "visible",
@@ -565,26 +529,6 @@ export default defineInstrument({
       visibility: "visible",
       ref: "brainSurgeryPaxinosDVCoords"
     },
-    woundDateReported: {
-      kind: "const",
-      visibility: "visible",
-      ref: "woundDateReported"
-    },
-    clinicalCondition: {
-      kind: "const",
-      visibility: "visible",
-      ref: "clinicalCondition"
-    },
-    treatmentProvided: {
-      kind: "const",
-      visibility: "visible",
-      ref: "treatmentProvided"
-    },
-    treatmentStartDate: {
-      kind: "const",
-      visibility: "visible",
-      ref: "treatmentStartDate"
-    },
     surgeryDuration: {
       kind: "const",
       visibility: "visible",
@@ -597,7 +541,6 @@ export default defineInstrument({
     }
   },
   validationSchema: z.object({
-      treatmentType: z.enum(["Surgery", "Wound treatment","Re-stitching", "Intracerebral injection"]),
       analgesiaUsed: z.boolean().optional(),
       analgesiaChemicalName: z.string().optional(),
       analgesiaVolume: z.number().min(0).optional(),
@@ -613,7 +556,7 @@ export default defineInstrument({
       intracerebralInjectionBatchType: z.string().optional(),
       stereotaxUsed: z.boolean().optional(),
       stereotaxId: z.string().optional(),
-      surgeryType: z.set(z.enum(["Ovariectomy", "Hormone capsule implant", "Electrode implant", "Fiber optic implant"])).optional(),
+      surgeryType: z.set(z.enum(["Ovariectomy", "Hormone capsule implant", "Electrode implant", "Fiber optic implant", "Intracerebral injection"])),
       ovariectomyType: z.enum(["Unilateral", "Bilateral"]).optional(),
       ovariectomyMouseGroup: z.enum(["Sham", "Experiment"]).optional(),
       ovariectomySide: z.enum(["Right", "Left"]).optional(),
@@ -623,14 +566,17 @@ export default defineInstrument({
       brainSurgeryPaxinosMLCoords: z.number().min(-5).max(5).optional(),
       brainSurgeryPaxinosAPCoords: z.number().min(-8.8).max(6).optional(),
       brainSurgeryPaxinosDVCoords: z.number().min(0).max(6.4).optional(),
-      woundDateReported: z.date().optional(),
-      clinicalCondition: z.string().optional(),
-      treatmentProvided: z.string().optional(),
-      treatmentStartDate: z.date().optional(),
       surgeryDuration: z.number().min(0).optional(),
       additionalComments: z.string().optional(),
 
   }).superRefine((data, ctx) => {
+    if (data.surgeryType.size === 0) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["surgeryType"],
+        message: "Select a minimum of one type of surgery."
+      });
+    }
     if (data.surgeryType?.has("Ovariectomy") && data.ovariectomyType === undefined) {
       ctx.addIssue({
         code: "custom",
