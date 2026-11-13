@@ -316,6 +316,35 @@ rfidReadStatus: createDependentField({
       }
     },
 
+    anesthesiaDuration: {
+      kind: 'dynamic',
+      deps: ['anesthesiaUsed', 'interventionType'],
+      render(data) {
+        if(data.interventionType === 'Anesthesia' || data.anesthesiaUsed) {
+          return {
+            kind: "number",
+            variant: "input",
+            label: "Duration of Anesthesia provided (minutes)"
+          }
+        }
+        return null
+      }
+    },
+    anesthesiaRecoveryTime: {
+      kind: 'dynamic',
+      deps: ['anesthesiaUsed', 'interventionType'],
+      render(data) {
+        if(data.interventionType === 'Anesthesia' || data.anesthesiaUsed) {
+          return {
+            kind: "number",
+            variant: "input",
+            label: "Time until recovery from Anesthesia (minutes)"
+          }
+        }
+        return null
+      }
+    },
+
     analgesicUsed: createDependentField({
   kind: "boolean",
   variant: "radio",
@@ -567,6 +596,16 @@ analgesicDose: {
     visibility: "visible",
     ref: "anesthesiaInductionTime"
   },
+  anesthesiaDuration: {
+    kind: "const",
+    visibility: "visible",
+    ref: "anesthesiaDuration"
+  },
+  anesthesiaRecoveryTime: {
+    kind: "const",
+    visibility: "visible",
+    ref: "anesthesiaRecoveryTime"
+  },
   analgesicUsed: {
   kind: "const",
   visibility: "visible",
@@ -689,6 +728,8 @@ analgesicDose: {
   isofluranePercentageInduction: z.number().min(0).max(100).optional(),
   anesthesiaInductionTime: z.number().int().min(0).optional(),
   isofluranePercentageProcedure: z.number().min(0).max(100).optional(),
+  anesthesiaDuration: z.number().min(0).int().optional(),
+  anesthesiaRecoveryTime: z.number().min(0).int().optional(),
   analgesicUsed: z.boolean().optional(),
   analgesicType: z.enum([
     "Carprofen",
