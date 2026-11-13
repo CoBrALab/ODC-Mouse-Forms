@@ -187,6 +187,23 @@ export default defineInstrument({
     clinicalCondition: z.string().optional(),
     treatmentProvided: z.string().optional(),
     treatmentStartDate: z.date().optional(),
-    noteDescription: z.string().min(1),
+    noteDescription: z.string().optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.noteCategory === "Wound treatment") {
+      if (!data.clinicalCondition) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["clinicalCondition"],
+          message: "This field is required for a wound treatment.",
+        });
+      }
+    } else if (!data.noteDescription) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["noteDescription"],
+        message: "This field is required.",
+      });
+    }
   }),
 });
