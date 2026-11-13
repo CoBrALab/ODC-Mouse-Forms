@@ -338,7 +338,7 @@ export default defineInstrument({
       kind: "dynamic",
       deps: ["stereotaxUsed", "surgeryType"],
       render(data) {
-        if( data.stereotaxUsed && (data.surgeryType?.has('Electrode implant') || data.surgeryType?.has('Fiber optic implant'))){
+        if( data.stereotaxUsed && (data.surgeryType?.has('Electrode implant') || data.surgeryType?.has('Fiber optic implant') || data.surgeryType?.has('Intracerebral injection'))){
           return {
             kind: "number",
             variant: "input",
@@ -352,7 +352,7 @@ export default defineInstrument({
       kind: "dynamic",
       deps: ["stereotaxUsed","surgeryType"],
       render(data) {
-        if( data.stereotaxUsed && (data.surgeryType?.has('Electrode implant') || data.surgeryType?.has('Fiber optic implant'))){
+        if( data.stereotaxUsed && (data.surgeryType?.has('Electrode implant') || data.surgeryType?.has('Fiber optic implant') || data.surgeryType?.has('Intracerebral injection'))){
           return {
             kind: "number",
             variant: "input",
@@ -367,7 +367,7 @@ export default defineInstrument({
       kind: "dynamic",
       deps: ["stereotaxUsed","surgeryType"],
       render(data) {
-        if( data.stereotaxUsed && (data.surgeryType?.has('Electrode implant') || data.surgeryType?.has('Fiber optic implant'))){
+        if( data.stereotaxUsed && (data.surgeryType?.has('Electrode implant') || data.surgeryType?.has('Fiber optic implant') || data.surgeryType?.has('Intracerebral injection'))){
           return {
             kind: "number",
             variant: "input",
@@ -556,7 +556,7 @@ export default defineInstrument({
       intracerebralInjectionBatchType: z.string().optional(),
       stereotaxUsed: z.boolean().optional(),
       stereotaxId: z.string().optional(),
-      surgeryType: z.set(z.enum(["Ovariectomy", "Hormone capsule implant", "Electrode implant", "Fiber optic implant", "Intracerebral injection"])).optional(),
+      surgeryType: z.set(z.enum(["Ovariectomy", "Hormone capsule implant", "Electrode implant", "Fiber optic implant", "Intracerebral injection"])),
       ovariectomyType: z.enum(["Unilateral", "Bilateral"]).optional(),
       ovariectomyMouseGroup: z.enum(["Sham", "Experiment"]).optional(),
       ovariectomySide: z.enum(["Right", "Left"]).optional(),
@@ -570,6 +570,13 @@ export default defineInstrument({
       additionalComments: z.string().optional(),
 
   }).superRefine((data, ctx) => {
+    if (data.surgeryType.size === 0) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["surgeryType"],
+        message: "Select a minimum of one type of surgery."
+      });
+    }
     if (data.surgeryType?.has("Ovariectomy") && data.ovariectomyType === undefined) {
       ctx.addIssue({
         code: "custom",
