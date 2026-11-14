@@ -266,7 +266,7 @@ rfidReadStatus: createDependentField({
           return {
             kind: "number",
             variant: "input",
-            label: "Dose amount (μl)",
+            label: "Dose amount (ml)",
           }
         }
         return null
@@ -398,7 +398,7 @@ analgesicDose: {
       return {
         kind: "number",
         variant: "input",
-        label: "Analgesic dose (μl)"
+        label: "Analgesic dose (ml)"
       };
     }
     return null;
