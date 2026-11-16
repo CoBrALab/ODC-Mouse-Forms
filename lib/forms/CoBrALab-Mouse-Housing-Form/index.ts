@@ -8,7 +8,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Housing','Cage Enrichment','Room Change','Cage Change', 'Cage'],
   internal: {
-    edition: 5,
+    edition: 6,
     name: 'MOUSE_HOUSING_FORM'
   },
   content: {
