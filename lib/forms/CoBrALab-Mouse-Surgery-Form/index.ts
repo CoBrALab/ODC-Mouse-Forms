@@ -13,7 +13,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Surgery', 'Ovariectomy','Intracerebral injection'],
   internal: {
-    edition: 5,
+    edition: 6,
     name: 'MOUSE_SURGERY_FORM'
   },
   content: {
