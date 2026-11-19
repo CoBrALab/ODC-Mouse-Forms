@@ -46,7 +46,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Physical intervention','Blood extraction', 'Ear tagging', 'Genotyping', 'Vaginal cytology','Blood glucose','anesthesia', 'Fecal matter collection', 'Re-stitching'],
   internal: {
-    edition: 5,
+    edition: 6,
     name: 'PHYSICAL_INTERVENTION_FORM'
   },
   content: {
