@@ -160,7 +160,7 @@ export default defineInstrument({
           return {
             kind: "number",
             variant: "input",
-            label: "Dose amount (µL)",
+            label: "Dose amount (mL)",
           }
         }
         return null
@@ -214,7 +214,7 @@ export default defineInstrument({
           return {
             kind: 'number',
             variant: "input",
-            label: 'Injection dose (µL)'
+            label: 'Injection dose (mL)'
           }
         }
         return null
@@ -473,7 +473,7 @@ export default defineInstrument({
     anesthesiaDose: {
       kind: "const",
       visibility: "visible",
-      label: "Dose amount (µL)",
+      label: "Dose amount (mL)",
       ref: "anesthesiaDose"
     },
     isofluranePercentage: {
@@ -496,7 +496,7 @@ export default defineInstrument({
     },
     ipAnestheticDose: {
       kind: "const",
-      label: "Injection dose (µL)",
+      label: "Injection dose (mL)",
       visibility: "visible",
       ref: "ipAnestheticDose"
     },
