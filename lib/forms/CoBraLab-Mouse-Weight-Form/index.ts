@@ -8,7 +8,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Mouse', 'Weight', 'Scale'],
   internal: {
-    edition: 2,
+    edition: 3,
     name: 'MOUSE_WEIGHT_FORM'
   },
   content: {
