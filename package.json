@@ -5,26 +5,47 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "build": "tsc -p src && vite build",
+    "check": "pnpm lint:check && pnpm format:check && pnpm check-editions",
+    "check-editions": "node scripts/check-edition-bumps.ts",
+    "check-template": "node scripts/check-template-sync.ts",
     "dev": "vite",
-    "build": "tsc && vite build",
+    "format": "prettier --write lib scripts",
+    "format:check": "prettier --check lib scripts",
+    "lint": "tsc && eslint --fix lib scripts",
+    "lint:check": "tsc && eslint lib scripts",
+    "prepare": "husky",
     "preview": "vite preview",
     "setup-pages": "pnpm build && gh-pages -d dist"
   },
   "devDependencies": {
-    "@opendatacapture/playground-url": "^2.4.0",
-    "@opendatacapture/runtime-v1": "2.5.2",
-    "@opendatacapture/serve-instrument": "^2.5.2",
-    "typescript": "~5.7.2",
+    "@douglasneuroinformatics/eslint-config": "^6.0.0",
+    "@douglasneuroinformatics/prettier-config": "^0.3.0",
+    "@douglasneuroinformatics/tsconfig": "^2.0.0",
+    "@opendatacapture/instrument-guidelines": "^2.6.0",
+    "@opendatacapture/playground-url": "^2.6.0",
+    "@opendatacapture/serve-instrument": "^2.6.0",
+    "@types/node": "^24.x",
+    "@types/react": "19.x",
+    "eslint": "^9.22.0",
+    "husky": "^9.1.7",
+    "prettier": "^3.8.3",
+    "typescript": "6.0.x",
     "vite": "^6.4.3"
   },
   "dependencies": {
+    "@opendatacapture/runtime-v1": "^2.6.0",
     "gh-pages": "^6.3.0",
     "lz-string": "^1.5.0"
   },
   "pnpm": {
     "overrides": {
       "picomatch@<2.3.2": "^2.3.2"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   },
-  "packageManager": "pnpm@9.15.4+sha512.b2dc20e2fc72b3e18848459b37359a32064663e5627a51e4c74b2c29dd8e8e0491483c3abb40789cfd578bf362fb6ba8261b05f0387d76792ed6e23ea3b1b6a0"
+  "packageManager": "pnpm@10.34.3",
+  "prettier": "@douglasneuroinformatics/prettier-config"
 }

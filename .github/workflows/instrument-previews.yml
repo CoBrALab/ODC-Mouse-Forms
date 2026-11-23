@@ -1,0 +1,74 @@
+name: Instrument previews
+
+# pull_request_target (not pull_request) gives the token write access for pull requests
+# from forks. The workflow, the script and the installed packages always come from the
+# base branch. The files of the pull request are read as data through git and are never
+# installed or executed.
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize]
+    paths:
+      - 'lib/forms/**'
+      - 'lib/interactive/**'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: instrument-previews-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  previews:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out base branch
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Fetch pull request commits
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: git fetch --no-tags origin "+refs/pull/$PR_NUMBER/head"
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Build comment
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: node .github/scripts/instrument-preview-links.js "$BASE_SHA" "$HEAD_SHA" "$RUNNER_TEMP/comment.md"
+
+      - name: Update comment
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          comment="$RUNNER_TEMP/comment.md"
+          api="repos/$GITHUB_REPOSITORY/issues"
+          existing=$(gh api "$api/$PR_NUMBER/comments" --paginate \
+            --jq '.[] | select(.user.type == "Bot" and (.body | startswith("<!-- form-preview-links -->"))) | .id' | head -n 1)
+          if [ ! -s "$comment" ]; then
+            # No instrument changed: remove the previous preview comment, if there is one.
+            if [ -n "$existing" ]; then
+              gh api -X DELETE "$api/comments/$existing"
+            fi
+          elif [ -n "$existing" ]; then
+            gh api -X PATCH "$api/comments/$existing" -F body=@"$comment"
+          else
+            gh api -X POST "$api/$PR_NUMBER/comments" -F body=@"$comment"
+          fi

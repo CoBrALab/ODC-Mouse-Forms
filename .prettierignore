@@ -1,0 +1,3 @@
+# Vendor code: the same files that eslint.config.js ignores
+vendor/
+**/TestMyBrain.*.js
