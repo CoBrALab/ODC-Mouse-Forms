@@ -1,5 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
-
 const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-core/index.js');
 const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
@@ -8,7 +6,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Mouse', 'Weight', 'Scale'],
   internal: {
-    edition: 4,
+    edition: 5,
     name: 'MOUSE_WEIGHT_FORM'
   },
   content: {
@@ -20,47 +18,48 @@ export default defineInstrument({
     scaleKind: {
       kind: 'string',
       variant: 'select',
-      label: "Kind of scale",
+      label: 'Kind of scale',
       options: {
-        "Portable": "Small portable",
-        "Regular": "Regular (Scout Pro SP401)",
-        "MRIRoomPlugIn": "MRI room plug-in scale"
+        Portable: 'Small portable',
+        Regular: 'Regular (Scout Pro SP401)',
+        MRIRoomPlugIn: 'MRI room plug-in scale'
       }
     },
     scaleSerialCode: {
       kind: 'string',
       variant: 'select',
-      label: "Scale serial code",
+      label: 'Scale serial code',
       options: {
-        "8334378068":"8334378068",
-        "MR12090098":"MR12090098",
-        "Other": "Other"
+        '8334378068': '8334378068',
+        MR12090098: 'MR12090098',
+        Other: 'Other'
       }
     },
     scaleSerialCodeOther: {
-      kind: "dynamic",
-      deps: ["scaleSerialCode"],
+      kind: 'dynamic',
+      deps: ['scaleSerialCode'],
       render(data) {
-        if(data.scaleSerialCode === "Other"){
+        if (data.scaleSerialCode === 'Other') {
           return {
-            kind: "string",
-            variant: "input",
-            label: "Please enter other serial code"
-          }
+            kind: 'string',
+            variant: 'input',
+            label: 'Please enter other serial code'
+          };
         }
-        return null
+        return null;
       }
-      
     },
     additionalComments: {
-      kind: "string",
-      variant: "textarea",
-      label: "Additional Comments"
+      kind: 'string',
+      variant: 'textarea',
+      label: 'Additional Comments'
     }
   },
   clientDetails: {
     estimatedDuration: 1,
-    instructions: ['To be filled in whenever the animal is weighed. It is expected to know what type of scale is used (portable vs. non-portable) as well as its serial code. It is also assumed that proper weighing protocol is followed']
+    instructions: [
+      'To be filled in whenever the animal is weighed. It is expected to know what type of scale is used (portable vs. non-portable) as well as its serial code. It is also assumed that proper weighing protocol is followed'
+    ]
   },
   details: {
     description: 'A form to track data from whenever an animal is weighed.',
@@ -76,32 +75,31 @@ export default defineInstrument({
     },
     scaleSerialCode: {
       kind: 'const',
-      label: "Scale serial code",
+      label: 'Scale serial code',
       visibility: 'visible',
-      ref: "scaleSerialCode"
+      ref: 'scaleSerialCode'
     },
     scaleSerialCodeOther: {
       kind: 'const',
-      label: "Other Scale serial code provided",
+      label: 'Other Scale serial code provided',
       visibility: 'visible',
-      ref: "scaleSerialCodeOther"
+      ref: 'scaleSerialCodeOther'
     },
     scaleKind: {
-      kind: "const",
+      kind: 'const',
       visibility: 'visible',
-      ref: "scaleKind"
+      ref: 'scaleKind'
     },
     additionalComments: {
       kind: 'const',
       visibility: 'visible',
       ref: 'additionalComments'
     }
-
   },
   validationSchema: z.object({
     mouseWeight: z.number().min(1).max(100),
-    scaleKind: z.enum(["Portable","Regular","MRIRoomPlugIn"]),
-    scaleSerialCode: z.enum(["8334378068","MR12090098","Other"]),
+    scaleKind: z.enum(['Portable', 'Regular', 'MRIRoomPlugIn']),
+    scaleSerialCode: z.enum(['8334378068', 'MR12090098', 'Other']),
     scaleSerialCodeOther: z.string().optional(),
     additionalComments: z.string().optional()
   })

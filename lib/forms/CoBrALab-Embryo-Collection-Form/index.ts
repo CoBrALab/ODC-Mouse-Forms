@@ -1,5 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
-
 const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-core/index.js');
 const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
@@ -8,7 +6,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Mouse', 'Embryo', 'Collection', 'Genetics', 'SRY'],
   internal: {
-    edition: 1,
+    edition: 2,
     name: 'EMBRYO_COLLECTION_FORM'
   },
   content: [
@@ -54,8 +52,8 @@ export default defineInstrument({
               variant: 'radio',
               label: 'Uterine Horn',
               options: {
-                'Left': 'Left',
-                'Right': 'Right'
+                Left: 'Left',
+                Right: 'Right'
               }
             },
             positionInUterineHorn: {
@@ -81,7 +79,8 @@ export default defineInstrument({
     ]
   },
   details: {
-    description: 'A form to record data collected during embryo collection, including per-embryo identifiers, yolk sac collection status for SRY genotyping, uterine horn position, and weight.',
+    description:
+      'A form to record data collected during embryo collection, including per-embryo identifiers, yolk sac collection status for SRY genotyping, uterine horn position, and weight.',
     license: 'Apache-2.0',
     title: 'Embryo Collection Form'
   },
@@ -126,14 +125,16 @@ export default defineInstrument({
     damId: z.string().min(1, 'Dam ID is required'),
     sireId: z.string().optional(),
     gestationalDay: z.number().min(0, 'Gestational day must be 0 or greater'),
-    embryos: z.array(
-      z.object({
-        embryoId: z.string().min(1, 'Embryo ID is required'),
-        yolkSacCollected: z.boolean(),
-        uterineHorn: z.enum(['Left', 'Right']).optional(),
-        positionInUterineHorn: z.number().int().min(1).optional(),
-        weightGrams: z.number().min(0).optional()
-      })
-    ).min(1)
+    embryos: z
+      .array(
+        z.object({
+          embryoId: z.string().min(1, 'Embryo ID is required'),
+          yolkSacCollected: z.boolean(),
+          uterineHorn: z.enum(['Left', 'Right']).optional(),
+          positionInUterineHorn: z.number().int().min(1).optional(),
+          weightGrams: z.number().min(0).optional()
+        })
+      )
+      .min(1)
   })
 });

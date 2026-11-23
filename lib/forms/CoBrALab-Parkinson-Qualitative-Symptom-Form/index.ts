@@ -1,5 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
-
 const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-core/index.js');
 const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
@@ -8,12 +6,14 @@ export default defineInstrument({
   language: 'en',
   tags: ['Parkinson', 'Symptoms', 'Qualitative score'],
   internal: {
-    edition: 1,
+    edition: 2,
     name: 'PARKINSON_QUALITATIVE_SYMPTOM_FORM'
   },
   clientDetails: {
     estimatedDuration: 1,
-    instructions: ['To be filled in each time a mouse is examined for Parkinson-like motor symptoms, for example at an MRI scan or at a motor task.']
+    instructions: [
+      'To be filled in each time a mouse is examined for Parkinson-like motor symptoms, for example at an MRI scan or at a motor task.'
+    ]
   },
   content: {
     score: {

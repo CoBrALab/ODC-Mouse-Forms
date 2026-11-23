@@ -1,32 +1,32 @@
-/* eslint-disable perfectionist/sort-objects */
-
 const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-core/index.js');
 const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
-const interventionTypeList = [ "Blood extraction",
-    "Teeth extraction",
-    "RFID Chip Insertion",
-    "Ear tagging",
-    "Tattooing",
-    "Vaginal cytology",
-    "Fecal matter collection",
-    "Blood glucose",
-    "Anesthesia",
-    "Re-stitching"] as const
+const _interventionTypeList = [
+  'Blood extraction',
+  'Teeth extraction',
+  'RFID Chip Insertion',
+  'Ear tagging',
+  'Tattooing',
+  'Vaginal cytology',
+  'Fecal matter collection',
+  'Blood glucose',
+  'Anesthesia',
+  'Re-stitching'
+] as const;
 
-type InterventionType = typeof interventionTypeList[number];
+type InterventionType = (typeof _interventionTypeList)[number];
 
 const earTagSystemMaximums = {
-  "1-32 System": 32,
-  "1-64": 64,
-  "1-99 System": 99
-} as const
+  '1-32 System': 32,
+  '1-64': 64,
+  '1-99 System': 99
+} as const;
 
 type NumericEarTagSystem = keyof typeof earTagSystemMaximums;
 
 const isNumericEarTagSystem = (system?: string): system is NumericEarTagSystem => {
-  return system === "1-32 System" || system === "1-64" || system === "1-99 System"
-}
+  return system === '1-32 System' || system === '1-64' || system === '1-99 System';
+};
 
 function createDependentField<const T>(field: T, fn: (interventionType?: InterventionType) => boolean) {
   return {
@@ -44,275 +44,300 @@ function createDependentField<const T>(field: T, fn: (interventionType?: Interve
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
-  tags: ['Physical intervention','Blood extraction', 'Ear tagging', 'Genotyping', 'Vaginal cytology','Blood glucose','anesthesia', 'Fecal matter collection', 'Re-stitching'],
+  tags: [
+    'Physical intervention',
+    'Blood extraction',
+    'Ear tagging',
+    'Genotyping',
+    'Vaginal cytology',
+    'Blood glucose',
+    'anesthesia',
+    'Fecal matter collection',
+    'Re-stitching'
+  ],
   internal: {
-    edition: 6,
+    edition: 7,
     name: 'PHYSICAL_INTERVENTION_FORM'
   },
   content: {
     interventionType: {
-      kind: "string",
-      variant: "select",
-      label: "Type of physical intervention",
+      kind: 'string',
+      variant: 'select',
+      label: 'Type of physical intervention',
       options: {
-        "Blood extraction": "Blood extraction",
-        "Teeth extraction": "Teeth extraction",
-        "RFID Chip Insertion": "RFID Chip Insertion",
-        "Ear tagging": "Ear tagging",
-        "Tattooing": "Tattooing",
-        "Vaginal cytology": "Vaginal cytology",
-        "Fecal matter collection": "Fecal matter collection",
-        "Blood glucose": "Blood glucose",
-        "Anesthesia": "Anesthesia",
-        "Re-stitching": "Re-stitching"
+        'Blood extraction': 'Blood extraction',
+        'Teeth extraction': 'Teeth extraction',
+        'RFID Chip Insertion': 'RFID Chip Insertion',
+        'Ear tagging': 'Ear tagging',
+        Tattooing: 'Tattooing',
+        'Vaginal cytology': 'Vaginal cytology',
+        'Fecal matter collection': 'Fecal matter collection',
+        'Blood glucose': 'Blood glucose',
+        Anesthesia: 'Anesthesia',
+        'Re-stitching': 'Re-stitching'
       }
     },
 
-    vaginalSwabNumber: createDependentField({
-      kind: 'number',
-      variant: "input",
-      label: "Number of times swabbed"
-    }, (type) => type === 'Vaginal cytology'),
+    vaginalSwabNumber: createDependentField(
+      {
+        kind: 'number',
+        variant: 'input',
+        label: 'Number of times swabbed'
+      },
+      (type) => type === 'Vaginal cytology'
+    ),
 
-    vaginalCytologyDuration: createDependentField({
-      kind: "number",
-      variant: "input",
-      label: "Vaginal cytology duration (in seconds)"
-    }, (type) => type === 'Vaginal cytology'),
+    vaginalCytologyDuration: createDependentField(
+      {
+        kind: 'number',
+        variant: 'input',
+        label: 'Vaginal cytology duration (in seconds)'
+      },
+      (type) => type === 'Vaginal cytology'
+    ),
 
-    vaginalCytologySolutionVolume: createDependentField({
-      kind: "number",
-      variant: "input",
-      label: "Cytology solution volume (ml)"
-    }, (type) => type === 'Vaginal cytology'),
+    vaginalCytologySolutionVolume: createDependentField(
+      {
+        kind: 'number',
+        variant: 'input',
+        label: 'Cytology solution volume (ml)'
+      },
+      (type) => type === 'Vaginal cytology'
+    ),
 
-    wasGenotypingDone: createDependentField({
-      kind: "boolean",
-      variant: "radio",
-      label: "Was genotyping done?"
-    },
-    (type) => (type === 'Fecal matter collection' || type === 'Ear tagging')),
-    
+    wasGenotypingDone: createDependentField(
+      {
+        kind: 'boolean',
+        variant: 'radio',
+        label: 'Was genotyping done?'
+      },
+      (type) => type === 'Fecal matter collection' || type === 'Ear tagging'
+    ),
+
     genotypeCompanyUsed: {
-      kind: "dynamic",
-      deps: ["wasGenotypingDone"],
+      kind: 'dynamic',
+      deps: ['wasGenotypingDone'],
       render(data) {
-        if(data.wasGenotypingDone){
+        if (data.wasGenotypingDone) {
           return {
-              kind: "string",
-              variant: "select",
-              label: "Company used",
-              options: {
-                "Transnetyx": "Transnetyx",
-                "Other": "Other"
-              }
+            kind: 'string',
+            variant: 'select',
+            label: 'Company used',
+            options: {
+              Transnetyx: 'Transnetyx',
+              Other: 'Other'
+            }
+          };
         }
-        
+        return null;
       }
-      return null
-    }
     },
     genotypeCopy: {
-      kind: "dynamic",
-      deps: ["wasGenotypingDone"],
+      kind: 'dynamic',
+      deps: ['wasGenotypingDone'],
       render(data) {
-        if(data.wasGenotypingDone){
+        if (data.wasGenotypingDone) {
           return {
-               kind: "string",
-              variant: "select",
-              label: "Genotype copy (if available)",
-              options: {
-                "Homozygous": "Homozygous",
-                "Heterozygous": "Heterozygous",
-                "Null": "Null",
-                "Other": "Other"
-                }
-                
-              }
-      
+            kind: 'string',
+            variant: 'select',
+            label: 'Genotype copy (if available)',
+            options: {
+              Homozygous: 'Homozygous',
+              Heterozygous: 'Heterozygous',
+              Null: 'Null',
+              Other: 'Other'
+            }
+          };
         }
-        return null
-      }
-
-    },
-    earTaggingSystem: createDependentField({
-      kind: "string",
-      variant: "select",
-      label: "Ear tagging system",
-      options: {
-        '1-64':'1-64',
-        'L-R-LL-LR-RR':'L-R-LL-LR-RR',
-        "1-99 System": "1-99 System",
-        "1-32 System": "1-32 System",
-        "Other": "Other"
+        return null;
       }
     },
-    (type) => type === "Ear tagging"),
+    earTaggingSystem: createDependentField(
+      {
+        kind: 'string',
+        variant: 'select',
+        label: 'Ear tagging system',
+        options: {
+          '1-64': '1-64',
+          'L-R-LL-LR-RR': 'L-R-LL-LR-RR',
+          '1-99 System': '1-99 System',
+          '1-32 System': '1-32 System',
+          Other: 'Other'
+        }
+      },
+      (type) => type === 'Ear tagging'
+    ),
 
     earTagNumber: {
-      kind: "dynamic",
-      deps: ["earTaggingSystem"],
+      kind: 'dynamic',
+      deps: ['earTaggingSystem'],
       render(data) {
-        const system = data.earTaggingSystem
-        if(isNumericEarTagSystem(system)){
+        const system = data.earTaggingSystem;
+        if (isNumericEarTagSystem(system)) {
           return {
-            kind: "number",
-            variant: "input",
-            label: "Ear tag identification number",
+            kind: 'number',
+            variant: 'input',
+            label: 'Ear tag identification number',
             description: `Must be a whole number between 1 and ${earTagSystemMaximums[system]}`
-          }
+          };
         }
-        return null
+        return null;
       }
     },
 
     earTagPosition: {
-      kind: "dynamic",
-      deps: ["earTaggingSystem"],
+      kind: 'dynamic',
+      deps: ['earTaggingSystem'],
       render(data) {
-        if(data.earTaggingSystem === "L-R-LL-LR-RR"){
+        if (data.earTaggingSystem === 'L-R-LL-LR-RR') {
           return {
-            kind: "string",
-            variant: "radio",
-            label: "Ear tag identification",
+            kind: 'string',
+            variant: 'radio',
+            label: 'Ear tag identification',
             options: {
-              "L": "L",
-              "R": "R",
-              "LL": "LL",
-              "LR": "LR",
-              "RR": "RR"
+              L: 'L',
+              R: 'R',
+              LL: 'LL',
+              LR: 'LR',
+              RR: 'RR'
             }
-          }
+          };
         }
-        return null
+        return null;
       }
     },
 
     earTagOtherId: {
-      kind: "dynamic",
-      deps: ["earTaggingSystem"],
+      kind: 'dynamic',
+      deps: ['earTaggingSystem'],
       render(data) {
-        if(data.earTaggingSystem === "Other"){
+        if (data.earTaggingSystem === 'Other') {
           return {
-            kind: "string",
-            variant: "input",
-            label: "Ear tag identification"
-          }
+            kind: 'string',
+            variant: 'input',
+            label: 'Ear tag identification'
+          };
         }
-        return null
+        return null;
       }
     },
 
-    rfidChipNumber: createDependentField({
-  kind: "number",
-  variant: "input",
-  label: "RFID chip number"
-}, (type) => type === "RFID Chip Insertion"),
-rfidReadStatus: createDependentField({
-  kind: "string",
-  variant: "select",
-  label: "RFID chip read status (optional)",
-  options: {
-    "Successful": "Successful",
-    "Unsuccessful": "Unsuccessful"
-  }
-}, (type) => type === "RFID Chip Insertion"),
+    rfidChipNumber: createDependentField(
+      {
+        kind: 'number',
+        variant: 'input',
+        label: 'RFID chip number'
+      },
+      (type) => type === 'RFID Chip Insertion'
+    ),
+    rfidReadStatus: createDependentField(
+      {
+        kind: 'string',
+        variant: 'select',
+        label: 'RFID chip read status (optional)',
+        options: {
+          Successful: 'Successful',
+          Unsuccessful: 'Unsuccessful'
+        }
+      },
+      (type) => type === 'RFID Chip Insertion'
+    ),
 
-    anesthesiaUsed: createDependentField({
-     kind: 'boolean',
-     variant: 'radio',
-     label: "Anesthesia used"
-    },
-    (type) => type === "Ear tagging" || type === "RFID Chip Insertion" || type === "Re-stitching"),
+    anesthesiaUsed: createDependentField(
+      {
+        kind: 'boolean',
+        variant: 'radio',
+        label: 'Anesthesia used'
+      },
+      (type) => type === 'Ear tagging' || type === 'RFID Chip Insertion' || type === 'Re-stitching'
+    ),
 
     anesthesiaType: {
       kind: 'dynamic',
-      deps: ['anesthesiaUsed','interventionType'],
+      deps: ['anesthesiaUsed', 'interventionType'],
       render(data) {
-        if(data.anesthesiaUsed || data.interventionType === 'Anesthesia') {
+        if (data.anesthesiaUsed || data.interventionType === 'Anesthesia') {
           return {
-            kind: "string",
-            variant: "select",
+            kind: 'string',
+            variant: 'select',
             label: 'Anesthesia type',
             options: {
-              "Isoflurane": "Isoflurane",
-              "Other": "Other"
+              Isoflurane: 'Isoflurane',
+              Other: 'Other'
             }
-            
-          }
+          };
         }
-        return null
+        return null;
       }
     },
     otherAnesthesiaType: {
-       kind: 'dynamic',
+      kind: 'dynamic',
       deps: ['anesthesiaUsed', 'anesthesiaType', 'interventionType'],
       render(data) {
-        if(((data.interventionType === 'Anesthesia' || data.anesthesiaUsed) && data.anesthesiaType === "Other")) {
+        if ((data.interventionType === 'Anesthesia' || data.anesthesiaUsed) && data.anesthesiaType === 'Other') {
           return {
-            kind: "string",
-            variant: "input",
-            label: "Specify anesthesia type"
-          }
+            kind: 'string',
+            variant: 'input',
+            label: 'Specify anesthesia type'
+          };
         }
-        return null
+        return null;
       }
     },
     anesthesiaDose: {
       kind: 'dynamic',
       deps: ['anesthesiaUsed', 'anesthesiaType', 'interventionType'],
       render(data) {
-        if(((data.interventionType === 'Anesthesia' || data.anesthesiaUsed) && data.anesthesiaType === "Other")) {
+        if ((data.interventionType === 'Anesthesia' || data.anesthesiaUsed) && data.anesthesiaType === 'Other') {
           return {
-            kind: "number",
-            variant: "input",
-            label: "Dose amount (ml)",
-          }
+            kind: 'number',
+            variant: 'input',
+            label: 'Dose amount (ml)'
+          };
         }
-        return null
+        return null;
       }
     },
     isofluranePercentageInduction: {
       kind: 'dynamic',
       deps: ['anesthesiaUsed', 'anesthesiaType', 'interventionType'],
       render(data) {
-        if((data.interventionType === 'Anesthesia' || data.anesthesiaUsed) && data.anesthesiaType  === 'Isoflurane') {
+        if ((data.interventionType === 'Anesthesia' || data.anesthesiaUsed) && data.anesthesiaType === 'Isoflurane') {
           return {
-            kind: "number",
-            variant: "input",
-            label: "Isoflurane percentage during induction"
-          }
+            kind: 'number',
+            variant: 'input',
+            label: 'Isoflurane percentage during induction'
+          };
         }
-        return null
+        return null;
       }
-
     },
     anesthesiaInductionTime: {
       kind: 'dynamic',
       deps: ['anesthesiaUsed', 'anesthesiaType', 'interventionType'],
       render(data) {
-        if((data.interventionType === 'Anesthesia' || data.anesthesiaUsed) && data.anesthesiaType  === 'Isoflurane') {
+        if ((data.interventionType === 'Anesthesia' || data.anesthesiaUsed) && data.anesthesiaType === 'Isoflurane') {
           return {
-            kind: "number",
-            variant: "input",
-            label: "Isoflurane induction time (minutes)"
-          }
+            kind: 'number',
+            variant: 'input',
+            label: 'Isoflurane induction time (minutes)'
+          };
         }
-        return null
+        return null;
       }
     },
     isofluranePercentageProcedure: {
       kind: 'dynamic',
       deps: ['anesthesiaUsed', 'anesthesiaType', 'interventionType'],
       render(data) {
-        if((data.interventionType === 'Anesthesia' || data.anesthesiaUsed) && data.anesthesiaType  === 'Isoflurane') {
+        if ((data.interventionType === 'Anesthesia' || data.anesthesiaUsed) && data.anesthesiaType === 'Isoflurane') {
           return {
-            kind: "number",
-            variant: "input",
-            label: "Isoflurane percentage during procedure"
-          }
+            kind: 'number',
+            variant: 'input',
+            label: 'Isoflurane percentage during procedure'
+          };
         }
-        return null
+        return null;
       }
     },
 
@@ -320,476 +345,466 @@ rfidReadStatus: createDependentField({
       kind: 'dynamic',
       deps: ['anesthesiaUsed', 'interventionType'],
       render(data) {
-        if(data.interventionType === 'Anesthesia' || data.anesthesiaUsed) {
+        if (data.interventionType === 'Anesthesia' || data.anesthesiaUsed) {
           return {
-            kind: "number",
-            variant: "input",
-            label: "Duration of Anesthesia provided (minutes)"
-          }
+            kind: 'number',
+            variant: 'input',
+            label: 'Duration of Anesthesia provided (minutes)'
+          };
         }
-        return null
+        return null;
       }
     },
     anesthesiaRecoveryTime: {
       kind: 'dynamic',
       deps: ['anesthesiaUsed', 'interventionType'],
       render(data) {
-        if(data.interventionType === 'Anesthesia' || data.anesthesiaUsed) {
+        if (data.interventionType === 'Anesthesia' || data.anesthesiaUsed) {
           return {
-            kind: "number",
-            variant: "input",
-            label: "Time until recovery from Anesthesia (minutes)"
-          }
-        }
-        return null
-      }
-    },
-
-    analgesicUsed: createDependentField({
-  kind: "boolean",
-  variant: "radio",
-  label: "Analgesic used"
-}, (type) => type === "RFID Chip Insertion" || type === "Re-stitching"),
-
-analgesicType: {
-  kind: "dynamic",
-  deps: ["analgesicUsed", "interventionType"],
-  render(data) {
-    if ((data.interventionType === "RFID Chip Insertion" || data.interventionType === "Re-stitching") && data.analgesicUsed) {
-      return {
-        kind: "string",
-        variant: "select",
-        label: "Analgesic type",
-        options: {
-          "Carprofen": "Carprofen",
-          "Bupivacaine": "Bupivacaine",
-          "Other": "Other"
-        }
-      };
-    }
-    return null;
-  }
-},
-
-analgesicOther: {
-  kind: "dynamic",
-  deps: ["analgesicUsed", "analgesicType", "interventionType"],
-  render(data) {
-    if (
-      (data.interventionType === "RFID Chip Insertion" || data.interventionType === "Re-stitching") &&
-      data.analgesicUsed &&
-      data.analgesicType === "Other"
-    ) {
-      return {
-        kind: "string",
-        variant: "input",
-        label: "Specify other analgesic"
-      };
-    }
-    return null;
-  }
-},
-
-analgesicDose: {
-  kind: "dynamic",
-  deps: ["analgesicUsed", "interventionType"],
-  render(data) {
-    if ((data.interventionType === "RFID Chip Insertion" || data.interventionType === "Re-stitching") && data.analgesicUsed) {
-      return {
-        kind: "number",
-        variant: "input",
-        label: "Analgesic dose (ml)"
-      };
-    }
-    return null;
-  }
-},
-    sideOfInjection: createDependentField({
-      kind: "string",
-      variant: "select",
-      label: "Side of injection",
-      options: {
-        "Left": "Left",
-        "Right": "Right"
-      }
-    }, (type) => type === "RFID Chip Insertion"),
-
-    rfidInjectionLocation: createDependentField({
-      kind: "string",
-      variant: "select",
-      label: "RFID injection location",
-      options: {
-        "Under ear": "Under ear",
-        "Lower body": "Lower body",
-        "Other": "Other"
-      }
-    }, (type) => type === "RFID Chip Insertion"),
-
-    rfidInjectionLocationOther: {
-      kind: "dynamic",
-      deps: ["rfidInjectionLocation", "interventionType"],
-      render(data) {
-        if (
-          data.interventionType === "RFID Chip Insertion" &&
-          data.rfidInjectionLocation === "Other"
-        ) {
-          return {
-            kind: "string",
-            variant: "input",
-            label: "Specify RFID injection location"
+            kind: 'number',
+            variant: 'input',
+            label: 'Time until recovery from Anesthesia (minutes)'
           };
         }
         return null;
       }
     },
 
-    
-    tattooLocationInfo: createDependentField({
-      kind: "record-array",
-      label: "Tattooing information",
-      fieldset: {
-        tattooLocation: {
-          kind: "string",
-          variant: "select",
-          label: "Tattoo location",
-          options: {
-            "Upper left": "Upper left",
-            "Upper right": "Upper right",
-            "Lower left": "Lower left",
-            "Lower right": "Lower right"
-          }
+    analgesicUsed: createDependentField(
+      {
+        kind: 'boolean',
+        variant: 'radio',
+        label: 'Analgesic used'
+      },
+      (type) => type === 'RFID Chip Insertion' || type === 'Re-stitching'
+    ),
+
+    analgesicType: {
+      kind: 'dynamic',
+      deps: ['analgesicUsed', 'interventionType'],
+      render(data) {
+        if (
+          (data.interventionType === 'RFID Chip Insertion' || data.interventionType === 'Re-stitching') &&
+          data.analgesicUsed
+        ) {
+          return {
+            kind: 'string',
+            variant: 'select',
+            label: 'Analgesic type',
+            options: {
+              Carprofen: 'Carprofen',
+              Bupivacaine: 'Bupivacaine',
+              Other: 'Other'
+            }
+          };
         }
+        return null;
       }
     },
-    (type) => type === "Tattooing"),
-    teethExtractionNumber: createDependentField({
-      kind: "number",
-      variant: "input",
-      label: "Number of teeth extracted"
-    }, (type) => type === "Teeth extraction"),
-    bloodGlucoseLevel: createDependentField({
-      kind: "string",
-      variant: 'input',
-      label: "Blood glucose level (mg/dL)"
-    }, (type) => type === "Blood glucose"),
+
+    analgesicOther: {
+      kind: 'dynamic',
+      deps: ['analgesicUsed', 'analgesicType', 'interventionType'],
+      render(data) {
+        if (
+          (data.interventionType === 'RFID Chip Insertion' || data.interventionType === 'Re-stitching') &&
+          data.analgesicUsed &&
+          data.analgesicType === 'Other'
+        ) {
+          return {
+            kind: 'string',
+            variant: 'input',
+            label: 'Specify other analgesic'
+          };
+        }
+        return null;
+      }
+    },
+
+    analgesicDose: {
+      kind: 'dynamic',
+      deps: ['analgesicUsed', 'interventionType'],
+      render(data) {
+        if (
+          (data.interventionType === 'RFID Chip Insertion' || data.interventionType === 'Re-stitching') &&
+          data.analgesicUsed
+        ) {
+          return {
+            kind: 'number',
+            variant: 'input',
+            label: 'Analgesic dose (ml)'
+          };
+        }
+        return null;
+      }
+    },
+    sideOfInjection: createDependentField(
+      {
+        kind: 'string',
+        variant: 'select',
+        label: 'Side of injection',
+        options: {
+          Left: 'Left',
+          Right: 'Right'
+        }
+      },
+      (type) => type === 'RFID Chip Insertion'
+    ),
+
+    rfidInjectionLocation: createDependentField(
+      {
+        kind: 'string',
+        variant: 'select',
+        label: 'RFID injection location',
+        options: {
+          'Under ear': 'Under ear',
+          'Lower body': 'Lower body',
+          Other: 'Other'
+        }
+      },
+      (type) => type === 'RFID Chip Insertion'
+    ),
+
+    rfidInjectionLocationOther: {
+      kind: 'dynamic',
+      deps: ['rfidInjectionLocation', 'interventionType'],
+      render(data) {
+        if (data.interventionType === 'RFID Chip Insertion' && data.rfidInjectionLocation === 'Other') {
+          return {
+            kind: 'string',
+            variant: 'input',
+            label: 'Specify RFID injection location'
+          };
+        }
+        return null;
+      }
+    },
+
+    tattooLocationInfo: createDependentField(
+      {
+        kind: 'record-array',
+        label: 'Tattooing information',
+        fieldset: {
+          tattooLocation: {
+            kind: 'string',
+            variant: 'select',
+            label: 'Tattoo location',
+            options: {
+              'Upper left': 'Upper left',
+              'Upper right': 'Upper right',
+              'Lower left': 'Lower left',
+              'Lower right': 'Lower right'
+            }
+          }
+        }
+      },
+      (type) => type === 'Tattooing'
+    ),
+    teethExtractionNumber: createDependentField(
+      {
+        kind: 'number',
+        variant: 'input',
+        label: 'Number of teeth extracted'
+      },
+      (type) => type === 'Teeth extraction'
+    ),
+    bloodGlucoseLevel: createDependentField(
+      {
+        kind: 'string',
+        variant: 'input',
+        label: 'Blood glucose level (mg/dL)'
+      },
+      (type) => type === 'Blood glucose'
+    ),
 
     additionalComments: {
-      kind: "string",
-      variant: "textarea",
-      label: "Additional Comments"
+      kind: 'string',
+      variant: 'textarea',
+      label: 'Additional Comments'
     }
   },
   details: {
-    description: 'This form is used to track any physical intervention done upon an animal. Possible physical interventions include teeth extraction, tagging, tattooing, cytologies and other forms of swabbing.',
+    description:
+      'This form is used to track any physical intervention done upon an animal. Possible physical interventions include teeth extraction, tagging, tattooing, cytologies and other forms of swabbing.',
     license: 'Apache-2.0',
     title: 'Physical Intervention Form'
   },
   clientDetails: {
     estimatedDuration: 1,
-    instructions: ['Whenever an physical intervention is done please fill out this form to describe the type of intervention and its details. One must keep track of the certain parts of the animal that were affected by the intervention or if any parts were extracted.']
+    instructions: [
+      'Whenever an physical intervention is done please fill out this form to describe the type of intervention and its details. One must keep track of the certain parts of the animal that were affected by the intervention or if any parts were extracted.'
+    ]
   },
   measures: {
     interventionType: {
-      kind: "const",
-      visibility: "visible",
-      ref: "interventionType"
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'interventionType'
     },
     vaginalSwabNumber: {
-      kind: "const",
-      visibility: "visible",
-      ref: "vaginalSwabNumber"
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'vaginalSwabNumber'
     },
     vaginalCytologyDuration: {
-      kind: "const",
-      visibility: "visible",
-      ref: "vaginalCytologyDuration"
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'vaginalCytologyDuration'
     },
     vaginalCytologySolutionVolume: {
-      kind: "const",
-      visibility: "visible",
-      ref: "vaginalCytologySolutionVolume"
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'vaginalCytologySolutionVolume'
     },
     wasGenotypingDone: {
-    kind: "const",
-    visibility: "visible",
-    ref: "wasGenotypingDone"
-  },
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'wasGenotypingDone'
+    },
 
-  genotypeCompanyUsed: {
-    kind: "const",
-    visibility: "visible",
-    ref: "genotypeCompanyUsed"
-  },
+    genotypeCompanyUsed: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'genotypeCompanyUsed'
+    },
 
-  genotypeCopy: {
-    kind: "const",
-    visibility: "visible",
-    ref: "genotypeCopy"
-  },
+    genotypeCopy: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'genotypeCopy'
+    },
     earTaggingSystem: {
-      kind: "const",
-      visibility: "visible",
-      ref: "earTaggingSystem"
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'earTaggingSystem'
     },
     earTagNumber: {
-      kind: "const",
-      visibility: "visible",
-      ref: "earTagNumber"
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'earTagNumber'
     },
     earTagPosition: {
-      kind: "const",
-      visibility: "visible",
-      ref: "earTagPosition"
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'earTagPosition'
     },
     earTagOtherId: {
-      kind: "const",
-      visibility: "visible",
-      ref: "earTagOtherId"
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'earTagOtherId'
     },
     rfidChipNumber: {
-    kind: "const",
-    visibility: "visible",
-    ref: "rfidChipNumber"
-  },
-  rfidReadStatus: {
-    kind: "const",
-    visibility: "visible",
-    ref: "rfidReadStatus"
-  },
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'rfidChipNumber'
+    },
+    rfidReadStatus: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'rfidReadStatus'
+    },
 
+    anesthesiaUsed: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'anesthesiaUsed'
+    },
 
-  anesthesiaUsed: {
-    kind: "const",
-    visibility: "visible",
-    ref: "anesthesiaUsed"
-  },
+    anesthesiaType: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'anesthesiaType'
+    },
 
-  anesthesiaType: {
-    kind: "const",
-    visibility: "visible",
-    ref: "anesthesiaType"
-  },
+    otherAnesthesiaType: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'otherAnesthesiaType'
+    },
 
-  otherAnesthesiaType: {
-    kind: "const",
-    visibility: "visible",
-    ref: "otherAnesthesiaType"
-  },
+    anesthesiaDose: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'anesthesiaDose'
+    },
+    isofluranePercentageInduction: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'isofluranePercentageInduction'
+    },
+    isofluranePercentageProcedure: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'isofluranePercentageProcedure'
+    },
+    anesthesiaInductionTime: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'anesthesiaInductionTime'
+    },
+    anesthesiaDuration: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'anesthesiaDuration'
+    },
+    anesthesiaRecoveryTime: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'anesthesiaRecoveryTime'
+    },
+    analgesicUsed: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'analgesicUsed'
+    },
 
-  anesthesiaDose: {
-    kind: "const",
-    visibility: "visible",
-    ref: "anesthesiaDose"
-  },
-  isofluranePercentageInduction: {
-    kind: 'const',
-    visibility: 'visible',
-    ref: 'isofluranePercentageInduction'
-  },
-  isofluranePercentageProcedure: {
-    kind: 'const',
-    visibility: 'visible',
-    ref: 'isofluranePercentageProcedure'
-  },
-  anesthesiaInductionTime: {
-    kind: "const",
-    visibility: "visible",
-    ref: "anesthesiaInductionTime"
-  },
-  anesthesiaDuration: {
-    kind: "const",
-    visibility: "visible",
-    ref: "anesthesiaDuration"
-  },
-  anesthesiaRecoveryTime: {
-    kind: "const",
-    visibility: "visible",
-    ref: "anesthesiaRecoveryTime"
-  },
-  analgesicUsed: {
-  kind: "const",
-  visibility: "visible",
-  ref: "analgesicUsed"
-  },
+    analgesicType: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'analgesicType'
+    },
 
-  analgesicType: {
-    kind: "const",
-    visibility: "visible",
-    ref: "analgesicType"
-  },
+    analgesicOther: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'analgesicOther'
+    },
 
-  analgesicOther: {
-    kind: "const",
-    visibility: "visible",
-    ref: "analgesicOther"
-  },
+    analgesicDose: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'analgesicDose'
+    },
+    sideOfInjection: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'sideOfInjection'
+    },
 
-  analgesicDose: {
-    kind: "const",
-    visibility: "visible",
-    ref: "analgesicDose"
-  },
-  sideOfInjection: {
-    kind: "const",
-    visibility: "visible",
-    ref: "sideOfInjection"
-  },
+    rfidInjectionLocation: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'rfidInjectionLocation'
+    },
 
-  rfidInjectionLocation: {
-    kind: "const",
-    visibility: "visible",
-    ref: "rfidInjectionLocation"
-  },
-
-  rfidInjectionLocationOther: {
-    kind: "const",
-    visibility: "visible",
-    ref: "rfidInjectionLocationOther"
-  },
-
+    rfidInjectionLocationOther: {
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'rfidInjectionLocationOther'
+    },
 
     tattooLocationInfo: {
-      kind: "computed",
-      label: "Tattoo Locations",
-      visibility: "visible",
+      kind: 'computed',
+      label: 'Tattoo Locations',
+      visibility: 'visible',
       value: (data) => {
-        const val = data.tattooLocationInfo || []
-        const tattooResults = val.map(tattoo => ({
-          "Tattoo Location": tattoo.tattooLocation
-        }))
-        return tattooResults
+        const val = data.tattooLocationInfo ?? [];
+        const tattooResults = val.map((tattoo) => ({
+          'Tattoo Location': tattoo.tattooLocation
+        }));
+        return tattooResults;
       }
     },
     teethExtractionNumber: {
-      kind: "const",
-      visibility: "visible",
-      ref: "teethExtractionNumber"
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'teethExtractionNumber'
     },
     bloodGlucoseLevel: {
-      kind: "const",
-      visibility: "visible",
-      ref: "bloodGlucoseLevel"
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'bloodGlucoseLevel'
     },
     additionalComments: {
       kind: 'const',
-      visibility: "visible",
+      visibility: 'visible',
       ref: 'additionalComments'
     }
   },
-  validationSchema: z.object({
-  interventionType: z.enum([
-    "Blood extraction",
-    "Teeth extraction",
-    "RFID Chip Insertion",
-    "Ear tagging",
-    "Tattooing",
-    "Vaginal cytology",
-    "Fecal matter collection",
-    "Blood glucose",
-    "Anesthesia",
-    "Re-stitching"
-  ]),
-    vaginalSwabNumber: z.number().min(1).int().optional(),
-    vaginalCytologyDuration: z.number().min(1).optional(),
-    vaginalCytologySolutionVolume: z.number().min(0).optional(),
-    wasGenotypingDone: z.boolean().optional(),
-  genotypeCompanyUsed: z.enum([
-    "Transnetyx",
-    "Other"
-  ]).optional(),
-  genotypeCopy: z.enum([
-    "Homozygous",
-    "Heterozygous",
-    "Null",
-    "Other"
-  ]).optional(),
-  earTaggingSystem: z.enum([
-    '1-64',
-    'L-R-LL-LR-RR',
-    "1-99 System",
-    "1-32 System",
-    "Other"
-  ]).optional(),
-  earTagNumber: z.number().int().positive().optional(),
-  earTagPosition: z.enum([
-    "L",
-    "R",
-    "LL",
-    "LR",
-    "RR"
-  ]).optional(),
-  earTagOtherId: z.string().optional(),
-  rfidChipNumber: z.number().int().optional(),
-  rfidReadStatus: z.enum(["Successful", "Unsuccessful"]).optional(),
-  anesthesiaUsed: z.boolean().optional(),
-  anesthesiaType: z.enum(["Isoflurane", "Other"]).optional(),
-  otherAnesthesiaType: z.string().optional(),
-  anesthesiaDose: z.number().min(0).optional(),
-  isofluranePercentageInduction: z.number().min(0).max(100).optional(),
-  anesthesiaInductionTime: z.number().int().min(0).optional(),
-  isofluranePercentageProcedure: z.number().min(0).max(100).optional(),
-  anesthesiaDuration: z.number().min(0).int().optional(),
-  anesthesiaRecoveryTime: z.number().min(0).int().optional(),
-  analgesicUsed: z.boolean().optional(),
-  analgesicType: z.enum([
-    "Carprofen",
-    "Bupivacaine",
-    "Other"
-  ]).optional(),
-  analgesicOther: z.string().optional(),
-  analgesicDose: z.number().min(0).optional(),
-  sideOfInjection: z.enum([
-  "Left",
-  "Right"
-  ]).optional(),
-  rfidInjectionLocation: z.enum([
-    "Under ear",
-    "Lower body",
-    "Other"
-  ]).optional(),
-  rfidInjectionLocationOther: z.string().optional(),
-  tattooLocationInfo: z.array(z.object({
-    tattooLocation: z.enum([
-      "Upper left",
-      "Upper right",
-      "Lower left",
-      "Lower right"
-    ]).optional()
-  })).optional(),
-    teethExtractionNumber: z.number().int().min(0).max(16).optional(),
-    bloodGlucoseLevel: z.string().optional(),
-    additionalComments: z.string().optional()
-  }).superRefine((data, ctx) => {
-    const system = data.earTaggingSystem
-    if (isNumericEarTagSystem(system)) {
-      const maximum = earTagSystemMaximums[system]
-      if (data.earTagNumber === undefined) {
+  validationSchema: z
+    .object({
+      interventionType: z.enum([
+        'Blood extraction',
+        'Teeth extraction',
+        'RFID Chip Insertion',
+        'Ear tagging',
+        'Tattooing',
+        'Vaginal cytology',
+        'Fecal matter collection',
+        'Blood glucose',
+        'Anesthesia',
+        'Re-stitching'
+      ]),
+      vaginalSwabNumber: z.number().min(1).int().optional(),
+      vaginalCytologyDuration: z.number().min(1).optional(),
+      vaginalCytologySolutionVolume: z.number().min(0).optional(),
+      wasGenotypingDone: z.boolean().optional(),
+      genotypeCompanyUsed: z.enum(['Transnetyx', 'Other']).optional(),
+      genotypeCopy: z.enum(['Homozygous', 'Heterozygous', 'Null', 'Other']).optional(),
+      earTaggingSystem: z.enum(['1-64', 'L-R-LL-LR-RR', '1-99 System', '1-32 System', 'Other']).optional(),
+      earTagNumber: z.number().int().positive().optional(),
+      earTagPosition: z.enum(['L', 'R', 'LL', 'LR', 'RR']).optional(),
+      earTagOtherId: z.string().optional(),
+      rfidChipNumber: z.number().int().optional(),
+      rfidReadStatus: z.enum(['Successful', 'Unsuccessful']).optional(),
+      anesthesiaUsed: z.boolean().optional(),
+      anesthesiaType: z.enum(['Isoflurane', 'Other']).optional(),
+      otherAnesthesiaType: z.string().optional(),
+      anesthesiaDose: z.number().min(0).optional(),
+      isofluranePercentageInduction: z.number().min(0).max(100).optional(),
+      anesthesiaInductionTime: z.number().int().min(0).optional(),
+      isofluranePercentageProcedure: z.number().min(0).max(100).optional(),
+      anesthesiaDuration: z.number().min(0).int().optional(),
+      anesthesiaRecoveryTime: z.number().min(0).int().optional(),
+      analgesicUsed: z.boolean().optional(),
+      analgesicType: z.enum(['Carprofen', 'Bupivacaine', 'Other']).optional(),
+      analgesicOther: z.string().optional(),
+      analgesicDose: z.number().min(0).optional(),
+      sideOfInjection: z.enum(['Left', 'Right']).optional(),
+      rfidInjectionLocation: z.enum(['Under ear', 'Lower body', 'Other']).optional(),
+      rfidInjectionLocationOther: z.string().optional(),
+      tattooLocationInfo: z
+        .array(
+          z.object({
+            tattooLocation: z.enum(['Upper left', 'Upper right', 'Lower left', 'Lower right']).optional()
+          })
+        )
+        .optional(),
+      teethExtractionNumber: z.number().int().min(0).max(16).optional(),
+      bloodGlucoseLevel: z.string().optional(),
+      additionalComments: z.string().optional()
+    })
+    .superRefine((data, ctx) => {
+      const system = data.earTaggingSystem;
+      if (isNumericEarTagSystem(system)) {
+        const maximum = earTagSystemMaximums[system];
+        if (data.earTagNumber === undefined) {
+          ctx.addIssue({
+            code: 'custom',
+            path: ['earTagNumber'],
+            message: `This field is required when the ear tagging system is ${system}.`
+          });
+        } else if (data.earTagNumber > maximum) {
+          ctx.addIssue({
+            code: 'custom',
+            path: ['earTagNumber'],
+            message: `The ${system} only allows numbers from 1 to ${maximum}.`
+          });
+        }
+      }
+      if (system === 'L-R-LL-LR-RR' && data.earTagPosition === undefined) {
         ctx.addIssue({
-          code: "custom",
-          path: ["earTagNumber"],
-          message: `This field is required when the ear tagging system is ${system}.`
-        });
-      } else if (data.earTagNumber > maximum) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["earTagNumber"],
-          message: `The ${system} only allows numbers from 1 to ${maximum}.`
+          code: 'custom',
+          path: ['earTagPosition'],
+          message: 'This field is required when the ear tagging system is L-R-LL-LR-RR.'
         });
       }
-    }
-    if (system === "L-R-LL-LR-RR" && data.earTagPosition === undefined) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["earTagPosition"],
-        message: "This field is required when the ear tagging system is L-R-LL-LR-RR."
-      });
-    }
-    if (system === "Other" && !data.earTagOtherId) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["earTagOtherId"],
-        message: "This field is required when the ear tagging system is Other."
-      });
-    }
-  })
+      if (system === 'Other' && !data.earTagOtherId) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['earTagOtherId'],
+          message: 'This field is required when the ear tagging system is Other.'
+        });
+      }
+    })
 });

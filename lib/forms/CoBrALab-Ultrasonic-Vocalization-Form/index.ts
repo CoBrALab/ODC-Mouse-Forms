@@ -1,44 +1,42 @@
-/* eslint-disable perfectionist/sort-objects */
-
 const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-core/index.js');
 const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
-  tags: ['Mouse', 'Frequency', 'Cries','Sound'],
+  tags: ['Mouse', 'Frequency', 'Cries', 'Sound'],
   internal: {
-    edition: 1,
+    edition: 2,
     name: 'MOUSE_ULTRASONIC_VOCALIZATION_FORM'
   },
-  defaultMeasureVisibility: "visible",
+  defaultMeasureVisibility: 'visible',
   content: {
     numberOfCrys: {
-        kind: "number",
-        variant: "input",
-        label: "Number of calls/cries the animal subject made during the session."
+      kind: 'number',
+      variant: 'input',
+      label: 'Number of calls/cries the animal subject made during the session.'
     },
     minutesSeparatedFromMother: {
-      kind: "number",
-      variant: "input",
-      label: "Duration the animal is separated from the mother (minutes)"
+      kind: 'number',
+      variant: 'input',
+      label: 'Duration the animal is separated from the mother (minutes)'
     },
     adjustedSoundFrequency: {
-      kind: "number",
-      variant: "input",
-      label:"Sound frequency captured by software (kHz)"
-            
+      kind: 'number',
+      variant: 'input',
+      label: 'Sound frequency captured by software (kHz)'
     },
     additionalComments: {
-      kind: "string",
-      variant: "textarea",
-      label: "Additional Comments"
-    },
-
+      kind: 'string',
+      variant: 'textarea',
+      label: 'Additional Comments'
+    }
   },
   clientDetails: {
     estimatedDuration: 1,
-    instructions: ['To be filled in whenever the animal goes through an ultrasonic vocalization session. Please keep track of the frequency used for session']
+    instructions: [
+      'To be filled in whenever the animal goes through an ultrasonic vocalization session. Please keep track of the frequency used for session'
+    ]
   },
   details: {
     description: 'A form to track data from whenever an animal goes through an ultrasonic vocalization procedure',
@@ -47,12 +45,12 @@ export default defineInstrument({
   },
   measures: {
     numberOfCrys: {
-        kind: 'const',
-        ref: 'numberOfCrys'
+      kind: 'const',
+      ref: 'numberOfCrys'
     },
     adjustedSoundFrequency: {
-        kind: 'const',
-        ref: 'adjustedSoundFrequency'
+      kind: 'const',
+      ref: 'adjustedSoundFrequency'
     },
     minutesSeparatedFromMother: {
       kind: 'const',
@@ -62,7 +60,6 @@ export default defineInstrument({
       kind: 'const',
       ref: 'additionalComments'
     }
-
   },
   validationSchema: z.object({
     numberOfCrys: z.number().int().min(0),

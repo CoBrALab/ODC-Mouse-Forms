@@ -1,5 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
-
 const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-core/index.js');
 const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
@@ -8,7 +6,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Behaviour', 'Open Field', 'Video'],
   internal: {
-    edition: 3,
+    edition: 4,
     name: 'MOUSE_OPEN_FIELD_TEST_FORM'
   },
   content: {
@@ -22,9 +20,9 @@ export default defineInstrument({
       variant: 'radio',
       label: 'Light',
       options: {
-        "Red light": "Red light",
-        "Lights on": "Lights on",
-        "Lights off": "Lights off"
+        'Red light': 'Red light',
+        'Lights on': 'Lights on',
+        'Lights off': 'Lights off'
       }
     },
     habituationTime: {
@@ -50,11 +48,11 @@ export default defineInstrument({
       label: 'Mouse entry placement',
       description: 'As defined in the project standard operating procedure',
       options: {
-        "Top left": "Top left",
-        "Top right": "Top right",
-        "Bottom left": "Bottom left",
-        "Bottom right": "Bottom right",
-        "Center": "Center"
+        'Top left': 'Top left',
+        'Top right': 'Top right',
+        'Bottom left': 'Bottom left',
+        'Bottom right': 'Bottom right',
+        Center: 'Center'
       }
     },
     visualCuesUsed: {
@@ -76,12 +74,12 @@ export default defineInstrument({
             variant: 'listbox',
             label: 'Visual cue placement',
             options: {
-              "External": "External (outside the arena)",
-              "Internal": "Internal (inside the arena)"
+              External: 'External (outside the arena)',
+              Internal: 'Internal (inside the arena)'
             }
-          }
+          };
         }
-        return null
+        return null;
       }
     },
     additionalComments: {
@@ -92,7 +90,9 @@ export default defineInstrument({
   },
   clientDetails: {
     estimatedDuration: 2,
-    instructions: ['To be filled in whenever a mouse completes an open field test. Entry corner and visual cues should follow the project specific standard operating procedure.']
+    instructions: [
+      'To be filled in whenever a mouse completes an open field test. Entry corner and visual cues should follow the project specific standard operating procedure.'
+    ]
   },
   details: {
     description: 'A form to track the setup and recording of an open field test given to a mouse',
@@ -134,7 +134,7 @@ export default defineInstrument({
       kind: 'computed',
       label: 'Visual cues used',
       visibility: 'visible',
-      value: (data) => data.visualCuesType ? Array.from(data.visualCuesType).join(" ") : ""
+      value: (data) => (data.visualCuesType ? Array.from(data.visualCuesType).join(' ') : '')
     },
     additionalComments: {
       kind: 'const',
@@ -142,22 +142,24 @@ export default defineInstrument({
       ref: 'additionalComments'
     }
   },
-  validationSchema: z.object({
-    roomNumber: z.string(),
-    lightCondition: z.enum(["Red light", "Lights on", "Lights off"]),
-    habituationTime: z.number().int().min(0),
-    arenaNumber: z.number().int().min(1).max(4),
-    mouseEntryPlacement: z.enum(["Top left", "Top right", "Bottom left", "Bottom right", "Center"]),
-    visualCuesUsed: z.boolean().optional(),
-    visualCuesType: z.set(z.enum(["External", "Internal"])).optional(),
-    additionalComments: z.string().optional()
-  }).superRefine((data, ctx) => {
-    if (data.visualCuesUsed && (!data.visualCuesType || data.visualCuesType.size === 0)) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["visualCuesType"],
-        message: "This field is required when visual cues were used."
-      });
-    }
-  })
+  validationSchema: z
+    .object({
+      roomNumber: z.string(),
+      lightCondition: z.enum(['Red light', 'Lights on', 'Lights off']),
+      habituationTime: z.number().int().min(0),
+      arenaNumber: z.number().int().min(1).max(4),
+      mouseEntryPlacement: z.enum(['Top left', 'Top right', 'Bottom left', 'Bottom right', 'Center']),
+      visualCuesUsed: z.boolean().optional(),
+      visualCuesType: z.set(z.enum(['External', 'Internal'])).optional(),
+      additionalComments: z.string().optional()
+    })
+    .superRefine((data, ctx) => {
+      if (data.visualCuesUsed && (!data.visualCuesType || data.visualCuesType.size === 0)) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['visualCuesType'],
+          message: 'This field is required when visual cues were used.'
+        });
+      }
+    })
 });
