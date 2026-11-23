@@ -1,5 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
-
 const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-core/index.js');
 const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
@@ -8,7 +6,7 @@ export default defineInstrument({
   language: 'en',
   tags: ['Cannabis', 'Vaporization', 'Inhalation', 'CBD', 'THC'],
   internal: {
-    edition: 1,
+    edition: 2,
     name: 'VAPORIZED_CANNABIS_ADMINISTRATION_FORM'
   },
   content: {
@@ -17,127 +15,127 @@ export default defineInstrument({
       variant: 'select',
       label: 'Substance',
       options: {
-        "Cannabis": "Cannabis",
-        "Control": "Control",
-        "Other": "Other"
+        Cannabis: 'Cannabis',
+        Control: 'Control',
+        Other: 'Other'
       }
     },
     otherSubstance: {
       kind: 'dynamic',
       deps: ['substance'],
       render(data) {
-        if (data.substance === "Other") {
+        if (data.substance === 'Other') {
           return {
             kind: 'string',
             variant: 'input',
             label: 'Other substance'
-          }
+          };
         }
-        return null
+        return null;
       }
     },
     cannabisName: {
       kind: 'dynamic',
       deps: ['substance'],
       render(data) {
-        if (data.substance === "Cannabis") {
+        if (data.substance === 'Cannabis') {
           return {
             kind: 'string',
             variant: 'input',
             label: 'Name of cannabis (optional)'
-          }
+          };
         }
-        return null
+        return null;
       }
     },
     cbdPercentage: {
       kind: 'dynamic',
       deps: ['substance'],
       render(data) {
-        if (data.substance === "Cannabis") {
+        if (data.substance === 'Cannabis') {
           return {
             kind: 'number',
             variant: 'input',
             label: '% CBD'
-          }
+          };
         }
-        return null
+        return null;
       }
     },
     thcPercentage: {
       kind: 'dynamic',
       deps: ['substance'],
       render(data) {
-        if (data.substance === "Cannabis") {
+        if (data.substance === 'Cannabis') {
           return {
             kind: 'number',
             variant: 'input',
             label: '% THC'
-          }
+          };
         }
-        return null
+        return null;
       }
     },
     cannabisAmount: {
       kind: 'dynamic',
       deps: ['substance'],
       render(data) {
-        if (data.substance === "Cannabis") {
+        if (data.substance === 'Cannabis') {
           return {
             kind: 'number',
             variant: 'input',
             label: 'Amount of ground cannabis (mg)',
             description: 'Range: 0 - 1000 mg'
-          }
+          };
         }
-        return null
+        return null;
       }
     },
     cannabisNotes: {
       kind: 'dynamic',
       deps: ['substance'],
       render(data) {
-        if (data.substance === "Cannabis") {
+        if (data.substance === 'Cannabis') {
           return {
             kind: 'string',
             variant: 'textarea',
             label: 'Other notes'
-          }
+          };
         }
-        return null
+        return null;
       }
     },
     controlType: {
       kind: 'dynamic',
       deps: ['substance'],
       render(data) {
-        if (data.substance === "Control") {
+        if (data.substance === 'Control') {
           return {
             kind: 'string',
             variant: 'radio',
             label: 'Control',
             options: {
-              "Hot air": "Hot air",
-              "Oregano": "Oregano"
+              'Hot air': 'Hot air',
+              Oregano: 'Oregano'
             }
-          }
+          };
         }
-        return null
+        return null;
       }
     },
     oreganoAmount: {
       kind: 'dynamic',
       deps: ['substance', 'controlType'],
       render(data) {
-        if (data.substance === "Control" && data.controlType === "Oregano") {
+        if (data.substance === 'Control' && data.controlType === 'Oregano') {
           return {
             kind: 'number',
             variant: 'input',
             label: 'Amount of oregano (mg)',
             description: 'Range: 0 - 1000 mg'
-          }
+          };
         }
-        return null
+        return null;
       }
     },
     temperatureSetting: {
@@ -161,7 +159,8 @@ export default defineInstrument({
     }
   },
   details: {
-    description: 'Records a vaporized cannabis administration session, including the substance administered (cannabis, a hot air or oregano control, or another substance), the vaporizer temperature setting and air timing.',
+    description:
+      'Records a vaporized cannabis administration session, including the substance administered (cannabis, a hot air or oregano control, or another substance), the vaporizer temperature setting and air timing.',
     license: 'Apache-2.0',
     title: 'Vaporized Cannabis Administration Form'
   },
@@ -237,48 +236,50 @@ export default defineInstrument({
       ref: 'timeAfterAirOff'
     }
   },
-  validationSchema: z.object({
-    substance: z.enum(['Cannabis', 'Control', 'Other']),
-    otherSubstance: z.string().optional(),
-    cannabisName: z.string().optional(),
-    cbdPercentage: z.number().min(0).max(100).optional(),
-    thcPercentage: z.number().min(0).max(100).optional(),
-    cannabisAmount: z.number().min(0).max(1000).optional(),
-    cannabisNotes: z.string().optional(),
-    controlType: z.enum(['Hot air', 'Oregano']).optional(),
-    oreganoAmount: z.number().min(0).max(1000).optional(),
-    temperatureSetting: z.number().int().min(1).max(9),
-    timeAirOn: z.number().int().min(0).max(60),
-    timeAfterAirOff: z.number().int().min(0).max(60)
-  }).superRefine((data, ctx) => {
-    const requireField = (path: string) => {
-      ctx.addIssue({
-        code: "custom",
-        path: [path],
-        message: "This field is required."
-      });
-    };
-    if (data.substance === "Other" && !data.otherSubstance) {
-      requireField("otherSubstance");
-    }
-    if (data.substance === "Cannabis") {
-      if (data.cbdPercentage === undefined) {
-        requireField("cbdPercentage");
+  validationSchema: z
+    .object({
+      substance: z.enum(['Cannabis', 'Control', 'Other']),
+      otherSubstance: z.string().optional(),
+      cannabisName: z.string().optional(),
+      cbdPercentage: z.number().min(0).max(100).optional(),
+      thcPercentage: z.number().min(0).max(100).optional(),
+      cannabisAmount: z.number().min(0).max(1000).optional(),
+      cannabisNotes: z.string().optional(),
+      controlType: z.enum(['Hot air', 'Oregano']).optional(),
+      oreganoAmount: z.number().min(0).max(1000).optional(),
+      temperatureSetting: z.number().int().min(1).max(9),
+      timeAirOn: z.number().int().min(0).max(60),
+      timeAfterAirOff: z.number().int().min(0).max(60)
+    })
+    .superRefine((data, ctx) => {
+      const requireField = (path: string) => {
+        ctx.addIssue({
+          code: 'custom',
+          path: [path],
+          message: 'This field is required.'
+        });
+      };
+      if (data.substance === 'Other' && !data.otherSubstance) {
+        requireField('otherSubstance');
       }
-      if (data.thcPercentage === undefined) {
-        requireField("thcPercentage");
+      if (data.substance === 'Cannabis') {
+        if (data.cbdPercentage === undefined) {
+          requireField('cbdPercentage');
+        }
+        if (data.thcPercentage === undefined) {
+          requireField('thcPercentage');
+        }
+        if (data.cannabisAmount === undefined) {
+          requireField('cannabisAmount');
+        }
       }
-      if (data.cannabisAmount === undefined) {
-        requireField("cannabisAmount");
+      if (data.substance === 'Control') {
+        if (!data.controlType) {
+          requireField('controlType');
+        }
+        if (data.controlType === 'Oregano' && data.oreganoAmount === undefined) {
+          requireField('oreganoAmount');
+        }
       }
-    }
-    if (data.substance === "Control") {
-      if (!data.controlType) {
-        requireField("controlType");
-      }
-      if (data.controlType === "Oregano" && data.oreganoAmount === undefined) {
-        requireField("oreganoAmount");
-      }
-    }
-  })
+    })
 });

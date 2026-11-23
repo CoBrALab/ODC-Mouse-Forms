@@ -1,5 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
-
 const { defineInstrument } = await import('/runtime/v1/@opendatacapture/runtime-core/index.js');
 const { z } = await import('/runtime/v1/zod@3.23.x/index.js');
 
@@ -8,43 +6,45 @@ export default defineInstrument({
   language: 'en',
   tags: ['Mouse', 'Dam', 'Pregnancy', 'Plug'],
   internal: {
-    edition: 3,
+    edition: 4,
     name: 'PREGNANCY_PLUG_CHECK_FORM'
   },
   content: {
     plugPresent: {
-      kind: "string",
-      variant: "radio",
-      label: "Pregnancy plug status",
+      kind: 'string',
+      variant: 'radio',
+      label: 'Pregnancy plug status',
       options: {
-        "With plug": "With plug",
-        "Without plug": "Without plug",
-        "Open without plug": "Open without plug"
+        'With plug': 'With plug',
+        'Without plug': 'Without plug',
+        'Open without plug': 'Open without plug'
       }
     },
     daysSinceMating: {
-      kind: "number",
-      variant: "input",
-      label: "Days since mating session"
+      kind: 'number',
+      variant: 'input',
+      label: 'Days since mating session'
     },
     malePartnerId: {
-      kind: "string",
-      variant: "input",
-      label: "Male partner ID"
+      kind: 'string',
+      variant: 'input',
+      label: 'Male partner ID'
     },
     predictedDob: {
-      kind: "date",
-      label: "Predicted date of birth"
+      kind: 'date',
+      label: 'Predicted date of birth'
     },
     additionalComments: {
-      kind: "string",
-      variant: "textarea",
-      label: "Additional Comments"
+      kind: 'string',
+      variant: 'textarea',
+      label: 'Additional Comments'
     }
   },
   clientDetails: {
     estimatedDuration: 1,
-    instructions: ["To be filled whenever the animal is checked for a pregnancy plug, please keep in mind the days since the mouse's last mating session and the ID of the mating partner."]
+    instructions: [
+      "To be filled whenever the animal is checked for a pregnancy plug, please keep in mind the days since the mouse's last mating session and the ID of the mating partner."
+    ]
   },
   details: {
     description: 'A form to track data from whenever an animal is checked for a pregnancy.',
@@ -77,16 +77,11 @@ export default defineInstrument({
       visibility: 'visible',
       ref: 'additionalComments'
     }
-
   },
   validationSchema: z.object({
-    plugPresent: z.enum([
-      "With plug",
-      "Without plug",
-      "Open without plug"
-    ]),
-    daysSinceMating: z.number().nonnegative("Must be 0 or greater"),
-    malePartnerId: z.string().min(1, "Male partner ID is required"),
+    plugPresent: z.enum(['With plug', 'Without plug', 'Open without plug']),
+    daysSinceMating: z.number().nonnegative('Must be 0 or greater'),
+    malePartnerId: z.string().min(1, 'Male partner ID is required'),
     predictedDob: z.date().optional(),
     additionalComments: z.string().optional()
   })

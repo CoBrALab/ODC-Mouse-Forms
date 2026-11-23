@@ -1,159 +1,157 @@
-/* eslint-disable perfectionist/sort-objects */
-
-import { defineInstrument } from '/runtime/v1/@opendatacapture/runtime-core'
-import { z } from '/runtime/v1/zod@3.23.x'
+import { defineInstrument } from '/runtime/v1/@opendatacapture/runtime-core';
+import { z } from '/runtime/v1/zod@3.23.x';
 
 export default defineInstrument({
   kind: 'FORM',
   language: 'en',
-  tags: ['Housing','Cage Enrichment','Room Change','Cage Change', 'Cage'],
+  tags: ['Housing', 'Cage Enrichment', 'Room Change', 'Cage Change', 'Cage'],
   internal: {
-    edition: 6,
+    edition: 7,
     name: 'MOUSE_HOUSING_FORM'
   },
   content: {
     roomNumber: {
       kind: 'string',
-      variant: "input",
-      label: "Room number"
+      variant: 'input',
+      label: 'Room number'
     },
     totalMice: {
-      kind: "number",
-      variant: "input",
-      label: "Number of mice in cage"
+      kind: 'number',
+      variant: 'input',
+      label: 'Number of mice in cage'
     },
     cageIdentificationType: {
-      kind: "string",
-      variant: "select",
-      label: "Cage Identification Type",
+      kind: 'string',
+      variant: 'select',
+      label: 'Cage Identification Type',
       options: {
-        "AMS Number": "AMS Number",
-        "Other": "Other"
+        'AMS Number': 'AMS Number',
+        Other: 'Other'
       }
     },
     cageIdentification: {
       kind: 'dynamic',
       deps: ['cageIdentificationType'],
       render(data) {
-        if(data.cageIdentificationType === 'AMS Number') {
+        if (data.cageIdentificationType === 'AMS Number') {
           return {
-            kind: "string",
-            variant:"input",
-            label: "AMS Cage Number"
-          }
-        }
-        else if (data.cageIdentificationType === 'Other'){
+            kind: 'string',
+            variant: 'input',
+            label: 'AMS Cage Number'
+          };
+        } else if (data.cageIdentificationType === 'Other') {
           return {
-            kind: "string",
-            variant: "input",
-            label: "Other identification name"
-          }
+            kind: 'string',
+            variant: 'input',
+            label: 'Other identification name'
+          };
         }
-        return null
+        return null;
       }
     },
     additionalCageName: {
-      kind: "string",
-      variant: "input",
-      label: "If the cage was given an additional name/identification please enter it here."
+      kind: 'string',
+      variant: 'input',
+      label: 'If the cage was given an additional name/identification please enter it here.'
     },
     beddingType: {
       kind: 'string',
-      variant: "radio",
-      label: "Bedding type",
+      variant: 'radio',
+      label: 'Bedding type',
       options: {
-        "Corncob": "Corncob",
-        "Woodchip": "Woodchip"
+        Corncob: 'Corncob',
+        Woodchip: 'Woodchip'
       }
     },
     cageChangeDay: {
-      kind: "string",
-      variant: "select",
-      label: "Cage change day",
+      kind: 'string',
+      variant: 'select',
+      label: 'Cage change day',
       options: {
-        "Monday": "Monday",
-        "Tuesday": "Tuesday",
-        "Wednesday": "Wednesday",
-        "Thursday": "Thursday",
-        "Friday": "Friday",
-        "Saturday": "Saturday",
-        "Sunday": "Sunday"
+        Monday: 'Monday',
+        Tuesday: 'Tuesday',
+        Wednesday: 'Wednesday',
+        Thursday: 'Thursday',
+        Friday: 'Friday',
+        Saturday: 'Saturday',
+        Sunday: 'Sunday'
       }
     },
     bottleType: {
-      kind: "string",
-      variant: "radio",
-      label: "Bottle type",
+      kind: 'string',
+      variant: 'radio',
+      label: 'Bottle type',
       options: {
-        "Auto Bottle": "Auto Bottle",
-        "Standard": "Standard"
+        'Auto Bottle': 'Auto Bottle',
+        Standard: 'Standard'
       }
     },
     cageType: {
-      kind: "string",
-      variant: "radio",
-      label: "Cage type",
+      kind: 'string',
+      variant: 'radio',
+      label: 'Cage type',
       options: {
-        "Enriched": "Enriched",
-        "Standard": "Standard"
+        Enriched: 'Enriched',
+        Standard: 'Standard'
       }
     },
     cageEnrichment: {
-      kind: "dynamic",
-      deps: ["cageType"],
+      kind: 'dynamic',
+      deps: ['cageType'],
       render(data) {
-        if(data.cageType === 'Enriched'){
-           return {
-            kind: "set",
-            variant: "listbox",
-            label: "Forms of enrichment",
+        if (data.cageType === 'Enriched') {
+          return {
+            kind: 'set',
+            variant: 'listbox',
+            label: 'Forms of enrichment',
             options: {
-              "Wheel":"Wheel",
-              "Cover": "Cover",
-              "Enlarged Cage": "Enlarged Cage",
-              "Motion Tracker": "Motion Tracker",
-              "Nest hut": "Nest hut",
-              "Big square area": "Big square area",
-              "Small triangle hut": "Small triangle hut",
-              "Arch": "Arch",
-              "Square tunnel": "Square tunnel",
-              "Circle tunnel": "Circle tunnel",
-              "Big circle tunnel": "Big circle tunnel"
+              Wheel: 'Wheel',
+              Cover: 'Cover',
+              'Enlarged Cage': 'Enlarged Cage',
+              'Motion Tracker': 'Motion Tracker',
+              'Nest hut': 'Nest hut',
+              'Big square area': 'Big square area',
+              'Small triangle hut': 'Small triangle hut',
+              Arch: 'Arch',
+              'Square tunnel': 'Square tunnel',
+              'Circle tunnel': 'Circle tunnel',
+              'Big circle tunnel': 'Big circle tunnel'
             }
-           }
+          };
         }
-        return null
+        return null;
       }
     },
     motionTrackerId: {
-      kind: "dynamic",
-      deps: ["cageEnrichment"],
+      kind: 'dynamic',
+      deps: ['cageEnrichment'],
       render(data) {
-        if(data.cageEnrichment && data.cageEnrichment.has("Motion Tracker")){
+        if (data.cageEnrichment?.has('Motion Tracker')) {
           return {
-            kind: "string",
-            variant: "input",
-            label: "Motion tracker ID"
-          }
-
+            kind: 'string',
+            variant: 'input',
+            label: 'Motion tracker ID'
+          };
         }
-        return null
+        return null;
       }
     },
     fosterDamId: {
-      kind: "string",
-      variant: "input",
-      label: "Babysitter / foster dam ID (optional)"
+      kind: 'string',
+      variant: 'input',
+      label: 'Babysitter / foster dam ID (optional)'
     },
     additionalComments: {
-      kind: "string",
-      variant: "textarea",
-      label: "Additional Comments"
+      kind: 'string',
+      variant: 'textarea',
+      label: 'Additional Comments'
     }
   },
   clientDetails: {
     estimatedDuration: 1,
-    instructions: ["Used to log a mouse's housing information. Please fill out this form when you fill out the mouse origin form (to link each animal to its housing conditions), a mouse's housing condition is changed, or if they moved to a new cage. Changes to a mouse's housing include change in room, type of cage, number of cagemates, and if any cage enrichment is added."]
+    instructions: [
+      "Used to log a mouse's housing information. Please fill out this form when you fill out the mouse origin form (to link each animal to its housing conditions), a mouse's housing condition is changed, or if they moved to a new cage. Changes to a mouse's housing include change in room, type of cage, number of cagemates, and if any cage enrichment is added."
+    ]
   },
   details: {
     description: "Describes a mouse's housing details whenever it is moved or changed.",
@@ -162,83 +160,83 @@ export default defineInstrument({
   },
   measures: {
     roomNumber: {
-      kind: "const",
-      label: "Room number",
-      visibility: "visible",
-      ref: "roomNumber"
+      kind: 'const',
+      label: 'Room number',
+      visibility: 'visible',
+      ref: 'roomNumber'
     },
-     totalMice: {
-      kind: "const",
-      label: "Number of mice in cage",
-      visibility: "visible",
-      ref: "totalMice"
+    totalMice: {
+      kind: 'const',
+      label: 'Number of mice in cage',
+      visibility: 'visible',
+      ref: 'totalMice'
     },
     cageIdentificationType: {
-      kind: "const",
-      label: "Cage Identification Given",
-      visibility: "visible",
-      ref: "cageIdentificationType"
+      kind: 'const',
+      label: 'Cage Identification Given',
+      visibility: 'visible',
+      ref: 'cageIdentificationType'
     },
     cageIdentification: {
-      kind: "const",
-      label: "Cage Identification",
-      visibility: "visible",
-      ref: "cageIdentification"
+      kind: 'const',
+      label: 'Cage Identification',
+      visibility: 'visible',
+      ref: 'cageIdentification'
     },
     additionalCageName: {
-      kind: "const",
-      label: "Cage number",
-      visibility: "visible",
-      ref: "additionalCageName"
+      kind: 'const',
+      label: 'Cage number',
+      visibility: 'visible',
+      ref: 'additionalCageName'
     },
     beddingType: {
-      kind: "const",
-      label: "Bedding type",
-      visibility: "visible",
-      ref: "beddingType"
+      kind: 'const',
+      label: 'Bedding type',
+      visibility: 'visible',
+      ref: 'beddingType'
     },
     cageChangeDay: {
-      kind: "const",
-      label: "Cage change day",
-      visibility: "visible",
-      ref: "cageChangeDay"
+      kind: 'const',
+      label: 'Cage change day',
+      visibility: 'visible',
+      ref: 'cageChangeDay'
     },
     bottleType: {
-      kind: "const",
-      label: "Bottle type",
-      visibility: "visible",
-      ref: "bottleType"
+      kind: 'const',
+      label: 'Bottle type',
+      visibility: 'visible',
+      ref: 'bottleType'
     },
     cageType: {
-      kind: "const",
-      label: "Cage type",
-      visibility: "visible",
-      ref: "cageType"
+      kind: 'const',
+      label: 'Cage type',
+      visibility: 'visible',
+      ref: 'cageType'
     },
     cageEnrichment: {
       kind: 'computed',
-      label: "Cage enrichment",
-      visibility: "visible",
+      label: 'Cage enrichment',
+      visibility: 'visible',
       value: (data) => {
-        return data.cageEnrichment ? Array.from(data.cageEnrichment).join(" ") : ""
+        return data.cageEnrichment ? Array.from(data.cageEnrichment).join(' ') : '';
       }
     },
     motionTrackerId: {
-      kind: "const",
-      label: "Motion tracker ID",
-      visibility: "visible",
-      ref: "motionTrackerId"
+      kind: 'const',
+      label: 'Motion tracker ID',
+      visibility: 'visible',
+      ref: 'motionTrackerId'
     },
     fosterDamId: {
-      kind: "const",
-      label: "Babysitter / foster dam ID",
-      visibility: "visible",
-      ref: "fosterDamId"
+      kind: 'const',
+      label: 'Babysitter / foster dam ID',
+      visibility: 'visible',
+      ref: 'fosterDamId'
     },
     additionalComments: {
-      kind: "const",
-      visibility: "visible",
-      ref: "additionalComments"
+      kind: 'const',
+      visibility: 'visible',
+      ref: 'additionalComments'
     }
   },
   validationSchema: z.object({
@@ -247,22 +245,29 @@ export default defineInstrument({
     cageIdentificationType: z.enum(['AMS Number', 'Other']),
     cageIdentification: z.string(),
     additionalCageName: z.string().optional(),
-    beddingType: z.enum(['Corncob','Woodchip']),
-    cageChangeDay: z.enum([
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-      'Sunday'
-    ]),
+    beddingType: z.enum(['Corncob', 'Woodchip']),
+    cageChangeDay: z.enum(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']),
     bottleType: z.enum(['Auto Bottle', 'Standard']),
     cageType: z.enum(['Enriched', 'Standard']),
-    cageEnrichment: z.set(z.enum(['Wheel',"Cover","Enlarged Cage","Motion Tracker","Nest hut","Big square area","Small triangle hut","Arch","Square tunnel","Circle tunnel","Big circle tunnel"])).optional(),
+    cageEnrichment: z
+      .set(
+        z.enum([
+          'Wheel',
+          'Cover',
+          'Enlarged Cage',
+          'Motion Tracker',
+          'Nest hut',
+          'Big square area',
+          'Small triangle hut',
+          'Arch',
+          'Square tunnel',
+          'Circle tunnel',
+          'Big circle tunnel'
+        ])
+      )
+      .optional(),
     motionTrackerId: z.string().optional(),
     fosterDamId: z.string().optional(),
     additionalComments: z.string().optional()
-
   })
 });
